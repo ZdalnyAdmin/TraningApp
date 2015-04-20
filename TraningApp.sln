@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrganizationModule", "Organ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEngine", "AppEngine\AppEngine.csproj", "{BD7BED99-C991-4505-9E6E-29CA7331A6CD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{7CCE6F02-AF20-4474-8B95-2BD0A0685BE3}"
+	ProjectSection(SolutionItems) = preProject
+		Sql\AppTraningDB.sql = Sql\AppTraningDB.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
