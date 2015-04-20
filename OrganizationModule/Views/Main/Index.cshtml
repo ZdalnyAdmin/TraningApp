@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html ng-app="OrganizationModuleApp" ng-controller="LandingPageController">
+<head>
+    <title ng-bind="models.Title"></title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div class="navbar navbar-default navbar-left" role="navigation">
+        
+        <ul class="nav">
+            <li><a href="/userCurrent">Uzytkownik</a></li>
+            <li><a href="/userTranings">Lista szkolen</a></li>
+            <li><a href="/userAvailableTranings">Aktywne szkolenia</a></li>
+            <li><a href="/userResult">Wyniki</a></li>
+            <li><a href="/userFaq">FAQ</a></li>
+        </ul>
+        <ul class="nav">
+            <li><a href="/creatorTraning">Utworz szkolenie</a></li>
+            <li><a href="/creatorTranings">Moje szkolenia</a></li>
+            <li><a href="/creatorHowTo">Jak tworzyc szkolenie</a></li>
+        </ul>
+        <ul class="nav">
+            <li><a href="/managerResult">Wyniki szkolen</a></li>
+            <li><a href="/managerEdit">Edycja szkolenia</a></li>
+            <li><a href="/managerInvitation">Zaproszenia</a></li>
+        </ul>
+        <ul class="nav ">
+            <li><a href="/adminUsers">Uzytkownicy </a></li>
+            <li><a href="/adminGroups">Grupy uzytkownikow</a></li>
+            <li><a href="/adminManage">Zarzadzanie szkoleniami</a></li>
+            <li><a href="/adminStats">Statystyki</a></li>
+            <li><a href="/adminSettings">Ustawienia firmowe</a></li>
+            <li><a href="/adminHowTo">Instrukcja obslugi</a></li>
+        </ul>
+        <ul class="nav ">
+            <li><a href="/protectorRoles">Uprawnienia</a></li>
+            <li><a href="/protectorLogs">Logi</a></li>
+        </ul>
+    </div>
+
+    <div class="container mainContent">
+        <div ng-view></div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+    @Scripts.Render("~/bundles/OrganizationModuleApp")
+</body>
+</html>
