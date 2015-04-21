@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="OrganizationModuleApp" ng-controller="LandingPageController">
+<html ng-app="OrganizationModuleApp" ng-controller="BaseController">
 <head>
     <title ng-bind="models.Title"></title>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">
@@ -7,9 +7,9 @@
 </head>
 <body>
     <div class="navbar navbar-default navbar-left" role="navigation">
-        
+
         <ul class="nav">
-            <li><a href="/userCurrent">Uzytkownik</a></li>
+            <li><a href="/userCurrent" >{{models.Login}}</a></li>
             <li><a href="/userTranings">Lista szkolen</a></li>
             <li><a href="/userAvailableTranings">Aktywne szkolenia</a></li>
             <li><a href="/userResult">Wyniki</a></li>

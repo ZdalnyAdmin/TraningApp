@@ -1,6 +1,7 @@
 ﻿var OrganizationModuleApp = angular.module('OrganizationModuleApp', ['ngRoute']);
 
-OrganizationModuleApp.controller('LandingPageController', LandingPageController);
+OrganizationModuleApp.controller('BaseController', BaseController);
+//OrganizationModuleApp.service('SessionService', SessionService)
 
 var configFunction = function ($routeProvider, $httpProvider, $locationProvider) {
 

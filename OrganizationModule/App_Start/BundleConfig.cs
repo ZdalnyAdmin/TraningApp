@@ -14,6 +14,7 @@ namespace OrganizationModule
             bundles.Add(new ScriptBundle("~/bundles/OrganizationModuleApp")
                 .IncludeDirectory("~/Scripts/Controllers", "*.js")
                 .IncludeDirectory("~/Scripts/Factories", "*.js")
+                .IncludeDirectory("~/Scripts/Services", "*.js")
                 .Include("~/Scripts/OrganizationModuleApp.js"));
         }
     }
