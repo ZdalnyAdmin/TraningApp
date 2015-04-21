@@ -1,1 +1,31 @@
-﻿
+﻿@model OrganizationModule.Models.Statistic
+
+
+<div>
+    Liczba osob w organizacji: @Model.PersonNumber
+</div>
+<div>
+    W tym osoby ze statusem aktywne: @Model.ActivePersonNumber
+</div>
+<div>
+    W tym osoby ze statusem zablokowane: @Model.BlockedPersonNumber
+</div>
+<div>
+    Liczba kont usunietych: @Model.DeleteAccountNumber
+</div>
+<div>
+    Liczba uruchomionych kursow: @Model.StartTraningNumber
+</div>
+<div>
+    w tym zakonczonych:@Model.CompleteTraningNumber
+</div>
+<div>
+    Liczba osob aktywnych w ostatnich 7 dniach: @Model.ActivePersonInLastWeek
+</div>
+<div>
+    Liczba osob aktywnych w ostatnich 30 dniach: @Model.ActivePersonInLastMonth
+</div>
+<div>
+    SZCZEGOLOWE DANE O URUCHOMIENIACH SZKOLEN
+</div>
+

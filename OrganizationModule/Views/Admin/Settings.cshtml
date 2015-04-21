@@ -1,1 +1,12 @@
-﻿
+﻿@model OrganizationModule.Models.Setting
+
+<div>
+    Czy uzytkownicy moga samodzielnie zmieniac swoja nazwe 
+    @Html.RadioButton("NameChanged", "YES", @Model.CanChangeName) TAK
+    @Html.RadioButton("NameChanged", "NO", !@Model.CanChangeName) NIE
+</div>
+<div>
+    CZy uzytkownik moze samodzielnie zmieniac adres email
+    @Html.RadioButton("EmailChanged", "YES", @Model.CanChangeEmail) TAK
+    @Html.RadioButton("EmailChanged", "NO", !@Model.CanChangeEmail) NIE
+</div>

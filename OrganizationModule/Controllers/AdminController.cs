@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using OrganizationModule.Models;
 using System.Web.Mvc;
 
 namespace OrganizationModule.Controllers
@@ -40,7 +37,9 @@ namespace OrganizationModule.Controllers
         /// <returns></returns>
         public ActionResult Statistics()
         {
-            return View();
+            var statistic = new Statistic();
+            statistic = Statistic.Get();
+            return View(statistic);
         }
 
         /// <summary>
@@ -49,7 +48,8 @@ namespace OrganizationModule.Controllers
         /// <returns></returns>
         public ActionResult Settings()
         {
-            return View();
+            var setting = new Setting();
+            return View(setting);
         }
 
         /// <summary>
