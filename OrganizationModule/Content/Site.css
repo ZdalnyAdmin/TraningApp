@@ -1,3 +1,47 @@
 ﻿.mainContent {
     margin-top: 60px;
 }
+
+.header {
+    border: 1px solid black;
+    width: 100%;
+    height: 40px;
+    font-weight: bolder;
+    padding: 10px;
+}
+
+#simpleRow {
+    width: 100%;
+    height: auto;
+    display:inline-block;
+    margin : 5px 0px 5px 0px;
+}
+
+#mainText {
+    text-align: left;
+    font-size: 16px;
+    display:inline-block;
+}
+
+#inputButto {
+    font-size: 10px;
+    display:inline-block;
+    width: auto;
+    border: 1px solid black;
+    padding: 5px 30px 5px 30px;
+}
+
+#detailText {
+    width: auto;
+    margin-top: 5px;
+    margin-left: 10px;
+    display:inline-block;
+}
+
+#mainInput{
+    text-align: left;
+    font-size: 14px;
+    width : auto;
+    display:inline-block;
+}
+
