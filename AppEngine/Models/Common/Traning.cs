@@ -2,7 +2,7 @@
 
 namespace AppEngine.Models.Common
 {
-    public class Traning
+    public class Training
     {
 
         public int TraninigID { get; set; }
@@ -11,6 +11,6 @@ namespace AppEngine.Models.Common
         public bool IsActive { get; set; }
         public int TraningTypeID { get; set; }
         public DateTime CreateDate { get; set; }
-        public int CreateBy { get; set; }
+        public int CreateUserID { get; set; }
     }
 }

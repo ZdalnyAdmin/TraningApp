@@ -181,6 +181,7 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\ProtectorController.cs" />
+    <Compile Include="Controllers\TraningController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -200,6 +201,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Controllers\adminGroupsController.js" />
+    <Content Include="Scripts\Controllers\adminManagmentController.js" />
     <Content Include="Scripts\Controllers\adminUsersController.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
     <Content Include="Scripts\Controllers\LoginController.js" />
