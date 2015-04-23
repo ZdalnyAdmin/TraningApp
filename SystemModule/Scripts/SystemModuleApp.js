@@ -51,6 +51,9 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             templateUrl: 'Account/Login',
             controller: LoginController
         })
+        .when('/resetPassword', {
+            templateUrl: 'Account/ResetPassword'
+        })
         .when('/logoff', {
             templateUrl: 'Account/Logoff',
             controller: LogoffController

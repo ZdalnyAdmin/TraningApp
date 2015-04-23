@@ -32,3 +32,25 @@
 .center {
     text-align: center;
 }
+
+.hint {
+    font-size: 0.7em;
+}
+
+
+.btn {
+    display: inline-block;
+    border: 1px solid #546c7e;
+    background-color: #abbecc;
+    padding: 4px 8px;
+    color: #000;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #899caa;
+}
+
+.center {
+    text-align: center;
+}

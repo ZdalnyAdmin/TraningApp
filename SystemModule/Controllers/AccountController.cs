@@ -61,6 +61,12 @@ namespace SystemModule.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
+
         [HttpPost]
         public bool Logoff(LoginViewModel model)
         {
