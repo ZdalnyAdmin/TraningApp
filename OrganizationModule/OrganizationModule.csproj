@@ -158,6 +158,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CreatorController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -182,6 +183,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
+    <Content Include="Scripts\Controllers\LoginController.js" />
     <Content Include="Scripts\Factories\AuthHttpResponseInterceptor.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -225,6 +227,7 @@
     <Content Include="Views\Manager\EditTranings.cshtml" />
     <Content Include="Views\Manager\Invitation.cshtml" />
     <Content Include="Views\Admin\Groups.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

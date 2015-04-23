@@ -87,6 +87,18 @@ namespace SystemModule
             );
 
             routes.MapRoute(
+               name: "login",
+               url: "Account/Login",
+               defaults: new { controller = "Account", action = "Login" }
+            );
+
+            routes.MapRoute(
+               name: "logoff",
+               url: "Account/Logoff",
+               defaults: new { controller = "Account", action = "Logoff" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional }

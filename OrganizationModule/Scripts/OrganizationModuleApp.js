@@ -1,6 +1,7 @@
 ﻿var OrganizationModuleApp = angular.module('OrganizationModuleApp', ['ngRoute']);
 
 OrganizationModuleApp.controller('BaseController', BaseController);
+OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 //OrganizationModuleApp.service('SessionService', SessionService)
 
 var configFunction = function ($routeProvider, $httpProvider, $locationProvider) {
@@ -65,10 +66,14 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
         .when('/protectorLogs', {
             templateUrl: 'Protector/Logs'
         })
+        .when('/login?returnUrl', {
+            templateUrl: 'Account/Login',
+            controller: LoginController
+        });
 
-   // $httpProvider.interceptors.push('AuthHttpResponseInterceptor');
-
+   $httpProvider.interceptors.push('AuthHttpResponseInterceptor');
 }
+
 configFunction.$inject = ['$routeProvider', '$httpProvider', '$locationProvider'];
 
 OrganizationModuleApp.config(configFunction);
