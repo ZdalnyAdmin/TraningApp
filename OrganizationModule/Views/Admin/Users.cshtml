@@ -1,1 +1,76 @@
 ﻿
+
+
+<div ng-app="" ng-controller="adminUsersController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+    <div ng-repeat="person in Persons">
+        <div id="simpleRow">
+            <div id="mainText" ng-show="!showEdit">
+                {{ person.Name }}
+            </div>
+            <input type="text" id="mainInput" name="person.Name" ng-model="person.Name" ng-show="showEdit">
+            <div id="inputButto">
+                USUN
+            </div>
+            <div id="inputButto" ng-click="showEdit = ! showEdit">
+                EDYCJA
+            </div>
+        </div>
+        <div id="simpleRow">
+            <div id="detailText" ng-show="!showEdit">
+                {{ person.Mail }}
+            </div>
+            <input type="text" id="mainInput" name="person.Mail" ng-model="person.Mail" ng-show="showEdit">
+            <div id="detailText" ng-show="!showEdit">
+                {{ person.Status }}
+            </div>
+            <select ng-model="selected" ng-options="c for c in status" ng-init="selected=person.Status" ng-show="showEdit"></select>
+            <div id="detailText">
+                {{ person.Registration }}
+            </div>
+            <div id="detailText">
+                {{ person.LastActivation }}
+            </div>
+            <div id="detailText">
+                {{ person.GroupName }}
+            </div>
+            <div id="detailText">
+                {{ person.ProfileName }}
+            </div>
+            <div id="detailText">
+                {{ person.Login }}
+            </div>
+        </div>
+        <div id="simpleRow">
+            <div id="mainText">
+                Kursy ({{ person.TraningNumber }})
+            </div>
+            <div id="inputButto" ng-click="showDetails = ! showDetails" ng-show="!showDetails">
+                POKAZ
+            </div>
+            <div id="inputButto" ng-click="showDetails = ! showDetails" ng-show="showDetails">
+                UKRYJ
+            </div>
+        </div>
+
+        <div id="simpleRow" ng-show="showDetails">
+            <p>Number of patient discharges: </p>
+            <p>Average amount covered by Medicare: </p>
+            <p>Average total payments: </p>
+        </div>
+
+    </div>
+    <div id="inputButto" ng-click="showDeleted = ! showDeleted" ng-show="!showDeleted">
+        POKAZ USUNIETE
+    </div>
+    <div id="inputButto" ng-click="showDeleted = ! showDeleted" ng-show="showDeleted">
+        UKRYJ USUNIETE
+    </div>
+    <div id="simpleRow" ng-show="showDeleted">
+        <p>Number of patient discharges: </p>
+        <p>Average amount covered by Medicare: </p>
+        <p>Average total payments: </p>
+    </div>
+
+</div>
