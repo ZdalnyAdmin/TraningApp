@@ -30,7 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -39,14 +46,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Common\AppLog.cs" />
+    <Compile Include="Models\Common\GlobalSettings.cs" />
+    <Compile Include="Models\Common\Organization.cs" />
     <Compile Include="Models\Common\Person.cs" />
+    <Compile Include="Models\Common\Profile.cs" />
+    <Compile Include="Models\Common\ProfileGroup.cs" />
+    <Compile Include="Models\Common\ProfileGroup2Person.cs" />
+    <Compile Include="Models\Common\Status.cs" />
     <Compile Include="Models\Common\Traning.cs" />
+    <Compile Include="Models\Common\TraningAvailable.cs" />
+    <Compile Include="Models\Common\TraningDetail.cs" />
+    <Compile Include="Models\Common\TraningQuestion.cs" />
+    <Compile Include="Models\Common\TraningQuestionResult.cs" />
+    <Compile Include="Models\Common\TraningResult.cs" />
+    <Compile Include="Models\Common\TraningType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GlobalSettings\" />
     <Folder Include="Profiles\" />
     <Folder Include="Trainings\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html ng-app="SystemModuleApp" ng-controller="BaseController">
+<head>
+    <title ng-bind="models.Title"></title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div class="navbar navbar-default navbar-left" role="navigation">
+
+        <ul class="nav">
+            <li><a href="/currentUser">{{models.Login}}</a></li>
+            <li><a href="/createOrganization">UTWORZ FIRME</a></li>
+            <li><a href="/organizationsList">LISTA FIRM</a></li>
+            <li><a href="/globalSetting">USTAWIENIA GLOBALNE</a></li>
+            <li><a href="/statistics">STATYSTYKI</a></li>
+            <li><a href="/createTraning">UTWORZ SZKOLENIE</a></li>
+            <li><a href="/editTraning">EDYTUJ SZKOLENIE</a></li>
+            <li><a href="/createProtector">OPIEKUNOWIE - UTWORZ</a></li>
+            <li><a href="/editProtector">OPIEKUNOWIE - EDYTUJ</a></li>
+            <li><a href="/traningsList">LISTA SZKOLEN</a></li>
+            <li><a href="/globalAdmins">ADMINISTRATORZY GLOBALNI</a></li>
+            <li><a href="/history">HISTORA </a></li>
+        </ul>
+    </div>
+
+    <div class="container mainContent">
+        <div ng-view></div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+    @Scripts.Render("~/bundles/SystemModuleApp")
+</body>
+</html>
