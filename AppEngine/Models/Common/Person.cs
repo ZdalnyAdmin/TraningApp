@@ -5,6 +5,8 @@ namespace AppEngine.Models.Common
 {
     public class Person
     {
+        #region Properties
+
         public int PersonID { get; set; }
         public int ProfileID { get; set; }
         public string ProfileName { get; set; }
@@ -18,29 +20,30 @@ namespace AppEngine.Models.Common
         public DateTime RegistrationDate { get; set; }
         public DateTime LastActivationDate { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime DeletedDate { get; set; }
+        public DateTime? DeletedDate { get; set; }
         public int DeletedUserID { get; set; }
+        public Person DeleteUser { get; set; }
         public int OrganizationID { get; set; }
 
-        //
-        public string Registration
-        {
-            get
-            {
-                return RegistrationDate != null ? RegistrationDate.ToString("dd.MM.yyyy hh.mm") : String.Empty;
-            }
-        }
-        public string LastActivation 
-        {
-            get
-            {
-                return LastActivationDate != null ? LastActivationDate.ToString("dd.MM.yyyy hh.mm") : String.Empty;
-            }
-        }
+        /// <summary>
+        /// 
+        /// </summary>
         public int TraningNumber 
         {
             get { return AssignedTranings != null ? AssignedTranings.Count : 0; }
         }
-        public List<Traning> AssignedTranings { get; set; }
+
+        public List<TraningResult> AssignedTranings { get; set; }
+
+        #endregion Properties
+
+        #region Methods
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        #endregion Methods
     }
 }
