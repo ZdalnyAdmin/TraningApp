@@ -1,10 +1,14 @@
 ﻿var SystemModuleApp = angular.module('SystemModuleApp', ['ngRoute']);
 SystemModuleApp.controller('BaseController', BaseController);
+SystemModuleApp.controller('LoginController', LoginController);
+SystemModuleApp.controller('LogoffController', LogoffController);
+SystemModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
+SystemModuleApp.factory('LoginFactory', LoginFactory);
 //SystemModuleApp.service('SessionService', SessionService);
 
 var configFunction = function ($routeProvider, $httpProvider, $locationProvider) {
 
-    $locationProvider.hashPrefix('!').html5Mode(true);
+   $locationProvider.hashPrefix('!').html5Mode(true);
 
     $routeProvider.
         when('/currentUser', {
@@ -43,9 +47,18 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
         .when('/history', {
             templateUrl: 'Main/History'
         })
+        .when('/login', {
+            templateUrl: 'Account/Login',
+            controller: LoginController
+        })
+        .when('/logoff', {
+            templateUrl: 'Account/Logoff',
+            controller: LogoffController
+        });
         
-
+    $httpProvider.interceptors.push('AuthHttpResponseInterceptor');
 }
+
 configFunction.$inject = ['$routeProvider', '$httpProvider', '$locationProvider'];
 
 SystemModuleApp.config(configFunction);

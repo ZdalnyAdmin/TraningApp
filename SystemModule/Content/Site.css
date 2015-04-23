@@ -1,1 +1,34 @@
-﻿
+﻿.login-container {
+    margin: auto;
+    padding: 20px 40px;
+    border: 1px solid #546c7e;
+    display: inline-block;
+}
+
+.login-message {
+    color: red;
+    padding-bottom: 6px;
+}
+
+.login-form-row label {
+    width: 100px;
+    font-weight: bolder;
+    padding-bottom: 6px;
+}
+
+.btn {
+    display: inline-block;
+    border: 1px solid #546c7e;
+    background-color: #abbecc;
+    padding: 4px 8px;
+    color: #000;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #899caa;
+}
+
+.center {
+    text-align: center;
+}
