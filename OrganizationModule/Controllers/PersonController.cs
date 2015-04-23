@@ -16,6 +16,21 @@ namespace OrganizationModule.Controllers
         {
             var list = new List<Person>();
 
+            var trening = new List<TraningResult>();
+            trening.Add(new TraningResult()
+                {
+                     TraningID = 1,
+                     StartDate = DateTime.Today
+
+                     
+                });
+            trening.Add(new TraningResult()
+            {
+                TraningID = 1,
+                StartDate = DateTime.Today.AddDays(-7),
+                EndDate = DateTime.Today
+            });
+
             list.Add(new Person()
                 {
                     PersonID = 1,
@@ -26,7 +41,8 @@ namespace OrganizationModule.Controllers
                     RegistrationDate = DateTime.Now.Date,
                     LastActivationDate = DateTime.Now.Date,
                     GroupName = "test group",
-                    ProfileName = "test role"
+                    ProfileName = "test role",
+                    AssignedTranings = trening
                 });
 
             list.Add(new Person()
@@ -52,8 +68,14 @@ namespace OrganizationModule.Controllers
                 RegistrationDate = DateTime.Now.Date,
                 LastActivationDate = DateTime.Now.Date,
                 GroupName = "test group3",
-                ProfileName = "test role3"
+                ProfileName = "test role3",
+                IsDeleted = true,
+                DeletedDate = DateTime.Today.AddDays(-7),
+                DeletedUserID = 1
             });
+
+
+
 
             return list.AsEnumerable();
         }
