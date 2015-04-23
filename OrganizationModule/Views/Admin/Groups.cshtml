@@ -5,3 +5,21 @@
 <div>
     Grupy dla ktorych udostepniane jest szkolenie mozesz ustawic tworzac lub edytujac szkolenie. W tym miejscu mozesz tworzyc same grupy.
 </div>
+
+<div id="inputButto" ng-click="showCreate = ! showCreate">
+    Utworz grupe
+</div>
+<div ng-show="showCreate">
+    <div id="simpleRow">
+        <div id="mainText">
+            Nazwa grupy
+        </div>
+        <input type="text" id="mainInput" name="currentGroup.Name" ng-model="currentGroup.Name">
+    </div>
+    <div id="simpleRow">
+        <div id="mainText">
+            Nazwa grupy
+        </div>
+        <input type="text" id="mainInput" name="currentGroup.Name" ng-model="currentGroup.Name">
+    </div>
+</div>
