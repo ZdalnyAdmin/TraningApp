@@ -8,6 +8,7 @@ namespace AppEngine.Models.Common
 {
     public class Traning
     {
+
         public int TraninigID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
