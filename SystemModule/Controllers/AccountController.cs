@@ -62,6 +62,12 @@ namespace SystemModule.Controllers
         }
 
         [AllowAnonymous]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
         public ActionResult ResetPassword()
         {
             return View();

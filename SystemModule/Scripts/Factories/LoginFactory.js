@@ -44,9 +44,31 @@
         return deferredObject.promise;
     };
 
+    var register = function (registrationData) {
+
+        var deferredObject = $q.defer();
+
+        $http.post(
+            '/Account/Register', registrationData
+        ).
+        success(function (data) {
+            if (data == "True") {
+                deferredObject.resolve({ success: true });
+            } else {
+                deferredObject.resolve({ success: false });
+            }
+        }).
+        error(function () {
+            deferredObject.resolve({ success: false });
+        });
+
+        return deferredObject.promise;
+    };
+
     return {
         login: login,
-        logoff: logoff
+        logoff: logoff,
+        register: register
     }
 }
 

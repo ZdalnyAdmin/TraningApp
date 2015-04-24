@@ -182,6 +182,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
+    <Content Include="Scripts\Controllers\RegisterController.js" />
     <Content Include="Scripts\Controllers\LogoffController.js" />
     <Content Include="Scripts\Controllers\LoginController.js" />
     <Content Include="Scripts\Factories\AuthHttpResponseInterceptor.js" />
@@ -223,6 +224,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Logoff.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
