@@ -1,9 +1,14 @@
-﻿using System;
+﻿using AppEngine.Models.Common;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AppEngine.Models
+namespace AppEngine.Models.Common
 {
     public class Organization
     {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)] 
         public int OrganizationID { get; set; }
         public string Name { get; set; }
         public decimal SpaceDisk { get; set; }
@@ -14,10 +19,14 @@ namespace AppEngine.Models
         public bool CanUserChangeName { get; set; }
         public DateTime CreateDate { get; set; }
         public int CreateUserID { get; set; }
-        public int PatronID { get; set; }
+        //public Person CreateUser { get; set; }
+        public int ProtectorID { get; set; }
+        //public Person Protector { get; set; }
         public int StatusID { get; set; }
+        //public Status Status { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime DeletedDate { get; set; }
         public int DeletedUserID { get; set; }
+       //public Person DeletedUser { get; set; }
     }
 }

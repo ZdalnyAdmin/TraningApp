@@ -1,4 +1,5 @@
 ﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,74 +11,13 @@ namespace OrganizationModule.Controllers
 {
     public class PersonController : ApiController
     {
+        private EFContext db = new EFContext();
+
         // GET api/<controller>
         [HttpGet]
         public IEnumerable<Person> Get()
         {
-            var list = new List<Person>();
-
-            var trening = new List<TrainingResult>();
-            trening.Add(new TrainingResult()
-                {
-                    TrainingID = 1,
-                     StartDate = DateTime.Today
-
-                     
-                });
-            trening.Add(new TrainingResult()
-            {
-                TrainingID = 1,
-                StartDate = DateTime.Today.AddDays(-7),
-                EndDate = DateTime.Today
-            });
-
-            list.Add(new Person()
-                {
-                    PersonID = 1,
-                    Login = "test",
-                    Name = "Test Test",
-                    Mail = "Test@mail.com",
-                    Status = "aktywny",
-                    RegistrationDate = DateTime.Now.Date,
-                    LastActivationDate = DateTime.Now.Date,
-                    GroupName = "test group",
-                    ProfileName = "test role",
-                    AssignedTrainings = trening
-                });
-
-            list.Add(new Person()
-            {
-                PersonID = 2,
-                Login = "test2",
-                Name = "Test Test2",
-                Mail = "Test2@mail.com",
-                Status = "aktywny",
-                RegistrationDate = DateTime.Today.Date,
-                LastActivationDate = DateTime.Now.Date,
-                GroupName = "test group2",
-                ProfileName = "test role2"
-            });
-
-            list.Add(new Person()
-            {
-                PersonID = 3,
-                Login = "test3",
-                Name = "Test Test3",
-                Mail = "Test3@mail.com",
-                Status = "aktywny",
-                RegistrationDate = DateTime.Now.Date,
-                LastActivationDate = DateTime.Now.Date,
-                GroupName = "test group3",
-                ProfileName = "test role3",
-                IsDeleted = true,
-                DeletedDate = DateTime.Today.AddDays(-7),
-                DeletedUserID = 1
-            });
-
-
-
-
-            return list.AsEnumerable();
+            return db.Persons.AsEnumerable();
         }
 
         // GET api/<controller>/5

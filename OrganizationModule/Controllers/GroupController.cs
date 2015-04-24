@@ -1,4 +1,5 @@
 ﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,34 +11,13 @@ namespace OrganizationModule.Controllers
 {
     public class GroupController : ApiController
     {
+        private EFContext db = new EFContext();
+
         // GET api/<controller>
         [HttpGet]
         public IEnumerable<ProfileGroup> Get()
         {
-            var list = new List<ProfileGroup>();
-
-            list.Add(new ProfileGroup()
-            {
-                ProfileGroupID=1,
-                Name = "Test group",
-                CreateDate = DateTime.Today.Date
-            });
-
-            list.Add(new ProfileGroup()
-            {
-                ProfileGroupID = 2,
-                Name = "Test group 2",
-                CreateDate = DateTime.Today.Date
-            });
-
-            list.Add(new ProfileGroup()
-            {
-                ProfileGroupID = 3,
-                Name = "Test group 4",
-                CreateDate = DateTime.Today.Date
-            });
-
-            return list.AsEnumerable();
+            return db.Groups.AsEnumerable();
         }
 
         // GET api/<controller>/5

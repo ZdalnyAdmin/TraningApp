@@ -61,13 +61,10 @@
     <Compile Include="Models\Common\TrainingQuestionResult.cs" />
     <Compile Include="Models\Common\TrainingResult.cs" />
     <Compile Include="Models\Common\TrainingType.cs" />
+    <Compile Include="Models\DataContext\EFContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GlobalSettings\" />
-    <Folder Include="Profiles\" />
-    <Folder Include="Trainings\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

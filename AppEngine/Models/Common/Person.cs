@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AppEngine.Models.Common
 {
@@ -7,23 +9,29 @@ namespace AppEngine.Models.Common
     {
         #region Properties
 
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)] 
         public int PersonID { get; set; }
         public int ProfileID { get; set; }
-        public string ProfileName { get; set; }
-        public string GroupName { get; set; }
+        public Profile Profile { get; set; }
+        public int ProfileGroupID { get; set; }
+        public ProfileGroup GroupName { get; set; }
         public string Name { get; set; }
         public string Mail { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public int StatusID { get; set; }
-        public string Status { get; set; }
+        public Status Status { get; set; }
         public DateTime RegistrationDate { get; set; }
-        public DateTime LastActivationDate { get; set; }
+        public int RegistrationUserID { get; set; }
+        public DateTime? LastActivationDate { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public int DeletedUserID { get; set; }
-        public Person DeleteUser { get; set; }
+        public int DeleteUserID { get; set; }
         public int OrganizationID { get; set; }
+        public Organization Organization { get; set; }
+
+        public List<TrainingResult> AssignedTrainings { get; set; }
 
         /// <summary>
         /// 
@@ -32,8 +40,6 @@ namespace AppEngine.Models.Common
         {
             get { return AssignedTrainings != null ? AssignedTrainings.Count : 0; }
         }
-
-        public List<TrainingResult> AssignedTrainings { get; set; }
 
         #endregion Properties
 
