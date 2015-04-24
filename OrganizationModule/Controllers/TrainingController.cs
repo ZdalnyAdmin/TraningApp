@@ -8,7 +8,7 @@ using System.Web.Http;
 
 namespace OrganizationModule.Controllers
 {
-    public class TraningController : ApiController
+    public class TrainingController : ApiController
     {
         // GET api/<controller>
         [HttpGet]
@@ -18,29 +18,29 @@ namespace OrganizationModule.Controllers
 
             list.Add(new Training()
             {
-                TraninigID = 1,
+                TrainingID = 1,
                 Name = "Test training 1",
                 CreateDate = DateTime.Today.Date,
                 CreateUserID = 1,
-                TraningTypeID = 1
+                TrainingTypeID = 1
             });
 
             list.Add(new Training()
             {
-                TraninigID = 2,
+                TrainingID = 2,
                 Name = "Test training 2",
                 CreateDate = DateTime.Today.Date,
                 CreateUserID = 1,
-                TraningTypeID = 1
+                TrainingTypeID = 1
             });
 
             list.Add(new Training()
             {
-                TraninigID = 3,
+                TrainingID = 3,
                 Name = "Test training 3",
                 CreateDate = DateTime.Today.Date,
                 CreateUserID = 1,
-                TraningTypeID = 2
+                TrainingTypeID = 2
             });
 
             return list.AsEnumerable();

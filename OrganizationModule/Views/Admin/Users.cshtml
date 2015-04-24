@@ -47,7 +47,7 @@
         </div>
         <div id="simpleRow">
             <div id="mainText">
-                Kursy ({{ person.TraningNumber }})
+                Kursy ({{ person.TrainingNumber }})
             </div>
             <div id="inputButto" ng-click="showDetails = ! showDetails" ng-show="!showDetails">
                 POKAZ
@@ -58,7 +58,7 @@
         </div>
 
         <div id="simpleRow" ng-show="showDetails">
-            <div ng-repeat="item in person.AssignedTranings">
+            <div ng-repeat="item in person.AssignedTrainings">
                 <div id="simpleRow">
                     <div id="detailText">
                         {{ item.TraningID }}

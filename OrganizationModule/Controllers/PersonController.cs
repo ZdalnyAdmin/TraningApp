@@ -16,17 +16,17 @@ namespace OrganizationModule.Controllers
         {
             var list = new List<Person>();
 
-            var trening = new List<TraningResult>();
-            trening.Add(new TraningResult()
+            var trening = new List<TrainingResult>();
+            trening.Add(new TrainingResult()
                 {
-                     TraningID = 1,
+                    TrainingID = 1,
                      StartDate = DateTime.Today
 
                      
                 });
-            trening.Add(new TraningResult()
+            trening.Add(new TrainingResult()
             {
-                TraningID = 1,
+                TrainingID = 1,
                 StartDate = DateTime.Today.AddDays(-7),
                 EndDate = DateTime.Today
             });
@@ -42,7 +42,7 @@ namespace OrganizationModule.Controllers
                     LastActivationDate = DateTime.Now.Date,
                     GroupName = "test group",
                     ProfileName = "test role",
-                    AssignedTranings = trening
+                    AssignedTrainings = trening
                 });
 
             list.Add(new Person()

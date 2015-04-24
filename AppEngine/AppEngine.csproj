@@ -54,13 +54,13 @@
     <Compile Include="Models\Common\ProfileGroup.cs" />
     <Compile Include="Models\Common\ProfileGroup2Person.cs" />
     <Compile Include="Models\Common\Status.cs" />
-    <Compile Include="Models\Common\Traning.cs" />
-    <Compile Include="Models\Common\TraningAvailable.cs" />
-    <Compile Include="Models\Common\TraningDetail.cs" />
-    <Compile Include="Models\Common\TraningQuestion.cs" />
-    <Compile Include="Models\Common\TraningQuestionResult.cs" />
-    <Compile Include="Models\Common\TraningResult.cs" />
-    <Compile Include="Models\Common\TraningType.cs" />
+    <Compile Include="Models\Common\Training.cs" />
+    <Compile Include="Models\Common\TrainingAvailable.cs" />
+    <Compile Include="Models\Common\TrainingDetail.cs" />
+    <Compile Include="Models\Common\TrainingQuestion.cs" />
+    <Compile Include="Models\Common\TrainingQuestionResult.cs" />
+    <Compile Include="Models\Common\TrainingResult.cs" />
+    <Compile Include="Models\Common\TrainingType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

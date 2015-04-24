@@ -2,10 +2,10 @@
 
 namespace AppEngine.Models.Common
 {
-    public class TraningResult
+    public class TrainingResult
     {
-        public int TraningResultID { get; set; }
-        public int TraningID { get; set; }
+        public int TrainingResultID { get; set; }
+        public int TrainingID { get; set; }
         public int PersonID { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

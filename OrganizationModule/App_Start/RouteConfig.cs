@@ -21,27 +21,27 @@ namespace OrganizationModule
             );
 
             routes.MapRoute(
-                name: "userTranings",
-                url: "User/TreningList",
-                defaults: new { controller = "User", action = "TreningList" }
+                name: "userTrainings",
+                url: "User/TrainingList",
+                defaults: new { controller = "User", action = "TrainingList" }
             );
 
             routes.MapRoute(
-                name: "userAvailableTranings",
-                url: "User/AvailableTraningList",
-                defaults: new { controller = "User", action = "AvailableTraningList" }
+                name: "userAvailableTrainings",
+                url: "User/AvailableTrainingList",
+                defaults: new { controller = "User", action = "AvailableTrainingList" }
             );
 
             routes.MapRoute(
                 name: "userResult",
-                url: "User/TraningResult",
-                defaults: new { controller = "User", action = "TraningResult" }
+                url: "User/TrainingResult",
+                defaults: new { controller = "User", action = "TrainingResult" }
             );
 
             routes.MapRoute(
                 name: "userFaq",
-                url: "User/TraningFaq",
-                defaults: new { controller = "User", action = "TraningFaq" }
+                url: "User/TrainingFaq",
+                defaults: new { controller = "User", action = "TrainingFaq" }
             );
 
             //manager
@@ -53,8 +53,8 @@ namespace OrganizationModule
 
             routes.MapRoute(
                 name: "managerEdit",
-                url: "Manager/EditTranings",
-                defaults: new { controller = "Manager", action = "EditTranings" }
+                url: "Manager/EditTrainings",
+                defaults: new { controller = "Manager", action = "EditTrainings" }
             );
 
             routes.MapRoute(
@@ -65,15 +65,15 @@ namespace OrganizationModule
 
             //creator
             routes.MapRoute(
-               name: "creatorTraning",
+               name: "creatorTraining",
                url: "Creator/CreateTemplate",
                defaults: new { controller = "Creator", action = "CreateTemplate" }
            );
 
             routes.MapRoute(
-                name: "creatorTranings",
-                url: "Creator/TraningList",
-                defaults: new { controller = "Creator", action = "TraningList" }
+                name: "creatorTrainings",
+                url: "Creator/TrainingList",
+                defaults: new { controller = "Creator", action = "TrainingList" }
             );
 
             routes.MapRoute(

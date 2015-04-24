@@ -2,19 +2,19 @@
     $scope.loading = true;
     $scope.addMode = false;
 
-    $http.get('/api/Traning').success(function (data) {
-        var internalTranings = [];
-        var kenproTranings = [];
+    $http.get('/api/Training').success(function (data) {
+        var internalTrainings = [];
+        var kenproTrainings = [];
         angular.forEach(data, function (item) {
-            if (item.TraningTypeID == 1) {
-                internalTranings.push(item);
+            if (item.TrainingTypeID == 1) {
+                internalTrainings.push(item);
             }
             else {
-                kenproTranings.push(item);
+                kenproTrainings.push(item);
             }
         });
-        $scope.InternalTranings = internalTranings;
-        $scope.KenproTranings = kenproTranings;
+        $scope.InternalTrainings = internalTrainings;
+        $scope.KenproTrainings = kenproTrainings;
         $scope.loading = false;
     })
     .error(function () {
