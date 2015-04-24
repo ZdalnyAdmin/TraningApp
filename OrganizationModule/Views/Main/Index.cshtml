@@ -2,15 +2,25 @@
 <html ng-app="OrganizationModuleApp" ng-controller="BaseController">
 <head>
     <title ng-bind="models.Title"></title>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">
+    @*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">*@
     @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
     <div class="header">
-        <p>KENPRO</p>
+        <div class="container">
+            <div class="logo">
+                <img src="~/Content/Images/logo.png" />
+            </div>
+        </div>
+        <hr />
     </div>
+    
+    
 
-    <div class="navbar navbar-default navbar-left" role="navigation">
+
+
+    @*<div class="navbar navbar-default navbar-left" role="navigation">
         <ul class="nav">
             <li><a href="/userCurrent" >{{models.Login}}</a></li>
             <li><a href="/userTrainings">Lista szkolen</a></li>
@@ -40,15 +50,46 @@
             <li><a href="/protectorRoles">Uprawnienia</a></li>
             <li><a href="/protectorLogs">Logi</a></li>
         </ul>
+    </div>*@
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-lg-3 menu">
+                <nav class="navbar">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="collapse-button visible-md">
+                                <img style="display:none;" src="~/Content/Images/show-menu.png" />
+                                <img src="~/Content/Images/hide-menu.png" />
+                            </div>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse clearfix" id="bs-example-navbar-collapse-1">
+                            @Html.Action("KeeperMenu", "Menu")
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="mainContent">
+                    <div ng-view></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="container mainContent">
-        <div ng-view></div>
-    </div>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
-    @Scripts.Render("~/bundles/OrganizationModuleApp")
+            <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
+            @*<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>*@
+            @Scripts.Render("~/bundles/OrganizationModuleApp")
 </body>
 </html>

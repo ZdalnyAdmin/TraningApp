@@ -1,47 +1,116 @@
-﻿.mainContent {
-    margin-top: 60px;
+﻿body{
+    background:#283759;
+    color:#fff;
 }
 
-.header {
-    border: 1px solid black;
-    width: 100%;
-    height: 40px;
-    font-weight: bolder;
-    padding: 10px;
+.logo img{
+    width:200px;
+    height:72px;
+    margin-top:22px;
+}
+.header hr{
+    border-top:2px solid #fff;
+    margin:0;
+    color:#fff;
+    width:100%;
+    position:absolute;
+    top:70px;
+}
+/*****************/
+/******NAGŁÓWKI*****/
+/****************/
+h1{
+    font-size:48px;
+    text-align:center;
+}
+h2{
+    font-size:30px;
+    text-align:center;
+}
+h3{
+    font-size:24px;
+    text-align:center;
+}
+h4{
+    font-size:21px;
+    text-align:center;
+}
+/*****************/
+/******TEKSTY*****/
+/****************/
+.txt-s{
+    font-size:12px;
+}
+.txt-m{
+    font-size:13px;
+}
+.txt-l{
+    font-size:14px;
+}
+.txt-xl{
+    font-size:16px;
+}
+/*****************/
+/******BUTTONY*****/
+/****************/
+.btn{
+    border-radius:0;
+}
+.btn-s{
+    height:28px!important;
+    font-size:13px!important;
+}
+.btn-m{
+    height:32px!important;
+    font-size:14px!important;
+}
+.btn-l{
+    height:50px!important;
+    font-size:18px!important;
+}
+.btn-xl{
+    height:60px!important;
+    font-size:21px!important;
 }
 
-#simpleRow {
-    width: 100%;
-    height: auto;
-    display:inline-block;
-    margin : 5px 0px 5px 0px;
+.green-button{
+    background:#55ee99;
+    color:#141932;
+}
+.green-button:hover{
+    background:#83ffbb;
+}
+.blue-button{
+    background:#436DAA;
+    color:#fff;
+}
+.blue-button:hover{
+    background:#436DAA;
 }
 
-#mainText {
-    text-align: left;
-    font-size: 16px;
-    display:inline-block;
+/*****************/
+/******INPUTY*****/
+/****************/
+input{
+    border-radius:0!important;
+}
+input-s{
+    height:24px!important;
+    font-size:12px!important;
+}
+input-m{
+    height:28px!important;
+    font-size:13px!important;
+}
+.input-l{
+    height:34px!important;
+    font-size:16px!important;
+}
+.input-xl{
+    height:48px!important;
+    font-size:18px!important;
 }
 
-#inputButto {
-    font-size: 10px;
-    display:inline-block;
-    width: auto;
-    border: 1px solid black;
-    padding: 5px 30px 5px 30px;
+.validation-field-error{
+    color:#ff7878;
 }
-
-#detailText {
-    width: auto;
-    margin-top: 5px;
-    margin-left: 10px;
-    display:inline-block;
-}
-
-#mainInput{
-    text-align: left;
-    font-size: 14px;
-    width : auto;
-    display:inline-block;
-}
-
