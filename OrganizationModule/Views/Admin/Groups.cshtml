@@ -1,7 +1,70 @@
-﻿<div>
-    Domyslnie kazde szkolenie moze byc widoczne przez jego autora lub przez wszystkich uzytkowanikow. Mozesz jednak stworzyc grupy skladajaca sie z czesci uzytkownikow i 
-    udostepnic tylko takiej grupie szkolenia. Mozesz np. udostepnic szkolenia do IT, biura obslugi klienta, handlowcow itp.
-</div>
-<div>
-    Grupy dla ktorych udostepniane jest szkolenie mozesz ustawic tworzac lub edytujac szkolenie. W tym miejscu mozesz tworzyc same grupy.
+﻿<div ng-app="" ng-controller="adminGroupsController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+
+    <div>
+        Domyslnie kazde szkolenie moze byc widoczne przez jego autora lub przez wszystkich uzytkowanikow. Mozesz jednak stworzyc grupy skladajaca sie z czesci uzytkownikow i
+        udostepnic tylko takiej grupie szkolenia. Mozesz np. udostepnic szkolenia do IT, biura obslugi klienta, handlowcow itp.
+    </div>
+    <div>
+        Grupy dla ktorych udostepniane jest szkolenie mozesz ustawic tworzac lub edytujac szkolenie. W tym miejscu mozesz tworzyc same grupy.
+    </div>
+
+    <div id="inputButto" ng-click="showCreate = ! showCreate">
+        Utworz grupe
+    </div>
+    <div ng-show="showCreate">
+        <div id="simpleRow">
+            <div id="mainText">
+                Nazwa grupy
+            </div>
+            <input type="text" id="mainInput" name="currentGroup.Name" ng-model="currentGroup.Name">
+        </div>
+        <div id="simpleRow">
+            <div id="mainText">
+                Czlonkowie grupy
+            </div>
+            <div id="inputButto">
+                Wybierz z listy
+            </div>
+        </div>
+        <div id="simpleRow">
+            <div id="inputButto" ng-click="showCreate = ! showCreate">
+                Zapisz
+            </div>
+        </div>
+    </div>
+    <div ng-repeat="group in Groups">
+        <div id="simpleRow">
+            <div id="mainText">
+                Grupa :
+            </div>
+            <div id="mainText" ng-show="!showEdit">
+                {{ group.Name }}
+            </div>
+            <input type="text" id="mainInput" name="group.Name" ng-model="group.Name" ng-show="showEdit">
+            <div id="inputButto" ng-show="!showEdit" ng-click="showEdit = ! showEdit">
+                EDYCJA
+            </div>
+            <div id="inputButto" ng-show="!showEdit">
+                USUN GRUPE
+            </div>
+        </div>
+        <div id="simpleRow">
+            <div id="mainText">
+                Czlonkowie grupy : {{ group.Name }}
+            </div>
+            <div id="inputButto" ng-show="showEdit">
+                Wybierz z listy
+            </div>
+        </div>
+        <div id="simpleRow">
+            <div id="inputButto" ng-show="showEdit" ng-click="showEdit = ! showEdit">
+                ZAPISZ
+            </div>
+            <div id="inputButto" ng-show="showEdit" ng-click="showEdit = ! showEdit">
+                ANULUJ ZMIANY
+            </div>
+        </div>
+    </div>
 </div>

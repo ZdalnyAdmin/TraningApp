@@ -1,7 +1,4 @@
-﻿
-
-
-<div ng-app="" ng-controller="adminUsersController" class="container">
+﻿<div ng-app="" ng-controller="adminUsersController" class="container">
 
     <strong class="error">{{ error }}</strong>
     <div ng-repeat="person in Persons">
@@ -10,11 +7,17 @@
                 {{ person.Name }}
             </div>
             <input type="text" id="mainInput" name="person.Name" ng-model="person.Name" ng-show="showEdit">
-            <div id="inputButto">
+            <div id="inputButto" ng-show="!showEdit">
                 USUN
             </div>
-            <div id="inputButto" ng-click="showEdit = ! showEdit">
+            <div id="inputButto" ng-show="!showEdit" ng-click="showEdit = ! showEdit">
                 EDYCJA
+            </div>
+            <div id="inputButto" ng-show="showEdit" ng-click="showEdit = ! showEdit">
+                ZAPISZ
+            </div>
+            <div id="inputButto" ng-show="showEdit" ng-click="showEdit = ! showEdit">
+                ANULUJ ZMIANY
             </div>
         </div>
         <div id="simpleRow">
@@ -27,10 +30,10 @@
             </div>
             <select ng-model="selected" ng-options="c for c in status" ng-init="selected=person.Status" ng-show="showEdit"></select>
             <div id="detailText">
-                {{ person.Registration }}
+                {{ person.RegistrationDate | date: 'dd.MM.yyyy hh.mm' }}
             </div>
             <div id="detailText">
-                {{ person.LastActivation }}
+                {{ person.LastActivationDate | date: 'dd.MM.yyyy hh.mm' }}
             </div>
             <div id="detailText">
                 {{ person.GroupName }}
@@ -44,7 +47,7 @@
         </div>
         <div id="simpleRow">
             <div id="mainText">
-                Kursy ({{ person.TraningNumber }})
+                Kursy ({{ person.TrainingNumber }})
             </div>
             <div id="inputButto" ng-click="showDetails = ! showDetails" ng-show="!showDetails">
                 POKAZ
@@ -55,9 +58,22 @@
         </div>
 
         <div id="simpleRow" ng-show="showDetails">
-            <p>Number of patient discharges: </p>
-            <p>Average amount covered by Medicare: </p>
-            <p>Average total payments: </p>
+            <div ng-repeat="item in person.AssignedTrainings">
+                <div id="simpleRow">
+                    <div id="detailText">
+                        {{ item.TraningID }}
+                    </div>
+                    <div id="detailText">
+                        {{ item.StartDate | date: 'dd.MM.yyyy hh.mm' }}
+                    </div>
+                    <div id="detailText" ng-hide="{{item.IsCompleted}}">
+                        W trakcie
+                    </div>
+                    <div id="detailText">
+                        {{ item.EndDate | date: 'dd.MM.yyyy hh.mm'}}
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -67,10 +83,29 @@
     <div id="inputButto" ng-click="showDeleted = ! showDeleted" ng-show="showDeleted">
         UKRYJ USUNIETE
     </div>
-    <div id="simpleRow" ng-show="showDeleted">
-        <p>Number of patient discharges: </p>
-        <p>Average amount covered by Medicare: </p>
-        <p>Average total payments: </p>
-    </div>
 
+    <div id="simpleRow" ng-show="showDeleted">
+        <div id="mainText">
+            Uzytkowanicy usunieci
+        </div>
+        <div ng-repeat="person in DeletePersons">
+
+            <div id="simpleRow">
+                <div id="mainText" ng-show="!showEdit">
+                    {{ person.Name }}
+                </div>
+            </div>
+            <div id="simpleRow">
+                <div id="detailText">
+                    {{ person.RegistrationDate | date: 'dd.MM.yyyy hh.mm' }}
+                </div>
+                <div id="detailText">
+                    {{ person.DeletedDate | date: 'dd.MM.yyyy hh.mm' }}
+                </div>
+                <div id="detailText">
+                    {{ person.DeletedUserID }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
