@@ -24,6 +24,9 @@ namespace OrganizationModule
                 .IncludeDirectory("~/Scripts/Factories", "*.js")
                 .IncludeDirectory("~/Scripts/Services", "*.js")
                 .Include("~/Scripts/OrganizationModuleApp.js"));
+
+            bundles.Add(new StyleBundle("~/Trainings").Include(
+                "~/Content/Trainings/training-list.css"));
         }
     }
 }

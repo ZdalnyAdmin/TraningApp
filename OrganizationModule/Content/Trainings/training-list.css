@@ -1,0 +1,156 @@
+﻿.course-box{
+    border:1px solid #fff;
+}
+.course-box .left{
+    float:left;
+    padding-right:25px;
+
+}
+.course-box .right .description{
+    padding:25px;
+}
+.buttons button.run{
+    float:right;
+    width:280px;
+    margin-right:25px;
+    margin-bottom:25px;
+}
+.show-less-more{
+    width:150px;
+    border:2px solid #436DAA;
+    position:absolute;
+    left:290px;
+    display:table;
+    padding:0 8px;
+}
+.show-less-more span{
+    display:table-cell;
+    vertical-align:middle;
+}
+.show-less-more img{
+    margin-top:7px;
+}
+.show-less-more:hover{
+    border:2px solid #fff;
+    color:#fff;
+}
+.submenu{
+    position:relative;
+    bottom:22px;
+}
+.submenu ul{
+    list-style:none;
+    padding:0;
+}
+.submenu ul li{
+    float:left;
+    height:56px;
+    display:table;
+}
+.submenu ul li a{
+    display:table-cell;
+    vertical-align:middle;
+    color:#fff;
+    cursor:pointer;
+    padding-left:15px;
+    padding-right:15px;
+}
+.submenu ul li a:hover{
+    background:#fff;
+    color:#141932;
+    text-decoration:none;
+}
+.submenu ul li:nth-child(2){
+    border-right:1px solid #fff;
+    border-left:1px solid #fff;
+}
+.course h2{
+    text-align:left;
+}
+.course-box .description{
+    min-height:175px;
+}
+@media screen and (max-width: 1199px) AND (min-width: 992px) {
+    .course-box .right .description{
+        padding:15px;
+    }
+    .buttons button.run{
+        margin-right:15px;
+        margin-bottom:15px;
+        width:265px;
+    }
+    .course-box .left{
+        padding-right:15px;
+    }
+    .show-less-more span{
+        display:none!important;
+    }
+    .show-less-more{
+        width:44px;
+        left:280px;
+    }
+}
+@media (max-width: 992px) {
+    .course h2{
+        text-align:center;
+    }
+}
+@media screen and (max-width: 991px) AND (min-width: 768px) {
+    .submenu{
+        width:360px;
+        margin:auto;
+        bottom:0;
+    }
+    .course-box .right .description{
+        padding:20px;
+    }
+    .buttons button.run{
+        margin-right:20px;
+        margin-bottom:20px;
+        width:265px;
+    }
+    .course-box .left{
+        padding-right:20px;
+    }
+    .show-less-more {
+        left:285px;
+    }
+}
+@media screen and (max-width: 767px) {
+    .submenu{
+        max-width:360px;
+        margin:auto;
+        bottom:0;
+    }
+    .show-less-more{
+        width:120px;
+        position:static;
+        float:left;
+        margin-left:20px;
+    }
+    .course-box .left{
+        padding-right:20px;
+    }
+    .course-box .left img{
+        width:125px;
+        height:125px;
+       
+    }
+    .course-box .right .description{
+        padding:20px;
+        min-height:140px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .show-less-more{
+        float:none;
+        margin:auto;
+        margin-bottom:20px;
+    }
+    .buttons button.run{
+        float:none;
+        margin:auto;
+        margin-bottom:20px;
+        display:block;
+    }
+}
