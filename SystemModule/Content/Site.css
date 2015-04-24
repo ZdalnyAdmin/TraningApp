@@ -8,6 +8,7 @@
 .login-message {
     color: red;
     padding-bottom: 6px;
+    max-width: 400px;
 }
 
 .login-form-row label {

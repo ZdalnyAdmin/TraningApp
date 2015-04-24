@@ -1,10 +1,7 @@
 ﻿var RegisterController = function ($scope, $routeParams, $location, LoginFactory) {
     $scope.registrationData = {
-        emailAddress: 'email@mail.pl',
-        login: '',
-        password: '',
-        repeatedPassword: '',
-        role: 'xxx'
+        Email: 'email@mail.pl',
+        Role: 'xxx'
     };
 
     $scope.company = {
@@ -12,17 +9,24 @@
         displayName: 'xxx'
     };
 
+    $scope.errorMessage = '';
+
     $scope.register = function () {
-        var result = LoginFactory.login($scope.registrationData);
-        result.then(function (result) {
-            if (result.success) {
-                if ($scope.loginForm.returnUrl !== undefined) {
-                    $location.path($scope.loginForm.returnUrl).search('');
-                } else {
-                    $location.path('/').search('');
-                }
+        $scope.errorMessage = '';
+        var result = LoginFactory.register($scope.registrationData);
+
+        result.then(function (data) {
+            if (data.Succeeded) {
+                $location.path('/').search('');
             } else {
-                $scope.loginForm.loginFailure = true;
+                if (data.Errors) {
+                    $scope.errorMessage = '';
+                    angular.forEach(data.Errors, function (val) {
+                        $scope.errorMessage += ' ' + val;
+                    });
+                } else {
+                    $scope.errorMessage = 'Wystąpił nieoczekiwany błąd podczas rejestracji';
+                }
             }
         });
     }

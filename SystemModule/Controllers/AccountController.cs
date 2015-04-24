@@ -13,41 +13,10 @@ namespace SystemModule.Controllers
 {
     public class AccountController : Controller
     {
+
+        #region Identity
         private ApplicationUserManager _userManager;
         private ApplicationSignInManager _signInManager;
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<bool> Login(LoginViewModel model)
-        {
-            // Don't do this in production!
-            if (model.Email == "admin@admin.com" && model.Password == "password")
-            {
-                var identity = new ClaimsIdentity(new[] {
-                        new Claim(ClaimTypes.Name, "Admin"),
-                        new Claim(ClaimTypes.Email, "a@b.com"),
-                        new Claim(ClaimTypes.Country, "England")
-                    },
-                    "ApplicationCookie");
-
-                var ctx = Request.GetOwinContext();
-                var authManager = ctx.Authentication;
-
-                authManager.SignIn(identity);
-
-                return true;
-            }
-
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return true;
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return false;
-            }
-        }
 
         public ApplicationSignInManager SignInManager
         {
@@ -55,10 +24,56 @@ namespace SystemModule.Controllers
             private set { _signInManager = value; }
         }
 
+        public ApplicationUserManager UserManager
+        {
+            get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+            private set { _userManager = value; }
+        }
+        #endregion
+
+        #region Constructor
+        public AccountController() { }
+
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+        #endregion
+
+        #region Requests
+        #region Login
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<bool> Login(LoginViewModel model)
+        {
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
+        }
+        #endregion
+
+        #region Register
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> Register(RegisterViewModel model)
+        {
+            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+            var result = await UserManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded) return this.Json(result);
+            await SignInManager.SignInAsync(user, false, false);
+            return this.Json(result);
         }
 
         [AllowAnonymous]
@@ -66,13 +81,17 @@ namespace SystemModule.Controllers
         {
             return View();
         }
+        #endregion
 
+        #region Reset Password
         [AllowAnonymous]
         public ActionResult ResetPassword()
         {
             return View();
         }
+        #endregion
 
+        #region Logoff
         [HttpPost]
         public bool Logoff(LoginViewModel model)
         {
@@ -89,5 +108,7 @@ namespace SystemModule.Controllers
         {
             return View();
         }
+        #endregion
+        #endregion
     }
 }

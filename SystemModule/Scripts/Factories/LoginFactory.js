@@ -52,14 +52,10 @@
             '/Account/Register', registrationData
         ).
         success(function (data) {
-            if (data == "True") {
-                deferredObject.resolve({ success: true });
-            } else {
-                deferredObject.resolve({ success: false });
-            }
+            deferredObject.resolve(data);
         }).
         error(function () {
-            deferredObject.resolve({ success: false });
+            deferredObject.resolve({ result: false });
         });
 
         return deferredObject.promise;
