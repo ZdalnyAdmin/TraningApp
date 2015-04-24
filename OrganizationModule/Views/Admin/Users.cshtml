@@ -26,9 +26,9 @@
             </div>
             <input type="text" id="mainInput" name="person.Mail" ng-model="person.Mail" ng-show="showEdit">
             <div id="detailText" ng-show="!showEdit">
-                {{ person.Status }}
+                {{ person.Status.Name }}
             </div>
-            <select ng-model="selected" ng-options="c for c in status" ng-init="selected=person.Status" ng-show="showEdit"></select>
+            <select ng-model="selected" ng-options="c for c in status" ng-init="selected=person.Status.Name" ng-show="showEdit"></select>
             <div id="detailText">
                 {{ person.RegistrationDate | date: 'dd.MM.yyyy hh.mm' }}
             </div>
@@ -36,10 +36,10 @@
                 {{ person.LastActivationDate | date: 'dd.MM.yyyy hh.mm' }}
             </div>
             <div id="detailText">
-                {{ person.GroupName }}
+                {{ person.Profile.Name }}
             </div>
             <div id="detailText">
-                {{ person.ProfileName }}
+                {{ person.GroupName.Name }}
             </div>
             <div id="detailText">
                 {{ person.Login }}

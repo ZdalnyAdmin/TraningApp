@@ -20,6 +20,7 @@ namespace AppEngine.Models.DataContext
         public DbSet<ProfileGroup> Groups { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Status> Status { get; set; }
+        public DbSet<TrainingResult> TrainingResults { get; set; }
 
     }
 }

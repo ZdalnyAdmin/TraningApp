@@ -17,7 +17,35 @@ namespace OrganizationModule.Controllers
         [HttpGet]
         public IEnumerable<Person> Get()
         {
-            return db.Persons.AsEnumerable();
+
+            var people = db.Persons.AsEnumerable().ToList();
+
+            foreach (var item in people)
+            {
+                item.Status = (from t in db.Status
+                               where t.StatusID == item.StatusID
+                               select t).FirstOrDefault();
+
+                item.Profile = (from t in db.Profiles
+                                where t.ProfileID == item.ProfileID
+                                select t).FirstOrDefault();
+
+                //var groups = (from t in db.Groups
+                //              where t.ProfileGroupID == item.ProfileGroupID
+                //              select t).ToList();
+
+                //if (groups != null && groups.Any())
+                //{
+                //    item.GroupName = string.Join(",", groups);
+                //}
+
+                item.AssignedTrainings = (from t in db.TrainingResults
+                                          where t.PersonID == item.PersonID
+                                          select t).ToList();
+            }
+
+
+            return people;
         }
 
         // GET api/<controller>/5
