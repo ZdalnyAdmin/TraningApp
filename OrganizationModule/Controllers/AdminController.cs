@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 namespace OrganizationModule.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         /// <summary>

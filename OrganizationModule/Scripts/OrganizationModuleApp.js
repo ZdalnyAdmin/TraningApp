@@ -1,7 +1,11 @@
 ﻿var OrganizationModuleApp = angular.module('OrganizationModuleApp', ['ngRoute']);
 
 OrganizationModuleApp.controller('BaseController', BaseController);
+OrganizationModuleApp.controller('LoginController', LoginController);
+OrganizationModuleApp.controller('LogoffController', LogoffController);
+OrganizationModuleApp.controller('RegisterController', RegisterController);
 OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
+OrganizationModuleApp.factory('LoginFactory', LoginFactory);
 //OrganizationModuleApp.service('SessionService', SessionService)
 
 var configFunction = function ($routeProvider, $httpProvider, $locationProvider) {
@@ -66,12 +70,23 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
         .when('/protectorLogs', {
             templateUrl: 'Protector/Logs'
         })
-        .when('/login?returnUrl', {
+        .when('/login', {
             templateUrl: 'Account/Login',
             controller: LoginController
+        })
+        .when('/resetPassword', {
+            templateUrl: 'Account/ResetPassword'
+        })
+        .when('/register', {
+            templateUrl: 'Account/Register',
+            controller: RegisterController
+        })
+        .when('/logoff', {
+            templateUrl: 'Account/Logoff',
+            controller: LogoffController
         });
 
-   $httpProvider.interceptors.push('AuthHttpResponseInterceptor');
+    $httpProvider.interceptors.push('AuthHttpResponseInterceptor');
 }
 
 configFunction.$inject = ['$routeProvider', '$httpProvider', '$locationProvider'];

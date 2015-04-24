@@ -34,12 +34,12 @@ namespace OrganizationModule.Models
         {
             base.OnModelCreating(modelBuilder);
 
-
-            modelBuilder.Entity<IdentityUser>().ToTable("Users", "App");
-            modelBuilder.Entity<IdentityRole>().ToTable("Roles", "App");
-            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles", "App");
-            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims", "App");
-            modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins", "App");
+            modelBuilder.Entity<IdentityUser>().ToTable("Users", "dbo");
+            modelBuilder.Entity<ApplicationUser>().ToTable("Users", "dbo");
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles", "dbo");
+            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles", "dbo");
+            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims", "dbo");
+            modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins", "dbo");
 
         }
     }
