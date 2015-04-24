@@ -179,6 +179,7 @@
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\ProtectorController.cs" />
     <Compile Include="Controllers\TraningController.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Menu\menu.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -250,6 +252,7 @@
     <Content Include="Views\Manager\Invitation.cshtml" />
     <Content Include="Views\Admin\Groups.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Menu\KeeperMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
