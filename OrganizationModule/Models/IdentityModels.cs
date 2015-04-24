@@ -29,5 +29,18 @@ namespace OrganizationModule.Models
         {
             return new ApplicationDbContext();
         }
+
+        protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.Entity<IdentityUser>().ToTable("Users", "App");
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles", "App");
+            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles", "App");
+            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims", "App");
+            modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins", "App");
+
+        }
     }
 }

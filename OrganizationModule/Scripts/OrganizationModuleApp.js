@@ -12,23 +12,23 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
         when('/userCurrent', {
             templateUrl: 'User/LoggedUser'
         })
-        .when('/userTranings', {
-            templateUrl: 'User/TreningList'
+        .when('/userTrainings', {
+            templateUrl: 'User/TrainingList'
         })
-        .when('/userAvailableTranings', {
-            templateUrl: 'User/AvailableTraningList'
+        .when('/userAvailableTrainings', {
+            templateUrl: 'User/AvailableTrainingList'
         })
         .when('/userResult', {
-            templateUrl: 'User/TraningResult'
+            templateUrl: 'User/TrainingResult'
         })
         .when('/userFaq', {
-            templateUrl: 'User/TraningFaq'
+            templateUrl: 'User/TrainingFaq'
         })
-        .when('/creatorTraning', {
+        .when('/creatorTraining', {
             templateUrl: 'Creator/CreateTemplate'
          })
-        .when('/creatorTranings', {
-            templateUrl: 'Creator/TraningList'
+        .when('/creatorTrainings', {
+            templateUrl: 'Creator/TrainingList'
         })
         .when('/creatorHowTo', {
             templateUrl: 'Creator/About'
@@ -37,7 +37,7 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             templateUrl: 'Manager/Results'
         })
         .when('/managerEdit', {
-            templateUrl: 'Manager/EditTranings'
+            templateUrl: 'Manager/EditTrainings'
         })
         .when('/managerInvitation', {
             templateUrl: 'Manager/Invitation'

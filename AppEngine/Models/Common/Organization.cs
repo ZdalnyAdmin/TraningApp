@@ -9,7 +9,7 @@ namespace AppEngine.Models
         public decimal SpaceDisk { get; set; }
         public int MaxAssignedUser { get; set; }
         public bool IsGlobalAvailable { get; set; }
-        public bool IsTraningAvailableForAll { get; set; }
+        public bool IsTrainingAvailableForAll { get; set; }
         public bool CanUserChangeMail { get; set; }
         public bool CanUserChangeName { get; set; }
         public DateTime CreateDate { get; set; }

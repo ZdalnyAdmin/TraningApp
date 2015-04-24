@@ -9,7 +9,7 @@ namespace AppEngine.Models
         public int ModifiedUserID { get; set; }
         public string ModifiedUserName { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public int TraningID { get; set; }
+        public int TrainingID { get; set; }
         public int PersonID { get; set; }
     }
 }

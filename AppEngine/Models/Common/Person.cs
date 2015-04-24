@@ -28,12 +28,12 @@ namespace AppEngine.Models.Common
         /// <summary>
         /// 
         /// </summary>
-        public int TraningNumber 
+        public int TrainingNumber
         {
-            get { return AssignedTranings != null ? AssignedTranings.Count : 0; }
+            get { return AssignedTrainings != null ? AssignedTrainings.Count : 0; }
         }
 
-        public List<TraningResult> AssignedTranings { get; set; }
+        public List<TrainingResult> AssignedTrainings { get; set; }
 
         #endregion Properties
 

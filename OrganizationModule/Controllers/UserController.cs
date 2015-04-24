@@ -17,7 +17,7 @@ namespace OrganizationModule.Controllers
         /// Navigate to all tranings view
         /// </summary>
         /// <returns></returns>
-        public ActionResult TreningList()
+        public ActionResult TrainingList()
         {
             return View();
         }
@@ -25,7 +25,7 @@ namespace OrganizationModule.Controllers
         /// Navigate to available tranings view
         /// </summary>
         /// <returns></returns>
-        public ActionResult AvailableTraningList()
+        public ActionResult AvailableTrainingList()
         {
             return View();
         }
@@ -34,7 +34,7 @@ namespace OrganizationModule.Controllers
         /// Navigate to user traning result view
         /// </summary>
         /// <returns></returns>
-        public ActionResult TraningResult()
+        public ActionResult TrainingResult()
         {
             return View();
         }
@@ -43,7 +43,7 @@ namespace OrganizationModule.Controllers
         /// Navigate to FAQ view
         /// </summary>
         /// <returns></returns>
-        public ActionResult TraningFaq()
+        public ActionResult TrainingFaq()
         {
             return View();
         }

@@ -182,7 +182,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\ProtectorController.cs" />
-    <Compile Include="Controllers\TraningController.cs" />
+    <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -233,11 +233,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\User\TreningList.cshtml" />
+    <Content Include="Views\User\TrainingList.cshtml" />
     <Content Include="Views\User\LoggedUser.cshtml" />
-    <Content Include="Views\User\AvailableTraningList.cshtml" />
-    <Content Include="Views\User\TraningResult.cshtml" />
-    <Content Include="Views\User\TraningFaq.cshtml" />
+    <Content Include="Views\User\AvailableTrainingList.cshtml" />
+    <Content Include="Views\User\TrainingResult.cshtml" />
+    <Content Include="Views\User\TrainingFaq.cshtml" />
     <Content Include="Views\Protector\Roles.cshtml" />
     <Content Include="Views\Protector\Logs.cshtml" />
     <Content Include="Views\Admin\Users.cshtml" />
@@ -246,10 +246,10 @@
     <Content Include="Views\Admin\Settings.cshtml" />
     <Content Include="Views\Admin\About.cshtml" />
     <Content Include="Views\Creator\About.cshtml" />
-    <Content Include="Views\Creator\TraningList.cshtml" />
+    <Content Include="Views\Creator\TrainingList.cshtml" />
     <Content Include="Views\Creator\CreateTemplate.cshtml" />
     <Content Include="Views\Manager\Results.cshtml" />
-    <Content Include="Views\Manager\EditTranings.cshtml" />
+    <Content Include="Views\Manager\EditTrainings.cshtml" />
     <Content Include="Views\Manager\Invitation.cshtml" />
     <Content Include="Views\Admin\Groups.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
