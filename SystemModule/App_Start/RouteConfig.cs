@@ -13,6 +13,11 @@ namespace SystemModule
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+                name: "Redirect",
+                url: "{id}",
+                defaults: new { controller = "Redirect", action = "Index" }
+            );
 
             routes.MapRoute(
                 name: "Default",
