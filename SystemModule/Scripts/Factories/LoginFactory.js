@@ -61,10 +61,28 @@
         return deferredObject.promise;
     };
 
+    var reset = function (resetObject) {
+
+        var deferredObject = $q.defer();
+
+        $http.post(
+            '/Account/ResetPassword', resetObject
+        ).
+        success(function (data) {
+            deferredObject.resolve(data);
+        }).
+        error(function () {
+            deferredObject.resolve(data);
+        });
+
+        return deferredObject.promise;
+    };
+
     return {
         login: login,
         logoff: logoff,
-        register: register
+        register: register,
+        reset: reset
     }
 }
 

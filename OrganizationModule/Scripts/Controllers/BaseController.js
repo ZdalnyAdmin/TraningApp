@@ -1,12 +1,14 @@
 ﻿var BaseController = function ($scope, $location) {
     $scope.models = {
         Title: 'e-learning',
-        Login: 'nasz czlowiek'
+        Login: 'Nasz czlowiek'
     };
 
     var search = $location.search();
     if (!!search && !!search.page) {
-        $location.path('/' + search.page).search('');
+        var page = search.page;
+        delete search.page;
+        $location.path('/' + page).search(search);
     }
 }
 

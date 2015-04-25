@@ -70,7 +70,6 @@ namespace OrganizationModule.Models
         public string Email { get; set; }
 
         [Required]
-        [EmailAddress]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
 
@@ -81,7 +80,7 @@ namespace OrganizationModule.Models
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        [Display(Name = "ConfirmPassword")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
@@ -89,9 +88,8 @@ namespace OrganizationModule.Models
     public class ResetPasswordViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Userame")]
+        public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -113,5 +111,9 @@ namespace OrganizationModule.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
     }
 }

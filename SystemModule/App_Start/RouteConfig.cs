@@ -14,6 +14,12 @@ namespace SystemModule
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "ResetPassword",
+                url: "resetPasswordConfirmation",
+                defaults: new { controller = "Redirect", action = "ResetPasswordConfirmation", code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Redirect",
                 url: "{id}",
                 defaults: new { controller = "Redirect", action = "Index" }
@@ -21,8 +27,8 @@ namespace SystemModule
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional }
+                url: "{controller}/{action}",
+                defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional, code = UrlParameter.Optional }
             );
         }
     }

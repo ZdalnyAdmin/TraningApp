@@ -2,7 +2,9 @@
 SystemModuleApp.controller('BaseController', BaseController);
 SystemModuleApp.controller('LoginController', LoginController);
 SystemModuleApp.controller('LogoffController', LogoffController);
-SystemModuleApp.controller('RegisterController', RegisterController);
+SystemModuleApp.controller('RegisterController', RegisterController); 
+SystemModuleApp.controller('ResetPasswordController', ResetPasswordController);
+SystemModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
 SystemModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 SystemModuleApp.factory('LoginFactory', LoginFactory);
 //SystemModuleApp.service('SessionService', SessionService);
@@ -53,7 +55,12 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             controller: LoginController
         })
         .when('/resetPassword', {
-            templateUrl: 'Account/ResetPassword'
+            templateUrl: 'Account/ResetPassword',
+            controller: ResetPasswordController
+        })
+        .when('/resetPasswordConfirmation', {
+            templateUrl: 'Account/ResetPasswordConfirmation',
+            controller: ResetPasswordConfirmation
         })
         .when('/register', {
             templateUrl: 'Account/Register',

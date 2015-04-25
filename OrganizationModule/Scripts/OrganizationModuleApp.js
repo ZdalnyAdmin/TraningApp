@@ -4,6 +4,8 @@ OrganizationModuleApp.controller('BaseController', BaseController);
 OrganizationModuleApp.controller('LoginController', LoginController);
 OrganizationModuleApp.controller('LogoffController', LogoffController);
 OrganizationModuleApp.controller('RegisterController', RegisterController);
+OrganizationModuleApp.controller('ResetPasswordController', ResetPasswordController);
+OrganizationModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
 OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 OrganizationModuleApp.factory('LoginFactory', LoginFactory);
 //OrganizationModuleApp.service('SessionService', SessionService)
@@ -75,7 +77,12 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             controller: LoginController
         })
         .when('/resetPassword', {
-            templateUrl: 'Account/ResetPassword'
+            templateUrl: 'Account/ResetPassword',
+            controller: ResetPasswordController
+        })
+        .when('/resetPasswordConfirmation', {
+            templateUrl: 'Account/ResetPasswordConfirmation',
+            controller: ResetPasswordConfirmation
         })
         .when('/register', {
             templateUrl: 'Account/Register',

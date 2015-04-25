@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -65,22 +66,27 @@ namespace SystemModule.Controllers
         [AllowAnonymous]
         public async Task<JsonResult> Register(RegisterViewModel model)
         {
-            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
-            var result = await UserManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
+            if (ModelState.IsValid)
             {
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (!result.Succeeded)
+                {
+                    return this.Json(result);
+                }
+                else
+                {
+                    await UserManager.SendEmailAsync(user.Id,
+                       "Rejestracja Kenpro",
+                       "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
+                       + "<br/>Twoja nazwa wyświetlana: " + user.UserName
+                       + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/login\">Zaloguj się</a>");
+                }
+
                 return this.Json(result);
             }
-            else
-            {
-                await UserManager.SendEmailAsync(user.Id,
-                   "Rejestracja Kenpro",
-                   "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
-                   + "<br/>Twoja nazwa wyświetlana: " + user.UserName
-                   + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/login\">Zaloguj się</a>");
-            }
 
-            return this.Json(result);
+            return getErrorsFromModel();
         }
 
         [AllowAnonymous]
@@ -93,6 +99,41 @@ namespace SystemModule.Controllers
         #region Reset Password
         [AllowAnonymous]
         public ActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ResetPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userByUserName = await UserManager.FindByNameAsync(model.UserName);
+                var userByMail = await UserManager.FindByEmailAsync(model.Email);
+
+                if (userByMail == null || !userByMail.Equals(userByUserName))
+                {
+                    return Json(new {
+                                Succeeded = false,
+                                Errors = new string[] { "Nie ma użytkownika o takim adresie email" }
+                            });
+                }
+
+                var code = await UserManager.GeneratePasswordResetTokenAsync(userByUserName.Id);
+                await UserManager.SendEmailAsync(userByUserName.Id, "Zmiana Hasła",
+                "Zostało wysłane zgłoszenia zmiany hasła, aby kontynuować kliknij w <a href=\"" 
+                    + Request.Url.Scheme + "://" + Request.Url.Authority + "/resetPasswordConfirmation?code=" + code + "\">link</a>");
+
+                return Json(new
+                        {
+                            Succeeded = true
+                        });
+            }
+
+            return getErrorsFromModel();
+        }
+
+        public ActionResult ResetPasswordConfirmation(ForgotPasswordViewModel model)
         {
             return View();
         }
@@ -115,6 +156,27 @@ namespace SystemModule.Controllers
             return View();
         }
         #endregion
+        #endregion
+
+        #region Private Functions
+        private JsonResult getErrorsFromModel()
+        {
+            var Errors = new Collection<string>();
+
+            foreach (ModelState modelState in ViewData.ModelState.Values)
+            {
+                foreach (ModelError error in modelState.Errors)
+                {
+                    Errors.Add(error.ErrorMessage);
+                }
+            }
+
+            return Json(new
+            {
+                Succeeded = false,
+                Errors = Errors
+            });
+        }
         #endregion
     }
 }

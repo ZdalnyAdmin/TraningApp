@@ -8,8 +8,7 @@ namespace OrganizationModule.Controllers
 {
     public class RedirectController : Controller
     {
-        // GET: Redirect
-        public ActionResult Index(string id)
+        public ActionResult Index(string id, string code)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -18,6 +17,18 @@ namespace OrganizationModule.Controllers
             else
             {
                 return Redirect("/?page=" + id);
+            }
+        }
+
+        public ActionResult ResetPasswordConfirmation(string code)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                return Redirect("/?page=resetPasswordConfirmation&code=" + code);
             }
         }
     }
