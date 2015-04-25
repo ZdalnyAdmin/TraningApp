@@ -28,7 +28,7 @@
             <div id="detailText" ng-show="!$scope.showEdit">
                 {{ person.Status.Name }}
             </div>
-            <select ng-model="selected" ng-options="c for c in status" ng-init="selected=person.Status.Name" ng-show="$scope.showEdit"></select>
+            <select ng-model="person.Status" ng-options="c as c.Name for c in status" ng-init="selected=person.Status.Name" ng-show="$scope.showEdit"></select>
             <div id="detailText">
                 {{ person.RegistrationDate | date: 'dd.MM.yyyy hh.mm' }}
             </div>
@@ -88,10 +88,10 @@
         <div id="mainText">
             Uzytkowanicy usunieci
         </div>
-        <div ng-repeat="person in deletePeople">
+        <div ng-repeat="person in DeletePeople">
 
             <div id="simpleRow">
-                <div id="mainText" ng-show="!showDeleted">
+                <div id="mainText">
                     {{ person.Name }}
                 </div>
             </div>

@@ -2,7 +2,7 @@
     $scope.loading = true;
     $scope.addMode = false;
     $scope.showEdit = false;
-    $scope.status = ['aktywny', 'zablokowany'];
+   
 
     //Used to display the data 
     $http.get('/api/Person').success(function (data) {
@@ -26,6 +26,15 @@
     });
 
 
+    $http.get('/api/Status').success(function (data) {
+        $scope.status = data;
+        $scope.loading = false;
+    })
+    .error(function () {
+        $scope.error = "An Error has occured while loading posts!";
+        $scope.loading = false;
+    });
+
     //Used to save a record after edit 
     $scope.save = function (person) {
         if (!person) {
@@ -35,12 +44,11 @@
 
 
         $http.put('/api/Person/', person).success(function (data) {
-            emp.editMode = false;
             person = data;
 
 
             $scope.loading = false;
-            $scope.showEdit = true;
+            $scope.showEdit = false;
         }).error(function (data) {
             $scope.error = "An Error has occured while saving person! " + data;
             $scope.loading = false;
@@ -49,7 +57,7 @@
     };
 
     //Used to save a record after edit 
-    $scope.cancel = function person() {
+    $scope.cancel = function (person) {
         if (!person) {
             return;
         }
@@ -58,10 +66,9 @@
 
 
         $http.get('/api/Person/', person.PersonID).success(function (data) {
-            emp.editMode = false;
             person = data;
             $scope.loading = false;
-            $scope.showEdit = true;
+            $scope.showEdit = false;
         }).error(function (data) {
             $scope.error = "An Error has occured while restore person data! " + data;
             $scope.loading = false;
@@ -77,12 +84,29 @@
         //person.DeletedDate = Date.UTC;
         //get from score - logged user id
         //person.DeleteUserID
+        $scope.person = person;
+
 
         $scope.loading = true;
         $http.put('/api/Person/', person).success(function (data) {
-            emp.editMode = false;
             $scope.loading = false;
-            $scope.showEdit = true;
+            $scope.showEdit = false;
+
+            var index = 0;
+
+            for (var i = 0; i < $scope.People.length; i++)
+            {
+                if($scope.People[i].IsDeleted)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            $scope.People.splice(index, 1);
+            //$scope.People. = people;
+            $scope.DeletePeople.push( $scope.person);
+
+
         }).error(function (data) {
             $scope.error = "An Error has occured while deleting person! " + data;
             $scope.loading = false;
