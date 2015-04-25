@@ -67,7 +67,6 @@ namespace OrganizationModule.Controllers
         {
             var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
             var result = await UserManager.CreateAsync(user, model.Password);
-
             if (!result.Succeeded)
             {
                 return this.Json(result);
@@ -76,12 +75,11 @@ namespace OrganizationModule.Controllers
             {
                 await UserManager.SendEmailAsync(user.Id,
                    "Rejestracja Kenpro",
-                   "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName 
+                   "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
                    + "<br/>Twoja nazwa wyświetlana: " + user.UserName
-                   + "<br/><a href=\"" + Request.Url.AbsoluteUri + "\">Zaloguj się</a>");
+                   + "<br/><a href=\"" + Request.Url.Scheme + ":\\\\" + Request.Url.Authority + "/login\">Zaloguj się</a>");
             }
 
-            await SignInManager.SignInAsync(user, false, false);
             return this.Json(result);
         }
 

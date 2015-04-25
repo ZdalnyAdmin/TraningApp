@@ -11,6 +11,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using OrganizationModule.Models;
+using System.Net.Mail;
+using System.Text;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 
 namespace OrganizationModule
 {
@@ -18,8 +23,37 @@ namespace OrganizationModule
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            using (var client = new SmtpClient())
+            {
+#if DEBUG
+                // On production should be properly configured IIS.
+                ServicePointManager.ServerCertificateValidationCallback =
+                    delegate(object s, X509Certificate certificate,
+                             X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                    { return true; };
+#endif
+
+                client.Port = 587;
+                client.Host = "smtp.gmail.com";
+                client.EnableSsl = true;
+                client.Timeout = 10000;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential("smtp.kenpro@gmail.com", "123Kenpro@");
+
+                MailMessage mail = new MailMessage(new MailAddress("noreply@kenpro.com", "(do not reply)"),
+                new MailAddress(message.Destination))
+                {
+                    Subject = message.Subject,
+                    Body = message.Body,
+                    IsBodyHtml = true
+                };
+                mail.BodyEncoding = UTF8Encoding.UTF8;
+                mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+                client.Send(mail);
+            }
+           return Task.FromResult(0);
         }
     }
 
