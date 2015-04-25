@@ -89,6 +89,12 @@ namespace OrganizationModule.Controllers
             //{
             //    return Request.CreateResponse(HttpStatusCode.BadRequest);
             //}
+            if(person.Status != null && person.Status.StatusID != person.StatusID)
+            {
+                person.StatusID = person.Status.StatusID;
+            }
+
+
 
             db.Entry(person).State = EntityState.Modified;
 

@@ -175,12 +175,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\StatusController.cs" />
     <Compile Include="Controllers\CreatorController.cs" />
-    <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Controllers\Api\GroupController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
-    <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\Api\PersonController.cs" />
     <Compile Include="Controllers\ProtectorController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
     <Compile Include="Controllers\TrainingController.cs" />
