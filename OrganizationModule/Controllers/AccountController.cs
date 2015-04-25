@@ -77,9 +77,10 @@ namespace OrganizationModule.Controllers
                    "Rejestracja Kenpro",
                    "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
                    + "<br/>Twoja nazwa wyświetlana: " + user.UserName
-                   + "<br/><a href=\"" + Request.Url.Scheme + ":\\\\" + Request.Url.Authority + "/login\">Zaloguj się</a>");
+                   + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/login\">Zaloguj się</a>");
             }
 
+            await SignInManager.SignInAsync(user, false, false);
             return this.Json(result);
         }
 
