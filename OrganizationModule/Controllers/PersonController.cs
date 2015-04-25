@@ -2,6 +2,8 @@
 using AppEngine.Models.DataContext;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -51,7 +53,12 @@ namespace OrganizationModule.Controllers
         // GET api/<controller>/5
         public Person Get(int id)
         {
-            return null;
+            var person = db.Persons.Find(id);
+            if (person == null)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            }
+            return person;
         }
 
         // POST api/<controller>
@@ -71,8 +78,28 @@ namespace OrganizationModule.Controllers
         }
 
         // PUT api/<controller>/5
-        public HttpResponseMessage Put(int id, Person person)
+        public HttpResponseMessage Put(Person person)
         {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            //if (id != person.PersonID)
+            //{
+            //    return Request.CreateResponse(HttpStatusCode.BadRequest);
+            //}
+
+            db.Entry(person).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -80,7 +107,23 @@ namespace OrganizationModule.Controllers
         // DELETE api/<controller>/5
         public HttpResponseMessage Delete(int id)
         {
-            Person person = new Person();
+            var person = db.Persons.Find(id);
+            if (person == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            db.Persons.Remove(person);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+            }
+
             return Request.CreateResponse(HttpStatusCode.OK, person);
         }
 

@@ -1,34 +1,34 @@
 ﻿<div ng-app="" ng-controller="adminUsersController" class="container">
 
     <strong class="error">{{ error }}</strong>
-    <div ng-repeat="person in Persons">
+    <div ng-repeat="person in People">
         <div id="simpleRow">
-            <div id="mainText" ng-show="!showEdit">
+            <div id="mainText" ng-show="!$scope.showEdit">
                 {{ person.Name }}
             </div>
-            <input type="text" id="mainInput" name="person.Name" ng-model="person.Name" ng-show="showEdit">
-            <div id="inputButto" ng-show="!showEdit">
+            <input type="text" id="mainInput" name="person.Name" ng-model="person.Name" ng-show="$scope.showEdit">
+            <div id="inputButto" ng-show="!$scope.showEdit" ng-click="delete(person)">
                 USUN
             </div>
-            <div id="inputButto" ng-show="!showEdit" ng-click="showEdit = ! showEdit">
+            <div id="inputButto" ng-show="!$scope.showEdit" ng-click="$scope.showEdit = ! $scope.showEdit">
                 EDYCJA
             </div>
-            <div id="inputButto" ng-show="showEdit" ng-click="showEdit = ! showEdit">
+            <div id="inputButto" ng-show="$scope.showEdit" ng-click="save(person)">
                 ZAPISZ
             </div>
-            <div id="inputButto" ng-show="showEdit" ng-click="showEdit = ! showEdit">
+            <div id="inputButto" ng-show="$scope.showEdit" ng-click="cancel(person)">
                 ANULUJ ZMIANY
             </div>
         </div>
         <div id="simpleRow">
-            <div id="detailText" ng-show="!showEdit">
+            <div id="detailText" ng-show="!$scope.showEdit">
                 {{ person.Mail }}
             </div>
-            <input type="text" id="mainInput" name="person.Mail" ng-model="person.Mail" ng-show="showEdit">
-            <div id="detailText" ng-show="!showEdit">
+            <input type="text" id="mainInput" name="person.Mail" ng-model="person.Mail" ng-show="$scope.showEdit">
+            <div id="detailText" ng-show="!$scope.showEdit">
                 {{ person.Status.Name }}
             </div>
-            <select ng-model="selected" ng-options="c for c in status" ng-init="selected=person.Status.Name" ng-show="showEdit"></select>
+            <select ng-model="selected" ng-options="c for c in status" ng-init="selected=person.Status.Name" ng-show="$scope.showEdit"></select>
             <div id="detailText">
                 {{ person.RegistrationDate | date: 'dd.MM.yyyy hh.mm' }}
             </div>
@@ -88,10 +88,10 @@
         <div id="mainText">
             Uzytkowanicy usunieci
         </div>
-        <div ng-repeat="person in DeletePersons">
+        <div ng-repeat="person in deletePeople">
 
             <div id="simpleRow">
-                <div id="mainText" ng-show="!showEdit">
+                <div id="mainText" ng-show="!showDeleted">
                     {{ person.Name }}
                 </div>
             </div>
