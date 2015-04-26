@@ -77,9 +77,23 @@
             return;
         }
         $scope.loading = true;
+        group.IsDeleted = true;
+        //person.DeletedDate = Date.UTC;
+        //get from score - logged user id
+        //person.DeleteUserID
 
-        $http.delete('/api/Group/', group).success(function (data) {
+        $http.put('/api/Group/', group).success(function (data) {
             group = data;
+            var index = 0;
+
+            for (var i = 0; i < $scope.Groups.length; i++) {
+                if ($scope.Groups[i].IsDeleted) {
+                    index = i;
+                    break;
+                }
+            }
+            $scope.Groups.splice(index, 1);
+
             $scope.loading = false;
         }).error(function (data) {
             $scope.error = "An Error has occured while deleting group! " + data;

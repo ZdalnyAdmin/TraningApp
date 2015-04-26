@@ -19,7 +19,7 @@ namespace OrganizationModule.Controllers
         [HttpGet]
         public IEnumerable<ProfileGroup> Get()
         {
-            return db.Groups.AsEnumerable();
+            return db.Groups.Where(x=>!x.IsDeleted).AsEnumerable();
         }
 
         // GET api/<controller>/5
