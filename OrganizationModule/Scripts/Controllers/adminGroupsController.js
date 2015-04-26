@@ -73,11 +73,12 @@
         $scope.loading = true;
         //
 
-        $http.get('/api/Group/', group).success(function (data) {
-            person = data;
+        $http.get('/api/Group').success(function (data) {
+            $scope.Groups = data;
             $scope.loading = false;
-        }).error(function (data) {
-            $scope.error = "An Error has occured while restore group data! " + data;
+        })
+        .error(function () {
+            $scope.error = "An Error has occured while loading posts!";
             $scope.loading = false;
         });
     };

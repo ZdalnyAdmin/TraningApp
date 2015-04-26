@@ -41,9 +41,9 @@ namespace OrganizationModule.Controllers
                 //    item.GroupName = string.Join(",", groups);
                 //}
 
-                item.AssignedTrainings = (from t in db.TrainingResults
-                                          where t.PersonID == item.PersonID
-                                          select t).ToList();
+                item.SetAssignedTrainingsNumber((from t in db.TrainingResults
+                                                 where t.PersonID == item.PersonID
+                                                 select t).Count());
             }
 
 
@@ -51,7 +51,6 @@ namespace OrganizationModule.Controllers
         }
 
         // GET api/<controller>/5
-        [HttpGet]
         public Person Get(int id)
         {
             var person = db.Persons.Find(id);
@@ -90,7 +89,7 @@ namespace OrganizationModule.Controllers
             //{
             //    return Request.CreateResponse(HttpStatusCode.BadRequest);
             //}
-            if(person.Status != null && person.Status.StatusID != person.StatusID)
+            if (person.Status != null && person.Status.StatusID != person.StatusID)
             {
                 person.StatusID = person.Status.StatusID;
             }

@@ -18,7 +18,7 @@
             <div id="mainText">
                 Nazwa grupy
             </div>
-            <input type="text" id="mainInput" name="currentGroup.Name" ng-model="currentGroup.Name">
+            <input type="text" id="mainInput" name="currentGroup.Name" ng-model="currentGroup.Name" ng-minlength=3 ng-maxlength=40>
         </div>
         <div id="simpleRow">
             <div id="mainText">
@@ -42,7 +42,7 @@
             <div id="mainText" ng-show="!showEdit">
                 {{ group.Name }}
             </div>
-            <input type="text" id="mainInput" name="group.Name" ng-model="group.Name" ng-show="showEdit">
+            <input type="text" id="mainInput" name="group.Name" ng-model="group.Name" ng-show="showEdit" ng-minlength=3 ng-maxlength=40>
             <div id="inputButto" ng-show="!showEdit" ng-click="showEdit = ! showEdit">
                 EDYCJA
             </div>

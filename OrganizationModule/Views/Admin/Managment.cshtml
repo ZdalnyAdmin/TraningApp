@@ -18,7 +18,13 @@
                     {{ item.Name }}
                 </div>
                 <div id="mainText">
-                    {{ item.CreateUserID }}
+                    {{ item.CreateUserName }}
+                </div>
+                <div id="mainText" ng-show="{{ item.IsActive }}">
+                    dostepny
+                </div>
+                <div id="mainText" ng-hide="{{ item.IsActive }}">
+                    zablokowany
                 </div>
                 <div id="inputButto" ng-click="showLogs = ! showLogs" ng-show="!showLogs">
                     POKAZ LOGI EDYCJI
@@ -26,10 +32,10 @@
                 <div id="inputButto" ng-click="showLogs = ! showLogs" ng-show="showLogs">
                     UKRYJ LOGI EDYCJI
                 </div>
-                <div id="inputButto" ng-click="showBlock = ! showBlock" ng-show="!showBlock">
+                <div id="inputButto" ng-click="changeStatus(item)" ng-show="{{ item.IsActive }}">
                     ZABLOKUJ
                 </div>
-                <div id="inputButto" ng-click="showBlock = ! showBlock" ng-show="showBlock">
+                <div id="inputButto" ng-click="changeStatus(item)" ng-hide="{{ item.IsActive }}">
                     ODBLOKUJ
                 </div>
             </div>
@@ -55,7 +61,9 @@
                 </div>
             </div>
             <div id="simpleRow" ng-show="showEdit">
-                <input type="checkbox" title="Wszyscy" />
+                <div ng-repeat="item in Groups">
+                    <input type="checkbox" ng-model="item" ng-checked="selectGroup()"/>{{item.Name}}
+                </div>
                 <div id="inputButto" ng-click="showEdit = ! showEdit" ng-show="showEdit">
                     ZAPISZ ZMIANY
                 </div>
