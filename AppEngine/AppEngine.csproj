@@ -46,21 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Common\AppLog.cs" />
-    <Compile Include="Models\Common\GlobalSettings.cs" />
-    <Compile Include="Models\Common\Organization.cs" />
-    <Compile Include="Models\Common\Person.cs" />
-    <Compile Include="Models\Common\Profile.cs" />
-    <Compile Include="Models\Common\ProfileGroup.cs" />
-    <Compile Include="Models\Common\ProfileGroup2Person.cs" />
-    <Compile Include="Models\Common\Status.cs" />
-    <Compile Include="Models\Common\Training.cs" />
-    <Compile Include="Models\Common\TrainingAvailable.cs" />
-    <Compile Include="Models\Common\TrainingDetail.cs" />
-    <Compile Include="Models\Common\TrainingQuestion.cs" />
-    <Compile Include="Models\Common\TrainingQuestionResult.cs" />
-    <Compile Include="Models\Common\TrainingResult.cs" />
-    <Compile Include="Models\Common\TrainingType.cs" />
+    <Compile Include="Models\DataBusiness\Statistic.cs" />
+    <Compile Include="Models\DataObject\AppLog.cs" />
+    <Compile Include="Models\DataObject\GlobalSettings.cs" />
+    <Compile Include="Models\DataObject\Organization.cs" />
+    <Compile Include="Models\DataObject\Person.cs" />
+    <Compile Include="Models\DataObject\Profile.cs" />
+    <Compile Include="Models\DataObject\ProfileGroup.cs" />
+    <Compile Include="Models\DataObject\ProfileGroup2Person.cs" />
+    <Compile Include="Models\DataObject\Status.cs" />
+    <Compile Include="Models\DataObject\Training.cs" />
+    <Compile Include="Models\DataObject\TrainingAvailable.cs" />
+    <Compile Include="Models\DataObject\TrainingDetail.cs" />
+    <Compile Include="Models\DataObject\TrainingQuestion.cs" />
+    <Compile Include="Models\DataObject\TrainingQuestionResult.cs" />
+    <Compile Include="Models\DataObject\TrainingResult.cs" />
+    <Compile Include="Models\DataObject\TrainingType.cs" />
     <Compile Include="Models\DataContext\EFContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

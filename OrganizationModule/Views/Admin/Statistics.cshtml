@@ -1,31 +1,34 @@
-﻿@model OrganizationModule.Models.Statistic
+﻿<div ng-app="" ng-controller="adminStatisticsController" class="container">
 
 
-<div>
-    Liczba osob w organizacji: @Model.PersonNumber
+    <div>
+        Liczba osob w organizacji: {{ Statistic.People }}
+    </div>
+    <div>
+        W tym osoby ze statusem aktywne: {{ Statistic.ActivePeople }}
+    </div>
+    <div>
+        W tym osoby ze statusem zablokowane: {{ Statistic.BlockedPeople }}
+    </div>
+    <div>
+        Liczba kont usunietych: {{ Statistic.DeleteAccount }}
+    </div>
+    <div>
+        Liczba uruchomionych kursow: {{ Statistic.StartedTrainings }}
+    </div>
+    <div>
+        w tym zakonczonych: {{ Statistic.CompletedTrainings }}
+    </div>
+    <div>
+        Liczba osob aktywnych w ostatnich 7 dniach:{{ Statistic.WeekActiveUser }}
+    </div>
+    <div>
+        Liczba osob aktywnych w ostatnich 30 dniach: {{ Statistic.MonthActiveUser }}
+    </div>
+    <div>
+        SZCZEGOLOWE DANE O URUCHOMIENIACH SZKOLEN
+        <div ng-repeat="item in Trainings">
+            Szkolenie {{item.Name}} : {{item.RunTrainingStats}} uruchomien
+        </div>
+    </div>
 </div>
-<div>
-    W tym osoby ze statusem aktywne: @Model.ActivePersonNumber
-</div>
-<div>
-    W tym osoby ze statusem zablokowane: @Model.BlockedPersonNumber
-</div>
-<div>
-    Liczba kont usunietych: @Model.DeleteAccountNumber
-</div>
-<div>
-    Liczba uruchomionych kursow: @Model.StartTraningNumber
-</div>
-<div>
-    w tym zakonczonych:@Model.CompleteTraningNumber
-</div>
-<div>
-    Liczba osob aktywnych w ostatnich 7 dniach: @Model.ActivePersonInLastWeek
-</div>
-<div>
-    Liczba osob aktywnych w ostatnich 30 dniach: @Model.ActivePersonInLastMonth
-</div>
-<div>
-    SZCZEGOLOWE DANE O URUCHOMIENIACH SZKOLEN
-</div>
-

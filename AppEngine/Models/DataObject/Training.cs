@@ -31,5 +31,15 @@ namespace AppEngine.Models.Common
             _createUserName = name;
         }
 
+        private int _runTrainingStats;
+        public int RunTrainingStats
+        {
+            get { return _runTrainingStats; }
+        }
+        public void SetRunTrainingStats(int value)
+        {
+            _runTrainingStats = value;
+        }
+
     }
 }

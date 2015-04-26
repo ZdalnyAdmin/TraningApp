@@ -33,6 +33,8 @@ namespace OrganizationModule.Controllers.Api
                     continue;
                 }
                 item.SetCreateUserName(user.Name);
+                var runCounter = db.TrainingResults.Count(x => x.TrainingID == item.TrainingID);
+                item.SetRunTrainingStats(runCounter);
             }
 
             return list;

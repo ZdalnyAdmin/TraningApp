@@ -38,9 +38,7 @@ namespace OrganizationModule.Controllers
         /// <returns></returns>
         public ActionResult Statistics()
         {
-            var statistic = new Statistic();
-            statistic = Statistic.Get();
-            return View(statistic);
+            return View();
         }
 
         /// <summary>
@@ -49,8 +47,7 @@ namespace OrganizationModule.Controllers
         /// <returns></returns>
         public ActionResult Settings()
         {
-            var setting = new Setting();
-            return View(setting);
+            return View();
         }
 
         /// <summary>
