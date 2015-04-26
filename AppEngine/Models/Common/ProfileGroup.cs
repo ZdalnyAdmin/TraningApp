@@ -13,7 +13,7 @@ namespace AppEngine.Models.Common
         public DateTime CreateDate { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public int DeletedUserID { get; set; }
+        public int? DeletedUserID { get; set; }
         //public Person DeletedUser { get; set; }
     }
 }

@@ -20,13 +20,13 @@ namespace AppEngine.Models.Common
         public DateTime CreateDate { get; set; }
         public int CreateUserID { get; set; }
         //public Person CreateUser { get; set; }
-        public int ProtectorID { get; set; }
+        public int? ProtectorID { get; set; }
         //public Person Protector { get; set; }
         public int StatusID { get; set; }
         //public Status Status { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime DeletedDate { get; set; }
-        public int DeletedUserID { get; set; }
+        public DateTime? DeletedDate { get; set; }
+        public int? DeletedUserID { get; set; }
        //public Person DeletedUser { get; set; }
     }
 }

@@ -7,6 +7,8 @@ namespace AppEngine.Models.Common
 {
     public class Person
     {
+        private int _trainingNumber;
+
         #region Properties
 
         [Key]
@@ -14,8 +16,7 @@ namespace AppEngine.Models.Common
         public int PersonID { get; set; }
         public int ProfileID { get; set; }
         public Profile Profile { get; set; }
-        public int ProfileGroupID { get; set; }
-        public ProfileGroup GroupName { get; set; }
+
         public string Name { get; set; }
         public string Mail { get; set; }
         public string Login { get; set; }
@@ -27,18 +28,18 @@ namespace AppEngine.Models.Common
         public DateTime? LastActivationDate { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public int DeleteUserID { get; set; }
-        public int OrganizationID { get; set; }
+        public int? DeleteUserID { get; set; }
+        public int? OrganizationID { get; set; }
         public Organization Organization { get; set; }
 
-        public List<TrainingResult> AssignedTrainings { get; set; }
+        //public List<TrainingResult> AssignedTrainings { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         public int TrainingNumber
         {
-            get { return AssignedTrainings != null ? AssignedTrainings.Count : 0; }
+            get { return _trainingNumber; }
         }
 
         #endregion Properties
@@ -48,6 +49,11 @@ namespace AppEngine.Models.Common
         public override string ToString()
         {
             return Name;
+        }
+
+        public void SetAssignedTrainingsNumber(int number)
+        {
+            _trainingNumber = number;
         }
 
         #endregion Methods

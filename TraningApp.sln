@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{7CCE6F02-AF20-4474-8B95-2BD0A0685BE3}"
 	ProjectSection(SolutionItems) = preProject
 		Sql\AppTraningDB.sql = Sql\AppTraningDB.sql
+		TestData.sql = TestData.sql
 	EndProjectSection
 EndProject
 Global

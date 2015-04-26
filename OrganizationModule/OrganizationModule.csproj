@@ -177,6 +177,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\Api\SimplePersonController.cs" />
     <Compile Include="Controllers\Api\StatusController.cs" />
+    <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\CreatorController.cs" />
     <Compile Include="Controllers\Api\GroupController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -185,7 +186,6 @@
     <Compile Include="Controllers\Api\PersonController.cs" />
     <Compile Include="Controllers\ProtectorController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
-    <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

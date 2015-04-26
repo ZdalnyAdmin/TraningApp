@@ -23,17 +23,17 @@ namespace OrganizationModule.Controllers
         }
 
         // GET api/<controller>/5
-        public ProfileGroup Get(int id)
-        {
+        //public ProfileGroup Get(ProfileGroup group)
+        //{
       
-            var obj = db.Groups.Find(id);
-            if (obj == null)
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-            }
+        //    var obj = db.Groups.Find(group.ProfileGroupID);
+        //    if (obj == null)
+        //    {
+        //        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+        //    }
 
-            return obj;
-        }
+        //    return obj;
+        //}
 
         // POST api/<controller>
         public HttpResponseMessage Post(ProfileGroup group)

@@ -21,6 +21,8 @@ namespace AppEngine.Models.DataContext
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<TrainingResult> TrainingResults { get; set; }
+        public DbSet<Training> Trainings { get; set; }
+        public DbSet<ProfileGroup2Person> PeopleInGroups { get; set; }
 
     }
 }
