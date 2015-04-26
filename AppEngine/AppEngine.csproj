@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Models\DataBusiness\Statistic.cs" />
     <Compile Include="Models\DataObject\AppLog.cs" />
+    <Compile Include="Models\DataObject\AppSetting.cs" />
     <Compile Include="Models\DataObject\GlobalSettings.cs" />
     <Compile Include="Models\DataObject\Organization.cs" />
     <Compile Include="Models\DataObject\Person.cs" />

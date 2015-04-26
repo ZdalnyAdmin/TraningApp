@@ -1,4 +1,5 @@
 ﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataObject;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -23,6 +24,7 @@ namespace AppEngine.Models.DataContext
         public DbSet<TrainingResult> TrainingResults { get; set; }
         public DbSet<Training> Trainings { get; set; }
         public DbSet<ProfileGroup2Person> PeopleInGroups { get; set; }
+        public DbSet<AppSetting> AppSettings { get; set; }
 
     }
 }

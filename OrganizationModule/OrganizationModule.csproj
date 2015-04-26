@@ -175,6 +175,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\SettingsController.cs" />
     <Compile Include="Controllers\Api\SimplePersonController.cs" />
     <Compile Include="Controllers\Api\StatisticsController.cs" />
     <Compile Include="Controllers\Api\StatusController.cs" />
@@ -209,6 +210,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Controllers\adminGroupsController.js" />
     <Content Include="Scripts\Controllers\adminManagmentController.js" />
+    <Content Include="Scripts\Controllers\adminSettingsController.js" />
     <Content Include="Scripts\Controllers\adminStatisticsController.js" />
     <Content Include="Scripts\Controllers\adminUsersController.js" />
     <Content Include="Scripts\Controllers\usersListModalController.js" />

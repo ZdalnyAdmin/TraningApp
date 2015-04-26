@@ -1,12 +1,14 @@
-﻿@model OrganizationModule.Models.Setting
+﻿
+<div ng-app="" ng-controller="adminSettingsController" class="container">
 
-<div>
-    Czy uzytkownicy moga samodzielnie zmieniac swoja nazwe 
-    @Html.RadioButton("NameChanged", "YES", @Model.CanChangeName) TAK
-    @Html.RadioButton("NameChanged", "NO", !@Model.CanChangeName) NIE
-</div>
-<div>
-    CZy uzytkownik moze samodzielnie zmieniac adres email
-    @Html.RadioButton("EmailChanged", "YES", @Model.CanChangeEmail) TAK
-    @Html.RadioButton("EmailChanged", "NO", !@Model.CanChangeEmail) NIE
+    <div>
+        Czy uzytkownicy moga samodzielnie zmieniac swoja nazwe
+        <input type="radio" name="allowToChangeName" value=True ng-model="Setting.AllowUserToChangeName" ng-click="allowToChangeName()" /> TAK
+        <input type="radio" name="allowToChangeName" value=False  ng-model=" setting.allowusertochangename" ng-click="allowToChangeName()" /> NIE
+    </div>
+    <div>
+        Czy uzytkownik moze samodzielnie zmieniac adres email
+        <input type="radio" name="allowToChangeMail" value=True ng-model="Setting.AllowUserToChangeMail" ng-click="allowToChangeMail()" /> TAK
+        <input type="radio" name="allowToChangeMail" value=False ng-model="Setting.AllowUserToChangeMail" ng-click="allowToChangeMail()" />NIE
+    </div>
 </div>
