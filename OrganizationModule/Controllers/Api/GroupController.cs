@@ -2,6 +2,8 @@
 using AppEngine.Models.DataContext;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,23 +19,35 @@ namespace OrganizationModule.Controllers
         [HttpGet]
         public IEnumerable<ProfileGroup> Get()
         {
-            return db.Groups.AsEnumerable();
+            return db.Groups.Where(x=>!x.IsDeleted).AsEnumerable();
         }
 
         // GET api/<controller>/5
         public ProfileGroup Get(int id)
         {
-            return null;
+      
+            var obj = db.Groups.Find(id);
+            if (obj == null)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            }
+
+            return obj;
         }
 
         // POST api/<controller>
-        public HttpResponseMessage Post(ProfileGroup person)
+        public HttpResponseMessage Post(ProfileGroup group)
         {
+            group.CreateDate = DateTime.Now;
+            group.DeletedUserID = -1;
+            group.IsDeleted = false;
             if (ModelState.IsValid)
             {
+                db.Groups.Add(group);
+                db.SaveChanges();
 
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, person);
-                //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = Contact.Id }));
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, group);
+                //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = group.ProfileGroupID }));
                 return response;
             }
             else
@@ -43,17 +57,55 @@ namespace OrganizationModule.Controllers
         }
 
         // PUT api/<controller>/5
-        public HttpResponseMessage Put(int id, ProfileGroup person)
+        public HttpResponseMessage Put(ProfileGroup group)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            db.Entry(group).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // DELETE api/<controller>/5
-        public HttpResponseMessage Delete(int id)
+        public HttpResponseMessage Delete(ProfileGroup group)
         {
-            ProfileGroup person = new ProfileGroup();
-            return Request.CreateResponse(HttpStatusCode.OK, person);
+            if(group == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, group);
+            }
+
+
+            var obj = db.Groups.Find(group.ProfileGroupID);
+            if (obj == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            db.Groups.Remove(obj);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, obj);
         }
 
         protected override void Dispose(bool disposing)

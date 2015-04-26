@@ -51,6 +51,7 @@ namespace OrganizationModule.Controllers
         }
 
         // GET api/<controller>/5
+        [HttpGet]
         public Person Get(int id)
         {
             var person = db.Persons.Find(id);
