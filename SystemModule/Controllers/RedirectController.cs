@@ -28,6 +28,7 @@ namespace OrganizationModule.Controllers
             }
             else
             {
+                code = Url.Encode(code);
                 return Redirect("/?page=resetPasswordConfirmation&code=" + code);
             }
         }
