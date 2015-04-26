@@ -121,3 +121,7 @@ input-m{
         font-size:18px;
     }
 }
+
+.modal-body .users-list {
+    color: black;
+}

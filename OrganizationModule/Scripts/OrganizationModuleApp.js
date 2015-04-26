@@ -1,10 +1,11 @@
-﻿var OrganizationModuleApp = angular.module('OrganizationModuleApp', ['ngRoute']);
+﻿var OrganizationModuleApp = angular.module('OrganizationModuleApp', ['ngRoute', 'ui.bootstrap']);
 
 OrganizationModuleApp.controller('BaseController', BaseController);
 OrganizationModuleApp.controller('LoginController', LoginController);
 OrganizationModuleApp.controller('LogoffController', LogoffController);
 OrganizationModuleApp.controller('RegisterController', RegisterController);
 OrganizationModuleApp.controller('ResetPasswordController', ResetPasswordController);
+OrganizationModuleApp.controller('usersListModalController', usersListModalController);
 OrganizationModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
 OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 OrganizationModuleApp.factory('LoginFactory', LoginFactory);

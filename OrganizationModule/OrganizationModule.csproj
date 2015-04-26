@@ -211,6 +211,7 @@
     <Content Include="Scripts\Controllers\adminGroupsController.js" />
     <Content Include="Scripts\Controllers\adminManagmentController.js" />
     <Content Include="Scripts\Controllers\adminUsersController.js" />
+    <Content Include="Scripts\Controllers\usersListModalController.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
     <Content Include="Scripts\Controllers\LoginController.js" />
     <Content Include="Scripts\Controllers\LogoffController.js" />
@@ -231,7 +232,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\Services\SessionService.js" />
+    <Content Include="Scripts\ui-bootstrap-0.12.1.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Templates\usersListModal.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

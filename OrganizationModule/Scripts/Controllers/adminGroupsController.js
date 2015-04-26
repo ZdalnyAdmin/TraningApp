@@ -1,4 +1,4 @@
-﻿function adminGroupsController($scope, $http) {
+﻿function adminGroupsController($scope, $http, $modal) {
     $scope.loading = true;
     $scope.currentGroup = {};
 
@@ -110,4 +110,23 @@
             $scope.loading = false;
         });
     };
+
+    $scope.chooseUsers = function () {
+        var modalInstance = $modal.open({
+            templateUrl: '/Templates/usersListModal.html',
+            controller: 'usersListModalController',
+            size: 'sm',
+            resolve: {
+                selectedUsers: function () {
+                    return $scope.selectedUsers;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedUsers) {
+            $scope.selectedUsers = selectedUsers;
+        });
+    };
 }
+
+adminGroupsController.$inject = ['$scope', '$http', '$modal'];
