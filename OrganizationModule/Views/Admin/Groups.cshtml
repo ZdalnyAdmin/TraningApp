@@ -29,7 +29,7 @@
             </div>
         </div>
         <div id="simpleRow">
-            <div id="inputButto" ng-click="showCreate = ! showCreate">
+            <div id="inputButto" ng-click="add()">
                 Zapisz
             </div>
         </div>
@@ -46,7 +46,7 @@
             <div id="inputButto" ng-show="!showEdit" ng-click="showEdit = ! showEdit">
                 EDYCJA
             </div>
-            <div id="inputButto" ng-show="!showEdit">
+            <div id="inputButto" ng-show="!showEdit" ng-click="delete(group)">
                 USUN GRUPE
             </div>
         </div>
@@ -59,10 +59,10 @@
             </div>
         </div>
         <div id="simpleRow">
-            <div id="inputButto" ng-show="showEdit" ng-click="showEdit = ! showEdit">
+            <div id="inputButto" ng-show="showEdit" ng-click="edit(group)">
                 ZAPISZ
             </div>
-            <div id="inputButto" ng-show="showEdit" ng-click="showEdit = ! showEdit">
+            <div id="inputButto" ng-show="showEdit" ng-click="cancel(group)">
                 ANULUJ ZMIANY
             </div>
         </div>

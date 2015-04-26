@@ -1,7 +1,7 @@
 ﻿function adminUsersController($scope, $http) {
     $scope.loading = true;
     $scope.addMode = false;
-    $scope.showEdit = false;
+
    
 
     //Used to display the data 
@@ -41,14 +41,14 @@
             return;
         }
         $scope.loading = true;
-
+        $scope.showEdit = true;
 
         $http.put('/api/Person/', person).success(function (data) {
             person = data;
 
 
             $scope.loading = false;
-            $scope.showEdit = false;
+            $scope.showEdit = true;
         }).error(function (data) {
             $scope.error = "An Error has occured while saving person! " + data;
             $scope.loading = false;
@@ -63,7 +63,7 @@
         }
         $scope.loading = true;
         //
-
+        $scope.showEdit = false;
 
         $http.get('/api/Person/', person.PersonID).success(function (data) {
             person = data;
