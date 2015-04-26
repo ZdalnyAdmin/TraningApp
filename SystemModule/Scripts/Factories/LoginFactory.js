@@ -78,11 +78,30 @@
         return deferredObject.promise;
     };
 
+    var resetPasswordConfirmation = function (resetObject) {
+
+        var deferredObject = $q.defer();
+
+        $http.post(
+            '/Account/ResetPasswordConfirmation', resetObject
+        ).
+        success(function (data) {
+            deferredObject.resolve(data);
+        }).
+        error(function () {
+            deferredObject.resolve(data);
+        });
+
+        return deferredObject.promise;
+    };
+
+
     return {
         login: login,
         logoff: logoff,
         register: register,
-        reset: reset
+        reset: reset,
+        resetPasswordConfirmation: resetPasswordConfirmation
     }
 }
 

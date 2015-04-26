@@ -134,6 +134,28 @@ namespace OrganizationModule.Controllers
             return getErrorsFromModel();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> ResetPasswordConfirmation(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userByUserName = await UserManager.FindByNameAsync(model.UserName);
+                if (userByUserName == null)
+                {
+                    return Json(new
+                    {
+                        Succeeded = false,
+                        Errors = new string[] { "Błędna nazwa użytkownika." }
+                    });
+                }
+
+                var result = await UserManager.ResetPasswordAsync(userByUserName.Id, model.Code, model.Password);
+                return Json(result);
+            }
+
+            return getErrorsFromModel();
+        }
+
         public ActionResult ResetPasswordConfirmation(ForgotPasswordViewModel model)
         {
             return View();
