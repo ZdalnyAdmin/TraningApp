@@ -1,1 +1,51 @@
-﻿
+﻿<div ng-app="" ng-controller="managerResultController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+
+    <div id="simpleRow">
+        POKAZ UZYTKOWNIKOW
+        <select ng-model="selected" ng-options="c as c.Name for c in Users" ng-change="changePerson(selected)">
+            <option value="">Wszystkie</option>
+        </select>
+        POKAZ SZKOLENIA
+        <select ng-model="selected" ng-options="c as c.Name for c in Trainings" ng-change="changeTraning(selected)">
+            <option value="">Wszystkie</option>
+        </select>
+    </div>
+
+    <div>
+        <div>
+            Nazwa uzytkowanika
+        </div>
+        <div>
+            Nazwa szkolenia
+        </div>
+        <div>
+            Data uruchomienia
+        </div>
+        <div>
+            Data ukonczenia
+        </div>
+        <div>
+            Punkty
+        </div>
+    </div>
+    <div ng-repeat="item in Results">
+        <div>
+            {{ item.Person.Name}}
+        </div>
+        <div>
+            {{ item.Training.Name}}
+        </div>
+        <div>
+           {{ item.StartDate | date: 'dd.MM.yyyy hh.mm' }}
+        </div>
+        <div>
+            {{ item.EndDate | date: 'dd.MM.yyyy hh.mm' }}
+        </div>
+        <div>
+            Punkty
+        </div>
+
+    </div>
+</div>

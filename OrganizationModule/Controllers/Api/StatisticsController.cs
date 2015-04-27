@@ -35,5 +35,10 @@ namespace OrganizationModule.Controllers.Api
             stats.MonthActiveUser = db.Persons.Count(x => x.LastActivationDate >= currentDate && x.LastActivationDate <= endDate);
             return stats;
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
     }
 }

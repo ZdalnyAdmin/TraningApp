@@ -182,6 +182,7 @@
     <Compile Include="Controllers\Api\StatusController.cs" />
     <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\Api\TrainingsInGroupController.cs" />
+    <Compile Include="Controllers\Api\TraningsResultController.cs" />
     <Compile Include="Controllers\CreatorController.cs" />
     <Compile Include="Controllers\Api\GroupController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -216,6 +217,7 @@
     <Content Include="Scripts\Controllers\adminStatisticsController.js" />
     <Content Include="Scripts\Controllers\adminUsersController.js" />
     <Content Include="Scripts\Controllers\confirmModalController.js" />
+    <Content Include="Scripts\Controllers\managerResultController.js" />
     <Content Include="Scripts\Controllers\usersListModalController.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
     <Content Include="Scripts\Controllers\LoginController.js" />
