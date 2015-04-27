@@ -17,10 +17,10 @@ namespace OrganizationModule.Controllers.Api
 
         // GET api/<controller>
         [HttpGet]
-        public AppSetting Get()
+        public IEnumerable<AppSetting> Get()
         {
             //get from correct profil
-            return db.AppSettings.FirstOrDefault();
+            return db.AppSettings.AsEnumerable();
         }
 
 
@@ -44,6 +44,45 @@ namespace OrganizationModule.Controllers.Api
             }
 
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        // POST api/<controller>
+        public HttpResponseMessage Post(AppSetting obj)
+        {
+            //check if object exist 
+            if (obj == null)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            var protector = db.AppSettings.FirstOrDefault(x => x.ProtectorID == obj.ProtectorID);
+            //one settings per single protector
+            if (protector != null)
+            {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, protector);
+                return response;
+            }
+
+            if (ModelState.IsValid)
+            {
+                //default settings
+                obj.AllowUserToChangeName = true;
+                obj.AllowUserToChangeMail = true;
+                obj.SpaceDisk = 50;
+                obj.MaxAssignedUser = 10;
+                obj.IsGlobalAvailable = true;
+                obj.IsTrainingAvailableForAll = true;
+                obj.MaxActiveTrainings = 5;
+                db.AppSettings.Add(obj);
+                db.SaveChanges();
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
+                //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = Contact.Id }));
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
         }
 
         protected override void Dispose(bool disposing)

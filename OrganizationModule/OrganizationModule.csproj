@@ -218,6 +218,7 @@
     <Content Include="Scripts\Controllers\adminUsersController.js" />
     <Content Include="Scripts\Controllers\confirmModalController.js" />
     <Content Include="Scripts\Controllers\managerResultController.js" />
+    <Content Include="Scripts\Controllers\protectorPermissionsController.js" />
     <Content Include="Scripts\Controllers\usersListModalController.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
     <Content Include="Scripts\Controllers\LoginController.js" />

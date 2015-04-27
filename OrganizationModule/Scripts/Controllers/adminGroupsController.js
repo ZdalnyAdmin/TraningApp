@@ -42,7 +42,6 @@
         $scope.loading = true;
 
         $http.put('/api/Group/', group).success(function (data) {
-            group = data;
             $scope.loading = false;
         }).error(function (data) {
             $scope.error = "An Error has occured while saving group! " + data;
@@ -97,7 +96,6 @@
         //person.DeleteUserID
 
         $http.put('/api/Group/', group).success(function (data) {
-            group = data;
             var index = 0;
 
             for (var i = 0; i < $scope.Groups.length; i++) {
