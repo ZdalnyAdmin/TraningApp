@@ -1,1 +1,32 @@
-﻿
+﻿<div ng-app="" ng-controller="protectorAppLogsController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+
+
+    <div id="simpleRow">
+        WYBIERZ TYP ZDARZENIA
+        <select ng-model="selected" ng-options="c as c for c in OperationTypes" ng-change="change(selected)">
+            <option value="">Wszystkie</option>
+        </select>
+    </div>
+    <div ng-repeat="item in Results">
+        <div id="simpleRow">
+            <div>
+                {{ item.Person.Name}}
+            </div>
+            <div>
+                {{ item.Training.Name}}
+            </div>
+            <div>
+                {{ item.StartDate | date: 'dd.MM.yyyy hh.mm' }}
+            </div>
+            <div>
+                {{ item.EndDate | date: 'dd.MM.yyyy hh.mm' }}
+            </div>
+            <div>
+                Punkty
+            </div>
+        </div>
+    </div>
+</div>
+

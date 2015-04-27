@@ -175,6 +175,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\OperationLogController.cs" />
     <Compile Include="Controllers\Api\PeopleInGroupController.cs" />
     <Compile Include="Controllers\Api\SettingsController.cs" />
     <Compile Include="Controllers\Api\SimplePersonController.cs" />
@@ -218,6 +219,7 @@
     <Content Include="Scripts\Controllers\adminUsersController.js" />
     <Content Include="Scripts\Controllers\confirmModalController.js" />
     <Content Include="Scripts\Controllers\managerResultController.js" />
+    <Content Include="Scripts\Controllers\protectorAppLogsController.js" />
     <Content Include="Scripts\Controllers\protectorPermissionsController.js" />
     <Content Include="Scripts\Controllers\usersListModalController.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
