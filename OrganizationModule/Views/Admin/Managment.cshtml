@@ -20,6 +20,9 @@
                 <div id="mainText">
                     {{ item.CreateUserName }}
                 </div>
+                <div id="mainText">
+                    {{ item.AssignedGroups }}
+                </div>
                 <div id="mainText" ng-show="{{ item.IsActive }}">
                     dostepny
                 </div>
@@ -54,7 +57,7 @@
             </div>
             <div id="simpleRow">
                 <div id="mainText">
-                    Dostepne dla :
+                    Dostepne dla : {{ item.AssignedGroups }}
                 </div>
                 <div id="inputButto" ng-click="showEdit = ! showEdit" ng-show="!showEdit">
                     EDYTUJ

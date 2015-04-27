@@ -12,16 +12,6 @@
         $scope.loading = false;
     });
 
-    //get people
-    $http.get('/api/SimplePerson').success(function (data) {
-        $scope.People = data;
-        $scope.loading = false;
-    })
-    .error(function () {
-        $scope.error = "An Error has occured while loading posts!";
-        $scope.loading = false;
-    });
-
     $scope.add = function () {
         $scope.loading = true;
 
@@ -115,7 +105,7 @@
     $scope.chooseUsers = function () {
         var modalInstance = $modal.open({
             templateUrl: '/Templates/usersListModal.html',
-            controller: 'usersListModalController',
+            controller: 'confirmModalController',
             size: 'sm',
             resolve: {
                 selectedUsers: function () {

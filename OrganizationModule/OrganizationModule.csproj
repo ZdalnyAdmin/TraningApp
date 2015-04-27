@@ -213,6 +213,7 @@
     <Content Include="Scripts\Controllers\adminSettingsController.js" />
     <Content Include="Scripts\Controllers\adminStatisticsController.js" />
     <Content Include="Scripts\Controllers\adminUsersController.js" />
+    <Content Include="Scripts\Controllers\confirmModalController.js" />
     <Content Include="Scripts\Controllers\usersListModalController.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
     <Content Include="Scripts\Controllers\LoginController.js" />
@@ -236,6 +237,7 @@
     <Content Include="Scripts\Services\SessionService.js" />
     <Content Include="Scripts\ui-bootstrap-0.12.1.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Templates\deleteConfirmModal.html" />
     <Content Include="Templates\usersListModal.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

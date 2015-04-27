@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,6 +9,7 @@ namespace AppEngine.Models.Common
     public class Person
     {
         private int _trainingNumber;
+        private string _assignedGroups;
 
         #region Properties
 
@@ -42,6 +44,11 @@ namespace AppEngine.Models.Common
             get { return _trainingNumber; }
         }
 
+        public string AssignedGroups
+        {
+            get { return _assignedGroups; }
+        }
+
         #endregion Properties
 
         #region Methods
@@ -54,6 +61,14 @@ namespace AppEngine.Models.Common
         public void SetAssignedTrainingsNumber(int number)
         {
             _trainingNumber = number;
+        }
+
+        public void SetAssignedGroups(List<string> groups)
+        {
+            if(groups != null && groups.Any())
+            {
+                _assignedGroups = String.Join(",", groups);
+            }
         }
 
         #endregion Methods

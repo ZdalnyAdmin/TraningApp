@@ -1,16 +1,17 @@
-﻿var usersListModalController = function ($scope, $modalInstance) {
-    $scope.users = [
-        {
-            selected: false,
-            UserName: 'User 1',
-            Email: 'User1@gmail.com'
-        },
-        {
-            selected: true,
-            UserName: 'User 2',
-            Email: 'User2@gmail.com'
-        }
-    ];
+﻿var usersListModalController = function ($scope, $http, $modalInstance) {
+
+    //get people
+    $http.get('/api/SimplePerson').success(function (data) {
+        $scope.users = data;
+        $scope.loading = false;
+    })
+    .error(function () {
+        $scope.error = "An Error has occured while loading posts!";
+        $scope.loading = false;
+    });
+
+
+
 
     $scope.close = function () {
         var selectedUsers = new Array();
@@ -24,4 +25,4 @@
     };
 };
 
-usersListModalController.$inject = ['$scope', '$modalInstance'];
+usersListModalController.$inject = ['$scope', '$scope', '$modalInstance'];
