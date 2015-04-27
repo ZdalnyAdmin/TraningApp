@@ -65,9 +65,9 @@
             </div>
             <div id="simpleRow" ng-show="showEdit">
                 <div ng-repeat="item in Groups">
-                    <input type="checkbox" ng-model="item" ng-checked="selectGroup()"/>{{item.Name}}
+                    <input type="checkbox" ng-model="item.selected"  />{{item.Name}}
                 </div>
-                <div id="inputButto" ng-click="showEdit = ! showEdit" ng-show="showEdit">
+                <div id="inputButto" ng-click="edit(item)" ng-show="showEdit">
                     ZAPISZ ZMIANY
                 </div>
             </div>
