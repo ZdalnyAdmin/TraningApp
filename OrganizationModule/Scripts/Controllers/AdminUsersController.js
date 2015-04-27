@@ -74,15 +74,15 @@
             controller: 'confirmModalController',
             size: 'sm',
             resolve: {
-                selectedResult: function () {
-                    return $scope.selectedResult;
+                modalResult: function () {
+                    return $scope.modalResult;
                 }
             }
         });
 
-        modalInstance.result.then(function (selectedResult) {
-            if (selectedResult !== undefined) {
-                if (selectedResult) {
+        modalInstance.result.then(function (modalResult) {
+            if (modalResult !== undefined) {
+                if (modalResult) {
                     $scope.deleteUser(person);
                 }
             }
@@ -99,7 +99,6 @@
         //get from score - logged user id
         person.DeleteUserID = 1;
         $scope.person = person;
-
 
         $scope.loading = true;
         $http.put('/api/Person/', person).success(function (data) {

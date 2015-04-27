@@ -12,6 +12,8 @@
         $scope.loading = false;
     });
 
+
+
     $scope.add = function () {
         $scope.loading = true;
 
@@ -53,6 +55,25 @@
             $scope.error = "An Error has occured while saving group! " + data;
             $scope.loading = false;
         });
+
+        if (!!$scope.selectedUsers) {
+            var list = [];
+            for (var i = 0; i < $scope.selectedUsers.length; i++) {
+                var obj = {};
+                obj.ProfileGroupID = group.ProfileGroupID;
+                obj.PersonID = $scope.selectedUsers[i].PersonID;
+                obj.IsDeleted = false;
+                list.push(obj);
+            }
+            $http.post('/api/PeopleInGroup/', list).success(function (data) {
+                group = data;
+                $scope.loading = false;
+            }).error(function (data) {
+                $scope.error = "An Error has occured while saving group! " + data;
+                $scope.loading = false;
+            });
+        }
+
     };
 
     //Used to save a record after edit 
@@ -102,10 +123,10 @@
         });
     };
 
-    $scope.chooseUsers = function () {
+    $scope.chooseUsers = function (group) {
         var modalInstance = $modal.open({
             templateUrl: '/Templates/usersListModal.html',
-            controller: 'confirmModalController',
+            controller: 'usersListModalController',
             size: 'sm',
             resolve: {
                 selectedUsers: function () {
@@ -115,7 +136,15 @@
         });
 
         modalInstance.result.then(function (selectedUsers) {
-            $scope.selectedUsers = selectedUsers;
+            if (!!selectedUsers) {
+                $scope.selectedUsers = selectedUsers;
+                for (var i = 0; i < selectedUsers.length; i++) {
+                    if (group.AssignedPeopleDisplay != '') {
+                        group.AssignedPeopleDisplay += ', ';
+                    }
+                    group.AssignedPeopleDisplay += selectedUsers[i].Name;
+                }
+            }
         });
     };
 }

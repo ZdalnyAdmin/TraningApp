@@ -52,9 +52,9 @@
         </div>
         <div id="simpleRow">
             <div id="mainText">
-                Czlonkowie grupy : {{ group.AssignedPeople }}
+                Czlonkowie grupy : {{ group.AssignedPeopleDisplay }}
             </div>
-            <div id="inputButto" ng-show="showEdit" ng-click="chooseUsers()">
+            <div id="inputButto" ng-show="showEdit" ng-click="chooseUsers(group)">
                 Wybierz z listy
             </div>
         </div>

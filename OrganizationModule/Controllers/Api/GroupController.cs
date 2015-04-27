@@ -25,8 +25,8 @@ namespace OrganizationModule.Controllers
             {
                 var people = (from pg in db.PeopleInGroups
                               join p in db.Persons on pg.PersonID equals p.PersonID
-                              where pg.PersonID == item.ProfileGroupID
-                              select p.Name).ToList();
+                              where pg.ProfileGroupID == item.ProfileGroupID
+                              select p).ToList();
                 item.SetAssignedPeople(people);
             }
             return groups;
@@ -54,7 +54,7 @@ namespace OrganizationModule.Controllers
         }
 
         // PUT api/<controller>/5
-        public HttpResponseMessage Put(ProfileGroup group)
+        public HttpResponseMessage Put(ProfileGroup obj)
         {
 
             if (!ModelState.IsValid)
@@ -62,7 +62,7 @@ namespace OrganizationModule.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            db.Entry(group).State = EntityState.Modified;
+            db.Entry(obj).State = EntityState.Modified;
 
             try
             {
