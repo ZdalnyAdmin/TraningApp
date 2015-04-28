@@ -19,9 +19,9 @@ namespace OrganizationModule.Controllers.Api
             //get from correct profil
             var logs = db.Logs.ToList();
 
-            foreach(var item in logs)
+            foreach (var item in logs)
             {
-                if(!string.IsNullOrWhiteSpace(item.PersonID))
+                if (!string.IsNullOrWhiteSpace(item.PersonID))
                 {
                     item.Person = db.Users.FirstOrDefault(x => x.Id == item.PersonID);
                 }

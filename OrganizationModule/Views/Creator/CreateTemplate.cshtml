@@ -40,10 +40,10 @@
     </div>
 
     <div id="simpleRow">
-        <input type="radio" name="passResult" />100% 
-        <input type="radio" name="passResult" />80% 
-        <input type="radio" name="passResult" />65% 
-        <input type="radio" name="passResult" />50% 
+        <input type="radio" name="passResult" />100%
+        <input type="radio" name="passResult" />80%
+        <input type="radio" name="passResult" />65%
+        <input type="radio" name="passResult" />50%
     </div>
 
     <div id="simpleRow">
@@ -64,7 +64,7 @@
 
     <div id="simpleRow">
         <div id="inputButto" ng-click="loadIcon()">
-           Wgraj wlasna 
+            Wgraj wlasna
         </div>
         <div id="inputButto" ng-click="showIcon()">
             Wybierz z listy
@@ -75,6 +75,318 @@
         ZAWARTOSC SZKOLENIA
     </div>
 
+    <tabset>
+        <tab heading="dodaj tekst">
+            <input type="text" />
+            <div id="simpleRow">
+                <div id="inputButto" ng-click="cancel()">
+                    Anuluj
+                </div>
+                <div id="inputButto" ng-click="add()">
+                    Zapisz
+                </div>
+            </div>
+        </tab>
+        <tab heading="dodaj grafike">
+            <div id="simpleRow">
+                wczytaj grafike lub upusc ja na pole obok lub podaj link
+            </div>
+            <div id="simpleRow">
+                <div id="inputButto" ng-click="upload()">
+                    Wczytaj grafike
+                </div>
+            </div>
+            <div id="simpleRow">
+                Podaj link: <input type="text" />
+            </div>
+            <div id="simpleRow">
+                <div id="inputButto" ng-click="cancel()">
+                    Anuluj
+                </div>
+                <div id="inputButto" ng-click="add()">
+                    Zapisz
+                </div>
+            </div>
+        </tab>
+        <tab heading="dodaj wideo">
+            <div id="simpleRow">
+                Wczytaj film przerzuc i opusc go na pole obok lub podaj link
+            </div>
+            <div id="simpleRow">
+                <div id="inputButto" ng-click="upload()">
+                    Wczytaj film
+                </div>
+            </div>
+            <div id="simpleRow">
+                Podal link do YT lub vimeo <input type="text" />
+            </div>
+            <div id="simpleRow">
+                <div id="inputButto" ng-click="cancel()">
+                    Anuluj
+                </div>
+                <div id="inputButto" ng-click="save()">
+                    Zapisz
+                </div>
+            </div>
+        </tab>
+        <tab heading="dodaj prezentacje">
+            <div id="simpleRow">
+                Wgraj prezentacje (ppt, pptx, pdf)
+            </div>
+            <div id="simpleRow">
+                <div id="inputButto" ng-click="upload()">
+                    Wybierz plik
+                </div>
+            </div>
+            <div id="simpleRow">
+                <div id="inputButto" ng-click="cancel()">
+                    Anuluj
+                </div>
+                <div id="inputButto" ng-click="add()">
+                    Zapisz
+                </div>
+            </div>
+        </tab>
+        <tab heading="dodaj plik">
+            <div id="simpleRow">
+                <div id="simpleRow">
+                    Wgraj plik
+                </div>
+                <div id="simpleRow">
+                    <div id="inputButto" ng-click="upload()">
+                        Wybierz plik
+                    </div>
+                </div>
+                <div id="inputButto" ng-click="cancel()">
+                    Anuluj
+                </div>
+                <div id="inputButto" ng-click="add()">
+                    Zapisz
+                </div>
+            </div>
+        </tab>
+    </tabset>
 
+    <div ng-repeat="item in trainingDetails">
+    </div>
 
+    <div id="simpleRow">
+        PYTANIE W SZKOLENIU
+    </div>
+    <div ng-repeat="item in trainingQuestion">
+        <div id="simpleRow">
+            Pytanie {{trainingQuestion.length}}
+        </div>
+        <div id="simpleRow">
+            <div id="inputButto" ng-click="questionUP(item)">
+                UP
+            </div>
+            <div id="inputButto" ng-click="questionDown(item)">
+                DOWN
+            </div>
+            <div id="inputButto" ng-click="questionEdit(item)">
+                EDIT
+            </div>
+            <div id="inputButto" ng-click="questionDelete(item)">
+                REMOVE
+            </div>
+            <div id="inputButto" ng-click="questionSave(item)">
+                ZAPISZ
+            </div>
+            <div id="inputButto" ng-click="questionCancel(item)">
+                ANULUJ
+            </div>
+        </div>
+
+        <div id="simpleRow" ng-show="item.Type == 0">
+
+            <div id="simpleRow" ng-hide="item.isEdit">
+                {{item.Text}}
+            </div>
+            <div id="simpleRow" ng-show="item.isEdit">
+                <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
+            </div>
+            <div id="simpleRow">
+                <input type="radio" name="answer" />
+
+                <input type="text" id="mainInput">
+                Punkty
+                <input type="text" id="mainInput">
+            </div>
+            <div id="simpleRow">
+                <input type="radio" name="answer" />
+
+                <input type="text" id="mainInput">
+                Punkty
+                <input type="text" id="mainInput">
+            </div>
+            <div id="simpleRow">
+                <input type="radio" name="answer" />
+
+                <input type="text" id="mainInput">
+                Punkty
+                <input type="text" id="mainInput">
+            </div>
+            <div id="simpleRow">
+                <input type="radio" name="answer" />
+
+                <input type="text" id="mainInput">
+                Punkty
+                <input type="text" id="mainInput">
+            </div>
+        </div>
+        <div id="simpleRow" ng-show="item.Type == 1">
+            <div id="simpleRow" ng-hide="item.isEdit">
+                {{item.Text}}
+            </div>
+            <div id="simpleRow" ng-show="item.isEdit">
+                <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
+            </div>
+            <div id="simpleRow">
+                <input type="checkbox" name="answer" />
+
+                <input type="text" id="mainInput">
+                Punkty
+                <input type="text" id="mainInput">
+            </div>
+            <div id="simpleRow">
+                <input type="checkbox" name="answer" />
+
+                <input type="text" id="mainInput">
+                Punkty
+                <input type="text" id="mainInput">
+            </div>
+            <div id="simpleRow">
+                <input type="checkbox" name="answer" />
+
+                <input type="text" id="mainInput">
+                Punkty
+                <input type="text" id="mainInput">
+            </div>
+            <div id="simpleRow">
+                <input type="checkbox" name="answer" />
+
+                <input type="text" id="mainInput">
+                Punkty
+                <input type="text" id="mainInput">
+            </div>
+        </div>
+        <div id="simpleRow" ng-show="item.Type == 2">
+            <div id="simpleRow" ng-hide="item.isEdit">
+                {{item.Text}}
+            </div>
+            <div id="simpleRow" ng-show="item.isEdit">
+                <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
+            </div>
+            <div id="simpleRow">
+                <input type="text" id="mainInput">
+                Punkty
+                <input type="text" id="mainInput">
+            </div>
+        </div>
+    </div>
+    <div id="simpleRow">
+        Pytanie {{trainingQuestion.length + 1}}
+    </div>
+
+    <div id="simpleRow" ng-show="selectedQuestion == 1">
+        <div id="simpleRow">
+            <input type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" />
+
+            <input type="text" id="mainInput">
+            Punkty
+            <input type="text" id="mainInput">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" />
+
+            <input type="text" id="mainInput">
+            Punkty
+            <input type="text" id="mainInput">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" />
+
+            <input type="text" id="mainInput">
+            Punkty
+            <input type="text" id="mainInput">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" />
+
+            <input type="text" id="mainInput">
+            Punkty
+            <input type="text" id="mainInput">
+        </div>
+    </div>
+    <div id="simpleRow" ng-show="selectedQuestion == 2">
+        <div id="simpleRow">
+            <input type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" />
+
+            <input type="text" id="mainInput">
+            Punkty
+            <input type="text" id="mainInput">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" />
+
+            <input type="text" id="mainInput">
+            Punkty
+            <input type="text" id="mainInput">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" />
+
+            <input type="text" id="mainInput">
+            Punkty
+            <input type="text" id="mainInput">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" />
+
+            <input type="text" id="mainInput">
+            Punkty
+            <input type="text" id="mainInput">
+        </div>
+    </div>
+    <div id="simpleRow" ng-show="selectedQuestion == 3">
+        <div id="simpleRow">
+            <input type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text">
+        </div>
+        <div id="simpleRow">
+            <input type="text" id="mainInput">
+            Punkty
+            <input type="text" id="mainInput">
+        </div>
+    </div>
+
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="nextQuestion()">
+            Dodaj kolejne pytanie
+        </div>
+        <select ng-model="selected" ng-options="c for c in questionType" ng-show="showQuestionType" ng-change="changeQuestion(selected)">
+            <option value="">Wybierz</option>
+        </select>
+    </div>
+
+    <div id="simpleRow">
+        OKRESL DLA KOGO MA BYC WIDOCZNE SZKOLENIE
+    </div>
+    <div id="simpleRow">
+        Na ta chwile polecamy Ci nie zaznaczac zadnej grupy. W takiej sytuacji kurs bedzie widoczny tylko dla Ciebie. Polecamy Ci go uruchomić i przetestowac a dopiero pozniej przyznac uprawnienia dla innych uzytkownikow (Mozesz to zrobic w zakladce moje szkolenia)
+    </div>
+    <div ng-repeat="item in Groups">
+        <input type="checkbox" ng-model="item.selected" />{{item.Name}}
+    </div>
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="save()">
+            ZAPISZ SZKOLENIE
+        </div>
+    </div>
 </div>
