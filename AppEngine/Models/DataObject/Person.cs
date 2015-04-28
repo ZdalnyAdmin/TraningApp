@@ -33,7 +33,8 @@ namespace AppEngine.Models.Common
         public int? DeleteUserID { get; set; }
         public int? OrganizationID { get; set; }
         public Organization Organization { get; set; }
-
+        [NotMapped]
+        public int ModifiedUserID { get; set; }
         //public List<TrainingResult> AssignedTrainings { get; set; }
 
         /// <summary>

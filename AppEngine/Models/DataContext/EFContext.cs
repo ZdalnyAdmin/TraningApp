@@ -33,7 +33,7 @@ namespace AppEngine.Models.DataContext
         public DbSet<ProfileGroup2Person> PeopleInGroups { get; set; }
         public DbSet<AppSetting> AppSettings { get; set; }
         public DbSet<ProfileGroup2Trainings> TrainingInGroups { get; set; }
-
+        public DbSet<AppLog> Logs { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

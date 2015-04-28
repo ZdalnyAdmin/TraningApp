@@ -9,22 +9,68 @@
             <option value="">Wszystkie</option>
         </select>
     </div>
-    <div ng-repeat="item in Results">
+    <div ng-repeat="item in Logs">
         <div id="simpleRow">
             <div>
+                {{ item.OperationDesc}}
+            </div>
+            <div ng-show="item.OperationType == 0">
                 {{ item.Person.Name}}
             </div>
-            <div>
+            <div ng-show="item.OperationType == 0">
+                {{ item.Person.ProfileID}}
+            </div>
+            <div ng-show="item.OperationType == 0">
+                {{ item.ModifiedUser.Name}}
+            </div>
+
+            <div ng-show="item.OperationType == 1">
+                {{ item.Person.Name}}
+            </div>
+
+            <div ng-show="item.OperationType == 2">
+                {{ item.Person.Name}}
+            </div>
+            <div ng-show="item.OperationType == 2">
+                {{ item.ModifiedUser.Name}}
+            </div>
+
+            <div ng-show="item.OperationType == 3">
+                {{ item.Training.CreateUserID}}
+            </div>
+            <div ng-show="item.OperationType == 3">
                 {{ item.Training.Name}}
             </div>
-            <div>
-                {{ item.StartDate | date: 'dd.MM.yyyy hh.mm' }}
+
+            <div ng-show="item.OperationType == 4">
+                {{ item.Person.Name}}
             </div>
-            <div>
-                {{ item.EndDate | date: 'dd.MM.yyyy hh.mm' }}
+            <div ng-show="item.OperationType == 4">
+                {{ item.Person.Mail}}
             </div>
+
+            <div ng-show="item.OperationType == 5">
+                {{ item.Person.Name}}
+            </div>
+            <div ng-show="item.OperationType == 5">
+                {{ item.ModifiedUserID}}
+            </div>
+
+            <div ng-show="item.OperationType == 6">
+                {{ item.ModifiedUserID}}
+            </div>
+            <div ng-show="item.OperationType == 6">
+                {{ item.ModifiedUserID.Name}}
+            </div>
+            <div ng-show="item.OperationType == 6">
+                {{ item.Training.Name}}
+            </div>
+            <div ng-show="item.OperationType == 6">
+                {{ item.Training.TrainingID}}
+            </div>
+
             <div>
-                Punkty
+                {{ item.ModifiedDate | date: 'dd.MM.yyyy hh.mm' }}
             </div>
         </div>
     </div>

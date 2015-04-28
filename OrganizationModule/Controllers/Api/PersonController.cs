@@ -1,5 +1,7 @@
-﻿using AppEngine.Models.Common;
+﻿using AppEngine.Models;
+using AppEngine.Models.Common;
 using AppEngine.Models.DataContext;
+using AppEngine.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,7 +21,7 @@ namespace OrganizationModule.Controllers
         [HttpGet]
         public IEnumerable<Person> Get()
         {
-            var people =  db.Persons.ToList();
+            var people = db.Persons.ToList();
             foreach (var item in people)
             {
                 item.Status = (from t in db.Status
@@ -59,6 +61,7 @@ namespace OrganizationModule.Controllers
         {
             if (ModelState.IsValid)
             {
+                //todo logs for add and send invitation
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, person);
                 //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = Contact.Id }));
@@ -78,22 +81,28 @@ namespace OrganizationModule.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            //if (id != person.PersonID)
-            //{
-            //    return Request.CreateResponse(HttpStatusCode.BadRequest);
-            //}
             if (person.Status != null && person.Status.StatusID != person.StatusID)
             {
                 person.StatusID = person.Status.StatusID;
             }
 
-
-
             db.Entry(person).State = EntityState.Modified;
-
             try
             {
                 db.SaveChanges();
+
+                if (person.IsDeleted && person.DeleteUserID.HasValue && person.DeleteUserID == person.PersonID)
+                {
+                    LogService.InsertUserLogs(OperationLog.Samousuniecie, db, person.PersonID, person.DeleteUserID.Value);
+                }
+                if (person.IsDeleted && person.DeleteUserID.HasValue && person.DeleteUserID != person.PersonID)
+                {
+                    LogService.InsertUserLogs(OperationLog.Usuniecie, db, person.PersonID, person.DeleteUserID.Value);
+                }
+                if (!person.IsDeleted)
+                {
+                    LogService.InsertUserLogs(OperationLog.Edycja, db, person.PersonID, person.ModifiedUserID);
+                }
             }
             catch (DbUpdateConcurrencyException ex)
             {

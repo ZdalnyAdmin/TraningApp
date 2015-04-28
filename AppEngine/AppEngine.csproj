@@ -97,6 +97,7 @@
     <Compile Include="Models\DataObject\TrainingType.cs" />
     <Compile Include="Models\DataContext\EFContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\LogService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

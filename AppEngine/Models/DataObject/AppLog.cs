@@ -12,6 +12,22 @@ namespace AppEngine.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int AppLogID { get; set; }
         public OperationLog OperationType { get; set; }
+        [NotMapped]
+        public string OperationDesc
+        {
+            get
+            {
+                var type = typeof(OperationLog);
+                var name = Enum.GetName(type, OperationType);
+                var field = type.GetField(name);
+                var fds = field.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                foreach (DescriptionAttribute fd in fds)
+                {
+                    return fd.Description;
+                }
+                return String.Empty;
+            }
+        }
         public int ModifiedUserID { get; set; }
         public DateTime? ModifiedDate { get; set; }
         [NotMapped]
