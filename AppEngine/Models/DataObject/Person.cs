@@ -1,28 +1,27 @@
-﻿using System;
+﻿using AppEngine.Models.DataContext;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace AppEngine.Models.Common
 {
-    public class Person
+    public class Person : IdentityUser
     {
+        private EFContext _db = new EFContext();
         private int _trainingNumber;
         private string _assignedGroups;
 
         #region Properties
 
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)] 
-        public int PersonID { get; set; }
         public int ProfileID { get; set; }
         public Profile Profile { get; set; }
-
         public string Name { get; set; }
-        public string Mail { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
+        public string LastName { get; set; }
         public int StatusID { get; set; }
         public Status Status { get; set; }
         public DateTime RegistrationDate { get; set; }
@@ -33,6 +32,7 @@ namespace AppEngine.Models.Common
         public int? DeleteUserID { get; set; }
         public int? OrganizationID { get; set; }
         public Organization Organization { get; set; }
+        public DateTime? ResetPasswordDate { get; set; }
 
         //public List<TrainingResult> AssignedTrainings { get; set; }
 
@@ -52,6 +52,40 @@ namespace AppEngine.Models.Common
         #endregion Properties
 
         #region Methods
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Person> manager)
+        {
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            // Add custom user claims here
+            return userIdentity;
+        }
+
+        public async Task<IdentityResult> ResetPasswordAsync(UserManager<Person> manager, HttpRequestBase request)
+        {
+            var result = await manager.UpdateSecurityStampAsync(this.Id);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            var code = await manager.GeneratePasswordResetTokenAsync(this.Id);
+
+            //var currentUser = (from p in _db.Users 
+            //                   where p.Id == this.Id
+            //                   select p)
+            //                   .FirstOrDefault();
+
+            //currentUser.ResetPasswordDate = DateTime.Now;
+
+            this.ResetPasswordDate = DateTime.Now;
+
+            await manager.SendEmailAsync(this.Id, "Zmiana Hasła",
+            "Zostało wysłane zgłoszenia zmiany hasła, aby kontynuować kliknij w <a href=\""
+                + request.Url.Scheme + "://" + request.Url.Authority + "/resetPasswordConfirmation?code=" + code + "\">link</a>");
+
+            return result;
+        }
 
         public override string ToString()
         {

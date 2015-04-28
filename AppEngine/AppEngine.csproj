@@ -81,7 +81,6 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DataBusiness\Statistic.cs" />
-    <Compile Include="Models\DataContext\IdentityModels.cs" />
     <Compile Include="Models\DataObject\AppLog.cs" />
     <Compile Include="Models\DataObject\AppSetting.cs" />
     <Compile Include="Models\DataObject\GlobalSettings.cs" />

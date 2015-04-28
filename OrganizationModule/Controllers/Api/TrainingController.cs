@@ -27,7 +27,7 @@ namespace OrganizationModule.Controllers.Api
             }
             foreach(var item in list)
             {
-                var user = db.Persons.FirstOrDefault(x => x.PersonID == item.CreateUserID);
+                var user = db.Users.FirstOrDefault(x => x.Id == item.CreateUserID);
                 if(user == null)
                 {
                     continue;

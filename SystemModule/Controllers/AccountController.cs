@@ -1,7 +1,9 @@
 ﻿using AppEngine;
 using AppEngine.Models;
+using AppEngine.Models.Common;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Web;
@@ -70,19 +72,36 @@ namespace SystemModule.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (!result.Succeeded)
+                IdentityResult result = new IdentityResult();
+
+                try
                 {
-                    return this.Json(result);
+                    var user = new Person { 
+                        UserName = model.UserName, 
+                        Email = model.Email, 
+                        RegistrationDate = DateTime.Now,
+                        ProfileID = 1, // Temporary
+                        OrganizationID = 1, // Temporary
+                        StatusID = 1 // Temporary
+                    }; 
+
+                    result = await UserManager.CreateAsync(user, model.Password);
+                    if (!result.Succeeded)
+                    {
+                        return this.Json(result);
+                    }
+                    else
+                    {
+                        await UserManager.SendEmailAsync(user.Id,
+                           "Rejestracja Kenpro",
+                           "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
+                           + "<br/>Twoja nazwa wyświetlana: " + user.UserName
+                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/login\">Zaloguj się</a>");
+                    }
                 }
-                else
+                catch(Exception ex)
                 {
-                    await UserManager.SendEmailAsync(user.Id,
-                       "Rejestracja Kenpro",
-                       "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
-                       + "<br/>Twoja nazwa wyświetlana: " + user.UserName
-                       + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/login\">Zaloguj się</a>");
+
                 }
 
                 return this.Json(result);

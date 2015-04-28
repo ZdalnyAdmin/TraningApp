@@ -1,5 +1,6 @@
 namespace AppEngine.Migrations
 {
+    using AppEngine.Models.Common;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -15,18 +16,9 @@ namespace AppEngine.Migrations
 
         protected override void Seed(AppEngine.Models.DataContext.EFContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            context.Profiles.AddOrUpdate(new Profile() { Name = "Administrator", CreateDate = DateTime.Now });
+            context.Status.AddOrUpdate(new Status() { Name = "Active"});
+            context.Organizations.AddOrUpdate(new Organization() { Name = "My First Organization", CreateDate = DateTime.Now });
         }
     }
 }

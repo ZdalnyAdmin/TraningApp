@@ -19,7 +19,7 @@ namespace OrganizationModule.Controllers
         [HttpGet]
         public IEnumerable<Person> Get()
         {
-            var people =  db.Persons.ToList();
+            var people =  db.Users.ToList();
             foreach (var item in people)
             {
                 item.Status = (from t in db.Status
@@ -31,12 +31,12 @@ namespace OrganizationModule.Controllers
                                 select t).FirstOrDefault();
 
                 item.SetAssignedTrainingsNumber((from t in db.TrainingResults
-                                                 where t.PersonID == item.PersonID
+                                                 where t.PersonID == item.Id
                                                  select t).Count());
 
                 var groups = (from pg in db.PeopleInGroups
                               join g in db.Groups on pg.ProfileGroupID equals g.ProfileGroupID
-                              where pg.PersonID == item.PersonID
+                              where pg.PersonID == item.Id
                               select g.Name).ToList();
                 item.SetAssignedGroups(groups);
             }
@@ -46,7 +46,7 @@ namespace OrganizationModule.Controllers
         // GET api/<controller>/5
         public Person Get(int id)
         {
-            var person = db.Persons.Find(id);
+            var person = db.Users.Find(id);
             if (person == null)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
@@ -106,13 +106,13 @@ namespace OrganizationModule.Controllers
         // DELETE api/<controller>/5
         public HttpResponseMessage Delete(int id)
         {
-            var person = db.Persons.Find(id);
+            var person = db.Users.Find(id);
             if (person == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
-            db.Persons.Remove(person);
+            db.Users.Remove(person);
 
             try
             {

@@ -11,7 +11,7 @@ namespace AppEngine.Models.Common
         public int ProfileGroup2PersonID { get; set; }
         public int ProfileGroupID { get; set; }
         public ProfileGroup ProfileGroup { get; set; }
-        public int PersonID { get; set; }
+        public string PersonID { get; set; }
         public Person Person { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }

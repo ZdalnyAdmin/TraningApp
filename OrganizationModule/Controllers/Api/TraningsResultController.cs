@@ -23,8 +23,8 @@ namespace OrganizationModule.Controllers.Api
 
             foreach (var item in result)
             {
-                item.Person = (from t in db.Persons
-                               where t.PersonID == item.PersonID
+                item.Person = (from t in db.Users
+                               where t.Id == item.PersonID
                                select t).FirstOrDefault();
 
                 item.Training = (from t in db.Trainings

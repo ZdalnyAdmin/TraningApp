@@ -12,7 +12,7 @@ namespace AppEngine.Models.Common
 
         public int TrainingID { get; set; }
         public Training Training { get; set; }
-        public int PersonID { get; set; }
+        public string PersonID { get; set; }
         public Person Person { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

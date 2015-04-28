@@ -10,7 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AppEngine.Models.DataContext
 {
-    public class EFContext : IdentityDbContext<ApplicationUser> 
+    public class EFContext : IdentityDbContext<Person> 
     {
         public EFContext()
             : base("name=DefaultConnection", throwIfV1Schema: false)
@@ -23,7 +23,7 @@ namespace AppEngine.Models.DataContext
             return new EFContext();
         }
 
-        public DbSet<Person> Persons { get; set; }
+        //public DbSet<Person> Persons { get; set; } // We acctually have context for this DbSet it's named Users.
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<ProfileGroup> Groups { get; set; }
         public DbSet<Organization> Organizations { get; set; }
@@ -40,8 +40,8 @@ namespace AppEngine.Models.DataContext
             base.OnModelCreating(modelBuilder);
 
 
-            modelBuilder.Entity<IdentityUser>().ToTable("Users", "dbo");
-            modelBuilder.Entity<ApplicationUser>().ToTable("Users", "dbo");
+            modelBuilder.Entity<IdentityUser>().ToTable("Person", "dbo");
+            modelBuilder.Entity<Person>().ToTable("Person", "dbo");
             modelBuilder.Entity<IdentityRole>().ToTable("Roles", "dbo");
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles", "dbo");
             modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims", "dbo");

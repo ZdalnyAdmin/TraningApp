@@ -17,7 +17,7 @@ namespace AppEngine.Models.Common
         public int TrainingTypeID { get; set; }
         public TrainingType TrainingType { get; set; }
         public DateTime CreateDate { get; set; }
-        public int CreateUserID { get; set; }
+        public string CreateUserID { get; set; }
         public DateTime? DeletedDate { get; set; }
         public int? DeletedUserID { get; set; }
 

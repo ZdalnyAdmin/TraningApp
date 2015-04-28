@@ -24,7 +24,7 @@ namespace OrganizationModule.Controllers
             foreach(var item in groups)
             {
                 var people = (from pg in db.PeopleInGroups
-                              join p in db.Persons on pg.PersonID equals p.PersonID
+                              join p in db.Users on pg.PersonID equals p.Id
                               where pg.ProfileGroupID == item.ProfileGroupID
                               select p).ToList();
                 item.SetAssignedPeople(people);

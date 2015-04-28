@@ -18,7 +18,7 @@ namespace OrganizationModule.Controllers.Api
         public IEnumerable<Person> Get()
         {
             //get from correct profile
-            return db.Persons.Where(x => !x.IsDeleted).AsEnumerable();
+            return db.Users.Where(x => !x.IsDeleted).AsEnumerable();
         }
 
         protected override void Dispose(bool disposing)
