@@ -27,6 +27,9 @@
 
     $scope.loadGroups = function () {
         $http.get('/api/Group').success(function (data) {
+            if (!data) {
+                return;
+            }
             $scope.Groups = data;
             $scope.loading = false;
         })
@@ -36,10 +39,8 @@
         });
     }
 
-    $scope.changeStatus = function(training)
-    {
-        if(!training)
-        {
+    $scope.changeStatus = function (training) {
+        if (!training) {
             return;
         }
 
@@ -55,16 +56,37 @@
         });
     }
 
-    $scope.selectGroup = function(group)
-    {
-        if(!group)
-        {
+    $scope.edit = function (training) {
+        if (!training) {
             return;
         }
 
-        $scope.selectedGroups.push(group);
+        if (!$scope.Groups) {
+            return;
+        }
 
+        var trainigInGroups = [];
+        angular.forEach($scope.Groups, function (item) {
+            var obj = {};
+            obj.ProfileGroupID = item.ProfileGroupID;
+            obj.TrainingID = training.TrainingID
+            obj.IsDeleted = false;
+            trainigInGroups.push(obj);
 
+            if (training.AssignedGroups != '') {
+                training.AssignedGroups += ', ';
+            }
+            training.AssignedGroups += item.Name;
+        });
+
+        $http.post('/api/TrainingsInGroup', trainigInGroups).success(function (data) {
+            $scope.loading = false;
+            $scope.loadData();
+        })
+        .error(function () {
+            $scope.error = "An Error has occured while loading posts!";
+            $scope.loading = false;
+        });
     }
 
     $scope.loadData();

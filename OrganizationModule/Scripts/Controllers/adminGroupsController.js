@@ -3,24 +3,20 @@
     $scope.currentGroup = {};
 
     //Used to display the data 
-    $http.get('/api/Group').success(function (data) {
-        $scope.Groups = data;
-        $scope.loading = false;
-    })
-    .error(function () {
-        $scope.error = "An Error has occured while loading posts!";
-        $scope.loading = false;
-    });
 
-    //get people
-    $http.get('/api/SimplePerson').success(function (data) {
-        $scope.People = data;
-        $scope.loading = false;
-    })
-    .error(function () {
-        $scope.error = "An Error has occured while loading posts!";
-        $scope.loading = false;
-    });
+
+    $scope.loadData = function () {
+        $http.get('/api/Group').success(function (data) {
+            $scope.Groups = data;
+            $scope.loading = false;
+        })
+        .error(function () {
+            $scope.error = "An Error has occured while loading posts!";
+            $scope.loading = false;
+        });
+    }
+
+    $scope.loadData();
 
     $scope.add = function () {
         $scope.loading = true;
@@ -28,22 +24,13 @@
         //if ($scope.currentGroup)
 
         $http.post('/api/Group/', $scope.currentGroup).success(function (data) {
-            person = data;
+            group = data;
             $scope.loading = false;
             //move to other methods
-            $http.get('/api/Group').success(function (data) {
-                $scope.Groups = data;
-                $scope.loading = false;
-            })
-           .error(function () {
-               $scope.error = "An Error has occured while loading posts!";
-               $scope.loading = false;
-           });
-
-
-
+            $scope.assignedPeopleToGroup(group, true);
         }).error(function (data) {
             $scope.error = "An Error has occured while creating group! " + data;
+            $scope.loadData();
             $scope.loading = false;
         });
     };
@@ -55,15 +42,39 @@
         $scope.loading = true;
 
         $http.put('/api/Group/', group).success(function (data) {
-            group = data;
-
-
             $scope.loading = false;
         }).error(function (data) {
             $scope.error = "An Error has occured while saving group! " + data;
             $scope.loading = false;
         });
+
+        $scope.assignedPeopleToGroup(group, false)
     };
+
+    $scope.assignedPeopleToGroup = function (group, refresh) {
+        if (!!$scope.selectedUsers) {
+            var list = [];
+            for (var i = 0; i < $scope.selectedUsers.length; i++) {
+                var obj = {};
+                obj.ProfileGroupID = group.ProfileGroupID;
+                obj.PersonID = $scope.selectedUsers[i].PersonID;
+                obj.IsDeleted = false;
+                list.push(obj);
+            }
+            $http.post('/api/PeopleInGroup/', list).success(function (data) {
+                group = data;
+                $scope.loading = false;
+                if(refresh)
+                {
+                    $scope.loadData();
+                }
+
+            }).error(function (data) {
+                $scope.error = "An Error has occured while saving group! " + data;
+                $scope.loading = false;
+            });
+        }
+    }
 
     //Used to save a record after edit 
     $scope.cancel = function (group) {
@@ -71,16 +82,7 @@
             return;
         }
         $scope.loading = true;
-        //
-
-        $http.get('/api/Group').success(function (data) {
-            $scope.Groups = data;
-            $scope.loading = false;
-        })
-        .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
-        });
+        $scope.loadData();
     };
 
     $scope.delete = function (group) {
@@ -94,7 +96,6 @@
         //person.DeleteUserID
 
         $http.put('/api/Group/', group).success(function (data) {
-            group = data;
             var index = 0;
 
             for (var i = 0; i < $scope.Groups.length; i++) {
@@ -112,7 +113,7 @@
         });
     };
 
-    $scope.chooseUsers = function () {
+    $scope.chooseUsers = function (group) {
         var modalInstance = $modal.open({
             templateUrl: '/Templates/usersListModal.html',
             controller: 'usersListModalController',
@@ -125,7 +126,15 @@
         });
 
         modalInstance.result.then(function (selectedUsers) {
-            $scope.selectedUsers = selectedUsers;
+            if (!!selectedUsers) {
+                $scope.selectedUsers = selectedUsers;
+                for (var i = 0; i < selectedUsers.length; i++) {
+                    if (group.AssignedPeopleDisplay != '') {
+                        group.AssignedPeopleDisplay += ', ';
+                    }
+                    group.AssignedPeopleDisplay += selectedUsers[i].Name;
+                }
+            }
         });
     };
 }

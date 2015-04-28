@@ -19,21 +19,18 @@ namespace OrganizationModule.Controllers
         [HttpGet]
         public IEnumerable<ProfileGroup> Get()
         {
-            return db.Groups.Where(x=>!x.IsDeleted).AsEnumerable();
+            var groups = db.Groups.Where(x => !x.IsDeleted).ToList();
+
+            foreach(var item in groups)
+            {
+                var people = (from pg in db.PeopleInGroups
+                              join p in db.Persons on pg.PersonID equals p.PersonID
+                              where pg.ProfileGroupID == item.ProfileGroupID
+                              select p).ToList();
+                item.SetAssignedPeople(people);
+            }
+            return groups;
         }
-
-        // GET api/<controller>/5
-        //public ProfileGroup Get(ProfileGroup group)
-        //{
-      
-        //    var obj = db.Groups.Find(group.ProfileGroupID);
-        //    if (obj == null)
-        //    {
-        //        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-        //    }
-
-        //    return obj;
-        //}
 
         // POST api/<controller>
         public HttpResponseMessage Post(ProfileGroup group)
@@ -57,7 +54,7 @@ namespace OrganizationModule.Controllers
         }
 
         // PUT api/<controller>/5
-        public HttpResponseMessage Put(ProfileGroup group)
+        public HttpResponseMessage Put(ProfileGroup obj)
         {
 
             if (!ModelState.IsValid)
@@ -65,7 +62,7 @@ namespace OrganizationModule.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            db.Entry(group).State = EntityState.Modified;
+            db.Entry(obj).State = EntityState.Modified;
 
             try
             {
@@ -82,7 +79,7 @@ namespace OrganizationModule.Controllers
         // DELETE api/<controller>/5
         public HttpResponseMessage Delete(ProfileGroup group)
         {
-            if(group == null)
+            if (group == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, group);
             }

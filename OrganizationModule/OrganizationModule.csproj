@@ -175,11 +175,15 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\OperationLogController.cs" />
+    <Compile Include="Controllers\Api\PeopleInGroupController.cs" />
     <Compile Include="Controllers\Api\SettingsController.cs" />
     <Compile Include="Controllers\Api\SimplePersonController.cs" />
     <Compile Include="Controllers\Api\StatisticsController.cs" />
     <Compile Include="Controllers\Api\StatusController.cs" />
     <Compile Include="Controllers\Api\TrainingController.cs" />
+    <Compile Include="Controllers\Api\TrainingsInGroupController.cs" />
+    <Compile Include="Controllers\Api\TraningsResultController.cs" />
     <Compile Include="Controllers\CreatorController.cs" />
     <Compile Include="Controllers\Api\GroupController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -213,6 +217,10 @@
     <Content Include="Scripts\Controllers\adminSettingsController.js" />
     <Content Include="Scripts\Controllers\adminStatisticsController.js" />
     <Content Include="Scripts\Controllers\adminUsersController.js" />
+    <Content Include="Scripts\Controllers\confirmModalController.js" />
+    <Content Include="Scripts\Controllers\managerResultController.js" />
+    <Content Include="Scripts\Controllers\protectorAppLogsController.js" />
+    <Content Include="Scripts\Controllers\protectorPermissionsController.js" />
     <Content Include="Scripts\Controllers\usersListModalController.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
     <Content Include="Scripts\Controllers\LoginController.js" />
@@ -236,6 +244,7 @@
     <Content Include="Scripts\Services\SessionService.js" />
     <Content Include="Scripts\ui-bootstrap-0.12.1.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Templates\deleteConfirmModal.html" />
     <Content Include="Templates\usersListModal.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

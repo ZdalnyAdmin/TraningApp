@@ -19,9 +19,7 @@ namespace OrganizationModule.Controllers
         [HttpGet]
         public IEnumerable<Person> Get()
         {
-
-            var people = db.Persons.AsEnumerable().ToList();
-
+            var people =  db.Persons.ToList();
             foreach (var item in people)
             {
                 item.Status = (from t in db.Status
@@ -32,21 +30,16 @@ namespace OrganizationModule.Controllers
                                 where t.ProfileID == item.ProfileID
                                 select t).FirstOrDefault();
 
-                //var groups = (from t in db.Groups
-                //              where t.ProfileGroupID == item.ProfileGroupID
-                //              select t).ToList();
-
-                //if (groups != null && groups.Any())
-                //{
-                //    item.GroupName = string.Join(",", groups);
-                //}
-
                 item.SetAssignedTrainingsNumber((from t in db.TrainingResults
                                                  where t.PersonID == item.PersonID
                                                  select t).Count());
+
+                var groups = (from pg in db.PeopleInGroups
+                              join g in db.Groups on pg.ProfileGroupID equals g.ProfileGroupID
+                              where pg.PersonID == item.PersonID
+                              select g.Name).ToList();
+                item.SetAssignedGroups(groups);
             }
-
-
             return people;
         }
 

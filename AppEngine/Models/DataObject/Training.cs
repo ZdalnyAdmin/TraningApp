@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -39,6 +41,20 @@ namespace AppEngine.Models.Common
         public void SetRunTrainingStats(int value)
         {
             _runTrainingStats = value;
+        }
+
+
+        private string _assignedGroups;
+        public string AssignedGroups
+        {
+            get { return _assignedGroups; }
+        }
+        public void SetAssignedGroups(List<string> groups)
+        {
+            if (groups != null && groups.Any())
+            {
+                _assignedGroups = String.Join(",", groups);
+            }
         }
 
     }

@@ -28,7 +28,9 @@
             <div id="detailText" ng-show="!showEdit">
                 {{ person.Status.Name }}
             </div>
-            <select ng-model="person.Status" ng-options="c as c.Name for c in status" ng-init="selected=person.Status.Name" ng-show="showEdit"></select>
+            <select ng-model="person.Status" ng-options="c as c.Name for c in status" ng-init="person.Status.Name" ng-show="showEdit">
+                @*<option value="">{{ person.Status.Name }}</option>*@
+            </select>
             <div id="detailText">
                 {{ person.RegistrationDate | date: 'dd.MM.yyyy hh.mm' }}
             </div>
@@ -39,7 +41,7 @@
                 {{ person.Profile.Name }}
             </div>
             <div id="detailText">
-                {{ person.GroupName.Name }}
+                {{ person.AssignedGroups }}
             </div>
             <div id="detailText">
                 {{ person.Login }}

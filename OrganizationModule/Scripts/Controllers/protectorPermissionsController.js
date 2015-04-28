@@ -1,4 +1,4 @@
-﻿function adminSettingsController($scope, $http, $modal) {
+﻿function protectorPermissionsController($scope, $http, $modal) {
     $scope.loading = true;
     $scope.currentItem = {};
     //Used to display the data 
@@ -25,15 +25,15 @@
         if (!obj) {
             return;
         }
-        //$http.put('/api/Settings', $obj).success(function (data) {
-        //    $scope.loading = false;
-        //})
-        //.error(function () {
-        //    $scope.error = "An Error has occured while loading posts!";
-        //    $scope.loading = false;
-        //});
+        $http.put('/api/Settings', obj).success(function (data) {
+            $scope.loading = false;
+        })
+        .error(function () {
+            $scope.error = "An Error has occured while loading posts!";
+            $scope.loading = false;
+        });
 
     }
 }
 
-adminSettingsController.$inject = ['$scope', '$http', '$modal'];
+protectorPermissionsController.$inject = ['$scope', '$http', '$modal'];

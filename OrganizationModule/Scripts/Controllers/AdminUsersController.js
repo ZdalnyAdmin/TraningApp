@@ -1,4 +1,4 @@
-﻿function adminUsersController($scope, $http) {
+﻿function adminUsersController($scope, $http, $modal) {
     $scope.loading = true;
     $scope.addMode = false;
     //temp solution
@@ -69,6 +69,27 @@
     };
 
     $scope.delete = function (person) {
+        var modalInstance = $modal.open({
+            templateUrl: '/Templates/deleteConfirmModal.html',
+            controller: 'confirmModalController',
+            size: 'sm',
+            resolve: {
+                modalResult: function () {
+                    return $scope.modalResult;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (modalResult) {
+            if (modalResult !== undefined) {
+                if (modalResult) {
+                    $scope.deleteUser(person);
+                }
+            }
+        });
+    };
+
+    $scope.deleteUser = function (person) {
         if (!person) {
             return;
         }
@@ -78,7 +99,6 @@
         //get from score - logged user id
         person.DeleteUserID = 1;
         $scope.person = person;
-
 
         $scope.loading = true;
         $http.put('/api/Person/', person).success(function (data) {
@@ -98,5 +118,7 @@
             $scope.error = "An Error has occured while deleting person! " + data;
             $scope.loading = false;
         });
-    };
+    }
 }
+
+adminUsersController.$inject = ['$scope', '$http', '$modal'];

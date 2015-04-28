@@ -1,18 +1,23 @@
-﻿var usersListModalController = function ($scope, $modalInstance) {
-    $scope.users = [
-        {
-            selected: false,
-            UserName: 'User 1',
-            Email: 'User1@gmail.com'
-        },
-        {
-            selected: true,
-            UserName: 'User 2',
-            Email: 'User2@gmail.com'
-        }
-    ];
+﻿var usersListModalController = function ($scope, $http, $modalInstance) {
+
+    $scope.loadPeople = function () {
+        $http.get('/api/SimplePerson').success(function (data) {
+            $scope.users = data;
+            $scope.loading = false;
+        })
+        .error(function () {
+            $scope.error = "An Error has occured while loading posts!";
+            $scope.loading = false;
+        });
+    }
+
+    $scope.loadPeople();
 
     $scope.close = function () {
+        $modalInstance.close();
+    };
+
+    $scope.save = function () {
         var selectedUsers = new Array();
         angular.forEach($scope.users, function (user) {
             if (user.selected) {
@@ -24,4 +29,4 @@
     };
 };
 
-usersListModalController.$inject = ['$scope', '$modalInstance'];
+usersListModalController.$inject = ['$scope', '$http', '$modalInstance'];
