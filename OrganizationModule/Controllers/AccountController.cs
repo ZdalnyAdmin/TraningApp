@@ -1,9 +1,11 @@
 ﻿using AppEngine;
 using AppEngine.Models;
 using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
+using AppEngine.Models.ViewModels.Account;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using OrganizationModule.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Web;
@@ -132,21 +134,13 @@ namespace OrganizationModule.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ResetPasswordConfirmation(ResetPasswordViewModel model)
+        public async Task<JsonResult> ResetPasswordConfirmation(ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var userByUserName = await UserManager.FindByNameAsync(model.UserName);
-                if (userByUserName == null)
-                {
-                    return Json(new
-                    {
-                        Succeeded = false,
-                        Errors = new string[] { "Błędna nazwa użytkownika." }
-                    });
-                }
+                Result result = new Result();
 
-                var result = await UserManager.ResetPasswordAsync(userByUserName.Id, model.Code, model.Password);
+                result = await Person.ChangePasswordAsync(UserManager, model);
                 return Json(result);
             }
 

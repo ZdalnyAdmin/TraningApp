@@ -1,4 +1,6 @@
-﻿using AppEngine.Models.DataContext;
+﻿using AppEngine.Models.DataBusiness;
+using AppEngine.Models.DataContext;
+using AppEngine.Models.ViewModels.Account;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -80,14 +82,59 @@ namespace AppEngine.Models.Common
             //                   .FirstOrDefault();
 
             //currentUser.ResetPasswordDate = DateTime.Now;
-
+            
             this.ResetPasswordDate = DateTime.Now;
+            result = await manager.UpdateAsync(this);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
 
             await manager.SendEmailAsync(this.Id, "Zmiana Hasła",
             "Zostało wysłane zgłoszenia zmiany hasła, aby kontynuować kliknij w <a href=\""
                 + request.Url.Scheme + "://" + request.Url.Authority + "/resetPasswordConfirmation?code=" + code + "\">link</a>");
 
             return result;
+        }
+
+        public static async Task<Result> ChangePasswordAsync(UserManager<Person> manager, ResetPasswordViewModel model)
+        {
+            var userByUserName = await manager.FindByNameAsync(model.UserName);
+            if (userByUserName == null)
+            {
+                var errors = new List<string>();
+                errors.Add("Błędna nazwa użytkownika.");
+
+                return new Result()
+                {
+                    Succeeded = false,
+                    Errors = errors
+                };
+            }
+
+            if (!userByUserName.ResetPasswordDate.HasValue || (DateTime.Now - userByUserName.ResetPasswordDate.Value).Days > 0)
+            {
+                var errors = new List<string>();
+                errors.Add("Token wygasł.");
+
+                return new Result()
+                {
+                    Succeeded = false,
+                    Errors = errors
+                };
+            }
+
+            var resetResult = await manager.ResetPasswordAsync(userByUserName.Id, model.Code, model.Password);
+
+            if (!resetResult.Succeeded)
+            {
+                return new Result() { Succeeded = resetResult.Succeeded, Errors = new List<string>(resetResult.Errors) }; ;
+            }
+
+            await manager.UpdateSecurityStampAsync(userByUserName.Id);
+
+            return new Result() { Succeeded = resetResult.Succeeded, Errors = new List<string>(resetResult.Errors) };
         }
 
         public override string ToString()
