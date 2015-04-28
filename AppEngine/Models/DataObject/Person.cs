@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -29,11 +30,13 @@ namespace AppEngine.Models.Common
         public DateTime? LastActivationDate { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public int? DeleteUserID { get; set; }
+        public string DeleteUserID { get; set; }
         public int? OrganizationID { get; set; }
         public Organization Organization { get; set; }
         public DateTime? ResetPasswordDate { get; set; }
 
+        [NotMapped]
+        public string ModifiedUserID { get; set; }
         //public List<TrainingResult> AssignedTrainings { get; set; }
 
         /// <summary>
