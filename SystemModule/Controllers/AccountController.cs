@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AppEngine;
+using AppEngine.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
