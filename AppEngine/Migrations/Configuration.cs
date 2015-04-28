@@ -1,4 +1,4 @@
-namespace AppEngine.Migrations
+﻿namespace AppEngine.Migrations
 {
     using AppEngine.Models.Common;
     using System;
@@ -16,8 +16,17 @@ namespace AppEngine.Migrations
 
         protected override void Seed(AppEngine.Models.DataContext.EFContext context)
         {
-            context.Profiles.AddOrUpdate(new Profile() { Name = "Administrator", CreateDate = DateTime.Now });
-            context.Status.AddOrUpdate(new Status() { Name = "Active"});
+            context.Profiles.AddOrUpdate(new Profile() { ProfileID = 1, Name = "Administrator", CreateDate = DateTime.Now },
+                                         new Profile() { ProfileID = 2, Name = "Manager", CreateDate = DateTime.Now },
+                                         new Profile() { ProfileID = 3, Name = "Twórca", CreateDate = DateTime.Now },
+                                         new Profile() { ProfileID = 4, Name = "Opiekun", CreateDate = DateTime.Now },
+                                         new Profile() { ProfileID = 5, Name = "Użytkownik", CreateDate = DateTime.Now });
+
+            context.Status.AddOrUpdate(new Status() { StatusID = 1, Name = "Aktywny" },
+                                       new Status() { StatusID = 2, Name = "Zablokowany" },
+                                       new Status() { StatusID = 3, Name = "Usunięty" },
+                                       new Status() { StatusID = 4, Name = "Oczekuje" });
+
             context.Organizations.AddOrUpdate(new Organization() { Name = "My First Organization", CreateDate = DateTime.Now });
         }
     }
