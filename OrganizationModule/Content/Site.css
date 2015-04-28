@@ -1,6 +1,7 @@
 ﻿body{
     background:#283759;
     color:#fff;
+    font-family: 'PT Sans', sans-serif;
 }
 
 .logo img{
@@ -68,10 +69,12 @@ h4{
 .btn-l{
     height:50px!important;
     font-size:21px!important;
+    padding:6px 20px!important;
 }
 .btn-xl{
     height:60px!important;
     font-size:28px!important;
+    padding:6px 20px!important;
 }
 
 .green-button{

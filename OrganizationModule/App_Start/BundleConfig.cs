@@ -27,7 +27,11 @@ namespace OrganizationModule
                 .Include("~/Scripts/OrganizationModuleApp.js"));
 
             bundles.Add(new StyleBundle("~/Trainings").Include(
-                "~/Content/Trainings/training-list.css"));
+                "~/Content/Trainings/training-list.css",
+                "~/Content/Trainings/active-training.css"));
+
+            bundles.Add(new StyleBundle("~/Login").Include(
+                "~/Content/Login/login.css"));
         }
     }
 }

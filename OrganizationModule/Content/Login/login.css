@@ -1,0 +1,30 @@
+﻿.login-container .row, .forgot-password-container .row{
+    margin-top:10px;
+}
+.login-container button, .forgot-password-container button{
+    width:100%;
+}
+.login-container .forgot-password{
+    text-align:center;
+}
+.login-container .forgot-password a{
+    font-size:21px;
+    color:#55ee99;
+    text-align:center;
+}
+.login-container .forgot-password a:hover{
+    color:#83ffbb;
+}
+.forgot-password-container .form-cloud{
+    position:relative;
+}
+.forgot-password-container .form-cloud img{
+    position:absolute;
+    left:0;
+    top:20px;
+}
+.forgot-password-container .form-cloud p{
+    background:#141932;
+    padding:15px;
+    position:absolute;
+}

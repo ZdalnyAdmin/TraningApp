@@ -31,6 +31,15 @@ namespace OrganizationModule.Controllers
         }
 
         /// <summary>
+        /// Navigate to available tranings view
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ActiveTraining()
+        {
+            return View();
+        }
+
+        /// <summary>
         /// Navigate to user traning result view
         /// </summary>
         /// <returns></returns>
