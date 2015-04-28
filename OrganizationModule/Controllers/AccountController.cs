@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AppEngine;
+using AppEngine.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using OrganizationModule.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using OrganizationModule.Models;
 
 namespace OrganizationModule.Controllers
 {
@@ -120,15 +122,9 @@ namespace OrganizationModule.Controllers
                     });
                 }
 
-                var code = await UserManager.GeneratePasswordResetTokenAsync(userByUserName.Id);
-                await UserManager.SendEmailAsync(userByUserName.Id, "Zmiana Hasła",
-                "Zostało wysłane zgłoszenia zmiany hasła, aby kontynuować kliknij w <a href=\""
-                    + Request.Url.Scheme + "://" + Request.Url.Authority + "/resetPasswordConfirmation?code=" + code + "\">link</a>");
+                var result  = await userByUserName.ResetPasswordAsync(UserManager, Request);
 
-                return Json(new
-                {
-                    Succeeded = true
-                });
+                return Json(result);
             }
 
             return getErrorsFromModel();
