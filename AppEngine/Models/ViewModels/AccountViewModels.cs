@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SystemModule.Models
+namespace AppEngine.Models.ViewModels.Account
 {
     public class ExternalLoginConfirmationViewModel
     {
@@ -13,14 +13,6 @@ namespace SystemModule.Models
     public class ExternalLoginListViewModel
     {
         public string ReturnUrl { get; set; }
-    }
-
-    public class SendCodeViewModel
-    {
-        public string SelectedProvider { get; set; }
-        public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
-        public string ReturnUrl { get; set; }
-        public bool RememberMe { get; set; }
     }
 
     public class VerifyCodeViewModel

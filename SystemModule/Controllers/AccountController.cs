@@ -1,6 +1,8 @@
 ﻿using AppEngine;
 using AppEngine.Models;
 using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
+using AppEngine.Models.ViewModels.Account;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
@@ -8,7 +10,6 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using SystemModule.Models;
 
 namespace SystemModule.Controllers
 {
@@ -153,17 +154,9 @@ namespace SystemModule.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userByUserName = await UserManager.FindByNameAsync(model.UserName);
-                if (userByUserName == null)
-                {
-                    return Json(new
-                    {
-                        Succeeded = false,
-                        Errors = new string[] { "Błędna nazwa użytkownika." }
-                    });
-                }
+                Result result = new Result();
 
-                var result = await UserManager.ResetPasswordAsync(userByUserName.Id, model.Code, model.Password);
+                result = await Person.ChangePasswordAsync(UserManager, model);
                 return Json(result);
             }
 

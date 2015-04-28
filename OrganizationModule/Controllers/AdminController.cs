@@ -1,5 +1,4 @@
-﻿using OrganizationModule.Models;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace OrganizationModule.Controllers
 {
