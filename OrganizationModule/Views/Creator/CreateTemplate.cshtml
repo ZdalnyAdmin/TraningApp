@@ -77,12 +77,12 @@
 
     <tabset>
         <tab heading="dodaj tekst">
-            <input type="text" />
+            <input type="text" ng-model="currentDetail.Text" name="currentDetail.Text" />
             <div id="simpleRow">
-                <div id="inputButto" ng-click="cancel()">
+                <div id="inputButto" ng-click="cancel(currentDetail, 0)">
                     Anuluj
                 </div>
-                <div id="inputButto" ng-click="add()">
+                <div id="inputButto" ng-click="add(currentDetail, 0)">
                     Zapisz
                 </div>
             </div>
@@ -92,18 +92,18 @@
                 wczytaj grafike lub upusc ja na pole obok lub podaj link
             </div>
             <div id="simpleRow">
-                <div id="inputButto" ng-click="upload()">
+                <div id="inputButto" ng-click="upload(currentDetail, 1)">
                     Wczytaj grafike
                 </div>
             </div>
             <div id="simpleRow">
-                Podaj link: <input type="text" />
+                Podaj link: <input type="text" ng-model="currentDetail.ExternalResource" name="currentDetail.ExternalResource" />
             </div>
             <div id="simpleRow">
-                <div id="inputButto" ng-click="cancel()">
+                <div id="inputButto" ng-click="cancel(currentDetail, 1)">
                     Anuluj
                 </div>
-                <div id="inputButto" ng-click="add()">
+                <div id="inputButto" ng-click="add(currentDetail, 1)">
                     Zapisz
                 </div>
             </div>
@@ -113,18 +113,18 @@
                 Wczytaj film przerzuc i opusc go na pole obok lub podaj link
             </div>
             <div id="simpleRow">
-                <div id="inputButto" ng-click="upload()">
+                <div id="inputButto" ng-click="upload(currentDetail, 2)">
                     Wczytaj film
                 </div>
             </div>
             <div id="simpleRow">
-                Podal link do YT lub vimeo <input type="text" />
+                Podal link do YT lub vimeo <input type="text" ng-model="currentDetail.ExternalResource" name="currentDetail.ExternalResource" />
             </div>
             <div id="simpleRow">
-                <div id="inputButto" ng-click="cancel()">
+                <div id="inputButto" ng-click="cancel(currentDetail, 2)">
                     Anuluj
                 </div>
-                <div id="inputButto" ng-click="save()">
+                <div id="inputButto" ng-click="add(currentDetail, 2)">
                     Zapisz
                 </div>
             </div>
@@ -134,15 +134,15 @@
                 Wgraj prezentacje (ppt, pptx, pdf)
             </div>
             <div id="simpleRow">
-                <div id="inputButto" ng-click="upload()">
+                <div id="inputButto" ng-click="upload(currentDetail, 3)">
                     Wybierz plik
                 </div>
             </div>
             <div id="simpleRow">
-                <div id="inputButto" ng-click="cancel()">
+                <div id="inputButto" ng-click="cancel(currentDetail, 3)">
                     Anuluj
                 </div>
-                <div id="inputButto" ng-click="add()">
+                <div id="inputButto" ng-click="add(currentDetail, 3)">
                     Zapisz
                 </div>
             </div>
@@ -153,14 +153,14 @@
                     Wgraj plik
                 </div>
                 <div id="simpleRow">
-                    <div id="inputButto" ng-click="upload()">
+                    <div id="inputButto" ng-click="upload(currentDetail, 4)">
                         Wybierz plik
                     </div>
                 </div>
-                <div id="inputButto" ng-click="cancel()">
+                <div id="inputButto" ng-click="cancel(currentDetail, 4)">
                     Anuluj
                 </div>
-                <div id="inputButto" ng-click="add()">
+                <div id="inputButto" ng-click="add(currentDetail, 4)">
                     Zapisz
                 </div>
             </div>
@@ -168,6 +168,58 @@
     </tabset>
 
     <div ng-repeat="item in trainingDetails">
+        <div id="simpleRow">
+            <div id="inputButto" ng-click="detailUp(item)">
+                UP
+            </div>
+            <div id="inputButto" ng-click="detailDown(item)">
+                DOWN
+            </div>
+            <div id="inputButto" ng-click="detailEdit(item)">
+                EDIT
+            </div>
+            <div id="inputButto" ng-click="detailDelete(item)">
+                REMOVE
+            </div>
+        </div>
+
+        <div ng-show="item.ResourceType == 0">
+            <div id="simpleRow" ng-hide="item.isEdit">
+                {{item.Text}}
+            </div>
+            <div id="simpleRow" ng-show="item.isEdit">
+                <input type="text" ng-model="item.Text" name="item.Text" />
+            </div>
+        </div>
+        <div ng-show="item.ResourceType == 1">
+            <div id="simpleRow">
+                pole z grafika
+            </div>
+        </div>
+        <div ng-show="item.ResourceType == 2">
+            <div id="simpleRow">
+                pole z wideo
+            </div>
+        </div>
+        <div ng-show="item.ResourceType == 3">
+            <div id="simpleRow">
+                pole z prezentacja
+            </div>
+        </div>
+        <div ng-show="item.ResourceType == 4">
+            <div id="simpleRow">
+                pole z plikiem
+            </div>
+        </div>
+
+        <div id="simpleRow">
+            <div id="inputButto" ng-click="detailSave(item)" ng-show="item.isEdit">
+                ZAPISZ
+            </div>
+            <div id="inputButto" ng-click="detailCancel(item)" ng-show="item.isEdit">
+                ANULUJ
+            </div>
+        </div>
     </div>
 
     <div id="simpleRow">

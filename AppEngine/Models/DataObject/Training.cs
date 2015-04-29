@@ -21,7 +21,14 @@ namespace AppEngine.Models.Common
         public DateTime? DeletedDate { get; set; }
         public int? DeletedUserID { get; set; }
 
-
+        //logo szkolenia - sciezka
+        public string TrainingResources { get; set; }
+        //liczba punktow zeby zdac
+        public int PassResult { get; set; }
+        //tekst jak zaliczone szkolenie
+        public string PassInfo { get; set; }
+        //oznaka - sciezka do pliku
+        public string PassResources { get; set; }
 
         private string _createUserName;
         public string CreateUserName

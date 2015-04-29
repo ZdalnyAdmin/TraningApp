@@ -5,6 +5,9 @@
     $scope.questionType = ['jednokrotnego wyboru', 'wielokrotnego wyboru', 'wpisanie odpowiedzi'];
     $scope.selectedQuestion = 0;
     $scope.currentQuestion = {};
+    $scope.editableQuestion = {};
+    $scope.currentDetail = {};
+    $scope.editableDetail = {};
     $scope.showQuestionType = false;
     //Used to display the data 
 
@@ -23,7 +26,6 @@
         //Used to display the data 
 
     }
-
 
     $scope.loadGroups = function () {
         $http.get('/api/Group').success(function (data) {
@@ -54,22 +56,76 @@
 
     }
 
-    $scope.upload = function () {
-
+    //details methods
+    $scope.upload = function (item, resourceType) {
+        //todo
     }
 
-    $scope.cancel = function () {
-
+    $scope.cancel = function (item, resourceType) {
+        $scope.currentDetail = {};
     }
 
-    $scope.save = function () {
+    $scope.add = function (item, resourceType) {
+        if (!$scope.currentDetail)
+        {
+            return;
+        }
 
+        if($scope.currentDetail.Text && resourceType == 0)
+        {
+            $scope.currentDetail.isEdit = false;
+            $scope.currentDetail.ResourceType = resourceType;
+            $scope.trainingDetails.push($scope.currentDetail);
+            $scope.currentDetail = {};
+            return;
+        }
+
+        if ($scope.currentDetail.ExternalResource) {
+            $scope.currentDetail.isEdit = false;
+            $scope.currentDetail.ResourceType = resourceType;
+            $scope.trainingDetails.push($scope.currentDetail);
+            $scope.currentDetail = {};
+            return;
+        }
     }
 
-    $scope.add = function () {
-
+    $scope.detailUp = function (item) {
+        $scope.trainingDetails = changePosition($scope.trainingDetails, item, false);
     }
 
+    $scope.detailDown = function (item) {
+        $scope.trainingDetails = changePosition($scope.trainingDetails, item, true);
+    }
+
+    $scope.detailEdit = function (item) {
+        $scope.editableDetail = angular.copy(item);
+        item.isEdit = true;
+    }
+
+    $scope.detailDelete = function (item) {
+        //todo remove source from server
+        for (var i = 0; i < $scope.trainingDetails.length; i++) {
+            if ($scope.trainingDetails[i] == item) {
+                index = i;
+                break;
+            }
+        }
+        $scope.trainingDetails.splice(index, 1);
+    }
+
+    $scope.detailCancel = function (item) {
+        item.Text = $scope.editableDetail.Text;
+        item.ExternalResource = $scope.editableDetail.ExternalResource;
+        $scope.editableDetail = {};
+        item.isEdit = false;
+    }
+
+    $scope.detailSave = function (item) {
+        $scope.editableDetail = {};
+        item.isEdit = false;
+    }
+
+    //question methods
     $scope.changeQuestion = function (type) {
         $scope.showQuestionType = false;
         $scope.currentQuestion = {};
@@ -122,7 +178,7 @@
     }
 
     $scope.questionEdit = function (question) {
-        $scope.currentQuestion = angular.copy(question);
+        $scope.editableQuestion = angular.copy(question);
         question.isEdit = true;
     }
 
@@ -137,16 +193,14 @@
     }
 
     $scope.questionSave = function (question) {
-        $scope.currentQuestion = {};
+        $scope.editableQuestion = {};
         question.isEdit = false;
     }
 
     $scope.questionCancel = function (question) {
-        question.Text = $scope.currentQuestion.Text;
-        question.Answers = $scope.currentQuestion.Answers;
-        question.Score = $scope.currentQuestion.Score;
-        question.selected = $scope.currentQuestion.selected;
-        $scope.currentQuestion = {};
+        question.Text = $scope.editableQuestion.Text;
+        question.Answers = $scope.editableQuestion.Answers;
+        $scope.editableQuestion = {};
         question.isEdit = false;
     }
 
@@ -154,8 +208,6 @@
         if (!list || !list.length) {
             return;
         }
-
-
         var index = 0;
         for (var i = 0; i < list.length; i++) {
             if (list[i] == currentItem) {
@@ -165,7 +217,6 @@
         }
         //delete element from list
         list.splice(index, 1);
-
         if (up) {
             index++;
         }
@@ -208,7 +259,6 @@
         obj.Score = '';
         return obj;
     }
-
 }
 
 creatorAddTrainingController.$inject = ['$scope', '$http', '$modal'];

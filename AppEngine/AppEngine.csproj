@@ -93,6 +93,7 @@
     <Compile Include="Models\DataObject\ProfileGroup2Trainings.cs" />
     <Compile Include="Models\DataObject\Status.cs" />
     <Compile Include="Models\DataObject\Training.cs" />
+    <Compile Include="Models\DataObject\TrainingAnswer.cs" />
     <Compile Include="Models\DataObject\TrainingAvailable.cs" />
     <Compile Include="Models\DataObject\TrainingDetail.cs" />
     <Compile Include="Models\DataObject\TrainingQuestion.cs" />
