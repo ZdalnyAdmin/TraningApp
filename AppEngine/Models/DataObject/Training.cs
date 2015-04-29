@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AppEngine.Models.DataObject;
 
 namespace AppEngine.Models.Common
 {
@@ -20,6 +21,10 @@ namespace AppEngine.Models.Common
         public string CreateUserID { get; set; }
         public DateTime? DeletedDate { get; set; }
         public int? DeletedUserID { get; set; }
+
+        public List<TrainingDetail> Details { get; set; }
+        public List<TrainingQuestion> Questions { get; set; }
+
 
         //logo szkolenia - sciezka
         public string TrainingResources { get; set; }
