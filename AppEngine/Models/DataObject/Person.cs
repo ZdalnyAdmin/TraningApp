@@ -25,7 +25,8 @@ namespace AppEngine.Models.Common
         public string Name { get; set; }
         public string LastName { get; set; }
         public StatusEnum Status { get; set; }
-        public DateTime RegistrationDate { get; set; }
+        public DateTime? RegistrationDate { get; set; }
+        public DateTime InvitationDate { get; set; }
         public int RegistrationUserID { get; set; }
         public DateTime? LastActivationDate { get; set; }
         public bool IsDeleted { get; set; }
@@ -34,6 +35,7 @@ namespace AppEngine.Models.Common
         public int? OrganizationID { get; set; }
         public Organization Organization { get; set; }
         public DateTime? ResetPasswordDate { get; set; }
+        public Person Inviter { get; set; }
 
         [NotMapped]
         public string ModifiedUserID { get; set; }
@@ -145,7 +147,6 @@ namespace AppEngine.Models.Common
                 _assignedGroups = String.Join(",", groups);
             }
         }
-
         #endregion Methods
     }
 }

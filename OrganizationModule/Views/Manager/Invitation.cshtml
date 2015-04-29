@@ -1,1 +1,70 @@
-﻿
+﻿@using AppEngine.Models.DataBusiness
+@using AppEngine.Helpers
+<div>
+    <div>Wprowadź dane i zaproś użytkownika do udziału w grupie:</div>
+    <form name="inviteFrm">
+        <div><label for="inviteUserName">Nazwa Użytkownika</label><input name="inviteUserName" ng-model="user.inviteUserName" type="text" placeholder="NazwaUżytkownika" required maxlength="30" /></div>
+        <div><label for="inviteUserEmail">Adres Email</label><input name="inviteUserEmail" ng-model="user.inviteUserEmail" type="text" placeholder="adres@email.pl" required maxlength="30" /></div>
+        <div><label for="inviteUserRole">Rola</label>
+            <select name="inviteUserRole" ng-model="user.inviteUserRole">
+                <option value="@((int)ProfileEnum.User)">@ProfileEnum.User.GetDescription()</option>
+                <option value="@((int)ProfileEnum.Creator)">@ProfileEnum.Creator.GetDescription()</option>
+                <option value="@((int)ProfileEnum.Manager)">@ProfileEnum.Manager.GetDescription()</option>      
+                          
+                @if (ViewBag.User.Profile == ProfileEnum.Administrator || 
+                    ViewBag.User.Profile == ProfileEnum.Keeper ||
+                    ViewBag.User.Profile == ProfileEnum.Superuser)
+                {
+                    <option value="@((int)ProfileEnum.Administrator)" ng-click="inviteUser()">@ProfileEnum.Administrator.GetDescription()</option>
+                }
+            </select>
+        </div>
+        <div><div class="btn">Wyślij zaproszenie</div></div>
+        <div>Zaproszenia wysłane</div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nazwa zaproszonego</th>
+                        <th>Nazwa zapraszającego</th>
+                        <th>Data zaproszenia</th>
+                        <th>Rola</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Opcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var user in ViewBag.InvitedUsers) {
+                        <tr >
+                            <td>
+                                @user.UserName
+                            </td>
+                            <td>
+                                @user.Inviter.UserName
+                            </td>
+                            <td>
+                                @user.InvitationDate
+                            </td>
+                            <td>
+                                @(((ProfileEnum)user.Profile).GetDescription())
+                            </td>
+                            <td>
+                                @user.Email
+                            </td>
+                            <td>
+                                @(((StatusEnum)user.Status).GetDescription())
+                            </td>
+                            <td>
+                                @if(((StatusEnum)user.Status) == StatusEnum.Invited)
+                                {
+                                    <div  ng-click="deleteUser(@user.Id)">Usuń zaproszenie</div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>

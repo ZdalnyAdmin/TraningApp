@@ -90,11 +90,9 @@
     <Compile Include="Models\DataObject\GlobalSettings.cs" />
     <Compile Include="Models\DataObject\Organization.cs" />
     <Compile Include="Models\DataObject\Person.cs" />
-    <Compile Include="Models\DataObject\Profile.cs" />
     <Compile Include="Models\DataObject\ProfileGroup.cs" />
     <Compile Include="Models\DataObject\ProfileGroup2Person.cs" />
     <Compile Include="Models\DataObject\ProfileGroup2Trainings.cs" />
-    <Compile Include="Models\DataObject\Status.cs" />
     <Compile Include="Models\DataObject\Training.cs" />
     <Compile Include="Models\DataObject\TrainingAnswer.cs" />
     <Compile Include="Models\DataObject\TrainingAvailable.cs" />

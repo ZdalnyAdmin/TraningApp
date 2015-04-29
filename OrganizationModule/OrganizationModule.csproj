@@ -219,6 +219,7 @@
     <Content Include="Scripts\Controllers\confirmModalController.js" />
     <Content Include="Scripts\Controllers\creatorAddTrainingController.js" />
     <Content Include="Scripts\Controllers\creatorTraningListController.js" />
+    <Content Include="Scripts\Controllers\invitationController.js" />
     <Content Include="Scripts\Controllers\managerResultController.js" />
     <Content Include="Scripts\Controllers\protectorAppLogsController.js" />
     <Content Include="Scripts\Controllers\protectorPermissionsController.js" />

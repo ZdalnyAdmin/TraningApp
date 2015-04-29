@@ -24,10 +24,8 @@ namespace AppEngine.Models.DataContext
         }
 
         //public DbSet<Person> Persons { get; set; } // We acctually have context for this DbSet it's named Users.
-        public DbSet<Profile> Profiles { get; set; }
         public DbSet<ProfileGroup> Groups { get; set; }
         public DbSet<Organization> Organizations { get; set; }
-        public DbSet<Status> Status { get; set; }
         public DbSet<TrainingResult> TrainingResults { get; set; }
         public DbSet<Training> Trainings { get; set; }
         public DbSet<ProfileGroup2Person> PeopleInGroups { get; set; }

@@ -18,10 +18,13 @@ namespace AppEngine.Models.DataBusiness
         [Description("Usunięty")]
         Deleted = 3,
 
-        [Description("Zaproszony")]
+        [Description("Oczekujący")]
         Invited = 4,
 
-        [Description("Odrzucony")]
-        Rejected = 5
+        [Description("Nieaktualne - wysłano kolejne")]
+        Reinvited = 5,
+
+        [Description("Usunięte")]
+        Rejected = 6
     }
 }

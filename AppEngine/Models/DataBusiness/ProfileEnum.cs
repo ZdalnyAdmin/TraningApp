@@ -9,6 +9,9 @@ namespace AppEngine.Models.DataBusiness
 {
     public enum ProfileEnum
     {
+        [Description("Superuser")]
+        Superuser = 0,
+
         [Description("Administrator")]
         Administrator = 1,
 

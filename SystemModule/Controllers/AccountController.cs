@@ -90,6 +90,7 @@ namespace SystemModule.Controllers
                         Email = model.Email,
                         RegistrationDate = DateTime.Now,
                         Profile = ProfileEnum.Administrator, // Temporary
+                        InvitationDate = DateTime.Now,
                         //Organization = (from o in _db.Organizations select o)
                           //              .FirstOrDefault(), // Temporary
                         Status = StatusEnum.Active // Temporary

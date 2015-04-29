@@ -7,9 +7,11 @@
     };
 
     $scope.login = function () {
+        $scope.processing = true;
         var result = LoginFactory.login($scope.loginForm.emailAddress, $scope.loginForm.password);
         result.then(function (result) {
             if (result.success) {
+                $scope.processing = false;
                 if ($scope.loginForm.returnUrl !== undefined) {
                     $location.path($scope.loginForm.returnUrl).search('');
                 } else {
@@ -17,6 +19,7 @@
                 }
             } else {
                 $scope.loginForm.loginFailure = true;
+                $scope.processing = false;
             }
         });
     }

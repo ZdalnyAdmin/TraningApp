@@ -4,6 +4,7 @@ OrganizationModuleApp.controller('BaseController', BaseController);
 OrganizationModuleApp.controller('LoginController', LoginController);
 OrganizationModuleApp.controller('LogoffController', LogoffController);
 OrganizationModuleApp.controller('RegisterController', RegisterController);
+OrganizationModuleApp.controller('invitationController', invitationController);
 OrganizationModuleApp.controller('ResetPasswordController', ResetPasswordController);
 OrganizationModuleApp.controller('usersListModalController', usersListModalController);
 OrganizationModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
@@ -47,7 +48,8 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             templateUrl: 'Manager/EditTrainings'
         })
         .when('/managerInvitation', {
-            templateUrl: 'Manager/Invitation'
+            templateUrl: 'Manager/Invitation',
+            controller: invitationController
         })
         .when('/adminUsers', {
             templateUrl: 'Admin/Users'
