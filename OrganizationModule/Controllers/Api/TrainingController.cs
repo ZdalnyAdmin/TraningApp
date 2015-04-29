@@ -1,6 +1,8 @@
-﻿using AppEngine.Models.Common;
+﻿using AppEngine.Models;
+using AppEngine.Models.Common;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.DataObject;
+using AppEngine.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -64,6 +66,7 @@ namespace OrganizationModule.Controllers.Api
                         index++;
                     }
                 }
+
                 index = 0;
                 if (obj.Questions != null && obj.Questions.Any())
                 {
@@ -74,13 +77,12 @@ namespace OrganizationModule.Controllers.Api
                     }
                 }
 
-                //group.IsDeleted = false;
                 if (ModelState.IsValid)
                 {
                     db.Trainings.Add(obj);
                     db.SaveChanges();
+                    LogService.InsertTrainingLogs(OperationLog.KursNowy, db, obj.TrainingID, obj.CreateUserID);
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
-                    //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = group.ProfileGroupID }));
                     return response;
                 }
                 else
