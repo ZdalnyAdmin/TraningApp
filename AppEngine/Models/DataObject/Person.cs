@@ -75,13 +75,6 @@ namespace AppEngine.Models.Common
             }
 
             var code = await manager.GeneratePasswordResetTokenAsync(this.Id);
-
-            //var currentUser = (from p in _db.Users 
-            //                   where p.Id == this.Id
-            //                   select p)
-            //                   .FirstOrDefault();
-
-            //currentUser.ResetPasswordDate = DateTime.Now;
             
             this.ResetPasswordDate = DateTime.Now;
             result = await manager.UpdateAsync(this);
