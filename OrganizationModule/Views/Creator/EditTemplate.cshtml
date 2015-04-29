@@ -1,0 +1,90 @@
+﻿<div ng-app="" ng-controller="creatorEditTrainingController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+
+    <div id="simpleRow">
+        INFORMACJE O SZKOLENIU
+    </div>
+
+    <div id="simpleRow">
+        NAZWA SZKOLENIA
+        <input type="text" name="currentTraining.Name" ng-model="currentTraining.Name" />
+    </div>
+
+    <div id="simpleRow">
+        OPIS SZKOLENIA
+        <input type="text" name="currentTraining.Description" ng-model="currentTraining.Description" />
+    </div>
+
+    <div id="simpleRow">
+        Grafika obrazujaca szkolenie [400 x 300px i nie wieksza niz 350kb]: {{currentTraining.PassResources}}
+        <div id="inputButto" ng-click="loadImage()">
+            Wczytaj inny
+        </div>
+    </div>
+
+
+    <div id="simpleRow">
+        Ile procent punktow jest niezbednych do zaliczenia Twojego szkolenia?
+    </div>
+
+    <div id="simpleRow">
+        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="100" />100%
+        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="80" />80%
+        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="65" />65%
+        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="50" />50%
+    </div>
+
+    <div id="simpleRow">
+        Komunikat, ktory zobacza uzytkownicy ktorzy zalicza kurs (osiagna wymagana liczbe punktow)
+    </div>
+
+    <div id="simpleRow">
+        <input type="text" name="currentTraining.PassInfo" ng-model="currentTraining.PassInfo" />
+    </div>
+
+    <div id="simpleRow">
+        Odznaka za pozytywne zakonczenie kursu
+    </div>
+
+    <div id="simpleRow">
+        Jesli chcesz je zmienic wczytaj wlasna [musi byc 100px na 100px i nie wieksza niz 150kb] lub wybierz ktoras z przygotowanych przez nas!
+    </div>
+
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="loadIcon()">
+            Wgraj wlasna
+        </div>
+        <div id="inputButto" ng-click="showIcon()">
+            Wybierz z listy
+        </div>
+    </div>
+
+    <div id="simpleRow">
+        OKRESL DLA KOGO MA BYC WIDOCZNE SZKOLENIE
+    </div>
+    <div ng-repeat="item in Groups">
+        <input type="checkbox" ng-model="item.selected" />{{item.Name}}
+    </div>
+    <div id="simpleRow">
+        Jesli nie zaznaczysz zadnej grupy, kurs będzie widoczny tylko dla Ciebie
+    </div>
+    <div id="simpleRow">
+        ZAWARTOSC SZKOLENIA
+    </div>
+
+    @* Add body - create direcitive *@
+
+
+
+
+
+
+
+
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="save()">
+            ZAPISZ ZMIANY W TYM SZKOLENIU
+        </div>
+    </div>
+</div>

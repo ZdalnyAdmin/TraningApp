@@ -41,7 +41,7 @@
 
     <div id="simpleRow">
         <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="100" />100%
-        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="80" />80%
+        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="80" checked="checked"/>80%
         <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="65" />65%
         <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="50" />50%
     </div>
@@ -51,7 +51,7 @@
     </div>
 
     <div id="simpleRow">
-        <input type="text" />
+        <input type="text" name="currentTraining.PassInfo" ng-model="currentTraining.PassInfo" />
     </div>
 
     <div id="simpleRow">
@@ -77,7 +77,8 @@
 
     <tabset>
         <tab heading="dodaj tekst">
-            <input type="text" ng-model="currentDetail.Text" name="currentDetail.Text" />
+            <training-text-editor />
+            @*<input type="text" ng-model="currentDetail.Text" name="currentDetail.Text" />*@
             <div id="simpleRow">
                 <div id="inputButto" ng-click="cancel(currentDetail, 0)">
                     Anuluj
