@@ -12,7 +12,6 @@ namespace AppEngine.Models.DataObject
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int TrainingAnswerID { get; set; }
         public int TrainingQuestionID { get; set; }
-        public int TrainingID { get; set; }
         public string Text { get; set; }
         public string Answers { get; set; }
         public string Score { get; set; }

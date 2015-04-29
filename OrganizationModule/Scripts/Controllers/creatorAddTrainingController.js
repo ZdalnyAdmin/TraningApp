@@ -1,34 +1,23 @@
 ﻿function creatorAddTrainingController($scope, $http, $modal) {
     $scope.loading = true;
-    $scope.trainingDetails = [];
+    $scope.currentTraining = {};
+    //training question elements
     $scope.trainingQuestion = [];
     $scope.questionType = ['jednokrotnego wyboru', 'wielokrotnego wyboru', 'wpisanie odpowiedzi'];
     $scope.selectedQuestion = 0;
     $scope.currentQuestion = {};
     $scope.editableQuestion = {};
+    $scope.showQuestionType = false;
+    //training details elements
+    $scope.trainingDetails = [];
     $scope.currentDetail = {};
     $scope.editableDetail = {};
-    $scope.showQuestionType = false;
+
+
     //Used to display the data 
-
-    $scope.loadData = function () {
-
-        $http.get('/api/Logs').success(function (data) {
-            $scope.Logs = data;
-            $scope.DbLogs = data;
-            $scope.loading = false;
-        })
-        .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
-        });
-
-        //Used to display the data 
-
-    }
-
     $scope.loadGroups = function () {
-        $http.get('/api/Group').success(function (data) {
+        $http.get('/api/Group')
+        .success(function (data) {
             if (!data) {
                 return;
             }
@@ -41,7 +30,6 @@
         });
     }
 
-    $scope.loadData();
     $scope.loadGroups();
 
     $scope.loadImage = function () {
@@ -56,6 +44,28 @@
 
     }
 
+    $scope.save = function () {
+        //check conditions
+        if (!$scope.currentTraining.Name) {
+            return;
+        }
+        $scope.currentTraining.CreateUserID = 1;
+        $scope.currentTraining.Details = $scope.trainingDetails;
+        $scope.currentTraining.Questions = $scope.trainingQuestion;
+        $http.post('/api/Training', $scope.currentTraining)
+        .success(function (data) {
+            $scope.loading = false;
+
+            $scope.currentTraining = {};
+            $scope.trainingDetails = [];
+            $scope.trainingQuestion = [];
+        })
+        .error(function () {
+            $scope.error = "An Error has occured while loading posts!";
+            $scope.loading = false;
+        });
+    }
+
     //details methods
     $scope.upload = function (item, resourceType) {
         //todo
@@ -66,13 +76,11 @@
     }
 
     $scope.add = function (item, resourceType) {
-        if (!$scope.currentDetail)
-        {
+        if (!$scope.currentDetail) {
             return;
         }
 
-        if($scope.currentDetail.Text && resourceType == 0)
-        {
+        if ($scope.currentDetail.Text && resourceType == 0) {
             $scope.currentDetail.isEdit = false;
             $scope.currentDetail.ResourceType = resourceType;
             $scope.trainingDetails.push($scope.currentDetail);
@@ -255,7 +263,7 @@
     createAnswer = function () {
         var obj = {};
         obj.Text = '';
-        obj.selected = false;
+        obj.IsSelected = false;
         obj.Score = '';
         return obj;
     }

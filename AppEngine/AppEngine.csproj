@@ -102,7 +102,6 @@
     <Compile Include="Models\DataObject\TrainingQuestion.cs" />
     <Compile Include="Models\DataObject\TrainingQuestionResult.cs" />
     <Compile Include="Models\DataObject\TrainingResult.cs" />
-    <Compile Include="Models\DataObject\TrainingType.cs" />
     <Compile Include="Models\DataContext\EFContext.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

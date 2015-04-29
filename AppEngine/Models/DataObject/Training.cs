@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AppEngine.Models.DataObject;
 
 namespace AppEngine.Models.Common
 {
@@ -18,8 +19,13 @@ namespace AppEngine.Models.Common
         public TrainingType TrainingType { get; set; }
         public DateTime CreateDate { get; set; }
         public string CreateUserID { get; set; }
+        public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
         public int? DeletedUserID { get; set; }
+
+        public List<TrainingDetail> Details { get; set; }
+        public List<TrainingQuestion> Questions { get; set; }
+
 
         //logo szkolenia - sciezka
         public string TrainingResources { get; set; }
@@ -64,5 +70,12 @@ namespace AppEngine.Models.Common
             }
         }
 
+    }
+
+    public enum TrainingType
+    {
+        Internal = 0,
+        Kenpro = 1, 
+        Other = 2,
     }
 }

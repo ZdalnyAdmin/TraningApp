@@ -12,12 +12,12 @@
 
     <div id="simpleRow">
         NAZWA SZKOLENIA
-        <input type="text" />
+        <input type="text" name="currentTraining.Name" ng-model="currentTraining.Name" />
     </div>
 
     <div id="simpleRow">
         OPIS SZKOLENIA
-        <input type="text" />
+        <input type="text" name="currentTraining.Description" ng-model="currentTraining.Description" />
     </div>
 
     <div id="simpleRow">
@@ -40,10 +40,10 @@
     </div>
 
     <div id="simpleRow">
-        <input type="radio" name="passResult" />100%
-        <input type="radio" name="passResult" />80%
-        <input type="radio" name="passResult" />65%
-        <input type="radio" name="passResult" />50%
+        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="100" />100%
+        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="80" />80%
+        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="65" />65%
+        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="50" />50%
     </div>
 
     <div id="simpleRow">
@@ -259,28 +259,28 @@
                 <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
             </div>
             <div id="simpleRow">
-                <input type="radio" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[0].selected" />
+                <input type="radio" name="answer" value=true ng-disabled="!item.isEdit" ng-model="item.Answers[0].IsSelected" />
 
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Text">
                 Punkty
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Score">
             </div>
             <div id="simpleRow">
-                <input type="radio" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[1].selected" />
+                <input type="radio" name="answer" value=true ng-disabled="!item.isEdit" ng-model="item.Answers[1].IsSelected" />
 
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[1].Text">
                 Punkty
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[1].Score">
             </div>
             <div id="simpleRow">
-                <input type="radio" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[2].selected" />
+                <input type="radio" name="answer" value=true ng-disabled="!item.isEdit" ng-model="item.Answers[2].IsSelected" />
 
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[2].Text">
                 Punkty
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[2].Score">
             </div>
             <div id="simpleRow">
-                <input type="radio" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[3].selected" />
+                <input type="radio" name="answer" value=true ng-disabled="!item.isEdit" ng-model="item.Answers[3].IsSelected" />
 
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[3].Text">
                 Punkty
@@ -296,28 +296,28 @@
                 <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
             </div>
             <div id="simpleRow">
-                <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[0].selected" />
+                <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[0].IsSelected" />
 
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Text">
                 Punkty
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Score">
             </div>
             <div id="simpleRow">
-                <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[1].selected" />
+                <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[1].IsSelected" />
 
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[1].Text">
                 Punkty
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[1].Score">
             </div>
             <div id="simpleRow">
-                <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[2].selected" />
+                <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[2].IsSelected" />
 
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[2].Text">
                 Punkty
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[2].Score">
             </div>
             <div id="simpleRow">
-                <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[3].selected" />
+                <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[3].IsSelected" />
 
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[3].Text">
                 Punkty
@@ -348,28 +348,28 @@
             <input type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text">
         </div>
         <div id="simpleRow">
-            <input type="radio" name="answer" ng-model="currentQuestion.Answers[0].selected" />
+            <input type="radio" name="answer" value=true ng-model="currentQuestion.Answers[0].IsSelected" />
 
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Text">
             Punkty
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Score">
         </div>
         <div id="simpleRow">
-            <input type="radio" name="answer" ng-model="currentQuestion.Answers[1].selected" />
+            <input type="radio" name="answer" value=true ng-model="currentQuestion.Answers[1].IsSelected" />
 
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[1].Text">
             Punkty
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[1].Score">
         </div>
         <div id="simpleRow">
-            <input type="radio" name="answer" ng-model="currentQuestion.Answers[2].selected" />
+            <input type="radio" name="answer" value=true ng-model="currentQuestion.Answers[2].IsSelected" />
 
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[2].Text">
             Punkty
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[2].Score">
         </div>
         <div id="simpleRow">
-            <input type="radio" name="answer" ng-model="currentQuestion.Answers[3].selected" />
+            <input type="radio" name="answer" value=true ng-model="currentQuestion.Answers[3].IsSelected" />
 
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[3].Text">
             Punkty
@@ -382,28 +382,28 @@
             <input type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text">
         </div>
         <div id="simpleRow">
-            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[0].selected" />
+            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[0].IsSelected" />
 
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Text">
             Punkty
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Score">
         </div>
         <div id="simpleRow">
-            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[1].selected" />
+            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[1].IsSelected" />
 
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[1].Text">
             Punkty
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[1].Score">
         </div>
         <div id="simpleRow">
-            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[2].selected" />
+            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[2].IsSelected" />
 
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[2].Text">
             Punkty
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[2].Score">
         </div>
         <div id="simpleRow">
-            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[3].selected" />
+            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[3].IsSelected" />
 
             <input type="text" id="mainInput" ng-model="currentQuestion.Answers[3].Text">
             Punkty
