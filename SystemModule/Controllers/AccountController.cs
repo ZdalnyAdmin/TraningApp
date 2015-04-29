@@ -2,10 +2,12 @@
 using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
+using AppEngine.Models.DataContext;
 using AppEngine.Models.ViewModels.Account;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Web;
@@ -15,6 +17,10 @@ namespace SystemModule.Controllers
 {
     public class AccountController : Controller
     {
+
+        #region Private Fields
+        private EFContext _db = new EFContext();
+        #endregion
 
         #region Identity
         private ApplicationUserManager _userManager;
@@ -74,16 +80,19 @@ namespace SystemModule.Controllers
             if (ModelState.IsValid)
             {
                 IdentityResult result = new IdentityResult();
-
+                 
                 try
                 {
-                    var user = new Person { 
-                        UserName = model.UserName, 
-                        Email = model.Email, 
+                    
+                    var user = new Person
+                    {
+                        UserName = model.UserName,
+                        Email = model.Email,
                         RegistrationDate = DateTime.Now,
-                        ProfileID = 1, // Temporary
-                        OrganizationID = 1, // Temporary
-                        StatusID = 1 // Temporary
+                        Profile = ProfileEnum.Administrator, // Temporary
+                        //Organization = (from o in _db.Organizations select o)
+                          //              .FirstOrDefault(), // Temporary
+                        Status = StatusEnum.Active // Temporary
                     }; 
 
                     result = await UserManager.CreateAsync(user, model.Password);

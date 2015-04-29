@@ -24,13 +24,13 @@ namespace OrganizationModule.Controllers
             var people =  db.Users.ToList();
             foreach (var item in people)
             {
-                item.Status = (from t in db.Status
-                               where t.StatusID == item.StatusID
-                               select t).FirstOrDefault();
+                //item.Status = (from t in db.Status
+                //               where t.StatusID == item.StatusID
+                //               select t).FirstOrDefault();
 
-                item.Profile = (from t in db.Profiles
-                                where t.ProfileID == item.ProfileID
-                                select t).FirstOrDefault();
+                //item.Profile = (from t in db.Profiles
+                //                where t.ProfileID == item.ProfileID
+                //                select t).FirstOrDefault();
 
                 item.SetAssignedTrainingsNumber((from t in db.TrainingResults
                                                  where t.PersonID == item.Id
@@ -81,10 +81,10 @@ namespace OrganizationModule.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            if (person.Status != null && person.Status.StatusID != person.StatusID)
-            {
-                person.StatusID = person.Status.StatusID;
-            }
+            //if (person.Status != null && person.Status.StatusID != person.StatusID)
+            //{
+            //    person.StatusID = person.Status.StatusID;
+            //}
 
             db.Entry(person).State = EntityState.Modified;
             try

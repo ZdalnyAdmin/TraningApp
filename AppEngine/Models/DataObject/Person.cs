@@ -21,12 +21,10 @@ namespace AppEngine.Models.Common
 
         #region Properties
 
-        public int ProfileID { get; set; }
-        public Profile Profile { get; set; }
+        public ProfileEnum Profile { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-        public int StatusID { get; set; }
-        public Status Status { get; set; }
+        public StatusEnum Status { get; set; }
         public DateTime RegistrationDate { get; set; }
         public int RegistrationUserID { get; set; }
         public DateTime? LastActivationDate { get; set; }

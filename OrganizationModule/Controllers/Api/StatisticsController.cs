@@ -19,8 +19,8 @@ namespace OrganizationModule.Controllers.Api
         {
             //get from correct profil
             var stats = new Statistic();
-            stats.ActivePeople = db.Users.Count(x => x.StatusID == 1 && !x.IsDeleted);
-            stats.BlockedPeople = db.Users.Count(x => x.StatusID == 2 && !x.IsDeleted);
+            stats.ActivePeople = db.Users.Count(x => x.Status == StatusEnum.Active && !x.IsDeleted);
+            stats.BlockedPeople = db.Users.Count(x => x.Status == StatusEnum.Deleted && !x.IsDeleted);
             stats.DeleteAccount = db.Users.Count(x => x.IsDeleted);
 
             stats.StartedTrainings = db.TrainingResults.Count(x => x.StartDate.HasValue);
