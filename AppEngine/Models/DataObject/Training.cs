@@ -19,6 +19,7 @@ namespace AppEngine.Models.Common
         public TrainingType TrainingType { get; set; }
         public DateTime CreateDate { get; set; }
         public string CreateUserID { get; set; }
+        public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
         public int? DeletedUserID { get; set; }
 
@@ -69,5 +70,12 @@ namespace AppEngine.Models.Common
             }
         }
 
+    }
+
+    public enum TrainingType
+    {
+        Internal = 0,
+        Kenpro = 1, 
+        Other = 2,
     }
 }

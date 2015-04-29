@@ -1,5 +1,6 @@
 ﻿using AppEngine.Models.Common;
 using AppEngine.Models.DataContext;
+using AppEngine.Models.DataObject;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -21,14 +22,14 @@ namespace OrganizationModule.Controllers.Api
         {
             //get from correct profile
             var list = db.Trainings.ToList();
-            if(list == null)
+            if (list == null)
             {
                 return null;
             }
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 var user = db.Users.FirstOrDefault(x => x.Id == item.CreateUserID);
-                if(user == null)
+                if (user == null)
                 {
                     continue;
                 }
@@ -44,6 +45,53 @@ namespace OrganizationModule.Controllers.Api
             }
 
             return list;
+        }
+
+        public HttpResponseMessage Post(Training obj)
+        {
+            try
+            {
+                obj.CreateDate = DateTime.Now;
+                obj.IsDeleted = false;
+                obj.IsActive = false;
+                obj.IsDeleted = false;
+                int index = 0;
+                if (obj.Details != null && obj.Details.Any())
+                {
+                    foreach (var item in obj.Details)
+                    {
+                        item.DisplayNo = index;
+                        index++;
+                    }
+                }
+                index = 0;
+                if (obj.Questions != null && obj.Questions.Any())
+                {
+                    foreach (var item in obj.Questions)
+                    {
+                        item.DisplayNo = index;
+                        index++;
+                    }
+                }
+
+                //group.IsDeleted = false;
+                if (ModelState.IsValid)
+                {
+                    db.Trainings.Add(obj);
+                    db.SaveChanges();
+                    HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
+                    //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = group.ProfileGroupID }));
+                    return response;
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+            }
+            catch(Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+            }
         }
 
         // PUT api/<controller>/5
