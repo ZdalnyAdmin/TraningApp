@@ -1,6 +1,6 @@
 ﻿/// <reference path="C:\asp\TraningApp\OrganizationModule\Templates/trainingTextEditor.html" />
 window.App
-.directive('ngTrainingTextEditor', function () {
+.directive('ngTrainingTextEditor', [function () {
     return {
         scope: true,  // use a child scope that inherits from parent
         restrict: 'A',
@@ -12,4 +12,4 @@ window.App
             };
         }]
     };
-});
+}]);
