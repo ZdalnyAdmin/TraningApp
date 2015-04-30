@@ -22,8 +22,7 @@ namespace AppEngine.Models.Common
         #region Properties
 
         public ProfileEnum Profile { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
+        public string DisplayName { get; set; }
         public StatusEnum Status { get; set; }
         public DateTime? RegistrationDate { get; set; }
         public DateTime InvitationDate { get; set; }

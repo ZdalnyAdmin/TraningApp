@@ -1,4 +1,4 @@
-﻿var ResetPasswordController = function ($scope, $routeParams, $location, LoginFactory) {
+﻿var ResetPasswordController = function ($scope, $routeParams, $location, UserFactory) {
     $scope.resetForm = {
         Email: '',
         UserName: ''
@@ -8,7 +8,7 @@
 
     $scope.resetPassword = function () {
         $scope.errorMessage = '';
-        var result = LoginFactory.reset($scope.resetForm);
+        var result = UserFactory.reset($scope.resetForm);
 
         result.then(function (data) {
             if (data.Succeeded) {
@@ -27,4 +27,4 @@
     }
 };
 
-ResetPasswordController.$inject = ['$scope', '$routeParams', '$location', 'LoginFactory'];
+ResetPasswordController.$inject = ['$scope', '$routeParams', '$location', 'UserFactory'];

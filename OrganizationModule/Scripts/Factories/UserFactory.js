@@ -1,4 +1,4 @@
-﻿var LoginFactory = function ($http, $q) {
+﻿var UserFactory = function ($http, $q) {
     var login = function (emailAddress, password) {
 
         var deferredObject = $q.defer();
@@ -95,13 +95,31 @@
         return deferredObject.promise;
     };
 
+    var inviteUser = function (inviteObject) {
+
+        var deferredObject = $q.defer();
+
+        $http.post(
+            '/Manager/Invitation', inviteObject
+        ).
+        success(function (data) {
+            deferredObject.resolve(data);
+        }).
+        error(function () {
+            deferredObject.resolve(data);
+        });
+
+        return deferredObject.promise;
+    };
+
     return {
         login: login,
         logoff: logoff,
         register: register,
         reset: reset,
+        inviteUser: inviteUser,
         resetPasswordConfirmation: resetPasswordConfirmation
     }
 }
 
-LoginFactory.$inject = ['$http', '$q'];
+UserFactory.$inject = ['$http', '$q'];

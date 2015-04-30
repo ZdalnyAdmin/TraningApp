@@ -1,4 +1,4 @@
-﻿var LoginFactory = function ($http, $q) {
+﻿var UserFactory = function ($http, $q) {
     var login = function (emailAddress, password) {
 
         var deferredObject = $q.defer();
@@ -105,4 +105,4 @@
     }
 }
 
-LoginFactory.$inject = ['$http', '$q'];
+UserFactory.$inject = ['$http', '$q'];

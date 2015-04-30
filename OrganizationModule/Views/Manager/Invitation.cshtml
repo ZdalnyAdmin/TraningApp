@@ -3,8 +3,8 @@
 <div>
     <div>Wprowadź dane i zaproś użytkownika do udziału w grupie:</div>
     <form name="inviteFrm">
-        <div><label for="inviteUserName">Nazwa Użytkownika</label><input name="inviteUserName" ng-model="user.inviteUserName" type="text" placeholder="NazwaUżytkownika" required maxlength="30" /></div>
-        <div><label for="inviteUserEmail">Adres Email</label><input name="inviteUserEmail" ng-model="user.inviteUserEmail" type="text" placeholder="adres@email.pl" required maxlength="30" /></div>
+        <div><label for="inviteUserName">Nazwa Użytkownika</label><input name="inviteUserName" ng-model="user.UserName" type="text" placeholder="NazwaUżytkownika" required maxlength="30" /></div>
+        <div><label for="inviteUserEmail">Adres Email</label><input name="inviteUserEmail" ng-model="user.Email" type="text" placeholder="adres@email.pl" required maxlength="30" /></div>
         <div><label for="inviteUserRole">Rola</label>
             <select name="inviteUserRole" ng-model="user.inviteUserRole">
                 <option value="@((int)ProfileEnum.User)">@ProfileEnum.User.GetDescription()</option>

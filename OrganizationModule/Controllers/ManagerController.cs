@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Collections.ObjectModel;
+using AppEngine.Models.ViewModels.Manager;
 
 namespace OrganizationModule.Controllers
 {
@@ -59,6 +60,17 @@ namespace OrganizationModule.Controllers
             var invitedUsers = _db.Users.Where(user => user.OrganizationID == currentUser.OrganizationID).ToList();
             ViewBag.InvitedUsers = invitedUsers;
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult Invitation(InviteUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            return getErrorsFromModel();
         }
     }
 }

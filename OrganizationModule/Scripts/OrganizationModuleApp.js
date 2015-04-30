@@ -9,7 +9,7 @@ OrganizationModuleApp.controller('ResetPasswordController', ResetPasswordControl
 OrganizationModuleApp.controller('usersListModalController', usersListModalController);
 OrganizationModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
 OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
-OrganizationModuleApp.factory('LoginFactory', LoginFactory);
+OrganizationModuleApp.factory('UserFactory', UserFactory);
 //OrganizationModuleApp.service('SessionService', SessionService)
 
 var configFunction = function ($routeProvider, $httpProvider, $locationProvider) {

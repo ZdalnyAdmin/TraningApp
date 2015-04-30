@@ -1,10 +1,10 @@
-﻿function invitationController($scope, $http, $modal) {
+﻿function invitationController($scope, $http, $modal, UserFactory) {
     $scope.user = {
-        inviteUserRole: 5
+        Role: 5
     };
 
     $scope.invite = function () {
-
+        UserFactory.inviteUser($scope.user);
     };
     
     $scope.reload = function () {
@@ -12,4 +12,4 @@
     }
 }
 
-invitationController.$inject = ['$scope', '$http', '$modal'];
+invitationController.$inject = ['$scope', '$http', '$modal', 'UserFactory'];

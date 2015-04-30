@@ -6,7 +6,7 @@ SystemModuleApp.controller('RegisterController', RegisterController);
 SystemModuleApp.controller('ResetPasswordController', ResetPasswordController);
 SystemModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
 SystemModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
-SystemModuleApp.factory('LoginFactory', LoginFactory);
+SystemModuleApp.factory('UserFactory', UserFactory);
 //SystemModuleApp.service('SessionService', SessionService);
 
 var configFunction = function ($routeProvider, $httpProvider, $locationProvider) {

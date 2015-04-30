@@ -1,4 +1,4 @@
-﻿var LoginController = function ($scope, $routeParams, $location, LoginFactory) {
+﻿var LoginController = function ($scope, $routeParams, $location, UserFactory) {
     $scope.loginForm = {
         emailAddress: '',
         password: '',
@@ -7,7 +7,7 @@
     };
 
     $scope.login = function () {
-        var result = LoginFactory.login($scope.loginForm.emailAddress, $scope.loginForm.password);
+        var result = UserFactory.login($scope.loginForm.emailAddress, $scope.loginForm.password);
         result.then(function (result) {
             if (result.success) {
                 if ($scope.loginForm.returnUrl !== undefined) {
@@ -22,4 +22,4 @@
     }
 };
 
-LoginController.$inject = ['$scope', '$routeParams', '$location', 'LoginFactory'];
+LoginController.$inject = ['$scope', '$routeParams', '$location', 'UserFactory'];

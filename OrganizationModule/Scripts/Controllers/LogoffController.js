@@ -1,6 +1,6 @@
-﻿var LogoffController = function ($scope, $window, $timeout, $location, LoginFactory) {
+﻿var LogoffController = function ($scope, $window, $timeout, $location, UserFactory) {
     (function () {
-        var result = LoginFactory.logoff();
+        var result = UserFactory.logoff();
         result.then(function (result) {
             if (result.success) {
                 $timeout(function () {
@@ -12,4 +12,4 @@
     })();
 };
 
-LogoffController.$inject = ['$scope', '$window', '$timeout', '$location', 'LoginFactory'];
+LogoffController.$inject = ['$scope', '$window', '$timeout', '$location', 'UserFactory'];

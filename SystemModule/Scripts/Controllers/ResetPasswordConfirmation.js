@@ -1,4 +1,4 @@
-﻿var ResetPasswordConfirmation = function ($scope, $routeParams, $location, LoginFactory) {
+﻿var ResetPasswordConfirmation = function ($scope, $routeParams, $location, UserFactory) {
     var search = $location.search();
     if(!search.code) {
         $location.path('/').search('');
@@ -13,7 +13,7 @@
 
     $scope.confirmResetPassword = function () {
         $scope.errorMessage = '';
-        var result = LoginFactory.resetPasswordConfirmation($scope.resetPasswordData);
+        var result = UserFactory.resetPasswordConfirmation($scope.resetPasswordData);
 
         result.then(function (data) {
             if (data.Succeeded) {
@@ -32,4 +32,4 @@
     }
 };
 
-ResetPasswordConfirmation.$inject = ['$scope', '$routeParams', '$location', 'LoginFactory'];
+ResetPasswordConfirmation.$inject = ['$scope', '$routeParams', '$location', 'UserFactory'];

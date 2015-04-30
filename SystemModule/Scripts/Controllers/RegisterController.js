@@ -1,4 +1,4 @@
-﻿var RegisterController = function ($scope, $routeParams, $location, LoginFactory) {
+﻿var RegisterController = function ($scope, $routeParams, $location, UserFactory) {
     $scope.registrationData = {
         Email: 'email@mail.pl',
         Role: 'xxx'
@@ -13,7 +13,7 @@
 
     $scope.register = function () {
         $scope.errorMessage = '';
-        var result = LoginFactory.register($scope.registrationData);
+        var result = UserFactory.register($scope.registrationData);
 
         result.then(function (data) {
             if (data.Succeeded) {
@@ -32,4 +32,4 @@
     }
 };
 
-RegisterController.$inject = ['$scope', '$routeParams', '$location', 'LoginFactory'];
+RegisterController.$inject = ['$scope', '$routeParams', '$location', 'UserFactory'];
