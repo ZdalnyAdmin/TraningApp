@@ -29,7 +29,7 @@ namespace OrganizationModule.Controllers
         /// Navigate to trainig modifications view
         /// </summary>
         /// <returns></returns>
-        public ActionResult EditTranings()
+        public ActionResult EditTrainings()
         {
             return View();
         }

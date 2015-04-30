@@ -1,4 +1,4 @@
-﻿var OrganizationModuleApp = angular.module('OrganizationModuleApp', ['ngRoute', 'ui.bootstrap']);
+﻿var OrganizationModuleApp = window.App;
 
 OrganizationModuleApp.controller('BaseController', BaseController);
 OrganizationModuleApp.controller('LoginController', LoginController);

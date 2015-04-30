@@ -21,9 +21,13 @@ namespace OrganizationModule
                 "~/Content/Menu/menu.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/OrganizationModuleApp")
+               .Include("~/Scripts/App.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/OrganizationModuleAppComponents")
                 .IncludeDirectory("~/Scripts/Controllers", "*.js")
                 .IncludeDirectory("~/Scripts/Factories", "*.js")
                 .IncludeDirectory("~/Scripts/Services", "*.js")
+                .IncludeDirectory("~/Scripts/Directives", "*.js")
                 .Include("~/Scripts/OrganizationModuleApp.js"));
 
             bundles.Add(new StyleBundle("~/Trainings").Include(
