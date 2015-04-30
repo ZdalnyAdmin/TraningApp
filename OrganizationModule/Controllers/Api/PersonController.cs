@@ -1,5 +1,6 @@
 ﻿using AppEngine.Models;
 using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Services;
 using System;
@@ -21,7 +22,7 @@ namespace OrganizationModule.Controllers
         [HttpGet]
         public IEnumerable<Person> Get()
         {
-            var people =  db.Users.ToList();
+            var people =  db.Users.Where(x=>x.Status == StatusEnum.Active || x.Status == StatusEnum.Blocked || x.Status == StatusEnum.Deleted).ToList();
             foreach (var item in people)
             {
                 //item.Status = (from t in db.Status

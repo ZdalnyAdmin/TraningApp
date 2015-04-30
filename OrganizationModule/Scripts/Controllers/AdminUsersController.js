@@ -1,9 +1,10 @@
 ﻿function adminUsersController($scope, $http, $modal) {
     $scope.loading = true;
     $scope.addMode = false;
+    $scope.showEdit = false;
+    $scope.editablePerson = {};
+    $scope.availableStatus = ['Aktywny', 'Zablokowany'];
     //temp solution
-
-
 
     //Used to display the data 
     $scope.loadData = function () {
@@ -15,6 +16,8 @@
                     deletePeople.push(item);
                 }
                 else {
+                    item.isEditable = false;
+                    item.selectedStatus = item.Status == 1 ? 'Aktywny' : 'Zablokowany';
                     people.push(item);
                 }
             });
@@ -41,7 +44,6 @@
         });
     }
 
-
     $scope.loadDict();
     //Used to save a record after edit 
     $scope.save = function (person) {
@@ -52,6 +54,9 @@
         $http.put('/api/Person/', person).success(function (data) {
             //shoudl get only by id
             $scope.loading = false;
+            person.isEditable = false;
+
+            $scope.editablePerson = {};
         }).error(function (data) {
             $scope.error = "An Error has occured while saving person! " + data;
             $scope.loading = false;
@@ -64,8 +69,13 @@
             return;
         }
         $scope.loading = true;
+        person.UserName = $scope.editablePerson.UserName;
+        person.Email = $scope.editablePerson.Email;
+        person.Status = $scope.editablePerson.Status;
+        person.selectedStatus = $scope.editablePerson.selectedStatus;
+        $scope.editablePerson = {};
         //shoudl get only by id
-        $scope.loadData();
+        person.isEditable = false;
     };
 
     $scope.delete = function (person) {
@@ -87,6 +97,23 @@
                 }
             }
         });
+    };
+
+    $scope.showEdit = function (person) {
+        if (!person) {
+            return;
+        }
+        person.isEditable = true;
+        $scope.editablePerson = angular.copy(person);
+
+    };
+
+    $scope.changeStatus = function (person) {
+        if (!person) {
+            return;
+        }
+        person.Status = person.selectedStatus == 'Aktywny' ? 1 : 2;
+
     };
 
     $scope.deleteUser = function (person) {

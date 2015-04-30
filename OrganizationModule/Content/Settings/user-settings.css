@@ -1,0 +1,43 @@
+﻿#user-settings .row{
+    margin:20px -15px;
+}
+#user-settings span{
+    display:block;
+    color:#436DAA ;
+}
+#user-settings strong{
+    font-size:24px;
+}
+#user-settings h2{
+    text-align:left;
+    border-bottom:1px solid #fff;
+    padding-bottom:10px;
+}
+#user-settings h4{
+    text-align:left;
+    padding-bottom:10px;
+}
+#user-settings .admin-emails a{
+    color:#6dffaa;
+}
+#user-settings .account-settings .row div:not(.delete-account) button:not(.cancel-button){
+    width:100%;
+}
+#user-settings .cancel-button{
+    display:block;
+    margin:auto;
+    margin-top:15px;
+}
+#user-settings .account-settings .row div:not(.delete-account) h4{
+    color:#436DAA;
+    text-align:center;
+    padding:0;
+}
+@media screen and (max-width: 767px) {
+    .navy-cloud:before{
+        content:none;
+    }
+    .navy-cloud{
+        margin-top:10px;
+    }
+}

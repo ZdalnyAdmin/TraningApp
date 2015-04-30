@@ -1,4 +1,159 @@
-﻿<div>
+﻿<div id="user-settings">
+    <div class="account-settings">
+        <h2>Dane konta</h2>
+        <div class="row">
+            <div class="col-sm-6 col-lg-8">
+                <span>TWÓJ ADRES E-MAIL</span>
+                <strong>{{ user.Email }}</strong>
+            </div>
+            @if (@ViewBag.Organization.CanUserChangeMail == true) { 
+                <div class="col-sm-6 col-lg-4">
+                    <button class="btn btn-input-l blue-button change-button">ZMIEŃ E-MAIL</button>
+                    <form style="display:none;" class="change-form">
+                        <h4>ZMIANA ADRESU E-MAIL</h4>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input class="input-xl form-control" ng-model="user.Email" type="text" name="E-mail" placeholder="nowy adres e-mail" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn-input-l btn blue-button">ZMIEŃ E-MAIL</button>
+                            </div>
+                        </div>
+                    </form>
+                    <button class="btn-input-l btn empty-button cancel-button" style="display:none;">ANULUJ</button>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-lg-8">
+                <span>TWOJA NAZWA UŻYTKOWNIKA</span>
+                <strong>{{ user.UserName }}</strong>
+            </div>
+            @if (ViewBag.Organization.CanUserChangeName == true)
+            {
+                <div class="col-sm-6 col-lg-4">
+                    <button class="btn btn-input-l blue-button change-button">ZMIEŃ NAZWĘ</button>
+                    <form style="display:none;" class="change-form">
+                        <h4>ZMIANA NAZWY</h4>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input class="input-xl form-control" ng-model="user.UserName" type="text" name="Name" placeholder="nowa nazwa użytkownika" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn-input-l btn blue-button">ZMIEŃ NAZWĘ</button>
+                            </div>
+                        </div>
+                    </form>
+                    <button class="btn-input-l btn empty-button cancel-button" style="display:none;">ANULUJ</button>
+                </div>
+            }
+        </div>
+        @* Tutaj będzie potrzebna przebudowa tej zmiany hasła troszeczkę, ponieważ wpisujemy nowe hasło, powtarzamy nowe hasło i login dla bezpieczeństwa (tak jak pisałem w mailu). 
+            Przy wyświetlaniu hasła nie wiem czy da się to zrobić w tym strongu żeby wyświetlało tyle gwiazdek ile ma liter hasło *@
+        <div class="row">
+            <div class="col-sm-6 col-lg-8">
+                <span>TWOJE HASŁO</span>
+                <strong>*******</strong>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <button class="btn btn-input-l blue-button change-button">ZMIEŃ HASŁO</button>
+                <form style="display:none;" class="change-form">
+                    <h4>ZMIANA HASŁA</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input class="input-xl form-control" type="text" name="Login" placeholder="login" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input class="input-xl form-control" ng-model="user.Password" type="password" name="Password" placeholder="nowe hasło (6-20) znaków" />
+                            <img class="show-signs" src="~/Content/Images/input-show-signs.png" />
+                            <img class="hide-signs" src="~/Content/Images/input-hide-signs.png" style="display:none;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input class="input-xl form-control" type="password" name="RepeatPassword" placeholder="powtórz nowe hasło" />
+                            <img class="show-signs" src="~/Content/Images/input-show-signs.png" />
+                            <img class="hide-signs" src="~/Content/Images/input-hide-signs.png" style="display:none;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn-input-l btn blue-button">ZMIEŃ HASŁO</button>
+                        </div>
+                    </div>
+                </form>
+                <button class="btn-input-l btn empty-button cancel-button" style="display:none;">ANULUJ</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 delete-account">
+                <h4>USUŃ SWOJE KONTO W TEJ ORGANIZACJI</h4>
+                <button class="btn btn-l empty-button">USUŃ SWOJE KONTO</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="organization-settings">
+        <h2>Dane organizacji</h2>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <span>NAZWA ORGANIZACJI</span>
+                <strong>@ViewBag.Organization.Name</strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-lg-8 admin-emails">
+                <span>ADRESY ADMINISTRATORÓW</span>
+                @foreach (var mail in ViewBag.AdminEmails)
+                {
+                    <div><a href="@mail">@mail</a></div>
+                }
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <div class="navy-cloud">Jeśli chcesz skontaktować się z administratorem organizacji, a nie znasz go osobiście, napisz do niego pod ten adres e-mail.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.change-button').click(function () {
+            $(this).hide();
+            $(this).parent().find('.change-form').toggle();
+            $(this).parent().find('.cancel-button').toggle();
+        })
+        $('.cancel-button').click(function () {
+            $(this).hide();
+            $(this).parent().find('.change-form').toggle();
+            $(this).parent().find('.change-button').toggle();
+
+        })
+
+        $('.show-signs').click(function () {
+            $(this).hide();
+            $(this).parent().find('.hide-signs').show();
+            $(this).parent().find('input').prop('type', 'text');
+            console.log('dsa')
+        })
+        $('.hide-signs').click(function () {
+            $(this).hide();
+            $(this).parent().find('.show-signs').show();
+            $(this).parent().find('input').prop('type', 'password');
+            console.log('dsa2')
+        })
+    })
+</script>
+@Styles.Render("~/Settings")
+
+@*<div>
     <div>Nazwa Organizacji: <span>@ViewBag.Organization.Name</span></div>
     <div>Twój adres email: 
         @if (@ViewBag.Organization.CanUserChangeMail == true)
@@ -28,4 +183,4 @@
             <span>@mail</span> 
         }
     </div>
-</div>
+</div>*@

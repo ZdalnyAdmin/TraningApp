@@ -17,6 +17,28 @@
     position:absolute;
     top:70px;
 }
+.navy-cloud{
+    background-color:#141932;
+    padding:10px;
+    
+}
+.navy-cloud:before{
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-image: url("/Content/Images/tooltip-prompt.png");
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+    top:20px; 
+}
+.show-signs, .hide-signs{
+    position:absolute;
+    top:0;
+    right:15px;
+    cursor:pointer;
+}
 /*****************/
 /******NAGŁÓWKI*****/
 /****************/
@@ -56,7 +78,6 @@ h4{
 /****************/
 .btn{
     border-radius:0;
-    border:2px solid #4F86C6;
 }
 .btn-s{
     height:32px!important;
@@ -76,6 +97,24 @@ h4{
     font-size:28px!important;
     padding:6px 20px!important;
 }
+.btn-input-s{
+    height:32px!important;
+    font-size:13px!important;
+}
+.btn-input-m{
+    height:44px!important;
+    font-size:18px!important;
+}
+.btn-input-l{
+    height:50px!important;
+    font-size:21px!important;
+    padding:6px 20px!important;
+}
+.btn-input-xl{
+    height:60px!important;
+    font-size:28px!important;
+    padding:6px 20px!important;
+}
 
 .green-button{
     background:#55ee99;
@@ -90,6 +129,19 @@ h4{
 }
 .blue-button:hover{
     background:#436DAA;
+}
+.empty-button{
+    background:none;
+    border:1px solid #436DAA;
+}
+.empty-button{
+    background:none;
+    border:1px solid #436DAA;
+    color:#fff;
+}
+.empty-button:hover{
+    border:1px solid #4F86C6;
+    color:#fff;
 }
 
 /*****************/
@@ -118,13 +170,34 @@ input-m{
 .validation-field-error{
     color:#ff7878;
 }
+
 @media screen and (max-width: 1199px) {
+    .btn-s{
+        height:28px!important;
+        font-size:12px!important;
+    }
+    .btn-m{
+        height:36px!important;
+        font-size:16px!important;
+    }
     .btn-l{
         height:44px!important;
-        font-size:18px;
+        font-size:18px!important;
     }
-}
-
-.modal-body .users-list {
-    color: black;
+    .btn-xl{
+        height:50px!important;
+        font-size:21px!important;
+    }
+    .btn-input-s{
+        font-size:12px!important;
+    }
+    .btn-input-m{
+        font-size:16px!important;
+    }
+    .btn-input-l{
+        font-size:18px!important;
+    }
+    .btn-input-xl{
+        font-size:24px!important;
+    }
 }

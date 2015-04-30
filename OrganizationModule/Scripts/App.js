@@ -1,0 +1,1 @@
+﻿window.App = angular.module('OrganizationModuleApp', ['ngRoute', 'ui.bootstrap']);

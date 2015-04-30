@@ -3,32 +3,32 @@
     <strong class="error">{{ error }}</strong>
     <div ng-repeat="person in People">
         <div id="simpleRow">
-            <div id="mainText" ng-show="!showEdit">
-                {{ person.Name }}
+            <div id="mainText" ng-hide="person.isEditable">
+                {{ person.UserName }}
             </div>
-            <input type="text" id="mainInput" name="person.Name" ng-model="person.Name" ng-show="showEdit">
-            <div id="inputButto" ng-show="!showEdit" ng-click="delete(person)">
+            <input type="text" id="mainInput" name="person.UserName" ng-model="person.UserName" ng-show="person.isEditable">
+            <div id="inputButto" ng-hide="person.isEditable" ng-click="delete(person)">
                 USUN
             </div>
-            <div id="inputButto" ng-show="!showEdit" ng-click="showEdit = ! showEdit">
+            <div id="inputButto" ng-hide="person.isEditable" ng-click="showEdit(person)">
                 EDYCJA
             </div>
-            <div id="inputButto" ng-show="showEdit" ng-click="save(person)">
+            <div id="inputButto" ng-show="person.isEditable" ng-click="save(person)">
                 ZAPISZ
             </div>
-            <div id="inputButto" ng-show="showEdit" ng-click="cancel(person)">
+            <div id="inputButto" ng-show="person.isEditable" ng-click="cancel(person)">
                 ANULUJ ZMIANY
             </div>
         </div>
         <div id="simpleRow">
-            <div id="detailText" ng-show="!showEdit">
-                {{ person.Mail }}
+            <div id="detailText" ng-hide="person.isEditable">
+                {{ person.Email }}
             </div>
-            <input type="text" id="mainInput" name="person.Mail" ng-model="person.Mail" ng-show="showEdit">
-            <div id="detailText" ng-show="!showEdit">
-                {{ person.Status.Name }}
+            <input type="text" id="mainInput" name="person.Email" ng-model="person.Email" ng-show="person.isEditable">
+            <div id="detailText" ng-hide="person.isEditable">
+                {{ person.selectedStatus }}
             </div>
-            <select ng-model="person.Status" ng-options="c as c.Name for c in status" ng-init="person.Status.Name" ng-show="showEdit">
+            <select ng-model="person.selectedStatus" ng-options="c for c in availableStatus" ng-show="person.isEditable" ng-change="changeStatus(person)">
                 @*<option value="">{{ person.Status.Name }}</option>*@
             </select>
             <div id="detailText">

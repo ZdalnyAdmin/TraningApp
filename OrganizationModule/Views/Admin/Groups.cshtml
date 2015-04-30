@@ -10,10 +10,10 @@
         Grupy dla ktorych udostepniane jest szkolenie mozesz ustawic tworzac lub edytujac szkolenie. W tym miejscu mozesz tworzyc same grupy.
     </div>
 
-    <div id="inputButto" ng-click="showCreate = ! showCreate">
+    <div id="inputButto" ng-click="showCreate()">
         Utworz grupe
     </div>
-    <div ng-show="showCreate">
+    <div ng-show="isCreated">
         <div id="simpleRow">
             <div id="mainText">
                 Nazwa grupy
@@ -39,14 +39,14 @@
             <div id="mainText">
                 Grupa :
             </div>
-            <div id="mainText" ng-show="!showEdit">
+            <div id="mainText" ng-hide="group.isEditable">
                 {{ group.Name }}
             </div>
-            <input type="text" id="mainInput" name="group.Name" ng-model="group.Name" ng-show="showEdit" ng-minlength=3 ng-maxlength=40>
-            <div id="inputButto" ng-show="!showEdit" ng-click="showEdit = ! showEdit">
+            <input type="text" id="mainInput" name="group.Name" ng-model="group.Name" ng-show="group.isEditable" ng-minlength=3 ng-maxlength=40>
+            <div id="inputButto" ng-hide="group.isEditable" ng-click="showEdit(group)">
                 EDYCJA
             </div>
-            <div id="inputButto" ng-show="!showEdit" ng-click="delete(group)">
+            <div id="inputButto" ng-hide="group.isEditable" ng-click="delete(group)">
                 USUN GRUPE
             </div>
         </div>
@@ -54,15 +54,15 @@
             <div id="mainText">
                 Czlonkowie grupy : {{ group.AssignedPeopleDisplay }}
             </div>
-            <div id="inputButto" ng-show="showEdit" ng-click="chooseUsers(group)">
+            <div id="inputButto" ng-show="group.isEditable" ng-click="chooseUsers(group)">
                 Wybierz z listy
             </div>
         </div>
         <div id="simpleRow">
-            <div id="inputButto" ng-show="showEdit" ng-click="edit(group)">
+            <div id="inputButto" ng-show="group.isEditable" ng-click="edit(group)">
                 ZAPISZ
             </div>
-            <div id="inputButto" ng-show="showEdit" ng-click="cancel(group)">
+            <div id="inputButto" ng-show="group.isEditable" ng-click="cancel(group)">
                 ANULUJ ZMIANY
             </div>
         </div>

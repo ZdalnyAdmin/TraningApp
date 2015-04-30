@@ -2,76 +2,68 @@
 
     <strong class="error">{{ error }}</strong>
 
-    <div id="simpleRow">
-        <div id="inputButto" ng-click="showInternal = ! showInternal">
-            WEWNETRZNE
-        </div>
-        <div id="inputButto" ng-click="showInternal = ! showInternal">
-            OD KENPRO
-        </div>
-    </div>
-
-    <div ng-show="!showInternal">
-        <div ng-repeat="item in InternalTrainings">
-            <div id="simpleRow">
-                <div id="mainText">
-                    {{ item.Name }}
+    <tabset>
+        <tab heading="WEWNETRZNE">
+            <div ng-repeat="item in InternalTrainings">
+                <div id="simpleRow">
+                    <div id="mainText">
+                        {{ item.Name }}
+                    </div>
+                    <div id="mainText">
+                        {{ item.CreateUserName }}
+                    </div>
+                    <div id="mainText">
+                        {{ item.AssignedGroups }}
+                    </div>
+                    <div id="mainText" ng-show="{{ item.IsActive }}">
+                        dostepny
+                    </div>
+                    <div id="mainText" ng-hide="{{ item.IsActive }}">
+                        zablokowany
+                    </div>
+                    <div id="inputButto" ng-click="showLogs = ! showLogs" ng-show="!showLogs">
+                        POKAZ LOGI EDYCJI
+                    </div>
+                    <div id="inputButto" ng-click="showLogs = ! showLogs" ng-show="showLogs">
+                        UKRYJ LOGI EDYCJI
+                    </div>
+                    <div id="inputButto" ng-click="changeStatus(item)" ng-show="{{ item.IsActive }}">
+                        ZABLOKUJ
+                    </div>
+                    <div id="inputButto" ng-click="changeStatus(item)" ng-hide="{{ item.IsActive }}">
+                        ODBLOKUJ
+                    </div>
                 </div>
-                <div id="mainText">
-                    {{ item.CreateUserName }}
-                </div>
-                <div id="mainText">
-                    {{ item.AssignedGroups }}
-                </div>
-                <div id="mainText" ng-show="{{ item.IsActive }}">
-                    dostepny
-                </div>
-                <div id="mainText" ng-hide="{{ item.IsActive }}">
-                    zablokowany
-                </div>
-                <div id="inputButto" ng-click="showLogs = ! showLogs" ng-show="!showLogs">
-                    POKAZ LOGI EDYCJI
-                </div>
-                <div id="inputButto" ng-click="showLogs = ! showLogs" ng-show="showLogs">
-                    UKRYJ LOGI EDYCJI
-                </div>
-                <div id="inputButto" ng-click="changeStatus(item)" ng-show="{{ item.IsActive }}">
-                    ZABLOKUJ
-                </div>
-                <div id="inputButto" ng-click="changeStatus(item)" ng-hide="{{ item.IsActive }}">
-                    ODBLOKUJ
+                <div id="simpleRow" ng-show="showLogs">
+                    <p>Logs - todo</p>
                 </div>
             </div>
-            <div id="simpleRow" ng-show="showLogs">
-                <p>Logs - todo</p>
-            </div>
-        </div>
-    </div>
-
-    <div ng-show="showInternal">
-        <div ng-repeat="item in KenproTrainings">
-            <div id="simpleRow">
-                <div id="mainText">
-                    {{ item.Name }}
+        </tab>
+        <tab heading="OD KENPRO">
+            <div ng-repeat="item in KenproTrainings">
+                <div id="simpleRow">
+                    <div id="mainText">
+                        {{ item.Name }}
+                    </div>
+                </div>
+                <div id="simpleRow">
+                    <div id="mainText">
+                        Dostepne dla : {{ item.AssignedGroups }}
+                    </div>
+                    <div id="inputButto" ng-click="showEdit = ! showEdit" ng-show="!showEdit">
+                        EDYTUJ
+                    </div>
+                </div>
+                <div id="simpleRow" ng-show="showEdit">
+                    <div ng-repeat="item in Groups">
+                        <input type="checkbox" ng-model="item.selected" />{{item.Name}}
+                    </div>
+                    <div id="inputButto" ng-click="edit(item)" ng-show="showEdit">
+                        ZAPISZ ZMIANY
+                    </div>
                 </div>
             </div>
-            <div id="simpleRow">
-                <div id="mainText">
-                    Dostepne dla : {{ item.AssignedGroups }}
-                </div>
-                <div id="inputButto" ng-click="showEdit = ! showEdit" ng-show="!showEdit">
-                    EDYTUJ
-                </div>
-            </div>
-            <div id="simpleRow" ng-show="showEdit">
-                <div ng-repeat="item in Groups">
-                    <input type="checkbox" ng-model="item.selected"  />{{item.Name}}
-                </div>
-                <div id="inputButto" ng-click="edit(item)" ng-show="showEdit">
-                    ZAPISZ ZMIANY
-                </div>
-            </div>
-        </div>
-    </div>
+        </tab>
+    </tabset>
 </div>
 
