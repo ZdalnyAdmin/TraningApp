@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Collections.ObjectModel;
 using AppEngine.Models.ViewModels.Manager;
+using System.Threading.Tasks;
+using AppEngine;
 
 namespace OrganizationModule.Controllers
 {
@@ -16,6 +18,23 @@ namespace OrganizationModule.Controllers
         #region Private Fields
         private EFContext _db = new EFContext();
         #endregion
+
+        //#region Identity
+        //private ApplicationUserManager _userManager;
+        //private ApplicationSignInManager _signInManager;
+
+        //public ApplicationSignInManager SignInManager
+        //{
+        //    get { return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
+        //    private set { _signInManager = value; }
+        //}
+
+        //public ApplicationUserManager UserManager
+        //{
+        //    get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+        //    private set { _userManager = value; }
+        //}
+        //#endregion
 
         /// <summary>
         /// Navigate to tranings results view
@@ -63,14 +82,51 @@ namespace OrganizationModule.Controllers
         }
 
         [HttpPost]
-        public JsonResult Invitation(InviteUserViewModel model)
+        public async Task<JsonResult> Invitation(InviteUserViewModel model)
         {
             if (ModelState.IsValid)
             {
+                //var user = new Person { UserName = model.UserName, Email = model.Email };
+                //var result = await UserManager.CreateAsync(user, "test");
 
+                //if (!result.Succeeded)
+                //{
+                //    return this.Json(result);
+                //}
+                //else
+                //{
+                //    await UserManager.SendEmailAsync(user.Id,
+                //       "Rejestracja Kenpro",
+                //       "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
+                //       + "<br/>Twoja nazwa wyświetlana: " + user.UserName
+                //       + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/login\">Zaloguj się</a>");
+                //}
+
+                //return this.Json(result);
             }
 
             return getErrorsFromModel();
         }
+
+        #region Private Functions
+        private JsonResult getErrorsFromModel()
+        {
+            var Errors = new Collection<string>();
+
+            foreach (ModelState modelState in ViewData.ModelState.Values)
+            {
+                foreach (ModelError error in modelState.Errors)
+                {
+                    Errors.Add(error.ErrorMessage);
+                }
+            }
+
+            return Json(new
+            {
+                Succeeded = false,
+                Errors = Errors
+            });
+        }
+        #endregion
     }
 }

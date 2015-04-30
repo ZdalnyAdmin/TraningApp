@@ -35,7 +35,7 @@ namespace OrganizationModule.Controllers.Api
                 {
                     continue;
                 }
-                item.SetCreateUserName(user.Name);
+                item.SetCreateUserName(user.DisplayName);
                 var runCounter = db.TrainingResults.Count(x => x.TrainingID == item.TrainingID);
                 item.SetRunTrainingStats(runCounter);
 

@@ -27,7 +27,7 @@ namespace AppEngine.Models.Common
                 if (_assignedPeople != null && _assignedPeople.Any())
                 {
                     return String.Join(",", (from t in _assignedPeople
-                                                           select t.Name).ToList());
+                                                           select t.DisplayName).ToList());
                 }  
  
                 return string.Empty;

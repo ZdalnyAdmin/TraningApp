@@ -131,7 +131,7 @@ namespace AppEngine.Models.Common
 
         public override string ToString()
         {
-            return Name;
+            return DisplayName;
         }
 
         public void SetAssignedTrainingsNumber(int number)
