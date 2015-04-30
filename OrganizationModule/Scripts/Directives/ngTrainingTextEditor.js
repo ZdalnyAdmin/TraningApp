@@ -1,4 +1,4 @@
-﻿/// <reference path="C:\asp\TraningApp\OrganizationModule\Templates/trainingTextEditor.html" />
+﻿
 window.App
 .directive('ngTrainingTextEditor', [function () {
     return {

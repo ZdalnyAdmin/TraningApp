@@ -21,7 +21,7 @@ namespace OrganizationModule.Controllers
         /// Navigate to created tranings view
         /// </summary>
         /// <returns></returns>
-        public ActionResult TraningList()
+        public ActionResult EditTemplate()
         {
             return View();
         }
