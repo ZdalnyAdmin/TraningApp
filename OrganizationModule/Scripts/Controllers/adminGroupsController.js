@@ -1,7 +1,8 @@
 ﻿function adminGroupsController($scope, $http, $modal) {
     $scope.loading = true;
+    $scope.isCreated = false;
     $scope.currentGroup = {};
-
+    $scope.editableGroup = {};
     //Used to display the data 
 
 
@@ -20,14 +21,16 @@
 
     $scope.add = function () {
         $scope.loading = true;
-
         //if ($scope.currentGroup)
 
         $http.post('/api/Group/', $scope.currentGroup).success(function (data) {
-            group = data;
             $scope.loading = false;
             //move to other methods
-            $scope.assignedPeopleToGroup(group, true);
+            $scope.assignedPeopleToGroup(data, true);
+            $scope.isCreated = false;
+            $scope.editableGroup = {};
+
+            $scope.loadData();
         }).error(function (data) {
             $scope.error = "An Error has occured while creating group! " + data;
             $scope.loadData();
@@ -35,20 +38,34 @@
         });
     };
 
+    $scope.showCreate = function () {
+        $scope.isCreated = true;
+    };
+
     $scope.edit = function (group) {
         if (!group) {
             return;
         }
         $scope.loading = true;
-
+        
         $http.put('/api/Group/', group).success(function (data) {
             $scope.loading = false;
+            group.isEditable = false;
+            $scope.editableGroup = {};
         }).error(function (data) {
             $scope.error = "An Error has occured while saving group! " + data;
             $scope.loading = false;
         });
 
         $scope.assignedPeopleToGroup(group, false)
+    };
+
+    $scope.showEdit = function (group) {
+        if (!group) {
+            return;
+        }
+        group.isEditable = true;
+        $scope.editableGroup = angular.copy(group);
     };
 
     $scope.assignedPeopleToGroup = function (group, refresh) {
@@ -81,8 +98,11 @@
         if (!group) {
             return;
         }
+        group.Name = $scope.editableGroup.UserName;
+        group.AssignedPeopleDisplay = $scope.editableGroup.Email;
+        $scope.editableGroup = {};
         $scope.loading = true;
-        $scope.loadData();
+        group.isEditable = false;
     };
 
     $scope.delete = function (group) {

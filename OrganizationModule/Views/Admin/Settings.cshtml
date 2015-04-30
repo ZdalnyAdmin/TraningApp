@@ -3,12 +3,12 @@
 
     <div>
         Czy uzytkownicy moga samodzielnie zmieniac swoja nazwe
-        <input type="radio" name="allowToChangeName" value=true ng-model="currentItem.AllowUserToChangeName" /> TAK
-        <input type="radio" name="allowToChangeName" value=false ng-model="currentItem.AllowUserToChangeName"  /> NIE
+        <input type="radio" name="allowToChangeName" value=1 ng-model="currentItem.ChangeName" ng-change="edit(currentItem )" /> TAK
+        <input type="radio" name="allowToChangeName" value=0 ng-model="currentItem.ChangeName" ng-change="edit(currentItem)" /> NIE
     </div>
     <div>
         Czy uzytkownik moze samodzielnie zmieniac adres email
-        <input type="radio" name="allowToChangeMail" value=true ng-model="currentItem.AllowUserToChangeMail" /> TAK
-        <input type="radio" name="allowToChangeMail" value=false ng-model="currentItem.AllowUserToChangeMail"  />NIE
+        <input type="radio" name="allowToChangeMail" value=1 ng-model="currentItem.ChangeMail" ng-change="edit(currentItem)" /> TAK
+        <input type="radio" name="allowToChangeMail" value=0 ng-model="currentItem.ChangeMail" ng-change="edit(currentItem)" />NIE
     </div>
 </div>
