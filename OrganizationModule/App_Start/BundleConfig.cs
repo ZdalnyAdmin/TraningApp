@@ -36,6 +36,9 @@ namespace OrganizationModule
 
             bundles.Add(new StyleBundle("~/Login").Include(
                 "~/Content/Login/login.css"));
+
+            bundles.Add(new StyleBundle("~/Settings").Include(
+                "~/Content/Settings/user-settings.css"));
         }
     }
 }
