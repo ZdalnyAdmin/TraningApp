@@ -1,0 +1,54 @@
+﻿<div ng-repeat="item in collection">
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="up(item)">
+            UP
+        </div>
+        <div id="inputButto" ng-click="down(item)">
+            DOWN
+        </div>
+        <div id="inputButto" ng-click="edit(item)">
+            EDIT
+        </div>
+        <div id="inputButto" ng-click="delete(item)">
+            REMOVE
+        </div>
+    </div>
+
+    <div ng-show="item.ResourceType == 0">
+        <div id="simpleRow" ng-hide="item.isEdit">
+            {{item.Text}}
+        </div>
+        <div id="simpleRow" ng-show="item.isEdit">
+            <input type="text" ng-model="item.Text" name="item.Text" />
+        </div>
+    </div>
+    <div ng-show="item.ResourceType == 1">
+        <div id="simpleRow">
+            pole z grafika
+        </div>
+    </div>
+    <div ng-show="item.ResourceType == 2">
+        <div id="simpleRow">
+            pole z wideo
+        </div>
+    </div>
+    <div ng-show="item.ResourceType == 3">
+        <div id="simpleRow">
+            pole z prezentacja
+        </div>
+    </div>
+    <div ng-show="item.ResourceType == 4">
+        <div id="simpleRow">
+            pole z plikiem
+        </div>
+    </div>
+
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="save(item)" ng-show="item.isEdit">
+            ZAPISZ
+        </div>
+        <div id="inputButto" ng-click="cancel(item)" ng-show="item.isEdit">
+            ANULUJ
+        </div>
+    </div>
+</div>

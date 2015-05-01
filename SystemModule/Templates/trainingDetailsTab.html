@@ -1,0 +1,22 @@
+﻿<div>
+    <div id="simpleRow" ng-click="showTab(1)">
+        dodaj tekst
+    </div>
+    <div id="simpleRow" ng-click="showTab(2)">
+        dodaj grafike
+    </div>
+    <div id="simpleRow" ng-click="showTab(3)">
+        dodaj wideo
+    </div>
+    <div id="simpleRow" ng-click="showTab(4)">
+        dodaj prezentacje
+    </div>
+    <div id="simpleRow" ng-click="showTab(5)">
+        dodaj plik
+    </div>
+    <div ng-training-text-editor obj="obj" ng-show="index  == 1"></div>
+    <div ng-training-image-editor obj="obj" ng-show="index  == 2"></div>
+    <div ng-training-media-editor obj="obj" ng-show="index  == 3"></div>
+    <div ng-training-presentation-editor obj="obj" ng-show="index  == 4"></div>
+    <div ng-training-file-editor obj="obj" ng-show="index  == 5"></div>
+</div>

@@ -1,0 +1,21 @@
+﻿<div class='container'>
+    <div id="simpleRow">
+        wczytaj grafike lub upusc ja na pole obok lub podaj link
+    </div>
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="upload(currentDetail)">
+            Wczytaj grafike
+        </div>
+    </div>
+    <div id="simpleRow">
+        Podaj link: <input type="text" ng-model="currentDetail.ExternalResource" name="currentDetail.ExternalResource" />
+    </div>
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="cancel(currentDetail)">
+            Anuluj
+        </div>
+        <div id="inputButto" ng-click="add(currentDetail)">
+            Zapisz
+        </div>
+    </div>
+</div>

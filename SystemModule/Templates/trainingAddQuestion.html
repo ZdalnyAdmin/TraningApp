@@ -1,0 +1,93 @@
+﻿<div>
+    <div id="simpleRow">
+        Pytanie {{questions.length + 1}}
+    </div>
+    
+    <div id="simpleRow" ng-show="selectedQuestion == 1">
+        <div id="simpleRow">
+            <input type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" value=true ng-model="currentQuestion.Answers[0].IsSelected" />
+
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" value=true ng-model="currentQuestion.Answers[1].IsSelected" />
+
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[1].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[1].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" value=true ng-model="currentQuestion.Answers[2].IsSelected" />
+
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[2].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[2].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" value=true ng-model="currentQuestion.Answers[3].IsSelected" />
+
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[3].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[3].Score">
+        </div>
+    </div>
+
+    <div id="simpleRow" ng-show="selectedQuestion == 2">
+        <div id="simpleRow">
+            <input type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[0].IsSelected" />
+
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[1].IsSelected" />
+
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[1].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[1].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[2].IsSelected" />
+
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[2].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[2].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" ng-model="currentQuestion.Answers[3].IsSelected" />
+
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[3].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[3].Score">
+        </div>
+    </div>
+
+    <div id="simpleRow" ng-show="selectedQuestion == 3">
+        <div id="simpleRow">
+            <input type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text">
+        </div>
+        <div id="simpleRow">
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Score">
+        </div>
+    </div>
+
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="nextQuestion()">
+            Dodaj kolejne pytanie
+        </div>
+        <select ng-model="selected" ng-options="c for c in questionType" ng-show="showQuestionType" ng-change="changeQuestion(selected)">
+            <option value="">Wybierz</option>
+        </select>
+    </div>
+</div>

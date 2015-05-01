@@ -1,7 +1,6 @@
 ﻿using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataContext;
-using AppEngine.Models.DataObject;
 using AppEngine.Services;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace OrganizationModule.Controllers.Api
+namespace SystemModule.Controllers.Api
 {
     public class TrainingController : ApiController
     {
@@ -109,7 +108,6 @@ namespace OrganizationModule.Controllers.Api
             try
             {
                 db.SaveChanges();
-
                 LogService.InsertTrainingLogs(OperationLog.KursEdycja, db, obj.TrainingID, obj.CreateUserID);
             }
             catch (DbUpdateConcurrencyException ex)

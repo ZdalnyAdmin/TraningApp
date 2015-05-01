@@ -1,0 +1,114 @@
+﻿<div ng-repeat="item in questions">
+    <div id="simpleRow">
+        Pytanie {{questions.length}}
+    </div>
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="up(item)">
+            UP
+        </div>
+        <div id="inputButto" ng-click="down(item)">
+            DOWN
+        </div>
+        <div id="inputButto" ng-click="edit(item)">
+            EDIT
+        </div>
+        <div id="inputButto" ng-click="delete(item)">
+            REMOVE
+        </div>
+        <div id="inputButto" ng-click="save(item)" ng-show="item.isEdit">
+            ZAPISZ
+        </div>
+        <div id="inputButto" ng-click="cancel(item)" ng-show="item.isEdit">
+            ANULUJ
+        </div>
+    </div>
+
+    <div id="simpleRow" ng-show="item.Type == 0">
+
+        <div id="simpleRow" ng-hide="item.isEdit">
+            {{item.Text}}
+        </div>
+        <div id="simpleRow" ng-show="item.isEdit">
+            <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" value=true ng-disabled="!item.isEdit" ng-model="item.Answers[0].IsSelected" />
+
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" value=true ng-disabled="!item.isEdit" ng-model="item.Answers[1].IsSelected" />
+
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[1].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[1].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" value=true ng-disabled="!item.isEdit" ng-model="item.Answers[2].IsSelected" />
+
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[2].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[2].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="radio" name="answer" value=true ng-disabled="!item.isEdit" ng-model="item.Answers[3].IsSelected" />
+
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[3].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[3].Score">
+        </div>
+    </div>
+
+    <div id="simpleRow" ng-show="item.Type == 1">
+        <div id="simpleRow" ng-hide="item.isEdit">
+            {{item.Text}}
+        </div>
+        <div id="simpleRow" ng-show="item.isEdit">
+            <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[0].IsSelected" />
+
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[1].IsSelected" />
+
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[1].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[1].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[2].IsSelected" />
+
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[2].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[2].Score">
+        </div>
+        <div id="simpleRow">
+            <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="item.Answers[3].IsSelected" />
+
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[3].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[3].Score">
+        </div>
+    </div>
+
+    <div id="simpleRow" ng-show="item.Type == 2">
+        <div id="simpleRow" ng-hide="item.isEdit">
+            {{item.Text}}
+        </div>
+        <div id="simpleRow" ng-show="item.isEdit">
+            <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
+        </div>
+        <div id="simpleRow">
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Text">
+            Punkty
+            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Score">
+        </div>
+    </div>
+</div>
