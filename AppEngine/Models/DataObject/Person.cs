@@ -132,7 +132,7 @@ namespace AppEngine.Models.Common
             return new Result() { Succeeded = resetResult.Succeeded, Errors = new List<string>(resetResult.Errors) };
         }
 
-        public static Person GetLoogedPerson(IPrincipal User)
+        public static Person GetLoggedPerson(IPrincipal User)
         {
             var db = new EFContext();
             string currentUserId = User.Identity.GetUserId();

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace OrganizationModule.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         #region Private Fields

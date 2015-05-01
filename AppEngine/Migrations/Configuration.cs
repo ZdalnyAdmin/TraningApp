@@ -23,11 +23,13 @@
                                                      SecurityStamp =  "fd2e32d1-5280-48d4-8963-57f48b35dbd7",
                                                      TwoFactorEnabled = true,
                                                      UserName = "admin",
+                                                     DisplayName = "admin",
                                                      Profile = Models.DataBusiness.ProfileEnum.Superuser,
                                                      Status = Models.DataBusiness.StatusEnum.Active,
                                                      RegistrationDate = DateTime.Now,
                                                      InvitationDate = DateTime.Now,
-                                                     InviterID = "9154c72e-a195-4a70-8de2-61927df9bd9d"
+                                                     InviterID = "9154c72e-a195-4a70-8de2-61927df9bd9d",
+                                                     OrganizationID = 1
                                                     });
         }
     }

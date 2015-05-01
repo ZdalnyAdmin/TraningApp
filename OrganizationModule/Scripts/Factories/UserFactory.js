@@ -112,12 +112,30 @@
         return deferredObject.promise;
     };
 
+    var removeInvitation = function (user) {
+
+        var deferredObject = $q.defer();
+
+        $http.post(
+            '/Manager/RemoveInvitation', user
+        ).
+        success(function (data) {
+            deferredObject.resolve(data);
+        }).
+        error(function () {
+            deferredObject.resolve(data);
+        });
+
+        return deferredObject.promise;
+    };
+
     return {
         login: login,
         logoff: logoff,
         register: register,
         reset: reset,
         inviteUser: inviteUser,
+        removeInvitation: removeInvitation,
         resetPasswordConfirmation: resetPasswordConfirmation
     }
 }

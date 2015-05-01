@@ -15,6 +15,7 @@ using System.Web.Mvc;
 
 namespace OrganizationModule.Controllers
 {
+    [Authorize]
     public class ManagerController : Controller
     {
         #region Private Fields
@@ -62,7 +63,7 @@ namespace OrganizationModule.Controllers
         /// <returns></returns>
         public ActionResult Invitation()
         {
-            Person currentUser = Person.GetLoogedPerson(User);
+            Person currentUser = Person.GetLoggedPerson(User);
 
             if (string.IsNullOrWhiteSpace(currentUser.UserName))
             {
@@ -83,11 +84,19 @@ namespace OrganizationModule.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Person currentUser = Person.GetLoogedPerson(User);
+                    Person currentUser = Person.GetLoggedPerson(User);
+                    var jsonResult = new Result() { Succeeded = false, Errors = new List<string>() };
 
-                    if (string.IsNullOrWhiteSpace(currentUser.UserName))
+                    if (string.IsNullOrWhiteSpace(currentUser.Id))
                     {
-                        return Json(new Result() { Succeeded = false, Errors = new List<string>() });
+                        jsonResult.Errors.Add("Użytkownik nie jest zalogowany");
+                        return Json(jsonResult);
+                    }
+
+                    if (_db.Users.Any(x => x.Email.Equals(model.Email) && x.OrganizationID ==currentUser.OrganizationID))
+                    {
+                        jsonResult.Errors.Add("Użytkownik o podanym mailu został już dodany do organizacji");
+                        return Json(jsonResult);
                     }
 
                     var user = new Person
@@ -124,6 +133,42 @@ namespace OrganizationModule.Controllers
             catch (Exception ex)
             {
 
+            }
+
+            return getErrorsFromModel();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> RemoveInvitation(RemoveInvitationModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var user = UserManager.FindById(model.Id);
+                if(user == null)
+                {
+                    var errors = new List<string>();
+                    errors.Add("Podany użytkownik nie istnieje");
+
+                    return Json(new Result() { Succeeded = false, Errors = errors }); 
+                }
+
+                user.Status = StatusEnum.Rejected;
+
+                var result = await UserManager.UpdateSecurityStampAsync(user.Id);
+
+                if (!result.Succeeded)
+                {
+                    return Json(new Result() { Succeeded = result.Succeeded, Errors = new List<string>(result.Errors) });
+                }
+
+                result = await UserManager.UpdateAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    return Json(new Result() { Succeeded = result.Succeeded, Errors = new List<string>(result.Errors) });
+                }
+
+                return Json(new Result() { Succeeded = true });
             }
 
             return getErrorsFromModel();

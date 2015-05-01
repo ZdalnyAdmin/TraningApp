@@ -15,6 +15,7 @@ using System.Web.Mvc;
 
 namespace OrganizationModule.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
 
@@ -160,6 +161,7 @@ namespace OrganizationModule.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> ResetPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -185,6 +187,7 @@ namespace OrganizationModule.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<JsonResult> ResetPasswordConfirmation(ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -198,6 +201,7 @@ namespace OrganizationModule.Controllers
             return getErrorsFromModel();
         }
 
+        [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation(ForgotPasswordViewModel model)
         {
             return View();

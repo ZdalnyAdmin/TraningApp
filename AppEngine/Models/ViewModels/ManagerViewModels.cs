@@ -18,4 +18,11 @@ namespace AppEngine.Models.ViewModels.Manager
         [Display(Name = "Rola")]
         public ProfileEnum Role { get; set; }
     }
+
+    public class RemoveInvitationModel
+    {
+        [Required]
+        [Display(Name = "Id")]
+        public string Id { get; set; }
+    }
 }
