@@ -10,6 +10,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http;
+using Microsoft.AspNet.Identity;
+using System.Security.Principal;
 
 namespace AppEngine.Models.Common
 {
@@ -127,6 +130,32 @@ namespace AppEngine.Models.Common
             await manager.UpdateSecurityStampAsync(userByUserName.Id);
 
             return new Result() { Succeeded = resetResult.Succeeded, Errors = new List<string>(resetResult.Errors) };
+        }
+
+        public static Person GetLoogedPerson(IPrincipal User)
+        {
+            var db = new EFContext();
+            string currentUserId = User.Identity.GetUserId();
+
+            if (string.IsNullOrWhiteSpace(currentUserId))
+            {
+                return new Person();
+            }
+
+            var user = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+            user.SetAssignedTrainingsNumber((from t in db.TrainingResults
+                                             where t.PersonID == user.Id
+                                             select t).Count());
+
+            var groups = (from pg in db.PeopleInGroups
+                          join g in db.Groups on pg.ProfileGroupID equals g.ProfileGroupID
+                          where pg.PersonID == user.Id
+                          select g.Name).ToList();
+
+            user.SetAssignedGroups(groups);
+            user.Organization = db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+
+            return user;
         }
 
         public override string ToString()

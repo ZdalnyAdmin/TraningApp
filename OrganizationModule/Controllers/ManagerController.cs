@@ -62,21 +62,12 @@ namespace OrganizationModule.Controllers
         /// <returns></returns>
         public ActionResult Invitation()
         {
-            string currentUserId = User.Identity.GetUserId();
+            Person currentUser = Person.GetLoogedPerson(User);
 
-            if (currentUserId == null)
+            if (string.IsNullOrWhiteSpace(currentUser.UserName))
             {
-                return Redirect("/");
+                return new HttpNotFoundResult("Użytkownik nie zalogowany");
             }
-
-            Person currentUser = _db.Users.FirstOrDefault(x => x.Id == currentUserId);
-
-            if (currentUser == null)
-            {
-                return Redirect("/");
-            }
-
-            currentUser.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == currentUser.OrganizationID);
 
             ViewBag.User = currentUser;
 
@@ -92,17 +83,9 @@ namespace OrganizationModule.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string currentUserId = User.Identity.GetUserId();
+                    Person currentUser = Person.GetLoogedPerson(User);
 
-                    if (currentUserId == null)
-                    {
-                        return Json(new Result() { Succeeded = false, Errors = new List<string>() });
-                    }
-
-                    Person currentUser = _db.Users.FirstOrDefault(x => x.Id == currentUserId);
-                    currentUser.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == currentUser.OrganizationID);
-
-                    if (currentUser == null)
+                    if (string.IsNullOrWhiteSpace(currentUser.UserName))
                     {
                         return Json(new Result() { Succeeded = false, Errors = new List<string>() });
                     }
