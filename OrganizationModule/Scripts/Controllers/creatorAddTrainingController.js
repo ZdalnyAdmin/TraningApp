@@ -10,8 +10,7 @@
     $scope.showQuestionType = false;
     //training details elements
     $scope.trainingDetails = [];
-    $scope.currentDetail = {};
-    $scope.editableDetail = {};
+
 
 
     //Used to display the data 
@@ -64,42 +63,6 @@
             $scope.error = "An Error has occured while loading posts!";
             $scope.loading = false;
         });
-    }
-
-    $scope.detailUp = function (item) {
-        $scope.trainingDetails = changePosition($scope.trainingDetails, item, false);
-    }
-
-    $scope.detailDown = function (item) {
-        $scope.trainingDetails = changePosition($scope.trainingDetails, item, true);
-    }
-
-    $scope.detailEdit = function (item) {
-        $scope.editableDetail = angular.copy(item);
-        item.isEdit = true;
-    }
-
-    $scope.detailDelete = function (item) {
-        //todo remove source from server
-        for (var i = 0; i < $scope.trainingDetails.length; i++) {
-            if ($scope.trainingDetails[i] == item) {
-                index = i;
-                break;
-            }
-        }
-        $scope.trainingDetails.splice(index, 1);
-    }
-
-    $scope.detailCancel = function (item) {
-        item.Text = $scope.editableDetail.Text;
-        item.ExternalResource = $scope.editableDetail.ExternalResource;
-        $scope.editableDetail = {};
-        item.isEdit = false;
-    }
-
-    $scope.detailSave = function (item) {
-        $scope.editableDetail = {};
-        item.isEdit = false;
     }
 
     //question methods

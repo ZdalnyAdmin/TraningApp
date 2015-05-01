@@ -76,7 +76,9 @@
 
     <div ng-training-details-tab obj="trainingDetails"></div>
 
-
+    <div ng-repeat="item in trainingDetails">
+        <div ng-training-edit-details collection="trainingDetails" item="item"></div>
+    </div>
 
 
 

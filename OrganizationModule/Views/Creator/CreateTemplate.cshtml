@@ -79,58 +79,7 @@
 
 
     <div ng-repeat="item in trainingDetails">
-        <div id="simpleRow">
-            <div id="inputButto" ng-click="detailUp(item)">
-                UP
-            </div>
-            <div id="inputButto" ng-click="detailDown(item)">
-                DOWN
-            </div>
-            <div id="inputButto" ng-click="detailEdit(item)">
-                EDIT
-            </div>
-            <div id="inputButto" ng-click="detailDelete(item)">
-                REMOVE
-            </div>
-        </div>
-
-        <div ng-show="item.ResourceType == 0">
-            <div id="simpleRow" ng-hide="item.isEdit">
-                {{item.Text}}
-            </div>
-            <div id="simpleRow" ng-show="item.isEdit">
-                <input type="text" ng-model="item.Text" name="item.Text" />
-            </div>
-        </div>
-        <div ng-show="item.ResourceType == 1">
-            <div id="simpleRow">
-                pole z grafika
-            </div>
-        </div>
-        <div ng-show="item.ResourceType == 2">
-            <div id="simpleRow">
-                pole z wideo
-            </div>
-        </div>
-        <div ng-show="item.ResourceType == 3">
-            <div id="simpleRow">
-                pole z prezentacja
-            </div>
-        </div>
-        <div ng-show="item.ResourceType == 4">
-            <div id="simpleRow">
-                pole z plikiem
-            </div>
-        </div>
-
-        <div id="simpleRow">
-            <div id="inputButto" ng-click="detailSave(item)" ng-show="item.isEdit">
-                ZAPISZ
-            </div>
-            <div id="inputButto" ng-click="detailCancel(item)" ng-show="item.isEdit">
-                ANULUJ
-            </div>
-        </div>
+        <div ng-training-edit-details collection="trainingDetails" item="item"></div>
     </div>
 
     <div id="simpleRow">
