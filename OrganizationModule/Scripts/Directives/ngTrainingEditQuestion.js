@@ -1,47 +1,46 @@
 ﻿window.App
-.directive('ngTrainingEditDetails', [function () {
+.directive('ngTrainingEditQuestion', [function () {
     return {
-        scope: { collection: '='},
+        scope: { questions: '='},
         restrict: 'A',
         replace: 'true',
-        templateUrl: 'Templates/trainingEditDetails.html',
+        templateUrl: 'Templates/trainingEditQuestion.html',
         controller: ['$scope', function ($scope) {
-            $scope.editableDetail = {};
+            $scope.editableQuestion = {};
 
-            $scope.up = function (item) {
-                $scope.collection = changePosition($scope.collection, item, false);
+            $scope.up = function (question) {
+                $scope.questions = changePosition($scope.questions, question, false);
             }
 
-            $scope.down = function (item) {
-                $scope.collection = changePosition($scope.collection, item, true);
+            $scope.down = function (question) {
+                $scope.questions = changePosition($scope.questions, question, true);
             }
 
-            $scope.edit = function (item) {
-                $scope.editableDetail = angular.copy(item);
-                item.isEdit = true;
+            $scope.edit = function (question) {
+                $scope.editableQuestion = angular.copy(question);
+                question.isEdit = true;
             }
 
-            $scope.delete = function (item) {
-                //todo remove source from server
-                for (var i = 0; i < $scope.collection.length; i++) {
-                    if ($scope.collection[i] == item) {
+            $scope.delete = function (question) {
+                for (var i = 0; i < $scope.questions.length; i++) {
+                    if ($scope.questions[i] == question) {
                         index = i;
                         break;
                     }
                 }
-                $scope.collection.splice(index, 1);
+                $scope.questions.splice(index, 1);
             }
 
-            $scope.cancel = function (item) {
-                item.Text = $scope.editableDetail.Text;
-                item.ExternalResource = $scope.editableDetail.ExternalResource;
-                $scope.editableDetail = {};
-                item.isEdit = false;
+            $scope.save = function (question) {
+                $scope.editableQuestion = {};
+                question.isEdit = false;
             }
 
-            $scope.save = function (item) {
-                $scope.editableDetail = {};
-                item.isEdit = false;
+            $scope.cancel = function (question) {
+                question.Text = $scope.editableQuestion.Text;
+                question.Answers = $scope.editableQuestion.Answers;
+                $scope.editableQuestion = {};
+                question.isEdit = false;
             }
 
             changePosition = function (list, currentItem, up) {
@@ -91,6 +90,7 @@
                 }
                 return temp;
             }
+
         }]
     };
 }]);

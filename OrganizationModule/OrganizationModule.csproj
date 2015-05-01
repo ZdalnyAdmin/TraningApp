@@ -227,8 +227,10 @@
     <Content Include="Scripts\Controllers\protectorAppLogsController.js" />
     <Content Include="Scripts\Controllers\protectorPermissionsController.js" />
     <Content Include="Scripts\Controllers\ViewWrapperController.js" />
+    <Content Include="Scripts\Directives\ngTrainingAddQuestion.js" />
     <Content Include="Scripts\Directives\ngTrainingDetailsTab.js" />
     <Content Include="Scripts\Directives\ngTrainingEditDetails.js" />
+    <Content Include="Scripts\Directives\ngTrainingEditQuestion.js" />
     <Content Include="Scripts\Directives\ngTrainingFileEditor.js" />
     <Content Include="Scripts\Directives\ngTrainingImageEditor.js" />
     <Content Include="Scripts\Directives\ngTrainingMediaEditor.js" />
@@ -258,8 +260,10 @@
     <Content Include="Scripts\ui-bootstrap-0.12.1.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Templates\deleteConfirmModal.html" />
+    <Content Include="Templates\trainingAddQuestion.html" />
     <Content Include="Templates\trainingDetailsTab.html" />
     <Content Include="Templates\trainingEditDetails.html" />
+    <Content Include="Templates\trainingEditQuestion.html" />
     <Content Include="Templates\trainingFileEditor.html" />
     <Content Include="Templates\trainingImageEditor.html" />
     <Content Include="Templates\trainingMediaEditor.html" />

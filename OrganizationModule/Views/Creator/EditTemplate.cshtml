@@ -70,19 +70,20 @@
     <div id="simpleRow">
         Jesli nie zaznaczysz zadnej grupy, kurs będzie widoczny tylko dla Ciebie
     </div>
+
     <div id="simpleRow">
         ZAWARTOSC SZKOLENIA
     </div>
 
-    <div ng-training-details-tab obj="trainingDetails"></div>
+    <div ng-training-details-tab obj="currentTraining.Details"></div>
+    <div ng-training-edit-details collection="currentTraining.Details"></div>
 
-    <div ng-repeat="item in trainingDetails">
-        <div ng-training-edit-details collection="trainingDetails" item="item"></div>
+    <div id="simpleRow">
+        PYTANIE W SZKOLENIU
     </div>
 
-
-
-
+    <div ng-training-edit-question questions="currentTraining.Questions"></div>
+    <div ng-training-add-question questions="currentTraining.Questions"></div>
 
     <div id="simpleRow">
         <div id="inputButto" ng-click="save()">
