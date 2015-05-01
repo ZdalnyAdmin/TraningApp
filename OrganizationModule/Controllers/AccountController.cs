@@ -1,12 +1,12 @@
 ﻿using AppEngine;
-using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
+using AppEngine.Models.DataContext;
 using AppEngine.Models.ViewModels.Account;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -31,6 +31,10 @@ namespace OrganizationModule.Controllers
             get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
             private set { _userManager = value; }
         }
+        #endregion
+
+        #region Private Fields
+        private EFContext _db = new EFContext();
         #endregion
 
         #region Constructor
@@ -95,8 +99,11 @@ namespace OrganizationModule.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string id, string code)
         {
+            var user = UserManager.FindById(id);
+            ViewBag.User = user;
+            ViewBag.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
             return View();
         }
         #endregion

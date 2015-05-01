@@ -8,6 +8,7 @@ OrganizationModuleApp.controller('invitationController', invitationController);
 OrganizationModuleApp.controller('ResetPasswordController', ResetPasswordController);
 OrganizationModuleApp.controller('usersListModalController', usersListModalController);
 OrganizationModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
+OrganizationModuleApp.controller('ViewWrapperController', ViewWrapperController);
 OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 OrganizationModuleApp.factory('UserFactory', UserFactory);
 //OrganizationModuleApp.service('SessionService', SessionService)
@@ -87,9 +88,9 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             templateUrl: 'Account/ResetPasswordConfirmation',
             controller: ResetPasswordConfirmation
         })
-        .when('/register', {
-            templateUrl: 'Account/Register',
-            controller: RegisterController
+        .when('/Templates/registerUser', {
+            templateUrl: 'viewWrapper.html',
+            controller: ViewWrapperController
         })
         .when('/logoff', {
             templateUrl: 'Account/Logoff',

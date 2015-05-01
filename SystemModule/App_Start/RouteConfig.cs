@@ -20,6 +20,12 @@ namespace SystemModule
             );
 
             routes.MapRoute(
+                name: "RegisterUser",
+                url: "register",
+                defaults: new { controller = "Redirect", action = "RegisterUser", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Redirect",
                 url: "{id}",
                 defaults: new { controller = "Redirect", action = "Index" }
@@ -28,7 +34,7 @@ namespace SystemModule
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}",
-                defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional, code = UrlParameter.Optional }
+                defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

@@ -26,7 +26,6 @@ namespace AppEngine.Models.Common
         public StatusEnum Status { get; set; }
         public DateTime? RegistrationDate { get; set; }
         public DateTime InvitationDate { get; set; }
-        public int RegistrationUserID { get; set; }
         public DateTime? LastActivationDate { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
@@ -34,6 +33,7 @@ namespace AppEngine.Models.Common
         public int? OrganizationID { get; set; }
         public Organization Organization { get; set; }
         public DateTime? ResetPasswordDate { get; set; }
+        public string InviterID { get; set; }
         public Person Inviter { get; set; }
 
         [NotMapped]
