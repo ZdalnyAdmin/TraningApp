@@ -38,10 +38,10 @@
                     @foreach(var user in ViewBag.InvitedUsers) {
                         <tr >
                             <td>
-                                @user.UserName
+                                @user.DisplayName
                             </td>
                             <td>
-                                @user.Inviter.UserName
+                                @user.Inviter.DisplayName
                             </td>
                             <td>
                                 @user.InvitationDate

@@ -90,7 +90,7 @@ namespace AppEngine
             manager.UserValidator = new UserValidator<Person>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = true
+                RequireUniqueEmail = false
             };
 
             // Configure validation logic for passwords

@@ -109,7 +109,7 @@ namespace OrganizationModule.Controllers
 
                     var user = new Person
                     {
-                        UserName = model.UserName,
+                        UserName = Guid.NewGuid().ToString(),
                         DisplayName = model.UserName,
                         Email = model.Email,
                         InviterID = currentUser.Id,

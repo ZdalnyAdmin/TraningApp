@@ -87,7 +87,7 @@ namespace SystemModule.Controllers
                     var user = new Person
                     {
                         UserName = model.UserName,
-                        Email = model.Email,
+                        Email = "dadadsa@dasdas.pl",
                         RegistrationDate = DateTime.Now,
                         Profile = ProfileEnum.Administrator, // Temporary
                         InvitationDate = DateTime.Now,

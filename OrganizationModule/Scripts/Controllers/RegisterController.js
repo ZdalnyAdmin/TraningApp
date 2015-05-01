@@ -1,12 +1,9 @@
 ﻿var RegisterController = function ($scope, $routeParams, $location, UserFactory) {
-    $scope.registrationData = {
-        Email: 'email@mail.pl',
-        Role: 'xxx'
-    };
+    var search = $location.search();
 
-    $scope.company = {
-        name: 'nazwa',
-        displayName: 'xxx'
+    $scope.registrationData = {
+        Token: search.code,
+        UserId: search.id
     };
 
     $scope.errorMessage = '';

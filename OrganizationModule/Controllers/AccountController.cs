@@ -5,6 +5,8 @@ using AppEngine.Models.DataContext;
 using AppEngine.Models.ViewModels.Account;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -77,19 +79,61 @@ namespace OrganizationModule.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new Person { UserName = model.UserName, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (!result.Succeeded)
+                IdentityResult result = new IdentityResult();
+                Result responseResult = new Result() { Errors = new List<string>(), Succeeded = false };
+
+                try
                 {
-                    return this.Json(result);
-                }
-                else
-                {
+                    var user = UserManager.FindById(model.UserId);
+                    var userByName = UserManager.FindByName(model.UserName);
+                    bool tokenValidation = await UserManager.UserTokenProvider.ValidateAsync("ResetPassword", model.Token, UserManager, user);
+
+                    if (user == null || (DateTime.Now - user.InvitationDate).Days > 2 || !tokenValidation)
+                    {
+                        responseResult.Errors.Add("Nieprawidłowy token, lub token wygasł.");
+                        return Json(responseResult);
+                    }
+
+                    if (userByName != null && user.Id != userByName.Id)
+                    {
+                        responseResult.Errors.Add("Ten login jest już zajęty. Proszę wybrać inny.");
+                        return Json(responseResult);
+                    }
+
+                    user.RegistrationDate = DateTime.Now;
+                    user.ResetPasswordDate = DateTime.Now;
+                    user.Status = StatusEnum.Active;
+                    user.UserName = model.UserName;
+                    result = UserManager.Update(user);
+
+                    if (!result.Succeeded)
+                    {
+                        return this.Json(result);
+                    }
+
+                    var rslt = await Person.ChangePasswordAsync(UserManager, new ResetPasswordViewModel()
+                    {
+                        Code = model.Token,
+                        Password = model.Password,
+                        ConfirmPassword = model.ConfirmPassword,
+                        UserName = user.UserName
+                    });
+
+                    if (!rslt.Succeeded)
+                    {
+                        return this.Json(rslt);
+                    }
+
+                    await UserManager.UpdateSecurityStampAsync(user.Id);
                     await UserManager.SendEmailAsync(user.Id,
-                       "Rejestracja Kenpro",
-                       "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
-                       + "<br/>Twoja nazwa wyświetlana: " + user.UserName
-                       + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/login\">Zaloguj się</a>");
+                        "Rejestracja Kenpro",
+                        "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
+                        + "<br/>Twoja nazwa wyświetlana: " + user.DisplayName
+                        + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/login\">Zaloguj się</a>");
+                }
+                catch (Exception ex)
+                {
+
                 }
 
                 return this.Json(result);

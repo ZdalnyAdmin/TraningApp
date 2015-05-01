@@ -64,7 +64,7 @@ namespace AppEngine.Models.Common
             return userIdentity;
         }
 
-        public async Task<IdentityResult> ResetPasswordAsync(UserManager<Person> manager, HttpRequestBase request)
+        public async Task<IdentityResult> ResetPasswordAsync(UserManager<Person> manager, HttpRequestBase request, bool sendMail = true)
         {
             var result = await manager.UpdateSecurityStampAsync(this.Id);
 

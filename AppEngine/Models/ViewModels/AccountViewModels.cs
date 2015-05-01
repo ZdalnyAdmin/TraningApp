@@ -57,11 +57,6 @@ namespace AppEngine.Models.ViewModels.Account
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
 
@@ -75,6 +70,10 @@ namespace AppEngine.Models.ViewModels.Account
         [Display(Name = "ConfirmPassword")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string Token { get; set; }
+
+        public string UserId { get; set; }
     }
 
     public class ResetPasswordViewModel
