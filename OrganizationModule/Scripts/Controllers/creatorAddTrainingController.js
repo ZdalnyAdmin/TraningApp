@@ -66,37 +66,6 @@
         });
     }
 
-    //details methods
-    $scope.upload = function (item, resourceType) {
-        //todo
-    }
-
-    $scope.cancel = function (item, resourceType) {
-        $scope.currentDetail = {};
-    }
-
-    $scope.add = function (item, resourceType) {
-        if (!$scope.currentDetail) {
-            return;
-        }
-
-        if ($scope.currentDetail.Text && resourceType == 0) {
-            $scope.currentDetail.isEdit = false;
-            $scope.currentDetail.ResourceType = resourceType;
-            $scope.trainingDetails.push($scope.currentDetail);
-            $scope.currentDetail = {};
-            return;
-        }
-
-        if ($scope.currentDetail.ExternalResource) {
-            $scope.currentDetail.isEdit = false;
-            $scope.currentDetail.ResourceType = resourceType;
-            $scope.trainingDetails.push($scope.currentDetail);
-            $scope.currentDetail = {};
-            return;
-        }
-    }
-
     $scope.detailUp = function (item) {
         $scope.trainingDetails = changePosition($scope.trainingDetails, item, false);
     }

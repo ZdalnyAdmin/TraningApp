@@ -1,6 +1,8 @@
 ﻿function creatorEditTrainingController($scope, $http, $modal) {
     $scope.loading = true;
     $scope.currentTraining = {};
+    $scope.trainingDetails = [];
+
 
     //Used to display the data 
     $scope.loadGroups = function () {

@@ -1,0 +1,21 @@
+﻿<div class='container'>
+    <div id="simpleRow">
+        Wczytaj film przerzuc i opusc go na pole obok lub podaj link
+    </div>
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="upload(currentDetail)">
+            Wczytaj film
+        </div>
+    </div>
+    <div id="simpleRow">
+        Podal link do YT lub vimeo <input type="text" ng-model="obj.ExternalResource" name="obj.ExternalResource" />
+    </div>
+    <div id="simpleRow">
+        <div id="inputButto" ng-click="cancel(currentDetail)">
+            Anuluj
+        </div>
+        <div id="inputButto" ng-click="add(currentDetail)">
+            Zapisz
+        </div>
+    </div>
+</div>

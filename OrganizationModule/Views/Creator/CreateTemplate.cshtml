@@ -41,7 +41,7 @@
 
     <div id="simpleRow">
         <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="100" />100%
-        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="80" checked="checked"/>80%
+        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="80" checked="checked" />80%
         <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="65" />65%
         <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="50" />50%
     </div>
@@ -75,98 +75,8 @@
         ZAWARTOSC SZKOLENIA
     </div>
 
-    <tabset>
-        <tab heading="dodaj tekst">
-            <training-text-editor />
-            @*<input type="text" ng-model="currentDetail.Text" name="currentDetail.Text" />*@
-            <div id="simpleRow">
-                <div id="inputButto" ng-click="cancel(currentDetail, 0)">
-                    Anuluj
-                </div>
-                <div id="inputButto" ng-click="add(currentDetail, 0)">
-                    Zapisz
-                </div>
-            </div>
-        </tab>
-        <tab heading="dodaj grafike">
-            <div id="simpleRow">
-                wczytaj grafike lub upusc ja na pole obok lub podaj link
-            </div>
-            <div id="simpleRow">
-                <div id="inputButto" ng-click="upload(currentDetail, 1)">
-                    Wczytaj grafike
-                </div>
-            </div>
-            <div id="simpleRow">
-                Podaj link: <input type="text" ng-model="currentDetail.ExternalResource" name="currentDetail.ExternalResource" />
-            </div>
-            <div id="simpleRow">
-                <div id="inputButto" ng-click="cancel(currentDetail, 1)">
-                    Anuluj
-                </div>
-                <div id="inputButto" ng-click="add(currentDetail, 1)">
-                    Zapisz
-                </div>
-            </div>
-        </tab>
-        <tab heading="dodaj wideo">
-            <div id="simpleRow">
-                Wczytaj film przerzuc i opusc go na pole obok lub podaj link
-            </div>
-            <div id="simpleRow">
-                <div id="inputButto" ng-click="upload(currentDetail, 2)">
-                    Wczytaj film
-                </div>
-            </div>
-            <div id="simpleRow">
-                Podal link do YT lub vimeo <input type="text" ng-model="currentDetail.ExternalResource" name="currentDetail.ExternalResource" />
-            </div>
-            <div id="simpleRow">
-                <div id="inputButto" ng-click="cancel(currentDetail, 2)">
-                    Anuluj
-                </div>
-                <div id="inputButto" ng-click="add(currentDetail, 2)">
-                    Zapisz
-                </div>
-            </div>
-        </tab>
-        <tab heading="dodaj prezentacje">
-            <div id="simpleRow">
-                Wgraj prezentacje (ppt, pptx, pdf)
-            </div>
-            <div id="simpleRow">
-                <div id="inputButto" ng-click="upload(currentDetail, 3)">
-                    Wybierz plik
-                </div>
-            </div>
-            <div id="simpleRow">
-                <div id="inputButto" ng-click="cancel(currentDetail, 3)">
-                    Anuluj
-                </div>
-                <div id="inputButto" ng-click="add(currentDetail, 3)">
-                    Zapisz
-                </div>
-            </div>
-        </tab>
-        <tab heading="dodaj plik">
-            <div id="simpleRow">
-                <div id="simpleRow">
-                    Wgraj plik
-                </div>
-                <div id="simpleRow">
-                    <div id="inputButto" ng-click="upload(currentDetail, 4)">
-                        Wybierz plik
-                    </div>
-                </div>
-                <div id="inputButto" ng-click="cancel(currentDetail, 4)">
-                    Anuluj
-                </div>
-                <div id="inputButto" ng-click="add(currentDetail, 4)">
-                    Zapisz
-                </div>
-            </div>
-        </tab>
-    </tabset>
+    <div ng-training-details-tab obj="trainingDetails"></div>
+
 
     <div ng-repeat="item in trainingDetails">
         <div id="simpleRow">
