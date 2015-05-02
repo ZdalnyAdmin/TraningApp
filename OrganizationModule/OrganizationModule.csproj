@@ -176,6 +176,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\LocalFileController.cs" />
     <Compile Include="Controllers\Api\LogsController.cs" />
     <Compile Include="Controllers\Api\OperationLogController.cs" />
     <Compile Include="Controllers\Api\PeopleInGroupController.cs" />
@@ -203,6 +204,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Marks\All\Kowalski.png" />
+    <Content Include="Assets\Marks\All\Król_Julian.png" />
+    <Content Include="Assets\Marks\All\Marlenka.png" />
     <Content Include="Content\Login\login.css" />
     <Content Include="Content\Menu\menu.css" />
     <Content Include="Content\Settings\user-settings.css" />
@@ -220,6 +224,7 @@
     <Content Include="Scripts\Controllers\adminSettingsController.js" />
     <Content Include="Scripts\Controllers\adminStatisticsController.js" />
     <Content Include="Scripts\Controllers\adminUsersController.js" />
+    <Content Include="Scripts\Controllers\commonMarksModalController.js" />
     <Content Include="Scripts\Controllers\confirmModalController.js" />
     <Content Include="Scripts\Controllers\creatorAddTrainingController.js" />
     <Content Include="Scripts\Controllers\creatorEditTrainingController.js" />
@@ -261,7 +266,8 @@
     <Content Include="Scripts\Services\SessionService.js" />
     <Content Include="Scripts\ui-bootstrap-0.12.1.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Templates\deleteConfirmModal.html" />
+    <Content Include="Templates\Modals\commonMarksModal.html" />
+    <Content Include="Templates\Modals\deleteConfirmModal.html" />
     <Content Include="Templates\trainingAddQuestion.html" />
     <Content Include="Templates\trainingDetailsTab.html" />
     <Content Include="Templates\trainingEditDetails.html" />
@@ -271,7 +277,7 @@
     <Content Include="Templates\trainingMediaEditor.html" />
     <Content Include="Templates\trainingPresentationEditor.html" />
     <Content Include="Templates\trainingTextEditor.html" />
-    <Content Include="Templates\usersListModal.html" />
+    <Content Include="Templates\Modals\usersListModal.html" />
     <Content Include="Templates\viewWrapper.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -313,7 +319,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Assets\Image\" />
-    <Folder Include="Assets\Marks\" />
     <Folder Include="Views\Redirect\" />
   </ItemGroup>
   <ItemGroup>

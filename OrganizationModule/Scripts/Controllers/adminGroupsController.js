@@ -136,7 +136,7 @@
 
     $scope.chooseUsers = function (group) {
         var modalInstance = $modal.open({
-            templateUrl: '/Templates/usersListModal.html',
+            templateUrl: '/Templates/Modals/usersListModal.html',
             controller: 'usersListModalController',
             size: 'sm',
             resolve: {

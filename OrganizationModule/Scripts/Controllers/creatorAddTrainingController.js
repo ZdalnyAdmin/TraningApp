@@ -25,15 +25,31 @@
     $scope.loadGroups();
 
     $scope.loadImage = function () {
-
+        var obj = {};
+        obj.ImageType = 0;
     }
 
     $scope.loadIcon = function () {
-
+        //todo
     }
 
     $scope.showIcon = function () {
+        var modalInstance = $modal.open({
+            templateUrl: '/Templates/Modals/commonMarksModal.html',
+            controller: 'commonMarksModalController',
+            size: 'sm',
+            resolve: {
+                selectedMark: function () {
+                    return $scope.selectedMark;
+                }
+            }
+        });
 
+        modalInstance.result.then(function (selectedMark) {
+            if (!!selectedMark) {
+                $scope.currentTraining.PassResources = selectedMark;
+            }
+        });
     }
 
     $scope.save = function () {

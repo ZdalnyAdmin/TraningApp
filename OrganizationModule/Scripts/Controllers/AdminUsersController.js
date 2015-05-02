@@ -80,7 +80,7 @@
 
     $scope.delete = function (person) {
         var modalInstance = $modal.open({
-            templateUrl: '/Templates/deleteConfirmModal.html',
+            templateUrl: '/Templates/Modals/deleteConfirmModal.html',
             controller: 'confirmModalController',
             size: 'sm',
             resolve: {
