@@ -312,6 +312,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Assets\Image\" />
+    <Folder Include="Assets\Marks\" />
     <Folder Include="Views\Redirect\" />
   </ItemGroup>
   <ItemGroup>

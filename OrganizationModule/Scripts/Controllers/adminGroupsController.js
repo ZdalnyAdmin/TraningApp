@@ -29,6 +29,7 @@
             $scope.assignedPeopleToGroup(data, true);
             $scope.isCreated = false;
             $scope.editableGroup = {};
+            $scope.currentGroup = {};
 
             $scope.loadData();
         }).error(function (data) {

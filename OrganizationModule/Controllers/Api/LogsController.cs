@@ -39,5 +39,31 @@ namespace OrganizationModule.Controllers.Api
 
             return logs;
         }
+
+        // POST api/<controller>
+        public HttpResponseMessage Post(AppLog log)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var list = (from t in db.Logs
+                            where t.OperationType == log.OperationType && t.TrainingID == log.TrainingID
+                            orderby t.ModifiedDate descending
+                            select t).ToList();
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, list);
+                //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = group.ProfileGroupID }));
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
     }
 }

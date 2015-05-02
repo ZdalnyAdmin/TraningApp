@@ -1,16 +1,18 @@
-﻿<div class="modal-header">
-    <div class="btn btn-primary" ng-click="close()">X</div>
-</div>
-<div class="modal-body">
-    <div>
-        <div class="intro-text"></div>
-        <div class="users-list">
-            <div ng-repeat="user in users" class="user-item">
-                <input type="checkbox" ng-model="user.selected" /> {{user.Name}} ({{user.Mail}})
+﻿<div>
+    <div class="modal-header">
+        <div class="btn btn-primary" ng-click="close()">X</div>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div class="intro-text"></div>
+            <div class="users-list">
+                <div ng-repeat="user in users" class="user-item">
+                    <input type="checkbox" ng-model="user.selected" /> {{user.Name}} ({{user.Mail}})
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal-header">
-    <div class="btn btn-primary" ng-click="save()">ZAPISZ</div>
+    <div class="modal-header">
+        <div class="btn btn-primary" ng-click="save()">ZAPISZ</div>
+    </div>
 </div>
