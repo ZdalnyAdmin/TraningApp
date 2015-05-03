@@ -72,6 +72,14 @@
         $scope.currentTraining.CreateUserID = 1;
         $scope.currentTraining.Details = $scope.trainingDetails;
         $scope.currentTraining.Questions = $scope.trainingQuestion;
+
+        $scope.currentTraining.Groups = [];
+        angular.forEach($scope.Groups, function (val) {
+            if (val.selected) {
+                $scope.currentTraining.Groups.push(val);
+            }
+        });
+
         $http.post('/api/Training', $scope.currentTraining)
         .success(function (data) {
             $scope.loading = false;

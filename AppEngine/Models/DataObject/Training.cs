@@ -26,6 +26,8 @@ namespace AppEngine.Models.Common
         public List<TrainingDetail> Details { get; set; }
         public List<TrainingQuestion> Questions { get; set; }
 
+        [NotMapped]
+        public List<ProfileGroup> Groups { get; set; }
 
         //logo szkolenia - sciezka
         public string TrainingResources { get; set; }
