@@ -11,7 +11,7 @@
             if (rejection.status === 401) {
                 console.log("Response Error 401", rejection);
                 var searchPath = $location.path();
-                $location.path('/login').search('returnUrl', searchPath);
+                $location.path('/signin').search('returnUrl', searchPath);
             }
 
             return $q.reject(rejection);

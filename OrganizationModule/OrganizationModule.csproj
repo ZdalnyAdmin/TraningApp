@@ -243,6 +243,7 @@
     <Content Include="Scripts\Directives\ngTrainingImageEditor.js" />
     <Content Include="Scripts\Directives\ngTrainingMediaEditor.js" />
     <Content Include="Scripts\Directives\ngTrainingPresentationEditor.js" />
+    <Content Include="Scripts\Directives\ngMenu.js" />
     <Content Include="Scripts\Directives\ngTrainingTextEditor.js" />
     <Content Include="Scripts\Controllers\usersListModalController.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
@@ -268,6 +269,7 @@
     <Content Include="Scripts\Services\SessionService.js" />
     <Content Include="Scripts\ui-bootstrap-0.12.1.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Templates\menu.html" />
     <Content Include="Templates\Modals\commonMarksModal.html" />
     <Content Include="Templates\Modals\deleteConfirmModal.html" />
     <Content Include="Templates\trainingAddQuestion.html" />
@@ -317,6 +319,7 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\User\ActiveTraining.cshtml" />
     <Content Include="Views\Creator\EditTemplate.cshtml" />
+    <Content Include="Views\Menu\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

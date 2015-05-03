@@ -13,7 +13,7 @@
                 <option value="@((int)ProfileEnum.Manager)">@ProfileEnum.Manager.GetDescription()</option>
 
                 @if (ViewBag.User.Profile == ProfileEnum.Administrator ||
-                    ViewBag.User.Profile == ProfileEnum.Keeper ||
+                    ViewBag.User.Profile == ProfileEnum.Protector ||
                     ViewBag.User.Profile == ProfileEnum.Superuser)
                 {
                     <option value="@((int)ProfileEnum.Administrator)" ng-click="inviteUser()">@ProfileEnum.Administrator.GetDescription()</option>

@@ -77,7 +77,7 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
         .when('/protectorLogs', {
             templateUrl: 'Protector/Logs'
         })
-        .when('/login', {
+        .when('/signin', {
             templateUrl: 'Account/Login',
             controller: LoginController
         })

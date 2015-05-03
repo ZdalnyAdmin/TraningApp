@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppEngine.Models.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,12 @@ namespace OrganizationModule.Controllers
         [ChildActionOnly]
         public ActionResult KeeperMenu()
         {
+            return View();
+        }
+
+        public ActionResult Index()
+        {
+            ViewBag.LoggedUser = Person.GetLoggedPerson(User);
             return View();
         }
     }

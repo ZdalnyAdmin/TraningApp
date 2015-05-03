@@ -51,7 +51,7 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
         .when('/history', {
             templateUrl: 'Main/History'
         })
-        .when('/login', {
+        .when('/signin', {
             templateUrl: 'Account/Login',
             controller: LoginController
         })

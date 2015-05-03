@@ -134,7 +134,7 @@ namespace OrganizationModule.Controllers
                         "Rejestracja Kenpro",
                         "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
                         + "<br/>Twoja nazwa wyświetlana: " + user.DisplayName
-                        + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/login\">Zaloguj się</a>");
+                        + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Zaloguj się</a>");
                 }
                 catch (Exception ex)
                 {
@@ -148,11 +148,23 @@ namespace OrganizationModule.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Register(string id, string code)
+        public async Task<ActionResult> Register(string id, string code)
         {
             var user = UserManager.FindById(id);
             ViewBag.User = user;
-            ViewBag.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+
+            if (user != null)
+            {
+                ViewBag.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+                ViewBag.isTokenValid = await UserManager.UserTokenProvider.ValidateAsync("ResetPassword", code, UserManager, user);
+                ViewBag.tokenExpired = (DateTime.Now - user.InvitationDate).Days > 2 || user.Status == StatusEnum.Rejected;
+            }
+            else
+            {
+                ViewBag.isTokenValid = false;
+                ViewBag.tokenExpired = true;
+            }
+
             return View();
         }
         #endregion
@@ -227,6 +239,13 @@ namespace OrganizationModule.Controllers
         public ActionResult Logoff()
         {
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult GetLoggedUser()
+        {
+            return Json(Person.GetLoggedPerson(User));
         }
         #endregion
         #endregion

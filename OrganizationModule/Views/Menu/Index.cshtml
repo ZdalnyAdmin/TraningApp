@@ -1,0 +1,24 @@
+﻿@using AppEngine.Models.DataBusiness
+@switch ((ProfileEnum)ViewBag.LoggedUser.Status)
+{
+    case ProfileEnum.Administrator:
+        @Html.Action("KeeperMenu", "Menu")
+        break;
+    case ProfileEnum.Creator:
+        @Html.Action("KeeperMenu", "Menu")
+        break;
+    case ProfileEnum.Manager:
+        @Html.Action("KeeperMenu", "Menu")
+        break;
+    case ProfileEnum.Protector:
+        @Html.Action("KeeperMenu", "Menu")
+        break;
+    case ProfileEnum.Superuser:
+        @Html.Action("KeeperMenu", "Menu")
+        break;
+    case ProfileEnum.User:
+        @Html.Action("KeeperMenu", "Menu")
+        break;
+    default:
+        break;
+} 

@@ -137,7 +137,7 @@ namespace AppEngine.Models.Common
 
             if (string.IsNullOrWhiteSpace(currentUserId))
             {
-                return new Person();
+                return null;
             }
 
             var user = db.Users.FirstOrDefault(x => x.Id == currentUserId);
