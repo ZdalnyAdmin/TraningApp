@@ -1,4 +1,5 @@
-﻿var SystemModuleApp = angular.module('SystemModuleApp', ['ngRoute']);
+﻿var SystemModuleApp = window.App;
+
 SystemModuleApp.controller('BaseController', BaseController);
 SystemModuleApp.controller('LoginController', LoginController);
 SystemModuleApp.controller('LogoffController', LogoffController);

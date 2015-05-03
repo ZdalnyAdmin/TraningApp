@@ -177,6 +177,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\GroupController.cs" />
     <Compile Include="Controllers\Api\LocalFileController.cs" />
+    <Compile Include="Controllers\Api\NotProtectedOrganizationController.cs" />
     <Compile Include="Controllers\Api\SimpleTrainingController.cs" />
     <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -195,11 +196,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\App.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
     <Content Include="Scripts\Controllers\addTrainingController.js" />
+    <Content Include="Scripts\Controllers\createProtectorController.js" />
+    <Content Include="Scripts\Controllers\editProtectorController.js" />
     <Content Include="Scripts\Controllers\editTrainingController.js" />
     <Content Include="Scripts\Controllers\trainingsController.js" />
     <Content Include="Scripts\Controllers\ResetPasswordConfirmation.js" />
