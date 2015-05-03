@@ -11,6 +11,7 @@ OrganizationModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfi
 OrganizationModuleApp.controller('ViewWrapperController', ViewWrapperController);
 OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 OrganizationModuleApp.factory('UserFactory', UserFactory);
+OrganizationModuleApp.factory('UtilitiesFactory', UtilitiesFactory);
 //OrganizationModuleApp.service('SessionService', SessionService)
 
 var configFunction = function ($routeProvider, $httpProvider, $locationProvider) {
@@ -103,3 +104,18 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
 configFunction.$inject = ['$routeProvider', '$httpProvider', '$locationProvider'];
 
 OrganizationModuleApp.config(configFunction);
+
+OrganizationModuleApp.run(function ($rootScope, $location, UtilitiesFactory) {
+    $rootScope.$on('$routeChangeStart', function () {
+        //show loading gif
+        UtilitiesFactory.showSpinner();
+    });
+    $rootScope.$on('$routeChangeSuccess', function () {
+        //hide loading gif
+        UtilitiesFactory.hideSpinner();
+    });
+    $rootScope.$on('$routeChangeError', function () {
+        //hide loading gif
+        UtilitiesFactory.hideSpinner();
+    });
+});

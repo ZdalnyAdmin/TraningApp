@@ -138,6 +138,6 @@
         removeInvitation: removeInvitation,
         resetPasswordConfirmation: resetPasswordConfirmation
     }
-}
+};
 
 UserFactory.$inject = ['$http', '$q'];

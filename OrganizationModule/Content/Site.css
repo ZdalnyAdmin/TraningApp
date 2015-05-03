@@ -201,3 +201,40 @@ input-m{
         font-size:24px!important;
     }
 }
+
+#spinner {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#spinner .spinner-background {
+    background-color: #000;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+}
+
+#spinner .spinner-icon-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+#spinner .spinner-cell {
+    display: table-cell;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#spinner .spinner-icon {
+    width: 48px;
+    height: 48px;
+    background-image: url('../Assets/Image/ajax-loader.gif');
+    margin: auto;
+}

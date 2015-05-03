@@ -1,4 +1,4 @@
-﻿function invitationController($scope, $http, $modal, UserFactory, $route, $templateCache) {
+﻿function invitationController($scope, $http, $modal, UserFactory, $route, $templateCache, UtilitiesFactory) {
     $scope.user = {
         Role: 5
     };
@@ -6,11 +6,13 @@
     $scope.errorMessage = '';
 
     $scope.invite = function () {
+        UtilitiesFactory.showSpinner();
         var result = UserFactory.inviteUser($scope.user);
         result.then(processResponse);
     };
 
     $scope.deleteUser = function (id) {
+        UtilitiesFactory.showSpinner();
         var result = UserFactory.removeInvitation({ Id: id });
         result.then(processResponse);
     };
@@ -19,6 +21,8 @@
         if (data.Succeeded) {
             reload();
         } else {
+            UtilitiesFactory.hideSpinner();
+
             if (data.Errors) {
                 $scope.errorMessage = '';
                 angular.forEach(data.Errors, function (val) {
@@ -37,4 +41,4 @@
     }
 }
 
-invitationController.$inject = ['$scope', '$http', '$modal', 'UserFactory', '$route', '$templateCache'];
+invitationController.$inject = ['$scope', '$http', '$modal', 'UserFactory', '$route', '$templateCache', 'UtilitiesFactory'];
