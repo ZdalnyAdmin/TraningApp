@@ -1,8 +1,10 @@
 ﻿using AppEngine;
+using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.ViewModels.Account;
+using AppEngine.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
@@ -124,6 +126,8 @@ namespace OrganizationModule.Controllers
                     {
                         return this.Json(rslt);
                     }
+
+                    LogService.InsertUserLogs(OperationLog.Rejestracja, _db, user.Id, user.Id);
 
                     await UserManager.UpdateSecurityStampAsync(user.Id);
                     await UserManager.SendEmailAsync(user.Id,

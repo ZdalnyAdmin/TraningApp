@@ -1,8 +1,10 @@
 ﻿using AppEngine;
+using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.ViewModels.Manager;
+using AppEngine.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
@@ -135,6 +137,8 @@ namespace OrganizationModule.Controllers
                     }
                     else
                     {
+                        LogService.InsertUserLogs(OperationLog.Zaproszenie, _db, user.Id, user.InviterID);
+
                         var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                         await UserManager.SendEmailAsync(user.Id,
                            "Zaproszenie Kenpro",
@@ -165,10 +169,13 @@ namespace OrganizationModule.Controllers
                     var errors = new List<string>();
                     errors.Add("Podany użytkownik nie istnieje");
 
-                    return Json(new Result() { Succeeded = false, Errors = errors }); 
+                    return Json(new Result() { Succeeded = false, Errors = errors });
                 }
 
+                var currentPerson = Person.GetLoggedPerson(User);
+
                 user.Status = StatusEnum.Rejected;
+                user.ModifiedUserID = currentPerson.Id;
 
                 var result = await UserManager.UpdateSecurityStampAsync(user.Id);
 
@@ -176,6 +183,8 @@ namespace OrganizationModule.Controllers
                 {
                     return Json(new Result() { Succeeded = result.Succeeded, Errors = new List<string>(result.Errors) });
                 }
+
+                LogService.InsertUserLogs(OperationLog.UsuniecieZaproszenia, _db, user.Id, user.ModifiedUserID);
 
                 result = await UserManager.UpdateAsync(user);
 

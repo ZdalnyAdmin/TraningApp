@@ -57,6 +57,10 @@ namespace AppEngine.Models
         Edycja = 5,
         [Description("Edycja szkolenia")]
         KursEdycja = 6,
+        [Description("Usunięcie zaproszenia")]
+        UsuniecieZaproszenia = 7,
+        [Description("Rejestracja użytkownika")]
+        Rejestracja = 8
     }
 
 }
