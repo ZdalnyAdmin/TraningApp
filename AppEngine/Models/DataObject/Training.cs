@@ -35,7 +35,7 @@ namespace AppEngine.Models.Common
         public int PassResult { get; set; }
         //tekst jak zaliczone szkolenie
         public string PassInfo { get; set; }
-        //osznaka - sciezka do pliku
+        //odznaka - sciezka do pliku
         public string PassResources { get; set; }
 
         private string _createUserName;

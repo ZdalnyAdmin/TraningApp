@@ -252,7 +252,6 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Main\History.cshtml" />
     <Content Include="Views\Main\GlobalAdmins.cshtml" />
-    <Content Include="Views\Main\TraningsList.cshtml" />
     <Content Include="Views\Main\EditProtectorRole.cshtml" />
     <Content Include="Views\Main\CreateProtectorRole.cshtml" />
     <Content Include="Views\Main\EditTraning.cshtml" />
@@ -267,6 +266,7 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Main\Tranings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

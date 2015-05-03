@@ -49,7 +49,7 @@ namespace SystemModule.Controllers
             return View();
         }
 
-        public ActionResult EditTraning()
+        public ActionResult Tranings()
         {
             return View();
         }

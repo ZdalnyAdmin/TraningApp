@@ -33,7 +33,7 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             templateUrl: 'Main/CreateTraning'
         })
         .when('/editTraning', {
-            templateUrl: 'Main/EditTraning'
+            templateUrl: 'Main/Tranings'
         })
         .when('/createProtector', {
             templateUrl: 'Main/CreateProtectorRole'
