@@ -28,6 +28,21 @@ namespace AppEngine.Models.Common
 
         [NotMapped]
         public List<ProfileGroup> Groups { get; set; }
+        /// <summary>
+        /// Get from training to organization ?? create ??
+        /// </summary>
+        [NotMapped]
+        public string AssignedOrganizationsName { get; set; }
+        /// <summary>
+        /// Get from training to organization ?? create ??
+        /// </summary>
+        [NotMapped]
+        public string AssignedOrganizationsID { get; set; }
+        /// <summary>
+        /// Get from logs
+        /// </summary>
+        [NotMapped]
+        public DateTime LastActivationDate { get; set; }
 
         //logo szkolenia - sciezka
         public string TrainingResources { get; set; }

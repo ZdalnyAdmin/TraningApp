@@ -1,0 +1,32 @@
+﻿<div ng-app="" ng-controller="trainingInternalController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+
+    <div ng-repeat="item in Trainings">
+        <div>
+            {{ item.Name}}
+        </div>
+        <div>
+            {{ item.TrainingID}}
+        </div>
+        <div>
+            {{ item.AssignedOrganizationsName}}
+        </div>
+        <div>
+            {{ item.AssignedOrganizationsID}}
+        </div>
+        <div>
+            {{ item.CreateUserID}}
+        </div>
+        <div>
+            {{ item.CreateDate | date: 'dd.MM.yyyy hh.mm' }}
+        </div>
+        <div>
+            {{ item.LastActivationDate | date: 'dd.MM.yyyy hh.mm' }}
+        </div>
+    </div>
+
+
+    <button ng-click="showMore()">Pokaz wiecej</button>
+</div>
+

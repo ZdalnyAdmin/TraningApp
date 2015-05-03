@@ -1,1 +1,36 @@
-﻿
+﻿<div ng-app="" ng-controller="editProtectorController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+
+    <div ng-repeat="item in list">
+        <div>
+            {{ item.Name}}
+        </div>
+        <div>
+            {{ item.Organization.Name}}
+        </div>
+        <div>
+            {{ item.RegistrationDate | date: 'dd.MM.yyyy hh.mm' }}
+        </div>
+        <input type="button" value="Zobacz szczegoly" ng-click="showDetails(item, true)" ng-show="item.showDetails" />
+        <input type="button" value="Ukryj szczeogoly" ng-click="showDetails(item, false)" ng-hide="item.showDetails" />
+
+        <div ng-show="item.showDetails">
+            <div>
+                {{ item.Name}} <input type="button" value="Edytuj" ng-click="edit(item)" ng-show="item.isEdit" />
+            </div>
+            <div>
+                Ostatnia aktywnosc : {{ item.LastActivationDate | date: 'dd.MM.yyyy hh.mm' }} 
+            </div>
+            <div ng-show="item.isEdit">
+                <div>
+                    adres email : <input type="text" ng-model="current.Email" name="current.Email"> <input type="button" value="Edytuj" ng-click="save(item)" ng-show="item.isEdit" />
+                </div>
+                <div>
+                    Czy chcesz usunac opiekuna ? <input type="button" value="Usun" ng-click="delete(item)" ng-show="item.isEdit" />
+                </div> 
+            </div>
+
+        </div>
+    </div>
+</div>

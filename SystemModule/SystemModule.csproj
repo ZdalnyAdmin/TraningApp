@@ -175,9 +175,12 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\AdminController.cs" />
     <Compile Include="Controllers\Api\GroupController.cs" />
+    <Compile Include="Controllers\Api\InternalTrainingsController.cs" />
     <Compile Include="Controllers\Api\LocalFileController.cs" />
     <Compile Include="Controllers\Api\NotProtectedOrganizationController.cs" />
+    <Compile Include="Controllers\Api\ProtectorController.cs" />
     <Compile Include="Controllers\Api\SimpleTrainingController.cs" />
     <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -200,11 +203,13 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Controllers\adminController.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
     <Content Include="Scripts\Controllers\addTrainingController.js" />
     <Content Include="Scripts\Controllers\createProtectorController.js" />
     <Content Include="Scripts\Controllers\editProtectorController.js" />
     <Content Include="Scripts\Controllers\editTrainingController.js" />
+    <Content Include="Scripts\Controllers\trainingInternalController.js" />
     <Content Include="Scripts\Controllers\trainingsController.js" />
     <Content Include="Scripts\Controllers\ResetPasswordConfirmation.js" />
     <Content Include="Scripts\Controllers\ResetPasswordController.js" />
@@ -271,6 +276,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Main\Tranings.cshtml" />
+    <Content Include="Views\Main\InternalTrainings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

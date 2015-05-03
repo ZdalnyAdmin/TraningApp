@@ -65,7 +65,7 @@ namespace SystemModule.Controllers
         }
 
         [Authorize]
-        public ActionResult TraningsList()
+        public ActionResult InternalTrainings()
         {
             return View();
         }

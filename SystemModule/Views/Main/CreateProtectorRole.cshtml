@@ -4,7 +4,7 @@
 
     <div id="simpleRow">
         WYBIERZ FIRME
-        <select ng-model="selected" ng-options="c as c.Name for c in organizations" ng-change="changeOrganization(selected)">
+        <select ng-model="selected" ng-options="c c.Name for c in organizations" ng-change="changeOrganization(selected)">
             <option value="">Wybierz</option>
         </select>
     </div>
