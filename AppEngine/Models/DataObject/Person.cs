@@ -8,11 +8,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Http;
-using Microsoft.AspNet.Identity;
-using System.Security.Principal;
 
 namespace AppEngine.Models.Common
 {

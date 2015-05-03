@@ -26,6 +26,23 @@ namespace AppEngine.Models.Common
         public List<TrainingDetail> Details { get; set; }
         public List<TrainingQuestion> Questions { get; set; }
 
+        [NotMapped]
+        public List<ProfileGroup> Groups { get; set; }
+        /// <summary>
+        /// Get from training to organization ?? create ??
+        /// </summary>
+        [NotMapped]
+        public string AssignedOrganizationsName { get; set; }
+        /// <summary>
+        /// Get from training to organization ?? create ??
+        /// </summary>
+        [NotMapped]
+        public string AssignedOrganizationsID { get; set; }
+        /// <summary>
+        /// Get from logs
+        /// </summary>
+        [NotMapped]
+        public DateTime LastActivationDate { get; set; }
 
         //logo szkolenia - sciezka
         public string TrainingResources { get; set; }
@@ -33,7 +50,7 @@ namespace AppEngine.Models.Common
         public int PassResult { get; set; }
         //tekst jak zaliczone szkolenie
         public string PassInfo { get; set; }
-        //osznaka - sciezka do pliku
+        //odznaka - sciezka do pliku
         public string PassResources { get; set; }
 
         private string _createUserName;

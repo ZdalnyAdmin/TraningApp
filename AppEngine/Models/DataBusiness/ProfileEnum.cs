@@ -22,7 +22,7 @@ namespace AppEngine.Models.DataBusiness
         Creator = 3,
 
         [Description("Opiekun")]
-        Keeper = 4,
+        Protector = 4,
 
         [Description("Uzytkownik")]
         User = 5

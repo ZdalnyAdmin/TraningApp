@@ -1,4 +1,5 @@
-﻿var SystemModuleApp = angular.module('SystemModuleApp', ['ngRoute']);
+﻿var SystemModuleApp = window.App;
+
 SystemModuleApp.controller('BaseController', BaseController);
 SystemModuleApp.controller('LoginController', LoginController);
 SystemModuleApp.controller('LogoffController', LogoffController);
@@ -33,7 +34,7 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             templateUrl: 'Main/CreateTraning'
         })
         .when('/editTraning', {
-            templateUrl: 'Main/EditTraning'
+            templateUrl: 'Main/Tranings'
         })
         .when('/createProtector', {
             templateUrl: 'Main/CreateProtectorRole'
@@ -42,7 +43,7 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             templateUrl: 'Main/EditProtectorRole'
         })
         .when('/traningsList', {
-            templateUrl: 'Main/TraningsList'
+            templateUrl: 'Main/InternalTrainings'
         })
         .when('/globalAdmins', {
             templateUrl: 'Main/GlobalAdmins'

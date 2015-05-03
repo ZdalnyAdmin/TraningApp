@@ -49,7 +49,7 @@ namespace SystemModule.Controllers
             return View();
         }
 
-        public ActionResult EditTraning()
+        public ActionResult Tranings()
         {
             return View();
         }
@@ -65,7 +65,7 @@ namespace SystemModule.Controllers
         }
 
         [Authorize]
-        public ActionResult TraningsList()
+        public ActionResult InternalTrainings()
         {
             return View();
         }

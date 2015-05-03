@@ -6,7 +6,7 @@ using System.Web.Http;
 
 namespace SystemModule.Controllers.Api
 {
-    public class SimpleTrainingController : ApiController
+    public class InternalTrainingsController : ApiController
     {
         private EFContext db = new EFContext();
 
@@ -15,7 +15,7 @@ namespace SystemModule.Controllers.Api
         public IEnumerable<Training> Get()
         {
             //get from correct profile
-            var result = db.Trainings.Where(x => x.IsActive && !x.IsDeleted && x.TrainingType != TrainingType.Internal).ToList();
+            var result = db.Trainings.Where(x => x.IsActive && !x.IsDeleted && x.TrainingType == TrainingType.Internal).ToList();
 
             foreach (var item in result)
             {

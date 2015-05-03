@@ -1,0 +1,39 @@
+﻿<div ng-app="" ng-controller="trainingsController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+
+    <div id="simpleRow">
+        WYBIERZ SZKOLENIE
+    </div>
+
+    <div>
+        <div>
+            Nazwa szkolenia
+        </div>
+        <div>
+            Tworca
+        </div>
+        <div>
+            Data utworzenia
+        </div>
+        <div>
+            Dostepne dla
+        </div>
+    </div>
+    <div ng-repeat="item in Trainings">
+        <div>
+            {{ item.Name}}
+        </div>
+        <div>
+            {{ item.CreateUserName}}
+        </div>
+        <div>
+            {{ item.CreateDate | date: 'dd.MM.yyyy hh.mm' }}
+        </div>
+        <div>
+
+        </div>
+        <input type="button" value="Edytuj" ng-click="edit(item)" />
+
+    </div>
+</div>

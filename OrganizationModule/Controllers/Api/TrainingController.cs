@@ -82,6 +82,18 @@ namespace OrganizationModule.Controllers.Api
                     db.Trainings.Add(obj);
                     db.SaveChanges();
                     LogService.InsertTrainingLogs(OperationLog.KursNowy, db, obj.TrainingID, obj.CreateUserID);
+                    if(obj.Groups != null && obj.Groups.Any())
+                    {
+                        foreach(var item in obj.Groups)
+                        {
+                            var grp = new ProfileGroup2Trainings();
+                            grp.IsDeleted = false;
+                            grp.ProfileGroupID = item.ProfileGroupID;
+                            grp.TrainingID = obj.TrainingID;
+                            db.TrainingInGroups.Add(grp);
+                        }
+                        db.SaveChanges();
+                    }
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
                     return response;
                 }
@@ -108,6 +120,31 @@ namespace OrganizationModule.Controllers.Api
 
             try
             {
+                var assignedGroup = (from t in db.TrainingInGroups
+                                     where t.TrainingID == obj.TrainingID
+                                     select t).ToList();
+
+                foreach(var item in obj.Groups)
+                {
+                    var temp = assignedGroup.FirstOrDefault(x => x.ProfileGroupID == item.ProfileGroupID);
+                    if (temp == null)
+                    {
+                        var grp = new ProfileGroup2Trainings();
+                        grp.IsDeleted = false;
+                        grp.ProfileGroupID = item.ProfileGroupID;
+                        grp.TrainingID = obj.TrainingID;
+                        db.TrainingInGroups.Add(grp);
+                    }
+                }
+
+                foreach (var item in assignedGroup)
+                {
+                    var temp = obj.Groups.FirstOrDefault(x => x.ProfileGroupID == item.ProfileGroupID);
+                    if (temp == null)
+                    {
+                        db.TrainingInGroups.Remove(item);
+                    }
+                }
                 db.SaveChanges();
 
                 LogService.InsertTrainingLogs(OperationLog.KursEdycja, db, obj.TrainingID, obj.CreateUserID);

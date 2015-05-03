@@ -1,0 +1,1 @@
+﻿window.App = angular.module('SystemModuleApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.tpls']);
