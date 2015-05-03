@@ -1,1 +1,1 @@
-﻿window.App = angular.module('OrganizationModuleApp', ['ngRoute', 'ui.bootstrap']);
+﻿window.App = angular.module('OrganizationModuleApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.tpls']);

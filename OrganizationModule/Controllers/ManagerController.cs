@@ -72,7 +72,7 @@ namespace OrganizationModule.Controllers
 
             ViewBag.User = currentUser;
 
-            var invitedUsers = _db.Users.Where(user => user.OrganizationID == currentUser.OrganizationID).ToList();
+            var invitedUsers = _db.Users.Where(user => user.OrganizationID == currentUser.OrganizationID).OrderByDescending(x=> x.InvitationDate).ToList();
             ViewBag.InvitedUsers = invitedUsers;
             return View();
         }
@@ -93,10 +93,26 @@ namespace OrganizationModule.Controllers
                         return Json(jsonResult);
                     }
 
-                    if (_db.Users.Any(x => x.Email.Equals(model.Email) && x.OrganizationID ==currentUser.OrganizationID))
+                    var previousInvitedUsers = _db.Users.Where(x => x.Email.Equals(model.Email) && x.OrganizationID ==currentUser.OrganizationID).ToList();
+                    if (previousInvitedUsers != null && 
+                        previousInvitedUsers.Exists(x => x.Status != StatusEnum.Rejected && 
+                        x.Status != StatusEnum.Reinvited &&
+                        x.Status != StatusEnum.Invited))
                     {
                         jsonResult.Errors.Add("Użytkownik o podanym mailu został już dodany do organizacji");
                         return Json(jsonResult);
+                    }
+                    else
+                    {
+                        previousInvitedUsers.ForEach(x =>
+                        {
+                            if (x.Status == StatusEnum.Invited)
+                            {
+                                x.Status = StatusEnum.Reinvited;
+                            }
+                        });
+
+                        await _db.SaveChangesAsync();
                     }
 
                     var user = new Person
