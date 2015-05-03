@@ -1,1 +1,22 @@
-﻿
+﻿<div ng-app="" ng-controller="createProtectorController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+
+    <div id="simpleRow">
+        WYBIERZ FIRME
+        <select ng-model="selected" ng-options="c as c.Name for c in organizations" ng-change="changeOrganization(selected)">
+            <option value="">Wybierz</option>
+        </select>
+    </div>
+
+    <div>
+        Nazwa opiekuna <input type="text" ng-model="current.UserName" name="current.UserName">
+    </div>
+    <div>
+        Mail opiekuna <input type="text" ng-model="current.Email" name="current.Email">
+    </div>
+
+
+    <button ng-click="save()">UTWORZ</button>
+</div>
+
