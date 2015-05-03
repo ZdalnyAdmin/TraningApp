@@ -176,6 +176,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\GroupController.cs" />
+    <Compile Include="Controllers\Api\LocalFileController.cs" />
     <Compile Include="Controllers\Api\SimpleTrainingController.cs" />
     <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -187,6 +188,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\OrganizationModule\Templates\Modals\commonMarksModal.html">
+      <Link>Templates\Modals\commonMarksModal.html</Link>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -226,6 +230,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\SystemModuleApp.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Scripts\Controllers\commonMarksModalController.js" />
     <Content Include="Templates\trainingAddQuestion.html" />
     <Content Include="Templates\trainingDetailsTab.html" />
     <Content Include="Templates\trainingEditDetails.html" />

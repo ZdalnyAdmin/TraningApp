@@ -19,6 +19,7 @@ namespace AppEngine.Services
         public static List<string> LoadImage(UserImage obj)
         {
             var path = String.Empty;
+            var localPath = Path.Combine(DIRECTORY_ASSETS, DIRECTORY_MARKS);
             var files = new List<string>();
 
             switch (obj.ImageType)
@@ -27,7 +28,8 @@ namespace AppEngine.Services
                     if (String.IsNullOrEmpty(obj.OrganizationName))
                     {
                         //get for all
-                        path = Path.Combine(HttpRuntime.AppDomainAppPath, DIRECTORY_ASSETS, DIRECTORY_MARKS, DIRECTORY_ALL);
+                        localPath = Path.Combine(localPath, DIRECTORY_ALL);
+                        path = Path.Combine(HttpRuntime.AppDomainAppPath, localPath);
                     }
 
 
@@ -37,6 +39,15 @@ namespace AppEngine.Services
                         files = Directory.GetFiles(path).ToList();
                     }
 
+                    var temp = new List<string>();
+
+                    foreach (var item in files)
+                    {
+
+                        temp.Add(item.Remove(0, HttpRuntime.AppDomainAppPath.Length));
+                    }
+
+                    files = temp;
 
                     break;
                 case UserImageEnum.Logo:
