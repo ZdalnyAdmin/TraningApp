@@ -57,6 +57,7 @@ namespace OrganizationModule.Controllers.Api
                 obj.IsDeleted = false;
                 obj.IsActive = false;
                 obj.IsDeleted = false;
+                obj.TrainingType = TrainingType.Internal;
                 int index = 0;
                 if (obj.Details != null && obj.Details.Any())
                 {

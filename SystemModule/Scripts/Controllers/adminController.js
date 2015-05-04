@@ -1,6 +1,6 @@
 ﻿function adminController($scope, $http, $modal) {
     $scope.loading = true;
-    $scope.list = data;
+    $scope.list = [];
 
     $scope.loadDate = function () {
         $http.get('/api/Admin').success(function (data) {

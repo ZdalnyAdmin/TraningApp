@@ -181,6 +181,7 @@
     <Compile Include="Controllers\Api\LocalFileController.cs" />
     <Compile Include="Controllers\Api\NotProtectedOrganizationController.cs" />
     <Compile Include="Controllers\Api\ProtectorController.cs" />
+    <Compile Include="Controllers\Api\SettingsController.cs" />
     <Compile Include="Controllers\Api\SimpleTrainingController.cs" />
     <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -209,6 +210,7 @@
     <Content Include="Scripts\Controllers\createProtectorController.js" />
     <Content Include="Scripts\Controllers\editProtectorController.js" />
     <Content Include="Scripts\Controllers\editTrainingController.js" />
+    <Content Include="Scripts\Controllers\settingsController.js" />
     <Content Include="Scripts\Controllers\trainingInternalController.js" />
     <Content Include="Scripts\Controllers\trainingsController.js" />
     <Content Include="Scripts\Controllers\ResetPasswordConfirmation.js" />

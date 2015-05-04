@@ -9,20 +9,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace OrganizationModule.Controllers.Api
+namespace SystemModule.Controllers.Api
 {
     public class SettingsController : ApiController
     {
         private EFContext db = new EFContext();
-
-        // GET api/<controller>
-        [HttpGet]
-        public IEnumerable<AppSetting> Get()
-        {
-            //get from correct profil
-            return db.AppSettings.AsEnumerable();
-        }
-
 
         // PUT api/<controller>/5
         public HttpResponseMessage Put(AppSetting obj)
@@ -31,11 +22,9 @@ namespace OrganizationModule.Controllers.Api
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
-            //only system can change for true;
-            obj.IsDefault = false;
 
+            obj.IsDefault = true;
             db.Entry(obj).State = EntityState.Modified;
-
             try
             {
                 db.SaveChanges();
@@ -57,43 +46,36 @@ namespace OrganizationModule.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            var protector = db.AppSettings.FirstOrDefault(x => x.ProtectorID == obj.ProtectorID);
+            var global = db.AppSettings.FirstOrDefault(x => x.IsDefault);
             //one settings per single protector
-            if (protector != null)
+            if (global != null)
             {
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, protector);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, global);
                 return response;
             }
-
-            var global = db.AppSettings.FirstOrDefault(x => x.IsDefault);
 
             if (ModelState.IsValid)
             {
                 //default settings
                 obj.AllowUserToChangeName = true;
                 obj.AllowUserToChangeMail = true;
-                obj.SpaceDisk = global != null ? global.SpaceDisk : 50;
-                obj.MaxAssignedUser = global != null ? global.MaxAssignedUser : 10;
+                obj.SpaceDisk = 50;
+                obj.MaxAssignedUser = 10;
                 obj.IsGlobalAvailable = true;
                 obj.IsTrainingAvailableForAll = true;
                 obj.MaxActiveTrainings = 5;
-                obj.DefaultEmail = global != null ? global.DefaultEmail : string.Empty;
-                obj.DefaultName = global != null ? global.DefaultName : string.Empty;
+                obj.DefaultEmail = "support@kenpro.pl";
+                obj.DefaultName = "Kenpro";
+                obj.IsDefault = true;
                 db.AppSettings.Add(obj);
                 db.SaveChanges();
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
-                //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = Contact.Id }));
                 return response;
             }
             else
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
         }
     }
 }
