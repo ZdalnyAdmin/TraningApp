@@ -141,6 +141,10 @@ namespace AppEngine.Models.Common
             }
 
             var user = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+            if(user == null)
+            {
+                return null;
+            }
             user.SetAssignedTrainingsNumber((from t in db.TrainingResults
                                              where t.PersonID == user.Id
                                              select t).Count());
