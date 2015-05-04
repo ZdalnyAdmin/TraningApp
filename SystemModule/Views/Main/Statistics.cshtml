@@ -1,1 +1,63 @@
-﻿
+﻿<div ng-app="" ng-controller="statisticsController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+
+    <div id="simpleRow" ng-click="loadDate(1)">
+        Organizacje
+    </div>
+    <div id="simpleRow" ng-click="loadDate(2)">
+        Kursy globalne
+    </div>
+    <div id="simpleRow" ng-click="loadDate(3)">
+        Ogolne
+    </div>
+
+    <div ng-repeat="item in list" ng-show="index == 1">
+        <div>
+            {{ item.Name}}
+        </div>
+        <div>
+            {{ item.PeopleNo}}
+        </div>
+        <div>
+            {{ item.InternalTrainings}}
+        </div>
+        <div>
+            {{ item.CompletedTrainings}}
+        </div>
+
+    </div>
+
+    <div ng-repeat="item in list" ng-show="index == 2">
+        <div>
+            {{ item.Name}}
+        </div>
+        <div>
+            {{ item.OrganizationNo}}
+        </div>
+        <div>
+            {{ item.StartedTrainings}}
+        </div>
+        <div>
+            {{ item.CompletedTrainings}}
+        </div>
+        <div>
+            {{ item.CreateDate | date: 'dd.MM.yyyy hh.mm' }}
+        </div>
+    </div>
+
+    <div ng-show="index == 3">
+        <div>
+            Liczba użytkowników we wszystkich ogranizacjach {{ current.PeopleNo}}
+        </div>
+        <div>
+            Liczba użytkowników na organizację (średnia) {{ current.OrganizationNo }}
+        </div>
+        <div>
+            Liczba wszystkich kursów wewnętrznych {{ current.InternalTrainings}}
+        </div>
+        <div>
+            Liczba uruchomień wszystkich kursów (wewnętrznych i globalnych): {{ current.StartedTrainings}}
+        </div>
+    </div>
+</div>

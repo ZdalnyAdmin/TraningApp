@@ -13,33 +13,35 @@ namespace AppEngine.Models.DataBusiness
 
         public int DeleteAccount { get; set; }
 
-        public int OrganizatonsTrainings {get;set;}
+        public int OrganizatonsTrainings { get; set; }
         public int StartedTrainings { get; set; }
         public int CompletedTrainings { get; set; }
-        public int InternalTrainings { get;set;}
-       
+        public int InternalTrainings { get; set; }
+
 
         public int WeekActiveUser { get; set; }
         public int MonthActiveUser { get; set; }
 
         //new
         public string Name { get; set; }
-        public DateTime CreateDate { get;set;} 
+        public DateTime CreateDate { get; set; }
 
-        public int PeopleNo { get;set;}
-        public int OrganizationNo { get;set;}
-        public int PeoplaInOrganizationAverage 
-        { 
+        public int PeopleNo { get; set; }
+        public int OrganizationNo { get; set; }
+        public int PeoplaInOrganizationAverage
+        {
             get
             {
-                if(OrganizationNo != 0)
+                if (OrganizationNo != 0)
                 {
                     return PeopleNo / OrganizationNo;
                 }
                 return PeopleNo;
             }
-            
+
         }
+
+        public StatisticEnum Type { get; set; }
 
         public int People
         {

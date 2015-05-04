@@ -4,13 +4,13 @@ namespace AppEngine.Models.DataBusiness
 {
     public enum StatisticEnum
     {
-        [Description("Ogolne")]
-        General = 1,
-
         [Description("Organizacje")]
-        Organization = 2,
+        Organization = 1,
 
         [Description("Kursy globalne")]
-        Global = 3,
+        Global = 2,
+
+        [Description("Ogolne")]
+        General = 3,
     }
 }

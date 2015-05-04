@@ -15,16 +15,20 @@ namespace SystemModule.Controllers.Api
         private EFContext db = new EFContext();
 
         // GET api/<controller>
+        [HttpGet]
+        public IEnumerable<Statistic> Get()
+        {
+            return null;
+        }
 
-        public HttpResponseMessage Post(StatisticEnum statisticsType)
+        public HttpResponseMessage Post(Statistic stats)
         {
             try
             {
                 List<Statistic> statistics = null;
-
-                switch (statisticsType)
+                switch (stats.Type)
                 {
-                    case StatisticEnum.General:
+                    case StatisticEnum.Global:
 
                         statistics = (from t in db.Trainings
                                       where !t.IsDeleted
@@ -53,8 +57,8 @@ namespace SystemModule.Controllers.Api
                                                                 select tr).Count()
                                       }).ToList();
                         break;
-                    case StatisticEnum.Global:
-
+                    case StatisticEnum.General:
+                        statistics = new List<Statistic>();
                         var obj = new Statistic();
                         obj.PeopleNo = db.Users.Count(x => x.OrganizationID != null && !x.IsDeleted);
                         obj.OrganizationNo = db.Trainings.Count(x => !x.IsDeleted);

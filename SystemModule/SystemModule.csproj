@@ -213,6 +213,7 @@
     <Content Include="Scripts\Controllers\editProtectorController.js" />
     <Content Include="Scripts\Controllers\editTrainingController.js" />
     <Content Include="Scripts\Controllers\settingsController.js" />
+    <Content Include="Scripts\Controllers\statisticsController.js" />
     <Content Include="Scripts\Controllers\trainingInternalController.js" />
     <Content Include="Scripts\Controllers\trainingsController.js" />
     <Content Include="Scripts\Controllers\ResetPasswordConfirmation.js" />
