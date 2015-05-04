@@ -35,6 +35,7 @@ namespace AppEngine.Models.DataContext
         public DbSet<TrainingAnswer> TrainingAnswers { get; set; }
         public DbSet<TrainingDetail> TrainingDetails { get; set; }
         public DbSet<TrainingQuestion> TrainingQuestons { get; set; }
+        public DbSet<Trainings2Organizations> TrainingsInOrganizations { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

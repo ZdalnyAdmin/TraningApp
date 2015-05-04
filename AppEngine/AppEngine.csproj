@@ -85,6 +85,7 @@
     <Compile Include="Models\DataBusiness\ProfileEnum.cs" />
     <Compile Include="Models\DataBusiness\Result.cs" />
     <Compile Include="Models\DataBusiness\Statistic.cs" />
+    <Compile Include="Models\DataBusiness\StatisticEnum.cs" />
     <Compile Include="Models\DataBusiness\StatusEnum.cs" />
     <Compile Include="Models\DataBusiness\UserImage.cs" />
     <Compile Include="Models\DataObject\AppLog.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Models\DataObject\TrainingQuestionResult.cs" />
     <Compile Include="Models\DataObject\TrainingResult.cs" />
     <Compile Include="Models\DataContext\EFContext.cs" />
+    <Compile Include="Models\DataObject\Trainings2Organizations.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\ManagerViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
