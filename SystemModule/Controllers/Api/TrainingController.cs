@@ -1,5 +1,6 @@
 ﻿using AppEngine.Models;
 using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.DataObject;
 using AppEngine.Services;
@@ -82,7 +83,7 @@ namespace SystemModule.Controllers.Api
                 {
                     db.Trainings.Add(obj);
                     db.SaveChanges();
-                    LogService.InsertTrainingLogs(OperationLog.KursNowy, db, obj.TrainingID, obj.CreateUserID);
+                    LogService.InsertTrainingLogs(OperationLog.TrainingCreate, db, obj.TrainingID, obj.CreateUserID);
                     if (obj.Groups != null && obj.Groups.Any())
                     {
                         foreach (var item in obj.Groups)
@@ -147,7 +148,7 @@ namespace SystemModule.Controllers.Api
                     }
                 }
                 db.SaveChanges();
-                LogService.InsertTrainingLogs(OperationLog.KursEdycja, db, obj.TrainingID, obj.CreateUserID);
+                LogService.InsertTrainingLogs(OperationLog.TrainingEdit, db, obj.TrainingID, obj.CreateUserID);
             }
             catch (DbUpdateConcurrencyException ex)
             {

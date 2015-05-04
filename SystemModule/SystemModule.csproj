@@ -212,6 +212,7 @@
     <Content Include="Scripts\Controllers\createProtectorController.js" />
     <Content Include="Scripts\Controllers\editProtectorController.js" />
     <Content Include="Scripts\Controllers\editTrainingController.js" />
+    <Content Include="Scripts\Controllers\historyController.js" />
     <Content Include="Scripts\Controllers\settingsController.js" />
     <Content Include="Scripts\Controllers\statisticsController.js" />
     <Content Include="Scripts\Controllers\trainingInternalController.js" />

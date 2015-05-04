@@ -82,6 +82,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\DataBusiness\LogsEnum.cs" />
     <Compile Include="Models\DataBusiness\ProfileEnum.cs" />
     <Compile Include="Models\DataBusiness\Result.cs" />
     <Compile Include="Models\DataBusiness\Statistic.cs" />

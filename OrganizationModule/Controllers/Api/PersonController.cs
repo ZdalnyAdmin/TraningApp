@@ -94,15 +94,15 @@ namespace OrganizationModule.Controllers
 
                 if (person.IsDeleted && person.DeleteUserID == person.Id)
                 {
-                    LogService.InsertUserLogs(OperationLog.Samousuniecie, db, person.Id, person.DeleteUserID);
+                    LogService.InsertUserLogs(OperationLog.UserDeleteBySelf, db, person.Id, person.DeleteUserID);
                 }
                 if (person.IsDeleted && person.DeleteUserID != person.Id)
                 {
-                    LogService.InsertUserLogs(OperationLog.Usuniecie, db, person.Id, person.DeleteUserID);
+                    LogService.InsertUserLogs(OperationLog.UserDelete, db, person.Id, person.DeleteUserID);
                 }
                 if (!person.IsDeleted)
                 {
-                    LogService.InsertUserLogs(OperationLog.Edycja, db, person.Id, person.ModifiedUserID);
+                    LogService.InsertUserLogs(OperationLog.UserEdit, db, person.Id, person.ModifiedUserID);
                 }
             }
             catch (DbUpdateConcurrencyException ex)

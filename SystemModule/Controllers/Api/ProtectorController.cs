@@ -38,7 +38,7 @@ namespace SystemModule.Controllers.Api
                 {
                     db.Users.Add(obj);
                     db.SaveChanges();
-                    LogService.InsertUserLogs(OperationLog.Uzytkownik, db, obj.Id, obj.ModifiedUserID);
+                    LogService.InsertUserLogs(OperationLog.UserDelete, db, obj.Id, obj.ModifiedUserID);
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
                     return response;
                 }
@@ -66,7 +66,7 @@ namespace SystemModule.Controllers.Api
             try
             {
                 db.SaveChanges();
-                LogService.InsertUserLogs(OperationLog.Edycja, db, obj.Id, obj.ModifiedUserID);
+                LogService.InsertUserLogs(OperationLog.UserEdit, db, obj.Id, obj.ModifiedUserID);
             }
             catch (DbUpdateConcurrencyException ex)
             {

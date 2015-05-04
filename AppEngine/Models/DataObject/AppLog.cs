@@ -1,8 +1,9 @@
 ﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel;
 
 namespace AppEngine.Models
 {
@@ -11,7 +12,10 @@ namespace AppEngine.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int AppLogID { get; set; }
+        public bool IsSystem { get; set; }
         public OperationLog OperationType { get; set; }
+        public SystemLog SystemType { get; set; }
+        public bool IsSystemLog { get; set; }
         [NotMapped]
         public string OperationDesc
         {
@@ -41,26 +45,6 @@ namespace AppEngine.Models
     }
 
 
-    public enum OperationLog
-    {
-        [Description("Zaproszenie uzytkownika")]
-        Zaproszenie = 0,
-        [Description("Samousuniecie uzytkownika")]
-        Samousuniecie = 1,
-        [Description("Usuniecie uzytkownika")]
-        Usuniecie = 2,
-        [Description("Utworzenie kursu")]
-        KursNowy = 3,
-        [Description("Utworzenie uzytkownika")]
-        Uzytkownik = 4,
-        [Description("Edycja uzytkownika")]
-        Edycja = 5,
-        [Description("Edycja szkolenia")]
-        KursEdycja = 6,
-        [Description("Usunięcie zaproszenia")]
-        UsuniecieZaproszenia = 7,
-        [Description("Rejestracja użytkownika")]
-        Rejestracja = 8
-    }
+
 
 }

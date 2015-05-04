@@ -1,11 +1,7 @@
 ﻿using AppEngine.Models;
-using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AppEngine.Services
 {
@@ -22,6 +18,7 @@ namespace AppEngine.Services
         {
             var log = new AppLog();
             log.OperationType = type;
+            log.IsSystem = false;
             var currentDate = DateTime.Now;
             log.ModifiedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, 0);
             log.ModifiedUserID = modifiedUserID;
@@ -30,15 +27,15 @@ namespace AppEngine.Services
             bool canSave = false;
             switch (type)
             {
-                case OperationLog.Zaproszenie:
+                case OperationLog.UserInvitation:
                     //todo rola i mail - after send save user in person if no chnage logic
                     //log.PersonID = 
 
                     break;
-                case OperationLog.Samousuniecie:
-                case OperationLog.Usuniecie:
-                case OperationLog.Uzytkownik:
-                case OperationLog.Edycja:
+                case OperationLog.UserDeleteBySelf:
+                case OperationLog.UserDelete:
+                case OperationLog.UserCreate:
+                case OperationLog.UserEdit:
                     canSave = true;
                     break;
             }
@@ -63,6 +60,7 @@ namespace AppEngine.Services
         {
             var log = new AppLog();
             log.OperationType = type;
+            log.IsSystem = false;
             var currentDate = DateTime.Now;
             log.ModifiedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, 0);
             log.ModifiedUserID = modifiedUserID;
@@ -71,8 +69,8 @@ namespace AppEngine.Services
             bool canSave = false;
             switch (type)
             {
-                case OperationLog.KursEdycja:
-                case OperationLog.KursNowy:
+                case OperationLog.TrainingCreate:
+                case OperationLog.TrainingEdit:
                     canSave = true;
                     break;
             }
