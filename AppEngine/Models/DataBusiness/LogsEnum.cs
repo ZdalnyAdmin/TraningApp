@@ -49,4 +49,10 @@ namespace AppEngine.Models.DataBusiness
         LogOut = 7
 
     }
+
+    public class EnumData
+    {
+        public string Name { get; set; }
+        public int Type { get; set; }
+    }
 }
