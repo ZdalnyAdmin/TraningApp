@@ -1,13 +1,12 @@
 ﻿using AppEngine.Models;
 using AppEngine.Models.DataContext;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace OrganizationModule.Controllers.Api
+namespace SystemModule.Controllers.Api
 {
     public class LogsController : ApiController
     {
@@ -17,7 +16,7 @@ namespace OrganizationModule.Controllers.Api
         public IEnumerable<AppLog> Get()
         {
             //get from correct profil
-            var logs = db.Logs.Where(x=>!x.IsSystem).ToList();
+            var logs = db.Logs.Where(x => x.IsSystem).ToList();
 
             foreach (var item in logs)
             {
@@ -47,7 +46,7 @@ namespace OrganizationModule.Controllers.Api
             if (ModelState.IsValid)
             {
                 var list = (from t in db.Logs
-                            where t.OperationType == log.OperationType && t.TrainingID == log.TrainingID && !log.IsSystem
+                            where t.SystemType == log.SystemType && t.TrainingID == log.TrainingID && log.IsSystem
                             orderby t.ModifiedDate descending
                             select t).ToList();
 
@@ -58,11 +57,6 @@ namespace OrganizationModule.Controllers.Api
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
         }
     }
 }
