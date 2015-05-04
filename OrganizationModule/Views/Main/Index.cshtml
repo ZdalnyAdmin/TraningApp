@@ -1,13 +1,14 @@
 ﻿<!DOCTYPE html>
 <html ng-app="OrganizationModuleApp" ng-controller="BaseController">
 <head>
-    <title ng-bind="models.Title"></title>
+    <title ng-bind="models.Title"></title>    
+    @Scripts.Render("~/bundles/jquery")
     @*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">*@
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/FroalaStyles")
 </head>
 <body>
     <div id="spinner">
@@ -73,6 +74,7 @@
             </div>
         </div>
     </div>
+    @Scripts.Render("~/FroalaScripts")
     @Scripts.Render("~/bundles/OrganizationModuleApp")
     @Scripts.Render("~/bundles/OrganizationModuleAppComponents")
 </body>

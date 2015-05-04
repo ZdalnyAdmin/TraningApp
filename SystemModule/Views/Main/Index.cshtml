@@ -1,9 +1,11 @@
 ﻿<!DOCTYPE html>
 <html ng-app="SystemModuleApp" ng-controller="BaseController">
 <head>
-    <title ng-bind="models.Title"></title>
+    <title ng-bind="models.Title"></title>   
+    @Scripts.Render("~/bundles/jquery")
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/FroalaStyles")
 </head>
 <body>
     <div class="navbar navbar-default navbar-left" role="navigation">
@@ -29,10 +31,10 @@
     <div class="container mainContent">
         <div ng-view></div>
     </div>
-
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>    
+    @Scripts.Render("~/FroalaScripts")
     @Scripts.Render("~/bundles/SystemModuleApp")
     @Scripts.Render("~/bundles/SystemModuleAppComponents")
 </body>

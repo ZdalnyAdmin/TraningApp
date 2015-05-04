@@ -4,6 +4,10 @@
     font-family: 'PT Sans', sans-serif;
 }
 
+.froala-element, froala-editor, froala-modal {
+    color: #000;
+}
+
 .logo img{
     width:200px;
     height:72px;
