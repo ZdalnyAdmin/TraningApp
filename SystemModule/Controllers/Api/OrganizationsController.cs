@@ -1,5 +1,6 @@
 ﻿using AppEngine.Helpers;
 using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.DataObject;
 using AppEngine.Services;
@@ -22,7 +23,7 @@ namespace SystemModule.Controllers.Api
         [HttpGet]
         public IEnumerable<Organization> Get()
         {
-            return db.Organizations.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreateDate);
+            return db.Organizations.OrderByDescending(x => x.CreateDate);
         }
 
         public HttpResponseMessage Post(Organization obj)
@@ -64,7 +65,7 @@ namespace SystemModule.Controllers.Api
                 obj.CreateUserID = Helpers.GetUserID(usr);
                 obj.CreateDate = DateTime.Now;
                 obj.IsDeleted = false;
-
+                obj.StatusID = StatusEnum.Active;
                 if (ModelState.IsValid)
                 {
                     db.Organizations.Add(obj);
@@ -96,6 +97,7 @@ namespace SystemModule.Controllers.Api
                 var usr = Person.GetLoggedPerson(User);
                 obj.DeletedUserID = Helpers.GetUserID(usr);
                 obj.DeletedDate = DateTime.Now;
+                obj.StatusID = StatusEnum.Deleted;
             }
 
             db.Entry(obj).State = EntityState.Modified;

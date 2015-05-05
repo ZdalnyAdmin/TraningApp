@@ -1,4 +1,5 @@
 ﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,11 +23,13 @@ namespace AppEngine.Models.Common
         //public Person CreateUser { get; set; }
         public int? ProtectorID { get; set; }
         //public Person Protector { get; set; }
-        public int StatusID { get; set; }
+        public StatusEnum StatusID { get; set; }
         //public Status Status { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
         public int? DeletedUserID { get; set; }
+        [NotMapped]
+        public string DeletedReason { get; set; }
        //public Person DeletedUser { get; set; }
     }
 }

@@ -3,7 +3,7 @@
     $scope.list = [];
 
     $scope.loadDate = function () {
-        $http.get('/api/Admin').success(function (data) {
+        $http.get('/api/Organizations').success(function (data) {
             $scope.list = data;
             $scope.loading = false;
         })
