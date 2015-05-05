@@ -16,7 +16,7 @@ namespace OrganizationModule.Controllers.Api
         public IEnumerable<Training> Get()
         {
             //get from correct profile
-            var result = db.Trainings.Where(x => x.IsActive && !x.IsDeleted && x.TrainingType == TrainingType.Internal).ToList();
+            var result = db.Trainings.Where(x => !x.IsDeleted && x.TrainingType == TrainingType.Internal).ToList();
 
             foreach (var item in result)
             {

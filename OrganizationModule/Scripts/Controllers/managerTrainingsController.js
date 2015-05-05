@@ -1,6 +1,6 @@
 ﻿function managerTrainingsController($scope, $http, $modal) {
     $scope.loading = true;
-    $scope.Trainings = data;
+    $scope.Trainings = {};
 
     $scope.loadTrainings = function () {
         $http.get('/api/SimpleTraining').success(function (data) {
