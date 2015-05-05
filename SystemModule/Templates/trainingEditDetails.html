@@ -15,11 +15,9 @@
     </div>
 
     <div ng-show="item.ResourceType == 0">
-        <div id="simpleRow" ng-hide="item.isEdit">
-            {{item.Text}}
-        </div>
+        <div id="simpleRow" ng-hide="item.isEdit" ng-bind-html="item.Text"></div>
         <div id="simpleRow" ng-show="item.isEdit">
-            <input type="text" ng-model="item.Text" name="item.Text" />
+            <textarea name="item.Text" froala="options" ng-model="item.Text"></textarea>
         </div>
     </div>
     <div ng-show="item.ResourceType == 1">
