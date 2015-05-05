@@ -1,1 +1,101 @@
-﻿
+﻿<div ng-app="" ng-controller="organizationEditController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+
+
+    <div ng-repeat="item in list">
+        <div>
+            {{ item.Name}}
+        </div>
+        <div>
+            {{ item.CreateDate | date: 'dd.MM.yyyy hh.mm' }}
+        </div>
+        <div>
+            {{ item.Status}}
+        </div>
+        <button id="inputButto" ng-click="showDetails = ! showDetails" ng-show="!showDetails">
+            Pokaz szczegoly
+        </button>
+        <button id="inputButto" ng-click="showDetails = ! showDetails" ng-show="showDetails">
+            Ukryj szczegoly
+        </button>
+        <div ng-show="showDetails">
+            <div ng-show="item.Status == 1">
+
+                <div>
+                    Nazwa firmy :
+                    <input type="text" name="item.Name" ng-model="item.Name" />
+                </div>
+                <div>
+                    Osoby aktywne :
+                </div>
+                <div>
+                    Uzytkownicy zablokowani :
+                </div>
+                <div>
+                    Uzytkownicy usuniecie :
+                </div>
+                <div>
+                    Zaproszenie oczekujaca :
+                </div>
+                <div>
+                    Opiekun :
+                </div>
+                <div>
+                    Wykorzystana przestrzen dyskowa :
+                </div>
+                <div>
+                    Zmian status
+                </div>
+                <div>
+                    Przestrzen dyskowa (w GB)
+                    <input type="text" name="item.SpaceDisk" ng-model="item.SpaceDisk" />
+                </div>
+                <div>
+                    Dostęp do kursów globalnych
+                    <input type="checkbox" name="item.IsGlobalAvailable" ng-model="item.IsGlobalAvailable" />
+                </div>
+                <div>
+                    Czy nowe kursy globalne dla firmy automatycznie widoczne dla grupy 'wszyscy' w organizacji
+                    <input type="checkbox" name="item.IsTrainingAvailableForAll" ng-model="item.IsTrainingAvailableForAll" />
+                </div>
+                <div>
+                    Czy użytkownicy organizacji mogą zmienić swojego maila?
+                    <input type="checkbox" name="item.CanUserChangeMail" ng-model="item.CanUserChangeMail" />
+                </div>
+                <div>
+                    Czy użytkownicy organizacji mogą zmienić swoją nazwę wyświetlaną?
+                    <input type="checkbox" name="item.CanUserChangeName" ng-model="item.CanUserChangeName" />
+                </div>
+                <div>
+                    Maksymalna liczba użytkowników
+                    <input type="text" name="item.MaxAssignedUser" ng-model="item.MaxAssignedUser" />
+                </div>
+                <div>
+                    Czy chcesz usunąć ?
+                </div>
+
+            </div>
+            <div ng-show="item.Status == 3">
+                <div>
+                    Nazwa firmy
+                    {{item.Name}}
+                 </div>
+                <div>
+                    Data usunięcia
+                    {{ item.DeletedDate | date: 'dd.MM.yyyy hh.mm' }}
+                </div>
+                <div>
+                    Powód usunięcia - dodac do bazy
+                    {{ item.DeletedReason }}
+                </div>
+
+            </div>
+            <div ng-show="item.Status == 2">
+
+            </div>
+        </div>
+
+
+    </div>
+</div>

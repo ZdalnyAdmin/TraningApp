@@ -1,4 +1,4 @@
-﻿function managerTrainingsController($scope, $http, $modal) {
+﻿function managerTrainingsController($scope, $http, $modal, $location) {
     $scope.loading = true;
     $scope.Trainings = {};
 
@@ -17,11 +17,12 @@
 
     $scope.edit = function (item) {
         if (!item) {
-
+            return;
         }
 
-        //call view
+        //call view 
+        $location.path('/' + 'creatorTrainings/').search({ trainingID: item.TrainingID });
     }
 }
 
-managerTrainingsController.$inject = ['$scope', '$http', '$modal'];
+managerTrainingsController.$inject = ['$scope', '$http', '$modal', '$location'];

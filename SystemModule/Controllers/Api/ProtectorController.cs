@@ -31,8 +31,10 @@ namespace SystemModule.Controllers.Api
             try
             {
                 obj.RegistrationDate = DateTime.Now;
-                obj.IsDeleted = false;
 
+                var usr = Person.GetLoggedPerson(User);
+                obj.ModifiedUserID = usr.Id;
+                obj.IsDeleted = false;
 
                 if (ModelState.IsValid)
                 {
@@ -59,6 +61,17 @@ namespace SystemModule.Controllers.Api
             if (!ModelState.IsValid)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            var usr = Person.GetLoggedPerson(User);
+            if (obj.IsDeleted)
+            {
+                obj.DeleteUserID = usr.Id;
+                obj.DeletedDate = DateTime.Now;
+            }
+            else
+            {
+                obj.ModifiedUserID = usr.Id;
             }
 
             db.Entry(obj).State = EntityState.Modified;

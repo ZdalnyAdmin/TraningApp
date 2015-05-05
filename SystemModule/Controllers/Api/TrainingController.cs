@@ -1,4 +1,5 @@
-﻿using AppEngine.Models;
+﻿using AppEngine.Helpers;
+using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
@@ -54,10 +55,27 @@ namespace SystemModule.Controllers.Api
         {
             try
             {
+                if (obj.TrainingID != 0)
+                {
+                    //hak
+                    if (obj.TrainingID == -1)
+                    {
+                        var training = db.Trainings.FirstOrDefault();
+                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, training);
+                        return response;
+                    }
+                    else
+                    {
+                        var training = db.Trainings.FirstOrDefault(x => x.TrainingID == obj.TrainingID);
+                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, training);
+                        return response;
+                    }
+                }
                 obj.CreateDate = DateTime.Now;
+                var usr = Person.GetLoggedPerson(User);
+                obj.CreateUserID = usr.Id;
                 obj.IsDeleted = false;
-                obj.IsActive = false;
-                obj.IsDeleted = false;
+                obj.IsActive = true;
                 obj.TrainingType = TrainingType.Kenpro;
                 int index = 0;
                 if (obj.Details != null && obj.Details.Any())
@@ -116,6 +134,18 @@ namespace SystemModule.Controllers.Api
             if (!ModelState.IsValid)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            var usr = Person.GetLoggedPerson(User);
+            if (obj.IsDeleted)
+            {
+                obj.DeletedUserID = usr.Id;
+                obj.DeletedDate = DateTime.Now;
+            }
+            else 
+            {
+                obj.ModifieddUserID = usr.Id;
+                obj.ModifiedDate = DateTime.Now;
             }
 
             db.Entry(obj).State = EntityState.Modified;

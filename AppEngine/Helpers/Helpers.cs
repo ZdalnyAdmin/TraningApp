@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppEngine.Models.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -19,6 +20,20 @@ namespace AppEngine.Helpers
                         as DescriptionAttribute;
 
             return attribute == null ? value.ToString() : attribute.Description;
+        }
+
+        public static int GetUserID(Person person)
+        {
+            if (person == null)
+            {
+                return 0;
+            }
+
+            int id = 0;
+
+            int.TryParse(person.Id, out id);
+
+            return id;
         }
     }
 }
