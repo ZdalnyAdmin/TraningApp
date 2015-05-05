@@ -43,9 +43,9 @@ namespace OrganizationModule
                 "~/Content/Settings/user-settings.css"));
 
             bundles.Add(new ScriptBundle("~/FroalaScripts")
+                .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js", "*.js")
                 .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js/langs", "*.js")
-                .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js/plugins", "*.js")
-                .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js", "*.js"));
+                .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js/plugins", "*.js"));
 
             bundles.Add(new StyleBundle("~/FroalaStyles").IncludeDirectory(
                 "~/thirdParty/FroalaWysiwygEditor/css", "*.css"));
