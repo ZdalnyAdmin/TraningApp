@@ -136,12 +136,16 @@ namespace SystemModule.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-
+            var usr = Person.GetLoggedPerson(User);
             if (obj.IsDeleted)
             {
-                var usr = Person.GetLoggedPerson(User);
-                obj.DeletedUserID = Helpers.GetUserID(usr);
+                obj.DeletedUserID = usr.Id;
                 obj.DeletedDate = DateTime.Now;
+            }
+            else 
+            {
+                obj.ModifieddUserID = usr.Id;
+                obj.ModifiedDate = DateTime.Now;
             }
 
             db.Entry(obj).State = EntityState.Modified;

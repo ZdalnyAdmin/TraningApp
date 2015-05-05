@@ -19,16 +19,15 @@ namespace AppEngine.Models.Common
         public bool CanUserChangeMail { get; set; }
         public bool CanUserChangeName { get; set; }
         public DateTime CreateDate { get; set; }
-        public int CreateUserID { get; set; }
+        public string CreateUserID { get; set; }
         //public Person CreateUser { get; set; }
-        public int? ProtectorID { get; set; }
+        public string ProtectorID { get; set; }
         //public Person Protector { get; set; }
-        public StatusEnum StatusID { get; set; }
+        public StatusEnum Status { get; set; }
         //public Status Status { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public int? DeletedUserID { get; set; }
-        [NotMapped]
+        public string DeletedUserID { get; set; }
         public string DeletedReason { get; set; }
        //public Person DeletedUser { get; set; }
     }

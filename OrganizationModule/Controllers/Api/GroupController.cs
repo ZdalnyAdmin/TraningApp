@@ -37,7 +37,8 @@ namespace OrganizationModule.Controllers
         public HttpResponseMessage Post(ProfileGroup group)
         {
             group.CreateDate = DateTime.Now;
-            group.DeletedUserID = -1;
+            var usr = Person.GetLoggedPerson(User);
+            group.CreateUserID = usr.Id;
             group.IsDeleted = false;
             if (ModelState.IsValid)
             {
@@ -45,7 +46,6 @@ namespace OrganizationModule.Controllers
                 db.SaveChanges();
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, group);
-                //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = group.ProfileGroupID }));
                 return response;
             }
             else
@@ -67,7 +67,7 @@ namespace OrganizationModule.Controllers
             if(obj.IsDeleted)
             {
                 var usr = Person.GetLoggedPerson(User);
-                obj.DeletedUserID = Helpers.GetUserID(usr);
+                obj.DeletedUserID = usr.Id;
                 obj.DeletedDate = DateTime.Now;
             }
 

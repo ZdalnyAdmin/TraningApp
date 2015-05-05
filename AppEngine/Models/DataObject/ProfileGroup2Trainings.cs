@@ -16,6 +16,6 @@ namespace AppEngine.Models.DataObject
         public Training Training { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public int? DeletedUserID { get; set; }
+        public string DeletedUserID { get; set; }
     }
 }

@@ -62,10 +62,10 @@ namespace SystemModule.Controllers.Api
                 }
 
                 var usr = Person.GetLoggedPerson(User);
-                obj.CreateUserID = Helpers.GetUserID(usr);
+                obj.CreateUserID = usr.Id;
                 obj.CreateDate = DateTime.Now;
                 obj.IsDeleted = false;
-                obj.StatusID = StatusEnum.Active;
+                obj.Status = StatusEnum.Active;
                 if (ModelState.IsValid)
                 {
                     db.Organizations.Add(obj);
@@ -95,9 +95,9 @@ namespace SystemModule.Controllers.Api
             if(obj.IsDeleted)
             {
                 var usr = Person.GetLoggedPerson(User);
-                obj.DeletedUserID = Helpers.GetUserID(usr);
+                obj.DeletedUserID = usr.Id;
                 obj.DeletedDate = DateTime.Now;
-                obj.StatusID = StatusEnum.Deleted;
+                obj.Status = StatusEnum.Deleted;
             }
 
             db.Entry(obj).State = EntityState.Modified;

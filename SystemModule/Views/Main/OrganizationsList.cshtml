@@ -11,7 +11,7 @@
             {{ item.CreateDate | date: 'dd.MM.yyyy hh.mm' }}
         </div>
         <div>
-            {{ item.StatusID}}
+            {{ item.Status}}
         </div>
         <button id="inputButto" ng-click="showDetails = ! showDetails" ng-show="!showDetails">
             Pokaz szczegoly
@@ -20,7 +20,7 @@
             Ukryj szczegoly
         </button>
         <div ng-show="showDetails">
-            <div ng-show="item.StatusID == 1">
+            <div ng-show="item.Status == 1">
 
                 <div>
                     Nazwa firmy :
@@ -76,7 +76,7 @@
                 </div>
 
             </div>
-            <div ng-show="item.StatusID == 3">
+            <div ng-show="item.Status == 3">
                 <div>
                     Nazwa firmy
                     {{item.Name}}
@@ -91,7 +91,7 @@
                 </div>
 
             </div>
-            <div ng-show="item.StatusID == 2">
+            <div ng-show="item.Status == 2">
 
             </div>
         </div>
