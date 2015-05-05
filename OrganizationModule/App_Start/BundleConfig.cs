@@ -9,10 +9,12 @@ namespace OrganizationModule
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Scripts/jquery-{version}.js",
-                "~/Scripts/bootstrap.js",
-                "~/Scripts/ui-bootstrap-0.12.1.min.js",
+                "~/Scripts/jquery.js",
                 "~/Scripts/jquery-ui-{version}.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                "~/Scripts/bootstrap.js",
+                "~/Scripts/ui-bootstrap-0.12.1.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
@@ -41,9 +43,9 @@ namespace OrganizationModule
                 "~/Content/Settings/user-settings.css"));
 
             bundles.Add(new ScriptBundle("~/FroalaScripts")
-                .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js", "*.js")
                 .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js/langs", "*.js")
-                .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js/plugins", "*.js"));
+                .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js/plugins", "*.js")
+                .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js", "*.js"));
 
             bundles.Add(new StyleBundle("~/FroalaStyles").IncludeDirectory(
                 "~/thirdParty/FroalaWysiwygEditor/css", "*.css"));
