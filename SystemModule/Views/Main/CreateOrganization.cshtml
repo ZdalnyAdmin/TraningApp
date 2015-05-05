@@ -2,18 +2,36 @@
 
     <strong class="error">{{ error }}</strong>
 
+    <div>
+        Nazwa firmy
+        <input type="text" name="current.Name" ng-model="current.Name" />
+    </div>
+    <div>
+        Przestrzen dyskowa (w GB) 
+        <input type="text" name="current.SpaceDisk" ng-model="current.SpaceDisk" />
+    </div>
+    <div>
+        Maksymalna liczba użytkowników
+        <input type="text" name="current.MaxAssignedUser" ng-model="current.MaxAssignedUser" />
+    </div>
+    <div>
+        Dostęp do kursów globalnych
+        <input type="checkbox" name="current.IsGlobalAvailable" ng-model="current.IsGlobalAvailable" />
+    </div>
+    <div>
+        Czy nowe kursy globalne dla firmy automatycznie widoczne dla grupy "wszyscy" w organizacji?
+        <input type="checkbox" name="current.IsTrainingAvailableForAll" ng-model="current.IsTrainingAvailableForAll" />
+    </div>
+    <div>
+        Czy użytkownicy organizacji mogą zmieniać swojego maila?
+        <input type="checkbox" name="current.CanUserChangeMail" ng-model="current.CanUserChangeMail" />
+    </div>
+    <div>
+        Czy użytkownicy ogranizacji mogą zmianiać swoją nazwę wyświetloną?
+        <input type="checkbox" name="current.CanUserChangeName" ng-model="current.CanUserChangeName" />
+    </div>
 
-    <div ng-repeat="item in Trainings">
-        <div>
-            {{ item.UserName}}
-        </div>
-        <div>
-            {{ item.LastActivationDate | date: 'dd.MM.yyyy hh.mm' }}
-        </div>
-        <div>
-            {{ item.Email}}
-        </div>
-
-
+    <div>
+        <button name="saveButton" ng-click="save()">Utwórz</button>
     </div>
 </div>

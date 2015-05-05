@@ -1,6 +1,7 @@
 ﻿using AppEngine.Helpers;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataContext;
+using AppEngine.Models.DataObject;
 using AppEngine.Services;
 using System;
 using System.Collections.Generic;
@@ -21,15 +22,48 @@ namespace SystemModule.Controllers.Api
         [HttpGet]
         public IEnumerable<Organization> Get()
         {
-            return db.Organizations.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreateDate) ;
+            return db.Organizations.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreateDate);
         }
 
         public HttpResponseMessage Post(Organization obj)
         {
             try
             {
+                //init object
+                if(obj.OrganizationID == -1)
+                {
+                    var setting = db.AppSettings.FirstOrDefault(x => x.IsDefault);
+                    if(setting == null)
+                    {
+                        setting = new AppSetting();
+                        setting.AllowUserToChangeName = true;
+                        setting.AllowUserToChangeMail = true;
+                        setting.SpaceDisk =  50;
+                        setting.MaxAssignedUser =  10;
+                        setting.IsGlobalAvailable = true;
+                        setting.IsTrainingAvailableForAll = true;
+                        setting.MaxActiveTrainings = 5;
+                        setting.DefaultEmail = string.Empty;
+                        setting.DefaultName =  string.Empty;
+                        setting.IsDefault = true;
+                        db.AppSettings.Add(setting);
+                        db.SaveChanges();
+                    }
+
+                    obj.SpaceDisk = setting.SpaceDisk;
+                    obj.MaxAssignedUser = setting.MaxAssignedUser;
+                    obj.IsGlobalAvailable = setting.IsGlobalAvailable;
+                    obj.IsTrainingAvailableForAll = setting.IsTrainingAvailableForAll;
+                    obj.CanUserChangeMail = setting.AllowUserToChangeMail;
+                    obj.CanUserChangeName = setting.AllowUserToChangeName;
+                    HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
+                    return response;
+                }
+
                 var usr = Person.GetLoggedPerson(User);
                 obj.CreateUserID = Helpers.GetUserID(usr);
+                obj.CreateDate = DateTime.Now;
+                obj.IsDeleted = false;
 
                 if (ModelState.IsValid)
                 {
@@ -57,7 +91,12 @@ namespace SystemModule.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-
+            if(obj.IsDeleted)
+            {
+                var usr = Person.GetLoggedPerson(User);
+                obj.DeletedUserID = Helpers.GetUserID(usr);
+                obj.DeletedDate = DateTime.Now;
+            }
 
             db.Entry(obj).State = EntityState.Modified;
 
