@@ -1,6 +1,8 @@
-﻿function creatorEditTrainingController($scope, $http, $modal) {
+﻿function creatorEditTrainingController($scope, $http, $modal, $location) {
     $scope.loading = true;
     $scope.currentTraining = {};
+
+    var searchObj = $location.search();
 
 
     //Used to display the data 
@@ -20,12 +22,17 @@
     }
 
     $scope.loadTraining = function () {
-        $http.get('/api/Training')
+        var obj = {};
+        if (!!searchObj && !!searchObj.trainingID) {
+            obj.TrainingID = searchObj.trainingID;
+        }
+        else {
+            //hak
+            obj.TrainingID = -1;
+        }
+        $http.post('/api/Training', obj)
         .success(function (data) {
-            if (data.length)
-            {
-                $scope.currentTraining = data[0];
-            }
+            $scope.currentTraining = data;
             $scope.loading = false;
         })
         .error(function () {
@@ -97,4 +104,4 @@
 
 }
 
-creatorEditTrainingController.$inject = ['$scope', '$http', '$modal'];
+creatorEditTrainingController.$inject = ['$scope', '$http', '$modal', '$location'];

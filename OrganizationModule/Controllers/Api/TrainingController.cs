@@ -54,6 +54,24 @@ namespace OrganizationModule.Controllers.Api
         {
             try
             {
+                if(obj.TrainingID != 0)
+                {
+                    //hak
+                    if (obj.TrainingID == -1)
+                    {
+                        var training = db.Trainings.FirstOrDefault();
+                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, training);
+                        return response;
+                    }
+                    else
+                    {
+                        var training = db.Trainings.FirstOrDefault(x => x.TrainingID == obj.TrainingID);
+                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, training);
+                        return response;
+                    }
+                }
+
+
                 obj.CreateDate = DateTime.Now;
                 obj.IsDeleted = false;
                 obj.IsActive = false;
