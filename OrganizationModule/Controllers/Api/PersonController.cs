@@ -1,4 +1,5 @@
-﻿using AppEngine.Models;
+﻿using AppEngine.Helpers;
+using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
@@ -25,14 +26,6 @@ namespace OrganizationModule.Controllers
             var people =  db.Users.Where(x=>x.Status == StatusEnum.Active || x.Status == StatusEnum.Blocked || x.Status == StatusEnum.Deleted).ToList();
             foreach (var item in people)
             {
-                //item.Status = (from t in db.Status
-                //               where t.StatusID == item.StatusID
-                //               select t).FirstOrDefault();
-
-                //item.Profile = (from t in db.Profiles
-                //                where t.ProfileID == item.ProfileID
-                //                select t).FirstOrDefault();
-
                 item.SetAssignedTrainingsNumber((from t in db.TrainingResults
                                                  where t.PersonID == item.Id
                                                  select t).Count());
@@ -82,10 +75,17 @@ namespace OrganizationModule.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            //if (person.Status != null && person.Status.StatusID != person.StatusID)
-            //{
-            //    person.StatusID = person.Status.StatusID;
-            //}
+            var usr = Person.GetLoggedPerson(User);
+            if (person.IsDeleted)
+            {
+                
+                person.DeleteUserID = usr.Id;
+                person.DeletedDate = DateTime.Now;
+            }
+            else
+            {
+                person.ModifiedUserID = usr.Id;
+            }
 
             db.Entry(person).State = EntityState.Modified;
             try

@@ -1,4 +1,5 @@
-﻿using AppEngine.Models;
+﻿using AppEngine.Helpers;
+using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
@@ -54,7 +55,7 @@ namespace OrganizationModule.Controllers.Api
         {
             try
             {
-                if(obj.TrainingID != 0)
+                if (obj.TrainingID != 0)
                 {
                     //hak
                     if (obj.TrainingID == -1)
@@ -73,9 +74,11 @@ namespace OrganizationModule.Controllers.Api
 
 
                 obj.CreateDate = DateTime.Now;
+                var usr = Person.GetLoggedPerson(User);
+                obj.CreateUserID = usr.Id;
+
                 obj.IsDeleted = false;
-                obj.IsActive = false;
-                obj.IsDeleted = false;
+                obj.IsActive = true;
                 obj.TrainingType = TrainingType.Internal;
                 int index = 0;
                 if (obj.Details != null && obj.Details.Any())
@@ -102,9 +105,9 @@ namespace OrganizationModule.Controllers.Api
                     db.Trainings.Add(obj);
                     db.SaveChanges();
                     LogService.InsertTrainingLogs(OperationLog.TrainingCreate, db, obj.TrainingID, obj.CreateUserID);
-                    if(obj.Groups != null && obj.Groups.Any())
+                    if (obj.Groups != null && obj.Groups.Any())
                     {
-                        foreach(var item in obj.Groups)
+                        foreach (var item in obj.Groups)
                         {
                             var grp = new ProfileGroup2Trainings();
                             grp.IsDeleted = false;
@@ -136,6 +139,14 @@ namespace OrganizationModule.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
+            
+            if (obj.IsDeleted)
+            {
+                var usr = Person.GetLoggedPerson(User);
+                obj.DeletedUserID = Helpers.GetUserID(usr);
+                obj.DeletedDate = DateTime.Now;
+            }
+
             db.Entry(obj).State = EntityState.Modified;
 
             try
@@ -144,7 +155,7 @@ namespace OrganizationModule.Controllers.Api
                                      where t.TrainingID == obj.TrainingID
                                      select t).ToList();
 
-                foreach(var item in obj.Groups)
+                foreach (var item in obj.Groups)
                 {
                     var temp = assignedGroup.FirstOrDefault(x => x.ProfileGroupID == item.ProfileGroupID);
                     if (temp == null)

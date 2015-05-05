@@ -1,4 +1,5 @@
-﻿using AppEngine.Models.Common;
+﻿using AppEngine.Helpers;
+using AppEngine.Models.Common;
 using AppEngine.Models.DataContext;
 using System;
 using System.Collections.Generic;
@@ -60,6 +61,14 @@ namespace OrganizationModule.Controllers
             if (!ModelState.IsValid)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+
+            if(obj.IsDeleted)
+            {
+                var usr = Person.GetLoggedPerson(User);
+                obj.DeletedUserID = Helpers.GetUserID(usr);
+                obj.DeletedDate = DateTime.Now;
             }
 
             db.Entry(obj).State = EntityState.Modified;

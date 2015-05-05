@@ -54,10 +54,27 @@ namespace SystemModule.Controllers.Api
         {
             try
             {
+                if (obj.TrainingID != 0)
+                {
+                    //hak
+                    if (obj.TrainingID == -1)
+                    {
+                        var training = db.Trainings.FirstOrDefault();
+                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, training);
+                        return response;
+                    }
+                    else
+                    {
+                        var training = db.Trainings.FirstOrDefault(x => x.TrainingID == obj.TrainingID);
+                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, training);
+                        return response;
+                    }
+                }
                 obj.CreateDate = DateTime.Now;
+                var usr = Person.GetLoggedPerson(User);
+                obj.CreateUserID = usr.Id;
                 obj.IsDeleted = false;
-                obj.IsActive = false;
-                obj.IsDeleted = false;
+                obj.IsActive = true;
                 obj.TrainingType = TrainingType.Kenpro;
                 int index = 0;
                 if (obj.Details != null && obj.Details.Any())
@@ -116,6 +133,14 @@ namespace SystemModule.Controllers.Api
             if (!ModelState.IsValid)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+
+            if (obj.IsDeleted)
+            {
+                var usr = Person.GetLoggedPerson(User);
+                obj.DeletedUserID = Helpers.GetUserID(usr);
+                obj.DeletedDate = DateTime.Now;
             }
 
             db.Entry(obj).State = EntityState.Modified;

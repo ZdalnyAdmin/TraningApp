@@ -1,1 +1,19 @@
-﻿
+﻿<div ng-app="" ng-controller="organizationEditController" class="container">
+
+    <strong class="error">{{ error }}</strong>
+
+
+    <div ng-repeat="item in Trainings">
+        <div>
+            {{ item.UserName}}
+        </div>
+        <div>
+            {{ item.LastActivationDate | date: 'dd.MM.yyyy hh.mm' }}
+        </div>
+        <div>
+            {{ item.Email}}
+        </div>
+
+
+    </div>
+</div>
