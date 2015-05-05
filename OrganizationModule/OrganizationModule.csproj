@@ -197,6 +197,7 @@
     <Compile Include="Controllers\Api\PersonController.cs" />
     <Compile Include="Controllers\ProtectorController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -205,6 +206,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Image\ajax-loader.gif" />
+    <Content Include="Assets\Image\empty.png" />
     <Content Include="Assets\Marks\All\Kowalski.png" />
     <Content Include="Assets\Marks\All\Król_Julian.png" />
     <Content Include="Assets\Marks\All\Marlenka.png" />
@@ -217,7 +220,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Directives\ngDragAndDrop.js" />
     <Content Include="Scripts\jquery.js" />
+    <Content Include="Templates\dragAndDrop.html" />
     <Content Include="thirdParty\FroalaWysiwygEditor\js\angular-froala.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -400,9 +405,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Assets\Image\" />
     <Folder Include="Scripts\Providers\" />
+    <Folder Include="Temp\Images\" />
+    <Folder Include="Temp\Movies\" />
     <Folder Include="Views\Redirect\" />
+    <Folder Include="Views\Upload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
