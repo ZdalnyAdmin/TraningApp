@@ -65,7 +65,7 @@ namespace SystemModule.Controllers.Api
                 obj.CreateUserID = usr.Id;
                 obj.CreateDate = DateTime.Now;
                 obj.IsDeleted = false;
-                obj.Status = StatusEnum.Active;
+                obj.Status = OrganizationEnum.Active;
                 if (ModelState.IsValid)
                 {
                     db.Organizations.Add(obj);
@@ -97,7 +97,7 @@ namespace SystemModule.Controllers.Api
                 var usr = Person.GetLoggedPerson(User);
                 obj.DeletedUserID = usr.Id;
                 obj.DeletedDate = DateTime.Now;
-                obj.Status = StatusEnum.Deleted;
+                obj.Status = OrganizationEnum.Deleted;
             }
 
             db.Entry(obj).State = EntityState.Modified;

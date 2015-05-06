@@ -20,15 +20,25 @@ namespace AppEngine.Models.Common
         public bool CanUserChangeName { get; set; }
         public DateTime CreateDate { get; set; }
         public string CreateUserID { get; set; }
-        //public Person CreateUser { get; set; }
         public string ProtectorID { get; set; }
-        //public Person Protector { get; set; }
-        public StatusEnum Status { get; set; }
-        //public Status Status { get; set; }
+        public OrganizationEnum Status { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
         public string DeletedUserID { get; set; }
         public string DeletedReason { get; set; }
-       //public Person DeletedUser { get; set; }
+
+        [NotMapped]
+        public int AssignedUser { get; set; }
+        [NotMapped]
+        public int BlockedUser { get; set; }
+        [NotMapped]
+        public int DeleteUser { get; set; }
+        [NotMapped]
+        public int InvationUser { get; set; }
+        [NotMapped]
+        public Person Protector { get; set; }
+        [NotMapped]
+        public decimal UsedSpaceDisk { get; set; }
+
     }
 }

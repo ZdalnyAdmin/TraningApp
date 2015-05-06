@@ -22,4 +22,16 @@ namespace AppEngine.Models.DataBusiness
         [Description("Usunięte")]
         Rejected = 6
     }
+
+    public enum OrganizationEnum
+    {
+        [Description("Aktywny")]
+        Active = 1,
+
+        [Description("Ukryty")]
+        Hidden = 2,
+
+        [Description("Usunięty")]
+        Deleted = 3,
+    }
 }

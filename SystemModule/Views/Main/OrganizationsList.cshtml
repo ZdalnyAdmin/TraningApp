@@ -27,25 +27,26 @@
                     <input type="text" name="item.Name" ng-model="item.Name" />
                 </div>
                 <div>
-                    Osoby aktywne :
+                    Osoby aktywne :{{ item.AssignedUser}}
                 </div>
                 <div>
-                    Uzytkownicy zablokowani :
+                    Uzytkownicy zablokowani :{{ item.BlockedUser}}
                 </div>
                 <div>
-                    Uzytkownicy usuniecie :
+                    Uzytkownicy usuniecie :{{ item.DeleteUser}}
                 </div>
                 <div>
-                    Zaproszenie oczekujaca :
+                    Zaproszenie oczekujaca :{{item.InvationUser }}
                 </div>
                 <div>
-                    Opiekun :
+                    Opiekun :{{ item.Protector.Email}}
                 </div>
                 <div>
-                    Wykorzystana przestrzen dyskowa :
+                    Wykorzystana przestrzen dyskowa :{{ item.UsedSpaceDisk}}
                 </div>
                 <div>
                     Zmian status
+                    <select ng-model="item.selectedStatus" ng-options="c for c in availableStatus" ng-change="changeStatus(item)"></select>
                 </div>
                 <div>
                     Przestrzen dyskowa (w GB)

@@ -216,6 +216,7 @@
     <Content Include="Scripts\Controllers\editTrainingController.js" />
     <Content Include="Scripts\Controllers\historyController.js" />
     <Content Include="Scripts\Controllers\organizationCreateController.js" />
+    <Content Include="Scripts\Controllers\organizationDeleteModalController.js" />
     <Content Include="Scripts\Controllers\organizationEditController.js" />
     <Content Include="Scripts\Controllers\settingsController.js" />
     <Content Include="Scripts\Controllers\statisticsController.js" />
@@ -251,6 +252,7 @@
     <Content Include="Scripts\SystemModuleApp.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\Controllers\commonMarksModalController.js" />
+    <Content Include="Templates\Modals\organizationDeleteModal.html" />
     <Content Include="Templates\trainingAddQuestion.html" />
     <Content Include="Templates\trainingDetailsTab.html" />
     <Content Include="Templates\trainingEditDetails.html" />
