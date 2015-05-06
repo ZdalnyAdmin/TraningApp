@@ -7,6 +7,25 @@ namespace AppEngine.Services
 {
     public class LogService
     {
+        private static AppLog InitLogs(bool isSystem, OperationLog operationType, SystemLog systemType, string modifiedUserID)
+        {
+            var log = new AppLog();
+            log.IsSystem = isSystem;
+            if (isSystem)
+            {
+                log.SystemType = systemType;
+            }
+            else
+            {
+                log.OperationType = operationType;
+            }
+            var currentDate = DateTime.Now;
+            log.ModifiedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, 0);
+            log.ModifiedUserID = modifiedUserID;
+            return log;
+        }
+
+
         /// <summary>
         /// user change logs
         /// </summary>
@@ -16,37 +35,39 @@ namespace AppEngine.Services
         /// <param name="modifiedUser"></param>
         public static void InsertUserLogs(OperationLog type, EFContext db, string userID, string modifiedUserID)
         {
-            var log = new AppLog();
-            log.OperationType = type;
-            log.IsSystem = false;
-            var currentDate = DateTime.Now;
-            log.ModifiedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, 0);
-            log.ModifiedUserID = modifiedUserID;
-            log.PersonID = userID;
-
-            bool canSave = false;
-            switch (type)
+            try
             {
-                case OperationLog.UserInvitation:
-                    //todo rola i mail - after send save user in person if no chnage logic
-                    //log.PersonID = 
+                var log = InitLogs(false, type, 0, modifiedUserID);
+                log.PersonID = userID;
 
-                    break;
-                case OperationLog.UserDeleteBySelf:
-                case OperationLog.UserDelete:
-                case OperationLog.UserCreate:
-                case OperationLog.UserEdit:
-                    canSave = true;
-                    break;
+                bool canSave = false;
+                switch (type)
+                {
+                    case OperationLog.UserInvitation:
+                        //todo rola i mail - after send save user in person if no chnage logic
+                        //log.PersonID = 
+
+                        break;
+                    case OperationLog.UserDeleteBySelf:
+                    case OperationLog.UserDelete:
+                    case OperationLog.UserCreate:
+                    case OperationLog.UserEdit:
+                        canSave = true;
+                        break;
+                }
+
+                if (!canSave)
+                {
+                    return;
+                }
+
+                db.Logs.Add(log);
+                db.SaveChanges();
             }
-
-            if (!canSave)
+            catch (Exception ex)
             {
-                return;
-            }
 
-            db.Logs.Add(log);
-            db.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -58,12 +79,7 @@ namespace AppEngine.Services
         /// <param name="modifiedUser"></param>
         public static void InsertTrainingLogs(OperationLog type, EFContext db, int trainingID, string modifiedUserID)
         {
-            var log = new AppLog();
-            log.OperationType = type;
-            log.IsSystem = false;
-            var currentDate = DateTime.Now;
-            log.ModifiedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, 0);
-            log.ModifiedUserID = modifiedUserID;
+            var log = InitLogs(false, type, 0, modifiedUserID);
             log.TrainingID = trainingID;
 
             bool canSave = false;
@@ -82,6 +98,97 @@ namespace AppEngine.Services
 
             db.Logs.Add(log);
             db.SaveChanges();
+        }
+
+        public static void OrganizationLogs(SystemLog type, EFContext db, string organizationName, string modifiedUserID)
+        {
+            try
+            {
+                var log = InitLogs(true, 0, type, modifiedUserID);
+                log.OrganizationName = organizationName;
+
+                bool canSave = false;
+                switch (type)
+                {
+                    case SystemLog.OrganizationCreate:
+                    case SystemLog.OrganizationDelete:
+                    case SystemLog.OrganizationRequestToRemove:
+                        canSave = true;
+                        break;
+                }
+
+                if (!canSave)
+                {
+                    return;
+                }
+
+                db.Logs.Add(log);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public static void ProtectorLogs(SystemLog type, EFContext db, string organizationName, string modifiedUserID)
+        {
+            try
+            {
+                var log = InitLogs(true, 0, type, modifiedUserID);
+                log.OrganizationName = organizationName;
+
+                bool canSave = false;
+                switch (type)
+                {
+                    case SystemLog.ProtectorCreate:
+                    case SystemLog.ProtectorInvitation:
+                        canSave = true;
+                        break;
+                }
+
+                if (!canSave)
+                {
+                    return;
+                }
+
+                db.Logs.Add(log);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public static void AdministrationLogs(SystemLog type, EFContext db, string modifiedUserID)
+        {
+            try
+            {
+                var log = InitLogs(true, 0, type, modifiedUserID);
+
+                bool canSave = false;
+                switch (type)
+                {
+                    case SystemLog.LogIn:
+                    case SystemLog.LogOut:
+                        canSave = true;
+                        break;
+                }
+
+                if (!canSave)
+                {
+                    return;
+                }
+
+                db.Logs.Add(log);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
     }
