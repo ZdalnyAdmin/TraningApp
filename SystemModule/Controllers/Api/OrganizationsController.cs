@@ -113,7 +113,7 @@ namespace SystemModule.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.Created, obj);
         }
 
         protected override void Dispose(bool disposing)

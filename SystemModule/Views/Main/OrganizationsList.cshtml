@@ -11,7 +11,7 @@
             {{ item.CreateDate | date: 'dd.MM.yyyy hh.mm' }}
         </div>
         <div>
-            {{ item.Status}}
+            {{ item.selectedStatus}}
         </div>
         <button id="inputButto" ng-click="showDetails = ! showDetails" ng-show="!showDetails">
             Pokaz szczegoly
@@ -74,6 +74,7 @@
                 </div>
                 <div>
                     Czy chcesz usunąć ?
+                    <button ng-click="delete(item)">USUN</button>
                 </div>
 
             </div>
@@ -87,7 +88,7 @@
                     {{ item.DeletedDate | date: 'dd.MM.yyyy hh.mm' }}
                 </div>
                 <div>
-                    Powód usunięcia - dodac do bazy
+                    Powód usunięcia :
                     {{ item.DeletedReason }}
                 </div>
 

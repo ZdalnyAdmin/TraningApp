@@ -6,6 +6,17 @@
     $scope.loadDate = function () {
         $http.get('/api/Organizations').success(function (data) {
             $scope.list = data;
+
+            angular.forEach($scope.list, function (item) {
+                if (item.Status == 1) {
+                    item.selectedStatus = 'Aktywny';
+                } else if (item.Status == 3) {
+                    item.selectedStatus = 'Usuniety';
+                } else if (item.Status == 2) {
+                    item.selectedStatus = 'Ukryty';
+                }
+            });
+
             $scope.loading = false;
         })
         .error(function () {
@@ -20,7 +31,6 @@
         if (!item) {
             return;
         }
-
         if (item.selectedStatus == 'Aktywny') {
             item.Status = 1;
         } else if (item.selectedStatus == 'Usuniety') {
@@ -28,10 +38,23 @@
         } else if (item.selectedStatus == 'Ukryty') {
             item.Status = 2;
         }
+
+
+        $http.put('/api/Organizations', item).success(function (data) {
+            $scope.loading = false;
+
+        })
+        .error(function () {
+            $scope.error = "An Error has occured while loading posts!";
+            $scope.loading = false;
+        });
     };
 
-    $scope.delete = function(item)
-    {
+    $scope.delete = function (item) {
+
+        $scope.current = item;
+
+
         var modalInstance = $modal.open({
             templateUrl: '/Templates/Modals/organizationDeleteModal.html',
             controller: 'organizationDeleteModalController',
@@ -44,30 +67,19 @@
         });
 
         modalInstance.result.then(function (selectedReason) {
-            if (!!selectedReason) {
-                item.DeletedReason = selectedReason;
+            if (!!selectedReason.Text) {
+                item.DeletedReason = selectedReason.Text;
+                item.IsDeleted = true;
+                item.Status = 3;
+                $http.put('/api/Organizations', item).success(function (data) {
+                    $scope.loading = false;
+                    item.DeletedDate = data.DeletedDate;
+                })
+                .error(function () {
+                    $scope.error = "An Error has occured while loading posts!";
+                    $scope.loading = false;
+                });
             }
-
-            item.DeletedDate = true;
-
-            $http.put('/api/Organizations', item).success(function (data) {
-
-                var index = 0;
-
-                for (var i = 0; i < $scope.list.length; i++) {
-                    if ($scope.list[i].IsDeleted) {
-                        index = i;
-                        break;
-                    }
-                }
-                $scope.list.splice(index, 1);
-
-                $scope.loading = false;
-            })
-            .error(function () {
-                $scope.error = "An Error has occured while loading posts!";
-                $scope.loading = false;
-            });
         });
 
     }
