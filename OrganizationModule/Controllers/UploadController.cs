@@ -31,9 +31,10 @@ namespace OrganizationModule.Controllers
             return Json(new Result() { Succeeded = true, Message = url });
         }
 
-        public ActionResult UploadMove()
+        [HttpPost]
+        public ActionResult UploadMovie()
         {
-            string path = string.Empty;
+            string url = string.Empty;
 
             if (Request.Files.Count > 0)
             {
@@ -42,12 +43,13 @@ namespace OrganizationModule.Controllers
                 if (file != null && file.ContentLength > 0)
                 {
                     var fileName = Path.GetFileName(file.FileName);
-                    path = Path.Combine(Server.MapPath("~/Temp/Movies/"), fileName);
+                    var path = Path.Combine(Server.MapPath("~/Temp/Movies/"), fileName);
+                    url = "/Temp/Movies/" + fileName;
                     file.SaveAs(path);
                 }
             }
 
-            return Json(new Result() { Succeeded = true, Message = path });
+            return Json(new Result() { Succeeded = true, Message = url });
         }
     }
 }

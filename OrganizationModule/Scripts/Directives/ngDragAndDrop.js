@@ -43,6 +43,12 @@
                 false
             );
 
+            $element[0].addEventListener('drop',
+                function (e) {
+                    if (e.stopPropagation) e.stopPropagation();
+                    if (e.preventDefault) e.preventDefault();
+                });
+
             el.addEventListener(
                 'drop',
                 function (e) {
@@ -55,8 +61,12 @@
                     if (e.dataTransfer.types.indexOf("Files") === -1)
                         return false;
 
-                    var item = document.getElementById(e.dataTransfer.getData('URL'));
                     var file = e.dataTransfer.files[0];
+
+                    if (!checkExtension(file)) {
+                        return;
+                    }
+
                     $scope.fileName = file.name;
                     var fd = new FormData();
                     fd.append('file', file);
@@ -69,7 +79,19 @@
             );
 
             function sendFileToServer(formData, status) {
-                var uploadURL = "./Upload/UploadImage"; //Upload URL
+                var uploadURL = ""; //Upload URL
+
+                switch ($scope.options) {
+                    case 'IMAGE':
+                        uploadURL = "./Upload/UploadImage";
+                        break;
+
+                    case 'MOVIE':
+                        uploadURL = "./Upload/UploadMovie";
+                        break;
+                }
+
+                
                 var extraData = {}; //Extra Data.
                 var jqXHR = $.ajax({
                     xhr: function () {
@@ -101,55 +123,37 @@
                         }
                     }
                 });
-
-                status.setAbort(jqXHR);
             }
 
             function createStatusbar(obj) {
 
-                var row = "odd";
                 this.statusbar = $("<div class='statusBar'></div>");
-                this.filename = $("<div class='filename'></div>").appendTo(this.statusbar);
-                this.size = $("<div class='filesize'></div>").appendTo(this.statusbar);
                 this.progressBar = $("<div class='progressBar'><div></div></div>").appendTo(this.statusbar);
-                this.abort = $("<div class='abort'>Abort</div>").appendTo(this.statusbar);
                 $(obj).html('');
                 $(obj).append(this.statusbar);
 
-                this.setFileNameSize = function (name, size) {
-                    var sizeStr = "";
-                    var sizeKB = size / 1024;
-                    if (parseInt(sizeKB) > 1024) {
-                        var sizeMB = sizeKB / 1024;
-                        sizeStr = sizeMB.toFixed(2) + " MB";
-                    }
-                    else {
-                        sizeStr = sizeKB.toFixed(2) + " KB";
-                    }
-
-                    this.filename.html(name);
-                    this.size.html(sizeStr);
-
-                    $scope.$apply();
-                }
                 this.setProgress = function (progress) {
                     var progressBarWidth = progress * this.progressBar.width() / 100;
                     this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "% ");
-                    if (parseInt(progress) >= 100) {
-                        this.abort.hide();
-                    }
 
                     $scope.$apply();
                 }
-                this.setAbort = function (jqxhr) {
-                    var sb = this.statusbar;
-                    this.abort.click(function () {
-                        jqxhr.abort();
-                        sb.hide();
-                    });
+            }
 
-                    $scope.$apply();
+            function checkExtension(file) {
+                var availableMovieExtension = ['avi', 'mkv', 'mpeg', 'mp4', ];
+                var fileNameParts = file.name.split('.');
+                var extension = fileNameParts[fileNameParts.length - 1];
+
+                switch ($scope.options) {
+                    case 'IMAGE':
+                        return file.type.indexOf('image') !== -1;
+
+                    case 'MOVIE':
+                        return availableMovieExtension.indexOf(extension) !== -1;
                 }
+
+                return false;
             }
         }]
     }
