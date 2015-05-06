@@ -1,4 +1,5 @@
 ﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace SystemModule.Controllers.Api
         public IEnumerable<Organization> Get()
         {
             //get from correct profile
-            return db.Organizations.Where(x => x.ProtectorID == null);
+            return db.Organizations.Where(x => x.ProtectorID == null && x.Status == OrganizationEnum.Active);
         }
     }
 }

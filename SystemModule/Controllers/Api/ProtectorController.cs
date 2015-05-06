@@ -22,7 +22,18 @@ namespace SystemModule.Controllers.Api
         [HttpGet]
         public IEnumerable<Person> Get()
         {
-            return db.Users.Where(x => x.Profile == ProfileEnum.Protector && !x.IsDeleted).OrderByDescending(p=>p.RegistrationDate);
+            var items  = db.Users.Where(x => x.Profile == ProfileEnum.Protector && !x.IsDeleted).OrderByDescending(p => p.RegistrationDate).ToList();
+
+            foreach (var item in items)
+            {
+                item.Organization = db.Organizations.FirstOrDefault(x => x.ProtectorID == item.Id);
+                if (item.Organization != null)
+                {
+                    item.OrganizationID = item.Organization.OrganizationID;
+                }
+            }
+
+            return items;
         }
 
 
@@ -30,18 +41,38 @@ namespace SystemModule.Controllers.Api
         {
             try
             {
-                obj.RegistrationDate = DateTime.Now;
-
-                var usr = Person.GetLoggedPerson(User);
-                obj.ModifiedUserID = usr.Id;
+                obj.InvitationDate = DateTime.Now;
+                //obj.Inviter = Person.GetLoggedPerson(User);
+                obj.PhoneNumberConfirmed = false;
+                obj.Profile = ProfileEnum.Protector;
+                obj.Status = StatusEnum.Invited;
+                obj.EmailConfirmed = false;
+                obj.TwoFactorEnabled = false;
                 obj.IsDeleted = false;
+
+                obj.Organization = null;
+                var organizationID = obj.OrganizationID.HasValue ? obj.OrganizationID : 0;
+                obj.OrganizationID = null;
 
                 if (ModelState.IsValid)
                 {
                     db.Users.Add(obj);
                     db.SaveChanges();
-                    LogService.InsertUserLogs(OperationLog.UserDelete, db, obj.Id, obj.ModifiedUserID);
+                    if (organizationID != 0)
+                    {
+                        var organization = db.Organizations.FirstOrDefault(x => x.OrganizationID == organizationID);
+                        organization.Protector = obj;
+                        organization.ProtectorID = obj.Id;
+                        db.Entry<Organization>(organization).State = EntityState.Modified;
+
+                        obj.OrganizationID = organizationID;
+                        obj.InviterID = Person.GetLoggedPerson(User).Id;
+                        db.Entry<Person>(obj).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
+                    //add logs
                     return response;
                 }
                 else

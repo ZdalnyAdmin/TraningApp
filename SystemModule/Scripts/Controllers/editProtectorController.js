@@ -5,11 +5,12 @@
 
 
     $scope.loadData = function () {
-        $http.get('/api/Protecter')
+        $http.get('/api/Protector')
         .success(function (data) {
-            if (!data) {
-                return;
-            }
+            angular.forEach(data, function (val) {
+                val.showDetails = true;
+            });
+
             $scope.list = data;
             $scope.loading = false;
         })
@@ -25,16 +26,12 @@
         item.showDetails = showDetails;
     }
 
-    $scope.edit = function (item) {
-        item.isEdit = true;
-    }
 
     $scope.save = function (item) {
-      
-        $http.put('/api/Protecter')
+
+        $http.put('/api/Protector', item)
         .success(function (data) {
             $scope.loading = false;
-            item.isEdit = false;
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
@@ -43,15 +40,9 @@
     }
 
     $scope.delete = function (item) {
-        item.isEdit = false;
-
-
         item.IsDeleted = true;
-        item.DeletedDate = new Date();
-        //get from score - logged user id
-        item.DeleteUserID = 1;
 
-        $http.put('/api/Protecter')
+        $http.put('/api/Protector', item)
         .success(function (data) {
             var index = 0;
 
