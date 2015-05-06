@@ -7,10 +7,6 @@
         templateUrl: 'Templates/trainingFileEditor.html',
         controller: ['$scope', function ($scope) {
             $scope.currentDetail = {};
-            //details methods
-            $scope.upload = function (item) {
-                //todo
-            }
 
             $scope.cancel = function (item) {
                 $scope.currentDetail = {};

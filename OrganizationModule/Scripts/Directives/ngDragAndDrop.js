@@ -66,7 +66,7 @@
                     if (!checkExtension(file)) {
                         return;
                     }
-
+ 
                     $scope.fileName = file.name;
                     var fd = new FormData();
                     fd.append('file', file);
@@ -118,7 +118,7 @@
                     data: formData,
                     success: function (data) {
                         if (data.Succeeded) {
-                            $scope.fileSrc = data.Message;
+                            $scope.model.InternalResource = $scope.fileSrc = data.Message;
                             $scope.$apply();
                         }
                     }
