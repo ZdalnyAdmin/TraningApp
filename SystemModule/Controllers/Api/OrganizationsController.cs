@@ -70,6 +70,7 @@ namespace SystemModule.Controllers.Api
                 {
                     db.Organizations.Add(obj);
                     db.SaveChanges();
+                    LogService.OrganizationLogs(SystemLog.OrganizationCreate, db, obj.Name, obj.CreateUserID);
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
                     return response;
                 }
@@ -106,7 +107,11 @@ namespace SystemModule.Controllers.Api
             {
 
                 db.SaveChanges();
-                //LogService.InsertTrainingLogs(OperationLog.TrainingEdit, db, obj.TrainingID, obj.CreateUserID);
+
+                if(obj.IsDeleted)
+                {
+                    LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, db, obj.Name, obj.CreateUserID);
+                }
             }
             catch (DbUpdateConcurrencyException ex)
             {

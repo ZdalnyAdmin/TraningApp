@@ -69,7 +69,11 @@ namespace SystemModule.Controllers.Api
                         obj.InviterID = Person.GetLoggedPerson(User).Id;
                         db.Entry<Person>(obj).State = EntityState.Modified;
                         db.SaveChanges();
+
+
+                        LogService.ProtectorLogs(SystemLog.ProtectorInvitation, db, organization.Name, obj.InviterID);
                     }
+
 
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
                     //add logs

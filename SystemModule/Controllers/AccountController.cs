@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AppEngine.Services;
 
 namespace SystemModule.Controllers
 {
@@ -59,6 +60,12 @@ namespace SystemModule.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    var user = Person.GetLoggedPerson(User);
+                    if (user != null)
+                    {
+                        LogService.AdministrationLogs(SystemLog.LogIn, _db, user.Id);
+                    }
+
                     return true;
                 default:
                     return false;
@@ -80,10 +87,10 @@ namespace SystemModule.Controllers
             if (ModelState.IsValid)
             {
                 IdentityResult result = new IdentityResult();
-                 
+
                 try
                 {
-                    
+
                     var user = new Person
                     {
                         UserName = model.UserName,
@@ -92,9 +99,9 @@ namespace SystemModule.Controllers
                         Profile = ProfileEnum.Administrator, // Temporary
                         InvitationDate = DateTime.Now,
                         //Organization = (from o in _db.Organizations select o)
-                          //              .FirstOrDefault(), // Temporary
+                        //              .FirstOrDefault(), // Temporary
                         Status = StatusEnum.Active // Temporary
-                    }; 
+                    };
 
                     result = await UserManager.CreateAsync(user, model.Password);
                     if (!result.Succeeded)
@@ -110,7 +117,7 @@ namespace SystemModule.Controllers
                            + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Zaloguj się</a>");
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }
@@ -145,10 +152,11 @@ namespace SystemModule.Controllers
 
                 if (userByMail == null || !userByMail.Equals(userByUserName))
                 {
-                    return Json(new {
-                                Succeeded = false,
-                                Errors = new string[] { "Nie ma użytkownika o takim adresie email" }
-                            });
+                    return Json(new
+                    {
+                        Succeeded = false,
+                        Errors = new string[] { "Nie ma użytkownika o takim adresie email" }
+                    });
                 }
 
                 var result = await userByUserName.ResetPasswordAsync(UserManager, Request);
@@ -185,6 +193,12 @@ namespace SystemModule.Controllers
         {
             var ctx = Request.GetOwinContext();
             var authManager = ctx.Authentication;
+
+            var user = Person.GetLoggedPerson(User);
+            if (user != null)
+            {
+                LogService.AdministrationLogs(SystemLog.LogOut, _db, user.Id);
+            }
 
             authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return true;
