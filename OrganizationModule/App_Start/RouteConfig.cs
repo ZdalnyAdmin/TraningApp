@@ -26,6 +26,12 @@ namespace OrganizationModule
             );
 
             routes.MapRoute(
+                name: "ReloadTraining",
+                url: "ActiveTraining/{trainingID}",
+                defaults: new { controller = "Redirect", action = "ActiveTraining", trainingID = "1" }
+            );
+
+            routes.MapRoute(
                 name: "ReloadRegisterUser",
                 url: "Templates/registerUser",
                 defaults: new { controller = "Redirect", action = "RegisterUser", id = UrlParameter.Optional, code = UrlParameter.Optional }
@@ -42,10 +48,9 @@ namespace OrganizationModule
                 url: "{id}",
                 defaults: new { controller = "Redirect", action = "Index" }
             );
-
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}",
+                url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional, code = UrlParameter.Optional }
             );
 

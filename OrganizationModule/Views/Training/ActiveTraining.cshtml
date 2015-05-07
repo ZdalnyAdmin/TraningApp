@@ -1,0 +1,60 @@
+﻿@using AppEngine.Models.Common
+@using AppEngine.Models.DataObject
+
+@if (ViewBag.AccessDenied)
+{
+    <div>Nie posiadasz uprawnień do oglądania tej strony</div>
+}
+else
+{
+    <div class="training-header">
+        <div class="training-logo"></div>
+        <div>W dniu {data} uruchomiłeś szkolenie @ViewBag.Training.Name, dostarczone przez 
+            @if (TrainingType.Kenpro == @ViewBag.Training.TrainingType)
+            {
+                <span>Kenpro</span>
+            }
+            else
+            {
+                <span>@ViewBag.Training.CreateUserName</span>
+            }
+        </div>
+    </div>
+    
+    <div class="training-content">
+        @{
+    foreach (TrainingDetail detail in ViewBag.TrainingDetails)
+    {
+        switch ((TrainingResource)detail.ResourceType)
+        {
+            case TrainingResource.File:
+                break;
+
+            case TrainingResource.Graphic:
+                <div class="training-image">
+                    @if (!string.IsNullOrWhiteSpace(detail.ExternalResource)) { 
+                        <img src="@detail.ExternalResource" />
+                    }
+                    
+                    @if (!string.IsNullOrWhiteSpace(detail.InternalResource))
+                    {
+                        <img src="@detail.InternalResource" />
+                    }
+                </div>
+                break;
+
+            case TrainingResource.Presentation:
+                break;
+
+            case TrainingResource.Video:
+                break;
+
+            case TrainingResource.Text:
+            default:
+                <div class="training-text">@Html.Raw(@detail.Text)</div>
+                break;
+        }
+    }
+        }
+    </div>
+}

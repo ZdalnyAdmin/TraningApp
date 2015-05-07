@@ -2,16 +2,18 @@
 <a>{{currentUser.DisplayName}}</a>
 <div class="keeper-menu">
     <div class="col-sm-4 col-md-12">
-        <h6>AKTYWNE SZKOLENIA</h6>
-        <ul class="nav navbar-nav active-courses-menu">
-            @foreach(var training in ViewBag.Trainings) {
-                <li>
-                    <a href="/ActiveTraning?Id=@training.TrainingID">
-                        <img src="/Content/Images/menu-icon.png" /> <span>@training.Name</span>
-                    </a>
-                </li>
-            }
-        </ul>
+        @if (ViewBag.Trainings.Count > 0) {
+            <h6>AKTYWNE SZKOLENIA</h6>
+            <ul class="nav navbar-nav active-courses-menu">
+                @foreach(var training in ViewBag.Trainings) {
+                    <li>
+                        <a href="/ActiveTraining/@training.TrainingID">
+                            <img src="/Content/Images/menu-icon.png" /> <span>@training.Name</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
         <hr class="hidden-sm" />
         <ul class="nav navbar-nav admin-menu">
             <li>

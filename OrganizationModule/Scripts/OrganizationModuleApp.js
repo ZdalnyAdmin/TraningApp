@@ -89,6 +89,12 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             templateUrl: 'Account/ResetPasswordConfirmation',
             controller: ResetPasswordConfirmation
         })
+        .when('/ActiveTraining/:trainingID', {
+            templateUrl: function (param) {
+                return '../Training/ActiveTraining/' + param.trainingID;
+            },
+            controller: ViewWrapperController
+        })
         .when('/Templates/registerUser', {
             templateUrl: 'viewWrapper.html',
             controller: ViewWrapperController

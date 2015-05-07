@@ -46,5 +46,10 @@ namespace OrganizationModule.Controllers
                 return Redirect("/?page=registerUser&controller=Templates&code=" + code + "&id=" + id);
             }
         }
+
+        public ActionResult ActiveTraining(int trainingID)
+        {
+            return Redirect("/?page=ActiveTraining&trainingID=" + trainingID);
+        }
     }
 }

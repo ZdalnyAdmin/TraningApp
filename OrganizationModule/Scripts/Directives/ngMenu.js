@@ -9,7 +9,7 @@
             $scope.menuUrl = '';
             $scope.currentUser = {};
             $scope.visible = false;
-            var MENU_URL = './Menu/Index';
+            var MENU_URL = '../Menu/Index';
 
             function reload() {
                 $scope.menuUrl = '';
