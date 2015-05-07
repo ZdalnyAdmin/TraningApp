@@ -1,15 +1,16 @@
-﻿function managerTrainingsController($scope, $http, $modal, $location) {
+﻿function managerTrainingsController($scope, $http, $modal, $location, UserFactory, UtilitiesFactory) {
     $scope.loading = true;
     $scope.Trainings = {};
 
     $scope.loadTrainings = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/SimpleTraining').success(function (data) {
             $scope.Trainings = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -25,4 +26,4 @@
     }
 }
 
-managerTrainingsController.$inject = ['$scope', '$http', '$modal', '$location'];
+managerTrainingsController.$inject = ['$scope', '$http', '$modal', '$location', 'UserFactory', 'UtilitiesFactory'];

@@ -1,4 +1,5 @@
-﻿using AppEngine.Models.DataContext;
+﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataContext;
 using AppEngine.Models.DataObject;
 using System;
 using System.Collections.Generic;
@@ -57,11 +58,15 @@ namespace OrganizationModule.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            var protector = db.AppSettings.FirstOrDefault(x => x.ProtectorID == obj.ProtectorID);
-            //one settings per single protector
-            if (protector != null)
+            if(obj.ProtectorID == -1)
             {
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, protector);
+                obj.Protector = Person.GetLoggedPerson(User);
+            }
+
+            //one settings per single protector
+            if (obj.Protector != null)
+            {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj.Protector);
                 return response;
             }
 

@@ -1,18 +1,18 @@
-﻿function protectorPermissionsController($scope, $http, $modal) {
+﻿function protectorPermissionsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.loading = true;
     $scope.currentItem = {};
     //Used to display the data 
     $scope.loadData = function () {
-
+        UtilitiesFactory.showSpinner();
         $scope.currentItem = {};
         $scope.currentItem.ProtectorID = 1;
         $http.post('/api/Settings', $scope.currentItem).success(function (data) {
             $scope.currentItem = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
 
         //Used to display the data 
@@ -25,15 +25,16 @@
         if (!obj) {
             return;
         }
+        UtilitiesFactory.showSpinner();
         $http.put('/api/Settings', obj).success(function (data) {
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
 
     }
 }
 
-protectorPermissionsController.$inject = ['$scope', '$http', '$modal'];
+protectorPermissionsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

@@ -1,11 +1,13 @@
-﻿function adminManagmentController($scope, $http) {
-    $scope.loading = true;
+﻿function adminManagmentController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.addMode = false;
     $scope.selectedGroups = [];
     $scope.logs = [];
     $scope.index = 0;
 
     $scope.loadData = function () {
+
+        UtilitiesFactory.showSpinner();
+
         $http.get('/api/Training').success(function (data) {
             var internalTrainings = [];
             var kenproTrainings = [];
@@ -20,25 +22,28 @@
             });
             $scope.InternalTrainings = internalTrainings;
             $scope.KenproTrainings = kenproTrainings;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadGroups = function () {
+
+        UtilitiesFactory.showSpinner();
+
         $http.get('/api/Group').success(function (data) {
             if (!data) {
                 return;
             }
             $scope.Groups = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -48,16 +53,18 @@
         log.TrainingID = training.TrainingID;
 
 
+        UtilitiesFactory.showSpinner();
+
         $http.post('/api/Logs'. log).success(function (data) {
             if (!data) {
                 return;
             }
             $scope.logs = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -68,13 +75,15 @@
 
         training.IsActive = !training.IsActive;
 
+        UtilitiesFactory.showSpinner();
+
         $http.put('/api/Training', training).success(function (data) {
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
             $scope.loadData();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -86,6 +95,8 @@
         if (!$scope.Groups) {
             return;
         }
+
+        UtilitiesFactory.showSpinner();
 
         var trainigInGroups = [];
         angular.forEach($scope.Groups, function (item) {
@@ -102,12 +113,12 @@
         });
 
         $http.post('/api/TrainingsInGroup', trainigInGroups).success(function (data) {
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
             $scope.loadData();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -127,3 +138,5 @@
     $scope.loadData();
     $scope.loadGroups();
 }
+
+adminManagmentController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
