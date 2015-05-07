@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AppEngine.Services;
+using System.Data.Entity;
 
 namespace SystemModule.Controllers
 {
@@ -135,6 +136,149 @@ namespace SystemModule.Controllers
         }
         #endregion
 
+        #region Operator
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> OperatorRegistry(Person model)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityResult result = new IdentityResult();
+
+                try
+                {
+                    var logged = Person.GetLoggedPerson(User);
+                    var user = new Person
+                    {
+                        UserName = model.UserName,
+                        Email = model.Email,
+                        RegistrationDate = DateTime.Now,
+                        Profile = model.Profile,
+                        InvitationDate = DateTime.Now,
+                        OrganizationID = model.OrganizationID,
+                        InviterID = logged != null ? logged.Id : null,
+                        Status = StatusEnum.Active // Temporary
+                    };
+
+                    result = await UserManager.CreateAsync(user, "Operator123!");
+                    if (!result.Succeeded)
+                    {
+                        return this.Json(result);
+                    }
+                    else
+                    {
+                        var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == model.OrganizationID);
+                        organization.Protector = user;
+                        organization.ProtectorID = user.Id;
+                        _db.Entry<Organization>(organization).State = EntityState.Modified;
+                        _db.SaveChanges();
+
+                        await UserManager.SendEmailAsync(user.Id,
+                            "ZAPROSZENIE UŻYTKOWNIKA",
+                            "Zostałeś zaproszony do organizacji : " + organization != null ? organization.Name : string.Empty + "<br/>"
+                            + "Zaproszenie zostało wysłane przez : " + logged != null ? logged.UserName : string.Empty
+                            + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Link</a>");
+
+                        LogService.ProtectorLogs(SystemLog.ProtectorInvitation, _db, organization.Name, user.InviterID);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return this.Json(result);
+            }
+
+            return getErrorsFromModel();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<bool> OperatorConfirmRegistration(Person model)
+        {
+            try
+            {
+                await UserManager.SendEmailAsync(model.Id,
+                    "POTWIERDZENIE REJESTRACJI",
+                           "Zakończyłeś rejestrację. <br/>Twój login to: " + model.UserName
+                           + "<br/>Twoja nazwa wyświetlana: " + model.UserName
+                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Zaloguj się</a>");
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion 
+
+        #region Organization
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<bool> OrganizationCreateMail(Organization model)
+        {
+            try
+            {
+                await UserManager.SendEmailAsync(model.CreateUserID,
+                    "UTWORZENIE ORGANIZACJI",
+                    "W dniu " + DateTime.Now.ToString("dd.MM.yyyy hh.mm") + " utworzyles nowa organizacje " + model.Name);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<bool> OrganizationDeleteMail(Organization model)
+        {
+            try
+            {
+                await UserManager.SendEmailAsync(model.CreateUserID,
+                    "USUNIECIE ORGANIZACJI POTWIERDZENIE",
+                           "Nazwa : " + model.Name + " została zgłoszona do usunięcia."
+                           + "<br/>Powód : " + model.DeletedReason
+                           + "<br/>Jeśli chcesz ją usunać wcisnij link" 
+                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">LINK</a>");
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<bool> OrganizationNameChangesMail(Organization model)
+        {
+            try
+            {
+                await UserManager.SendEmailAsync(model.CreateUserID,
+                    "POTWIERDZENIE ZMIANY NAZWY ORGANIZACJI",
+                           "Nazwa : " + model.Name + " została zmieniona na " + model.Name
+                           + " Jeśli zmiana ma być zapisana i aktywowana naciśnij link."
+                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">LINK</a>");
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
+
         #region Reset Password
         [AllowAnonymous]
         public ActionResult ResetPassword()
@@ -160,6 +304,43 @@ namespace SystemModule.Controllers
                 }
 
                 var result = await userByUserName.ResetPasswordAsync(UserManager, Request);
+
+                return Json(result);
+            }
+
+            return getErrorsFromModel();
+        }
+
+       [HttpPost]
+        public async Task<ActionResult> ResetAdminPassword(Person model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userByUserName = await UserManager.FindByNameAsync(model.UserName);
+                var userByMail = await UserManager.FindByEmailAsync(model.Email);
+
+                if (userByMail == null || !userByMail.Equals(userByUserName))
+                {
+                    return Json(new
+                    {
+                        Succeeded = false,
+                        Errors = new string[] { "Nie ma użytkownika o takim adresie email" }
+                    });
+                }
+
+
+
+                var result = await userByUserName.ResetPasswordAsync(UserManager, Request);
+
+
+                if(result.Succeeded)
+                {
+                    await UserManager.SendEmailAsync(model.Id,
+                        "ZADANIE RESETU HASŁA",
+                        "Zostało wysłane zadanie zmiany hasła, aby kontynuować, klinknij link"
+                        + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">LINK</a>");
+               
+                }
 
                 return Json(result);
             }

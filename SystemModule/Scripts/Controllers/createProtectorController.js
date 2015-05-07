@@ -1,9 +1,13 @@
-﻿function createProtectorController($scope, $http, $modal) {
+﻿function createProtectorController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.loading = true;
     $scope.organizations = [];
     $scope.current = {};
 
     $scope.loadOrganization = function () {
+
+        UtilitiesFactory.showSpinner();
+
+
         $http.get('/api/NotProtectedOrganization')
         .success(function (data) {
             if (!data) {
@@ -11,10 +15,14 @@
             }
             $scope.organizations = data;
             $scope.loading = false;
+
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.errorMessage = "Wystąpił nieoczekiwany błąd podczas pobierania organizacji!";
             $scope.loading = false;
+
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -25,17 +33,29 @@
             return;
         }
 
+        UtilitiesFactory.showSpinner();
+
         $scope.current.OrganizationID = $scope.current.Organization.OrganizationID;
 
-        $http.post('/api/Protector', $scope.current)
-            .success(function (data) {
-                $scope.current = {};
-                $scope.loading = false;
-            })
-            .error(function () {
-                $scope.error = "An Error has occured while loading posts!";
-                $scope.loading = false;
-            });
+        $scope.errorMessage = '';
+        var result = UserFactory.registerOperator($scope.current);
+
+        result.then(function (data) {
+            if (data.Succeeded) {
+                $location.path('/').search('');
+            } else {
+                if (data.Errors) {
+                    $scope.errorMessage = '';
+                    angular.forEach(data.Errors, function (val) {
+                        $scope.errorMessage += ' ' + val;
+                    });
+                } else {
+                    $scope.errorMessage = 'Wystąpił nieoczekiwany błąd podczas rejestracji operatora';
+                }
+            }
+
+            UtilitiesFactory.hideSpinner();
+        });
 
     }
 
@@ -48,4 +68,4 @@
     }
 }
 
-createProtectorController.$inject = ['$scope', '$http', '$modal'];
+createProtectorController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

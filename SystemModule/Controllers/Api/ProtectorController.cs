@@ -36,60 +36,6 @@ namespace SystemModule.Controllers.Api
             return items;
         }
 
-
-        public HttpResponseMessage Post(Person obj)
-        {
-            try
-            {
-                obj.InvitationDate = DateTime.Now;
-                //obj.Inviter = Person.GetLoggedPerson(User);
-                obj.PhoneNumberConfirmed = false;
-                obj.Profile = ProfileEnum.Protector;
-                obj.Status = StatusEnum.Invited;
-                obj.EmailConfirmed = false;
-                obj.TwoFactorEnabled = false;
-                obj.IsDeleted = false;
-
-                obj.Organization = null;
-                var organizationID = obj.OrganizationID.HasValue ? obj.OrganizationID : 0;
-                obj.OrganizationID = null;
-
-                if (ModelState.IsValid)
-                {
-                    db.Users.Add(obj);
-                    db.SaveChanges();
-                    if (organizationID != 0)
-                    {
-                        var organization = db.Organizations.FirstOrDefault(x => x.OrganizationID == organizationID);
-                        organization.Protector = obj;
-                        organization.ProtectorID = obj.Id;
-                        db.Entry<Organization>(organization).State = EntityState.Modified;
-
-                        obj.OrganizationID = organizationID;
-                        obj.InviterID = Person.GetLoggedPerson(User).Id;
-                        db.Entry<Person>(obj).State = EntityState.Modified;
-                        db.SaveChanges();
-
-
-                        LogService.ProtectorLogs(SystemLog.ProtectorInvitation, db, organization.Name, obj.InviterID);
-                    }
-
-
-                    HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
-                    //add logs
-                    return response;
-                }
-                else
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
-            }
-        }
-
         // PUT api/<controller>/5
         public HttpResponseMessage Put(Person obj)
         {
