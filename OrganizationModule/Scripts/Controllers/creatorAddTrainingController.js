@@ -26,12 +26,41 @@
     $scope.loadGroups();
 
     $scope.loadImage = function (item) {
-        var obj = {};
-        obj.ImageType = 0;
+        $scope.$apply(function (scope) {
+            var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
+
+            if (!checkExtension(file)) {
+                return;
+            }
+
+            if ($scope.model.InternalResource) {
+                deleteFile($scope.model.InternalResource);
+            }
+
+            $scope.fileName = file.name;
+            var fd = new FormData();
+            fd.append('file', file);
+            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
+        });
     }
 
     $scope.loadIcon = function () {
-        //todo
+        $scope.$apply(function (scope) {
+            var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
+
+            if (!checkExtension(file)) {
+                return;
+            }
+
+            if ($scope.model.InternalResource) {
+                deleteFile($scope.model.InternalResource);
+            }
+
+            $scope.fileName = file.name;
+            var fd = new FormData();
+            fd.append('file', file);
+            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
+        });
     }
 
     $scope.showIcon = function () {
@@ -57,7 +86,7 @@
         //check conditions
         if (!$scope.currentTraining.Name) {
             return;
-        
+        }
 
         UtilitiesFactory.showSpinner();
         $scope.currentTraining.CreateUserID = 1;
