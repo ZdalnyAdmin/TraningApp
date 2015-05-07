@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace OrganizationModule.Controllers
+namespace SystemModule.Controllers
 {
     public class RedirectController : Controller
     {
