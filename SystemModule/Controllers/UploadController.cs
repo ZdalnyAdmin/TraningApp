@@ -37,6 +37,28 @@ namespace SystemModule.Controllers
             return getErrorsFromModel();
         }
 
+        [HttpPost]
+        public ActionResult DeleteFile(DeleteViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                delete(model.FileName, "~/Temp/Files/");
+            }
+
+            return getErrorsFromModel();
+        }
+
+        [HttpPost]
+        public ActionResult DeletePresentation(DeleteViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                delete(model.FileName, "~/Temp/Presentations/");
+            }
+
+            return getErrorsFromModel();
+        }
+
         private void delete(string fileName, string basePath)
         {
             var path = Path.Combine(Server.MapPath(basePath), fileName.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries).Last());
@@ -60,6 +82,18 @@ namespace SystemModule.Controllers
             return Json(new Result() { Succeeded = true, Message = upload("/Temp/Images/") });
         }
 
+        [HttpPost]
+        public ActionResult UploadFile()
+        {
+            return Json(new Result() { Succeeded = true, Message = upload("/Temp/Files/") });
+        }
+
+        [HttpPost]
+        public ActionResult UploadPresentation()
+        {
+            return Json(new Result() { Succeeded = true, Message = upload("/Temp/Presentations/") });
+        }
+
         private string upload(string basePath)
         {
             string url = string.Empty;
@@ -72,7 +106,7 @@ namespace SystemModule.Controllers
                 if (file != null && file.ContentLength > 0)
                 {
                     var fileName = loggedPerson.Id + "_" + Path.GetFileName(file.FileName);
-                    var path = Path.Combine(Server.MapPath("~"+ basePath), fileName);
+                    var path = Path.Combine(Server.MapPath("~" + basePath), fileName);
                     url = basePath + fileName;
                     file.SaveAs(path);
                 }

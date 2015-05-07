@@ -219,8 +219,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Directives\ngUploadFile.js" />
     <Content Include="Scripts\Directives\ngDragAndDrop.js" />
     <Content Include="Scripts\jquery.js" />
+    <Content Include="Templates\uploadFile.html" />
     <Content Include="Templates\dragAndDrop.html" />
     <Content Include="thirdParty\FroalaWysiwygEditor\js\angular-froala.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -405,8 +407,10 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\Providers\" />
+    <Folder Include="Temp\Files\" />
     <Folder Include="Temp\Images\" />
     <Folder Include="Temp\Movies\" />
+    <Folder Include="Temp\Presentations\" />
     <Folder Include="Views\Redirect\" />
     <Folder Include="Views\Upload\" />
   </ItemGroup>

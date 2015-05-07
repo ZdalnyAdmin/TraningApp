@@ -37,6 +37,28 @@ namespace OrganizationModule.Controllers
             return getErrorsFromModel();
         }
 
+        [HttpPost]
+        public ActionResult DeleteFile(DeleteViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                delete(model.FileName, "~/Temp/Files/");
+            }
+
+            return getErrorsFromModel();
+        }
+
+        [HttpPost]
+        public ActionResult DeletePresentation(DeleteViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                delete(model.FileName, "~/Temp/Presentations/");
+            }
+
+            return getErrorsFromModel();
+        }
+
         private void delete(string fileName, string basePath)
         {
             var path = Path.Combine(Server.MapPath(basePath), fileName.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries).Last());
@@ -58,6 +80,18 @@ namespace OrganizationModule.Controllers
         public ActionResult UploadImage()
         {
             return Json(new Result() { Succeeded = true, Message = upload("/Temp/Images/") });
+        }
+
+        [HttpPost]
+        public ActionResult UploadFile()
+        {
+            return Json(new Result() { Succeeded = true, Message = upload("/Temp/Files/") });
+        }
+
+        [HttpPost]
+        public ActionResult UploadPresentation()
+        {
+            return Json(new Result() { Succeeded = true, Message = upload("/Temp/Presentations/") });
         }
 
         private string upload(string basePath)

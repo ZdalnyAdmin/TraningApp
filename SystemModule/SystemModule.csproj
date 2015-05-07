@@ -238,6 +238,7 @@
     <Content Include="Scripts\Directives\ngTrainingMediaEditor.js" />
     <Content Include="Scripts\Directives\ngTrainingPresentationEditor.js" />
     <Content Include="Scripts\Directives\ngTrainingTextEditor.js" />
+    <Content Include="Scripts\Directives\ngUploadFile.js" />
     <Content Include="Scripts\Factories\AuthHttpResponseInterceptor.js" />
     <Content Include="Scripts\Factories\UserFactory.js" />
     <Content Include="Scripts\Factories\UtilitiesFactory.js" />
@@ -266,6 +267,7 @@
     <Content Include="Templates\trainingMediaEditor.html" />
     <Content Include="Templates\trainingPresentationEditor.html" />
     <Content Include="Templates\trainingTextEditor.html" />
+    <Content Include="Templates\uploadFile.html" />
     <Content Include="thirdParty\FroalaWysiwygEditor\.gitignore" />
     <Content Include="thirdParty\FroalaWysiwygEditor\css\font-awesome.css" />
     <Content Include="thirdParty\FroalaWysiwygEditor\css\font-awesome.min.css" />
@@ -374,6 +376,10 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\Services\" />
+    <Folder Include="Temp\Files\" />
+    <Folder Include="Temp\Images\" />
+    <Folder Include="Temp\Movies\" />
+    <Folder Include="Temp\Presentations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

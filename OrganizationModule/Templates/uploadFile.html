@@ -1,0 +1,17 @@
+﻿<div>
+    <div ng-switch="options">
+        <div ng-switch-when="FILE">Wgraj plik:</div>
+        <div ng-switch-when="PRESENTATION">Wgraj prezentacje (ppt, pptx, pdf):</div>
+        <div>
+            <input id="upload-input" 
+                   type="file"
+                   class="upload-file"
+                   onchange="angular.element(this).scope().upload(this)" 
+                   name="uploadFiles">
+        </div>
+        <div>
+            {{ fileName || 'Nie wybrano pliku' }}
+        </div>
+        <div class='statusBar'><div></div></div>
+    </div>
+</div>

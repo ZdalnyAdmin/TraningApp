@@ -20,6 +20,10 @@
                         return;
                     }
 
+                    if ($scope.model.InternalResource) {
+                        deleteFile($scope.model.InternalResource);
+                    }
+
                     $scope.fileName = file.name;
                     var fd = new FormData();
                     fd.append('file', file);
