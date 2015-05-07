@@ -12,36 +12,32 @@
             $scope.fileName = undefined;
             $scope.fileSrc = undefined;
 
-            var el = $element[0].getElementsByTagName('img')[0];
-            el.addEventListener(
-                'dragover',
-                function (e) {
-                    e.dataTransfer.dropEffect = 'move';
-                    // allows us to drop
-                    if (e.preventDefault) e.preventDefault();
-                    this.classList.add('over');
-                    return false;
-                },
-                false
-            );
+            $scope.upload = function () {
+                $scope.$apply(function(scope) {
+                    var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
 
-            el.addEventListener(
-                'dragenter',
-                function (e) {
-                    this.classList.add('over');
-                    return false;
-                },
-                false
-            );
+                    if (!checkExtension(file)) {
+                        return;
+                    }
 
-            el.addEventListener(
-                'dragleave',
-                function (e) {
-                    this.classList.remove('over');
-                    return false;
-                },
-                false
-            );
+                    $scope.fileName = file.name;
+                    var fd = new FormData();
+                    fd.append('file', file);
+                    sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
+                });
+            };
+
+            $scope.change = function () {
+                $scope.model.isEdit = true
+            };
+
+            $scope.$watch('model.isEdit', function () {
+                if (!$scope.model.isEdit) {
+                    $scope.fileName = undefined;
+                    $scope.fileSrc = undefined;
+                    $scope.file = {};
+                }
+            });
 
             $element[0].addEventListener('drop',
                 function (e) {
@@ -49,32 +45,123 @@
                     if (e.preventDefault) e.preventDefault();
                 });
 
-            el.addEventListener(
-                'drop',
-                function (e) {
-                    // Stops some browsers from redirecting.
-                    if (e.stopPropagation) e.stopPropagation();
-                    if (e.preventDefault) e.preventDefault();
+            var emptyImage = $element[0].getElementsByClassName('empty-image')[0];
+            var filledImage = $element[0].getElementsByClassName('filled-image')[0];
+            var filledMovie = $element[0].getElementsByClassName('filled-movie')[0];
 
-                    this.classList.remove('over');
+            function dragover(e) {
+                e.dataTransfer.dropEffect = 'move';
+                // allows us to drop
+                if (e.preventDefault) e.preventDefault();
+                this.classList.add('over');
+                return false;
+            }
 
-                    if (e.dataTransfer.types.indexOf("Files") === -1)
-                        return false;
+            emptyImage.addEventListener(
+                'dragover',
+                dragover,
+                false
+            );
 
-                    var file = e.dataTransfer.files[0];
+            filledImage.addEventListener(
+                'dragover',
+                dragover,
+                false
+            );
 
-                    if (!checkExtension(file)) {
-                        return;
-                    }
- 
-                    $scope.fileName = file.name;
-                    var fd = new FormData();
-                    fd.append('file', file);
-                    sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
+            filledMovie.addEventListener(
+                'dragover',
+                dragover,
+                false
+            );
 
-                    $scope.$apply();
+            function dragenter (e) {
+                this.classList.add('over');
+                return false;
+            }
+
+            emptyImage.addEventListener(
+                'dragenter',
+                dragenter,
+                false
+            );
+
+            filledImage.addEventListener(
+                'dragenter',
+                dragenter,
+                false
+            );
+
+            filledMovie.addEventListener(
+                'dragenter',
+                dragenter,
+                false
+            );
+
+            function dragleave (e) {
+                this.classList.remove('over');
+                return false;
+            }
+
+            emptyImage.addEventListener(
+                'dragleave',
+                dragleave,
+                false
+            );
+
+            filledImage.addEventListener(
+                'dragleave',
+                dragleave,
+                false
+            );
+
+            filledMovie.addEventListener(
+                'dragleave',
+                dragleave,
+                false
+            );
+
+            function drop (e) {
+                // Stops some browsers from redirecting.
+                if (e.stopPropagation) e.stopPropagation();
+                if (e.preventDefault) e.preventDefault();
+
+                this.classList.remove('over');
+
+                if (e.dataTransfer.types.indexOf("Files") === -1)
                     return false;
-                },
+
+                var file = e.dataTransfer.files[0];
+
+                if (!checkExtension(file)) {
+                    return;
+                }
+ 
+                $scope.fileName = file.name;
+                var fd = new FormData();
+                fd.append('file', file);
+                sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
+                $scope.model.isEdit = true;
+
+                $scope.$apply();
+                return false;
+            }
+
+            emptyImage.addEventListener(
+                'drop',
+                drop,
+                false
+            );
+
+            filledImage.addEventListener(
+                'drop',
+                drop,
+                false
+            );
+
+            filledMovie.addEventListener(
+                'drop',
+                drop,
                 false
             );
 
