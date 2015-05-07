@@ -23,7 +23,11 @@
     <div id="simpleRow">
         Grafika obrazujaca szkolenie [400 x 300px i nie wieksza niz 350kb]
         
-        <input type="file" name="file"> Wczytaj
+        <input id="upload-input"
+               type="file"
+               class="upload-file"
+               onchange="angular.element(this).scope().loadImage(this)"
+               name="uploadFiles">
     </div>
 
     <div id="simpleRow">
@@ -62,9 +66,11 @@
     </div>
 
     <div id="simpleRow">
-        <div id="inputButto" ng-click="loadIcon()">
-            Wgraj wlasna
-        </div>
+        <input id="upload-input"
+               type="file"
+               class="upload-file"
+               onchange="angular.element(this).scope().loadIcon(this)"
+               name="uploadFiles">
         <div id="inputButto" ng-click="showIcon()">
             Wybierz z listy
         </div>

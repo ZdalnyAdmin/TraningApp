@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -53,6 +54,7 @@ namespace OrganizationModule.Controllers
         #endregion
 
         #region Requests
+
         #region Login
         [HttpPost]
         [AllowAnonymous]
@@ -194,7 +196,7 @@ namespace OrganizationModule.Controllers
                     });
                 }
 
-                var result  = await userByUserName.ResetPasswordAsync(UserManager, Request);
+                var result = await userByUserName.ResetPasswordAsync(UserManager, Request);
 
                 return Json(result);
             }
@@ -248,6 +250,42 @@ namespace OrganizationModule.Controllers
             return Json(Person.GetLoggedPerson(User));
         }
         #endregion
+
+        #region Deleted
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<bool> DeleteUserMail(Person model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = UserManager.FindById(model.Id);
+                    var sb = new StringBuilder();
+                    sb.AppendFormat("<b>ZOSTAŁA WYSŁANA PROŚBA O USUNIĘCIE UŻYTKOWNIKA </b> {0}", user.UserName);
+                    sb.AppendLine();
+                    sb.AppendLine("JEŚLI CHCESZ GO USUNAĆ POTWIERDZ TO WCISKAJĄC LINK");
+                    sb.AppendLine();
+                    sb.AppendFormat("<br/><a href=\\{0}//{1}/signin\">LINK</a>",Request.Url.Scheme, Request.Url.Authority);
+                    await UserManager.SendEmailAsync(user.DeleteUserID,
+                       "POTWIERDZENIE USUNIECIA UZYTKOWNIKA",
+                       sb.ToString());
+
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
         #endregion
 
         #region Private Functions

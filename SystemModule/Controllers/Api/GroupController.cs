@@ -22,7 +22,7 @@ namespace SystemModule.Controllers.Api
                               join p in db.Users on pg.PersonID equals p.Id
                               where pg.ProfileGroupID == item.ProfileGroupID
                               select p).ToList();
-                item.SetAssignedPeople(people);
+                item.AssignedPeople = people;
             }
             return groups;
         }

@@ -74,9 +74,25 @@
                 $http.put('/api/Organizations', item).success(function (data) {
                     $scope.loading = false;
                     item.DeletedDate = data.DeletedDate;
+
+                    var result = UserFactory.organizationDeleteMail(item);
+
+                    result.then(function (data) {
+                        if (!data.Succeeded) {
+                            if (data.Errors) {
+                                $scope.errorMessage = '';
+                                angular.forEach(data.Errors, function (val) {
+                                    $scope.errorMessage += ' ' + val;
+                                });
+                            } else {
+                                $scope.errorMessage = 'Wystąpił nieoczekiwany błąd podczas usuniecia organizacji';
+                            }
+                        }
+                    });
+
                 })
                 .error(function () {
-                    $scope.error = "An Error has occured while loading posts!";
+                    $scope.error = "Wystąpił nieoczekiwany błąd podczas usuniecia organizacji";
                     $scope.loading = false;
                 });
             }

@@ -41,9 +41,7 @@
         var result = UserFactory.registerOperator($scope.current);
 
         result.then(function (data) {
-            if (data.Succeeded) {
-                $location.path('/').search('');
-            } else {
+            if (!data.Succeeded) {
                 if (data.Errors) {
                     $scope.errorMessage = '';
                     angular.forEach(data.Errors, function (val) {

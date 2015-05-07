@@ -1,4 +1,4 @@
-﻿function adminUsersController($scope, $http, $modal) {
+﻿function adminUsersController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.loading = true;
     $scope.addMode = false;
     $scope.showEdit = false;
@@ -8,6 +8,8 @@
 
     //Used to display the data 
     $scope.loadData = function () {
+        UtilitiesFactory.showSpinner();
+
         $http.get('/api/Person').success(function (data) {
             var people = [];
             var deletePeople = [];
@@ -24,32 +26,23 @@
             $scope.People = people;
             $scope.DeletePeople = deletePeople;
             $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.error = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
             $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadData();
 
-    $scope.loadDict = function () {
-        $http.get('/api/Status').success(function (data) {
-            $scope.status = data;
-            $scope.loading = false;
-        })
-        .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
-        });
-    }
-
-    $scope.loadDict();
     //Used to save a record after edit 
     $scope.save = function (person) {
         if (!person) {
             return;
         }
+        UtilitiesFactory.showSpinner();
         $scope.loading = true;
         $http.put('/api/Person/', person).success(function (data) {
             //shoudl get only by id
@@ -57,9 +50,12 @@
             person.isEditable = false;
 
             $scope.editablePerson = {};
+
+            UtilitiesFactory.hideSpinner();
         }).error(function (data) {
-            $scope.error = "An Error has occured while saving person! " + data;
+            $scope.error = 'Wystąpił nieoczekiwany błąd podczas zapisywania uzytkownika' + data;
             $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     };
 
@@ -94,6 +90,7 @@
             if (modalResult !== undefined) {
                 if (modalResult) {
                     $scope.deleteUser(person);
+
                 }
             }
         });
@@ -120,7 +117,7 @@
         if (!person) {
             return;
         }
-
+        UtilitiesFactory.showSpinner();
         person.IsDeleted = true;
         person.DeletedDate = new Date();
         //get from score - logged user id
@@ -132,6 +129,21 @@
             $scope.loading = false;
             var index = 0;
 
+            var result = UserFactory.deleteUser(person);
+
+            result.then(function (data) {
+                if (!data.Succeeded) {
+                    if (data.Errors) {
+                        $scope.errorMessage = '';
+                        angular.forEach(data.Errors, function (val) {
+                            $scope.errorMessage += ' ' + val;
+                        });
+                    } else {
+                        $scope.error = 'Wystąpił nieoczekiwany błąd podczas usuniecia uzytkownika';
+                    }
+                }
+            });
+
             for (var i = 0; i < $scope.People.length; i++) {
                 if ($scope.People[i].IsDeleted) {
                     index = i;
@@ -141,11 +153,14 @@
             $scope.People.splice(index, 1);
             //$scope.People. = people;
             $scope.DeletePeople.push($scope.person);
+
+            UtilitiesFactory.hideSpinner();
         }).error(function (data) {
-            $scope.error = "An Error has occured while deleting person! " + data;
+            $scope.error = 'Wystąpił nieoczekiwany błąd podczas usuniecia uzytkownika' + data;
             $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 }
 
-adminUsersController.$inject = ['$scope', '$http', '$modal'];
+adminUsersController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

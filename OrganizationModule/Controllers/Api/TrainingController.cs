@@ -117,6 +117,20 @@ namespace OrganizationModule.Controllers.Api
                         }
                         db.SaveChanges();
                     }
+
+                    var organization = db.Organizations.FirstOrDefault(x => x.ProtectorID == usr.Id);
+                    if (organization != null)
+                    {
+                        var trainingInOrganization = new Trainings2Organizations();
+                        trainingInOrganization.Organization = organization;
+                        trainingInOrganization.OrganizationID = organization.OrganizationID;
+                        trainingInOrganization.Training = obj;
+                        trainingInOrganization.TrainingID = obj.TrainingID;
+                        trainingInOrganization.IsDeleted = false;
+                        db.TrainingsInOrganizations.Add(trainingInOrganization);
+                        db.SaveChanges();
+                    }
+
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
                     return response;
                 }
