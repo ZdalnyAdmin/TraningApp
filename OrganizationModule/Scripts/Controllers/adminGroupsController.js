@@ -1,5 +1,4 @@
-﻿function adminGroupsController($scope, $http, $modal) {
-    $scope.loading = true;
+﻿function adminGroupsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.isCreated = false;
     $scope.currentGroup = {};
     $scope.editableGroup = {};
@@ -7,35 +6,37 @@
 
 
     $scope.loadData = function () {
+        UtilitiesFactory.showSpinner();
+
         $http.get('/api/Group').success(function (data) {
             $scope.Groups = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadData();
 
     $scope.add = function () {
-        $scope.loading = true;
-        //if ($scope.currentGroup)
+        UtilitiesFactory.showSpinner();
 
         $http.post('/api/Group/', $scope.currentGroup).success(function (data) {
-            $scope.loading = false;
-            //move to other methods
-            $scope.assignedPeopleToGroup(data, true);
+
             $scope.isCreated = false;
             $scope.editableGroup = {};
             $scope.currentGroup = {};
 
             $scope.loadData();
+
+            UtilitiesFactory.hideSpinner();
+
         }).error(function (data) {
             $scope.error = "An Error has occured while creating group! " + data;
             $scope.loadData();
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     };
 
@@ -47,15 +48,15 @@
         if (!group) {
             return;
         }
-        $scope.loading = true;
+        UtilitiesFactory.showSpinner();
         
         $http.put('/api/Group/', group).success(function (data) {
-            $scope.loading = false;
             group.isEditable = false;
             $scope.editableGroup = {};
+            UtilitiesFactory.hideSpinner();
         }).error(function (data) {
             $scope.error = "An Error has occured while saving group! " + data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
 
         $scope.assignedPeopleToGroup(group, false)
@@ -69,40 +70,14 @@
         $scope.editableGroup = angular.copy(group);
     };
 
-    $scope.assignedPeopleToGroup = function (group, refresh) {
-        if (!!$scope.selectedUsers) {
-            var list = [];
-            for (var i = 0; i < $scope.selectedUsers.length; i++) {
-                var obj = {};
-                obj.ProfileGroupID = group.ProfileGroupID;
-                obj.PersonID = $scope.selectedUsers[i].PersonID;
-                obj.IsDeleted = false;
-                list.push(obj);
-            }
-            $http.post('/api/PeopleInGroup/', list).success(function (data) {
-                group = data;
-                $scope.loading = false;
-                if(refresh)
-                {
-                    $scope.loadData();
-                }
-
-            }).error(function (data) {
-                $scope.error = "An Error has occured while saving group! " + data;
-                $scope.loading = false;
-            });
-        }
-    }
-
     //Used to save a record after edit 
     $scope.cancel = function (group) {
         if (!group) {
             return;
         }
-        group.Name = $scope.editableGroup.UserName;
-        group.AssignedPeopleDisplay = $scope.editableGroup.Email;
+        group.Name = $scope.editableGroup.Name;
+        group.AssignedPeopleDisplay = $scope.editableGroup.AssignedPeopleDisplay;
         $scope.editableGroup = {};
-        $scope.loading = true;
         group.isEditable = false;
     };
 
@@ -110,11 +85,8 @@
         if (!group) {
             return;
         }
-        $scope.loading = true;
+        UtilitiesFactory.showSpinner();
         group.IsDeleted = true;
-        //person.DeletedDate = Date.UTC;
-        //get from score - logged user id
-        //person.DeleteUserID
 
         $http.put('/api/Group/', group).success(function (data) {
             var index = 0;
@@ -126,11 +98,10 @@
                 }
             }
             $scope.Groups.splice(index, 1);
-
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         }).error(function (data) {
             $scope.error = "An Error has occured while deleting group! " + data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     };
 
@@ -148,16 +119,17 @@
 
         modalInstance.result.then(function (selectedUsers) {
             if (!!selectedUsers) {
-                $scope.selectedUsers = selectedUsers;
+                group.AssignedPeople = selectedUsers;
+                group.AssignedPeopleDisplay = '';
                 for (var i = 0; i < selectedUsers.length; i++) {
                     if (group.AssignedPeopleDisplay != '') {
                         group.AssignedPeopleDisplay += ', ';
                     }
-                    group.AssignedPeopleDisplay += selectedUsers[i].Name;
+                    group.AssignedPeopleDisplay += selectedUsers[i].UserName;
                 }
             }
         });
     };
 }
 
-adminGroupsController.$inject = ['$scope', '$http', '$modal'];
+adminGroupsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
