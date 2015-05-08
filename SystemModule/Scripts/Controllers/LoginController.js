@@ -7,8 +7,10 @@
     };
 
     $scope.login = function () {
+        UtilitiesFactory.showSpinner();
         var result = UserFactory.login($scope.loginForm.emailAddress, $scope.loginForm.password);
         result.then(function (result) {
+            UtilitiesFactory.hideSpinner();
             if (result.success) {
                 if ($scope.loginForm.returnUrl !== undefined) {
                     $location.path($scope.loginForm.returnUrl).search('');
@@ -22,4 +24,4 @@
     }
 };
 
-LoginController.$inject = ['$scope', '$routeParams', '$location', 'UserFactory'];
+LoginController.$inject = ['$scope', '$routeParams', '$location', 'UserFactory', 'UtilitiesFactory'];

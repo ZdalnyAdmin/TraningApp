@@ -1,10 +1,10 @@
-﻿function editProtectorController($scope, $http, $modal) {
-    $scope.loading = true;
+﻿function editProtectorController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.list = [];
     $scope.editable = {};
 
 
     $scope.loadData = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/Protector')
         .success(function (data) {
             angular.forEach(data, function (val) {
@@ -12,11 +12,11 @@
             });
 
             $scope.list = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -28,20 +28,20 @@
 
 
     $scope.save = function (item) {
-
+        UtilitiesFactory.showSpinner();
         $http.put('/api/Protector', item)
         .success(function (data) {
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.delete = function (item) {
+        UtilitiesFactory.showSpinner();
         item.IsDeleted = true;
-
         $http.put('/api/Protector', item)
         .success(function (data) {
             var index = 0;
@@ -53,13 +53,13 @@
                 }
             }
             $scope.list.splice(index, 1);
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 }
 
-editProtectorController.$inject = ['$scope', '$http', '$modal'];
+editProtectorController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

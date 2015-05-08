@@ -1,5 +1,4 @@
 ﻿function organizationCreateController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    $scope.loading = true;
     $scope.current = {};
 
     $scope.loadDate = function () {
@@ -9,14 +8,10 @@
         $scope.current.OrganizationID = -1;
         $http.post('/api/Organizations', $scope.current).success(function (data) {
             $scope.current = data;
-            $scope.loading = false;
-
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
-
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -50,17 +45,10 @@
                         $scope.errorMessage = 'Wystąpił nieoczekiwany błąd podczas rejestracji organizacji';
                     }
                 }
-            });
-
-
-            
-
-            
+            });           
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
-
             UtilitiesFactory.hideSpinner();
         });
     }

@@ -1,36 +1,35 @@
-﻿function editTrainingController($scope, $http, $modal) {
-    $scope.loading = true;
+﻿function editTrainingController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.currentTraining = {};
-
-
     //Used to display the data 
     $scope.loadGroups = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/Group')
         .success(function (data) {
             if (!data) {
                 return;
             }
             $scope.Groups = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadTraining = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/Training')
         .success(function (data) {
             if (data.length)
             {
                 $scope.currentTraining = data[0];
             }
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -65,6 +64,7 @@
     }
 
     $scope.save = function () {
+        UtilitiesFactory.showSpinner();
         //check conditions
         if (!$scope.currentTraining.Name) {
             return;
@@ -82,18 +82,17 @@
 
         $http.post('/api/Training', $scope.currentTraining)
         .success(function (data) {
-            $scope.loading = false;
-
             $scope.currentTraining = {};
             $scope.trainingDetails = [];
             $scope.trainingQuestion = [];
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
 }
 
-editTrainingController.$inject = ['$scope', '$http', '$modal'];
+editTrainingController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

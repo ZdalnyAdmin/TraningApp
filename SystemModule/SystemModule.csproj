@@ -201,6 +201,11 @@
     <Content Include="..\OrganizationModule\Templates\Modals\commonMarksModal.html">
       <Link>Templates\Modals\commonMarksModal.html</Link>
     </Content>
+    <Content Include="Assets\Image\ajax-loader.gif" />
+    <Content Include="Assets\Image\empty.png" />
+    <Content Include="Assets\Marks\All\Kowalski.png" />
+    <Content Include="Assets\Marks\All\Król_Julian.png" />
+    <Content Include="Assets\Marks\All\Marlenka.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

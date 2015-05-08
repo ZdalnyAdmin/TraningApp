@@ -1,4 +1,4 @@
-﻿var ResetPasswordConfirmation = function ($scope, $routeParams, $location, UserFactory) {
+﻿var ResetPasswordConfirmation = function ($scope, $routeParams, $location, UserFactory, UtilitiesFactory) {
     var search = $location.search();
     if(!search.code) {
         $location.path('/').search('');
@@ -12,10 +12,12 @@
     $scope.errorMessage = '';
 
     $scope.confirmResetPassword = function () {
+        UtilitiesFactory.showSpinner();
         $scope.errorMessage = '';
         var result = UserFactory.resetPasswordConfirmation($scope.resetPasswordData);
 
         result.then(function (data) {
+            UtilitiesFactory.hideSpinner();
             if (data.Succeeded) {
                 $location.path('/signin').search('');
             } else {
@@ -32,4 +34,4 @@
     }
 };
 
-ResetPasswordConfirmation.$inject = ['$scope', '$routeParams', '$location', 'UserFactory'];
+ResetPasswordConfirmation.$inject = ['$scope', '$routeParams', '$location', 'UserFactory', 'UtilitiesFactory'];

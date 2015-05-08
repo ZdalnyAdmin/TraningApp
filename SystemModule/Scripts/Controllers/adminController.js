@@ -1,19 +1,19 @@
-﻿function adminController($scope, $http, $modal) {
-    $scope.loading = true;
+﻿function adminController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.list = [];
 
     $scope.loadDate = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/Admin').success(function (data) {
             $scope.list = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadDate();
 }
 
-adminController.$inject = ['$scope', '$http', '$modal'];
+adminController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

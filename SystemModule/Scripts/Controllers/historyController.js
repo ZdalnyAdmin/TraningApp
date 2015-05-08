@@ -1,37 +1,30 @@
-﻿function historyController($scope, $http, $modal) {
-    $scope.loading = true;
+﻿function historyController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     //Used to display the data 
     $scope.loadType = function () {
-
+        UtilitiesFactory.showSpinner();
         $scope.currentItem = {};
         $scope.currentItem.ProtectorID = 1;
         $http.get('/api/SystemLog').success(function (data) {
             $scope.types = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
-
-        //Used to display the data 
-
     }
 
     $scope.loadLogs = function () {
-
+        UtilitiesFactory.showSpinner();
         $http.get('/api/Logs').success(function (data) {
             $scope.Logs = data;
             $scope.DbLogs = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
-
-        //Used to display the data 
-
     }
 
     $scope.loadLogs();
@@ -40,7 +33,7 @@
 
     $scope.change = function (obj) {
         $scope.Logs = [];
-
+        UtilitiesFactory.showSpinner();
         if (!obj) {
             $scope.Logs = $scope.DbLogs
             return;
@@ -51,8 +44,8 @@
                 $scope.Logs.push(item);
             }
         });
-
+        UtilitiesFactory.hideSpinner();
     }
 }
 
-historyController.$inject = ['$scope', '$http', '$modal'];
+historyController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

@@ -1,15 +1,15 @@
-﻿function trainingsController($scope, $http, $modal) {
-    $scope.loading = true;
+﻿function trainingsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.Trainings = [];
 
     $scope.loadTrainings = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/SimpleTraining').success(function (data) {
             $scope.Trainings = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -19,9 +19,10 @@
         if (!item) {
 
         }
-
+        UtilitiesFactory.showSpinner();
         //call view
+        UtilitiesFactory.hideSpinner();
     }
 }
 
-trainingsController.$inject = ['$scope', '$http', '$modal'];
+trainingsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

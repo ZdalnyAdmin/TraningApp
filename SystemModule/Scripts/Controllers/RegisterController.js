@@ -1,4 +1,4 @@
-﻿var RegisterController = function ($scope, $routeParams, $location, UserFactory) {
+﻿var RegisterController = function ($scope, $routeParams, $location, UserFactory, UtilitiesFactory) {
     $scope.registrationData = {
         Email: 'email@mail.pl',
         Role: 'xxx'
@@ -12,10 +12,12 @@
     $scope.errorMessage = '';
 
     $scope.register = function () {
+        UtilitiesFactory.showSpinner();
         $scope.errorMessage = '';
         var result = UserFactory.register($scope.registrationData);
 
         result.then(function (data) {
+            UtilitiesFactory.hideSpinner();
             if (data.Succeeded) {
                 $location.path('/').search('');
             } else {
@@ -32,4 +34,4 @@
     }
 };
 
-RegisterController.$inject = ['$scope', '$routeParams', '$location', 'UserFactory'];
+RegisterController.$inject = ['$scope', '$routeParams', '$location', 'UserFactory', 'UtilitiesFactory'];

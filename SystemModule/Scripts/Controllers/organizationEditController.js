@@ -1,9 +1,9 @@
-﻿function organizationEditController($scope, $http, $modal) {
-    $scope.loading = true;
+﻿function organizationEditController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.list = [];
     $scope.availableStatus = ['Aktywny', 'Ukryty'];
 
     $scope.loadDate = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/Organizations').success(function (data) {
             $scope.list = data;
 
@@ -17,11 +17,11 @@
                 }
             });
 
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -31,6 +31,9 @@
         if (!item) {
             return;
         }
+
+        UtilitiesFactory.showSpinner();
+
         if (item.selectedStatus == 'Aktywny') {
             item.Status = 1;
         } else if (item.selectedStatus == 'Usuniety') {
@@ -39,22 +42,18 @@
             item.Status = 2;
         }
 
-
         $http.put('/api/Organizations', item).success(function (data) {
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
 
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     };
 
     $scope.delete = function (item) {
-
         $scope.current = item;
-
-
         var modalInstance = $modal.open({
             templateUrl: '/Templates/Modals/organizationDeleteModal.html',
             controller: 'organizationDeleteModalController',
@@ -101,4 +100,4 @@
     }
 }
 
-organizationEditController.$inject = ['$scope', '$http', '$modal'];
+organizationEditController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

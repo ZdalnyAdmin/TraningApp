@@ -1,15 +1,15 @@
-﻿function settingsController($scope, $http, $modal) {
-    $scope.loading = true;
+﻿function settingsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.current = {};
 
     $scope.loadDate = function () {
+        UtilitiesFactory.showSpinner();
         $http.post('/api/Settings', $scope.current).success(function (data) {
             $scope.current = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -19,16 +19,16 @@
         if (!obj) {
             return;
         }
-
+        UtilitiesFactory.showSpinner();
         $http.put('/api/Settings', obj).success(function (data) {
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
 
     }
 }
 
-settingsController.$inject = ['$scope', '$http', '$modal'];
+settingsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
