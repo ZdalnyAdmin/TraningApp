@@ -1,5 +1,6 @@
 ﻿var UserFactory = function ($http, $q) {
     var currentUser = null;
+
     var login = function (emailAddress, password) {
 
         var deferredObject = $q.defer();
@@ -168,7 +169,8 @@
         });
 
         return deferredObject.promise;
-    }
+    };
+
     return {
         login: login,
         logoff: logoff,

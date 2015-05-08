@@ -1,4 +1,4 @@
-﻿var LoginController = function ($scope, $routeParams, $location, UserFactory) {
+﻿var LoginController = function ($scope, $routeParams, $location, UserFactory, $rootScope) {
     $scope.loginForm = {
         emailAddress: '',
         password: '',
@@ -7,9 +7,12 @@
     };
 
     $scope.login = function () {
+        $scope.processing = true;
         var result = UserFactory.login($scope.loginForm.emailAddress, $scope.loginForm.password);
         result.then(function (result) {
             if (result.success) {
+                $scope.processing = false;
+                $rootScope.$broadcast('userChanged');
                 if ($scope.loginForm.returnUrl !== undefined) {
                     $location.path($scope.loginForm.returnUrl).search('');
                 } else {
@@ -17,9 +20,10 @@
                 }
             } else {
                 $scope.loginForm.loginFailure = true;
+                $scope.processing = false;
             }
         });
     }
 };
 
-LoginController.$inject = ['$scope', '$routeParams', '$location', 'UserFactory'];
+LoginController.$inject = ['$scope', '$routeParams', '$location', 'UserFactory', '$rootScope'];

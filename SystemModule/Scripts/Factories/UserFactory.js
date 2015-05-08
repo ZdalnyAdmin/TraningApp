@@ -1,4 +1,6 @@
 ﻿var UserFactory = function ($http, $q) {
+    var currentUser = null;
+
     var login = function (emailAddress, password) {
 
         var deferredObject = $q.defer();
@@ -198,6 +200,29 @@
         return deferredObject.promise;
     };
 
+    var getLoggedUser = function () {
+        var deferredObject = $q.defer();
+
+        if (currentUser) {
+            deferredObject.resolve(currentUser);
+            return deferredObject.promise;
+        }
+
+        $http.post(
+            '/Account/GetLoggedUser'
+        ).
+        success(function (data) {
+            currentUser = data;
+            deferredObject.resolve(currentUser);
+        }).
+        error(function () {
+            currentUser = null;
+            deferredObject.resolve(null);
+        });
+
+        return deferredObject.promise;
+    };
+
 
     return {
         login: login,
@@ -210,7 +235,8 @@
         organizationCreateMail: organizationCreateMail,
         organizationDeleteMail: organizationDeleteMail,
         organizationNameChangesMail: organizationNameChangesMail,
-        resetAdminPassword: resetAdminPassword
+        resetAdminPassword: resetAdminPassword,
+        getLoggedUser: getLoggedUser
     }
 }
 
