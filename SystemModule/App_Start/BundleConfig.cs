@@ -8,6 +8,7 @@ namespace SystemModule
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            BundleTable.EnableOptimizations = false;
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/bootstrap.js",
@@ -17,8 +18,7 @@ namespace SystemModule
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/bootstrap-theme.css",
-                "~/Content/site.css",
-                "~/Content/Menu/menu.css"));
+                "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/SystemModuleApp")
                 .Include("~/Scripts/App.js"));
@@ -27,7 +27,8 @@ namespace SystemModule
             bundles.Add(new ScriptBundle("~/bundles/SystemModuleAppComponents")
                 .IncludeDirectory("~/Scripts/Controllers", "*.js")
                 .IncludeDirectory("~/Scripts/Factories", "*.js")
-                .IncludeDirectory("~/Scripts/Services", "*.js")
+                //Folder był pusty i wywalało błąd
+                //.IncludeDirectory("~/Scripts/Services", "*.js")
                 .IncludeDirectory("~/Scripts/Directives", "*.js")
                 .Include("~/Scripts/SystemModuleApp.js"));
 

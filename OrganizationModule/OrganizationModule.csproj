@@ -401,6 +401,10 @@
     <Content Include="thirdParty\FroalaWysiwygEditor\fonts\FontAwesome.otf" />
     <Content Include="thirdParty\FroalaWysiwygEditor\package.json" />
     <Content Include="thirdParty\FroalaWysiwygEditor\Readme.md" />
+    <Content Include="Views\Menu\AdminMenu.cshtml" />
+    <Content Include="Views\Menu\CreatorMenu.cshtml" />
+    <Content Include="Views\Menu\ManagerMenu.cshtml" />
+    <Content Include="Views\Menu\UserMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
