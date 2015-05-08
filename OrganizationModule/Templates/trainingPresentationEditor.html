@@ -1,12 +1,5 @@
 ﻿<div class='container'>
-    <div id="simpleRow">
-        Wgraj prezentacje (ppt, pptx, pdf)
-    </div>
-    <div id="simpleRow">
-        <div id="inputButto" ng-click="upload(currentDetail)">
-            Wybierz plik
-        </div>
-    </div>
+    <div ng-upload-file options="'PRESENTATION'" model="currentDetail"></div>
     <div id="simpleRow">
         <div id="inputButto" ng-click="cancel(currentDetail)">
             Anuluj

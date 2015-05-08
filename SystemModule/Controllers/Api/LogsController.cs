@@ -17,22 +17,11 @@ namespace SystemModule.Controllers.Api
         {
             //get from correct profil
             var logs = db.Logs.Where(x => x.IsSystem).ToList();
-
             foreach (var item in logs)
             {
-                if (!string.IsNullOrWhiteSpace(item.PersonID))
-                {
-                    item.Person = db.Users.FirstOrDefault(x => x.Id == item.PersonID);
-                }
-
                 if (!string.IsNullOrWhiteSpace(item.ModifiedUserID))
                 {
                     item.ModifiedUser = db.Users.FirstOrDefault(x => x.Id == item.ModifiedUserID);
-                }
-
-                if (item.TrainingID != 0)
-                {
-                    item.Training = db.Trainings.FirstOrDefault(x => x.TrainingID == item.TrainingID);
                 }
             }
 

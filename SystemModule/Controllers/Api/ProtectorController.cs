@@ -22,37 +22,18 @@ namespace SystemModule.Controllers.Api
         [HttpGet]
         public IEnumerable<Person> Get()
         {
-            return db.Users.Where(x => x.Profile == ProfileEnum.Protector && !x.IsDeleted).OrderByDescending(p=>p.RegistrationDate);
-        }
+            var items  = db.Users.Where(x => x.Profile == ProfileEnum.Protector && !x.IsDeleted).OrderByDescending(p => p.RegistrationDate).ToList();
 
-
-        public HttpResponseMessage Post(Person obj)
-        {
-            try
+            foreach (var item in items)
             {
-                obj.RegistrationDate = DateTime.Now;
-
-                var usr = Person.GetLoggedPerson(User);
-                obj.ModifiedUserID = usr.Id;
-                obj.IsDeleted = false;
-
-                if (ModelState.IsValid)
+                item.Organization = db.Organizations.FirstOrDefault(x => x.ProtectorID == item.Id);
+                if (item.Organization != null)
                 {
-                    db.Users.Add(obj);
-                    db.SaveChanges();
-                    LogService.InsertUserLogs(OperationLog.UserDelete, db, obj.Id, obj.ModifiedUserID);
-                    HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
-                    return response;
-                }
-                else
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                    item.OrganizationID = item.Organization.OrganizationID;
                 }
             }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
-            }
+
+            return items;
         }
 
         // PUT api/<controller>/5

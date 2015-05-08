@@ -1,4 +1,4 @@
-﻿function creatorAddTrainingController($scope, $http, $modal) {
+﻿function creatorAddTrainingController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.loading = true;
     $scope.currentTraining = {};
     //training question elements
@@ -8,29 +8,59 @@
 
     //Used to display the data 
     $scope.loadGroups = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/Group')
         .success(function (data) {
             if (!data) {
                 return;
             }
             $scope.Groups = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadGroups();
 
     $scope.loadImage = function (item) {
-        var obj = {};
-        obj.ImageType = 0;
+        $scope.$apply(function (scope) {
+            var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
+
+            if (!checkExtension(file)) {
+                return;
+            }
+
+            if ($scope.model.InternalResource) {
+                deleteFile($scope.model.InternalResource);
+            }
+
+            $scope.fileName = file.name;
+            var fd = new FormData();
+            fd.append('file', file);
+            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
+        });
     }
 
     $scope.loadIcon = function () {
-        //todo
+        $scope.$apply(function (scope) {
+            var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
+
+            if (!checkExtension(file)) {
+                return;
+            }
+
+            if ($scope.model.InternalResource) {
+                deleteFile($scope.model.InternalResource);
+            }
+
+            $scope.fileName = file.name;
+            var fd = new FormData();
+            fd.append('file', file);
+            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
+        });
     }
 
     $scope.showIcon = function () {
@@ -57,6 +87,8 @@
         if (!$scope.currentTraining.Name) {
             return;
         }
+
+        UtilitiesFactory.showSpinner();
         $scope.currentTraining.CreateUserID = 1;
         $scope.currentTraining.Details = $scope.trainingDetails;
         $scope.currentTraining.Questions = $scope.trainingQuestion;
@@ -71,16 +103,16 @@
 
         $http.post('/api/Training', $scope.currentTraining)
         .success(function (data) {
-            $scope.loading = false;
             $scope.currentTraining = {};
             $scope.trainingDetails = [];
             $scope.trainingQuestion = [];
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 }
 
-creatorAddTrainingController.$inject = ['$scope', '$http', '$modal'];
+creatorAddTrainingController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

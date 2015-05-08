@@ -8,8 +8,6 @@ namespace AppEngine.Models.Common
 {
     public class ProfileGroup
     {
-        private List<Person> _assignedPeople;
-
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int ProfileGroupID { get; set; }
@@ -21,24 +19,23 @@ namespace AppEngine.Models.Common
         public string DeletedUserID { get; set; }
         //public Person DeletedUser { get; set; }
 
+        [NotMapped]
         public string AssignedPeopleDisplay
         {
             get
             {
-                if (_assignedPeople != null && _assignedPeople.Any())
+                if (AssignedPeople != null && AssignedPeople.Any())
                 {
-                    return String.Join(",", (from t in _assignedPeople
-                                                           select t.DisplayName).ToList());
-                }  
- 
+                    return String.Join(",", (from t in AssignedPeople
+                                             select t.DisplayName).ToList());
+                }
+
                 return string.Empty;
             }
         }
 
-        public void SetAssignedPeople(List<Person> people)
-        {
-            _assignedPeople = people;
-        }
+        [NotMapped]
+        public List<Person> AssignedPeople { get; set; }
 
     }
 }

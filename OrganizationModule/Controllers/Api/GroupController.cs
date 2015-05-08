@@ -22,30 +22,43 @@ namespace OrganizationModule.Controllers
         {
             var groups = db.Groups.Where(x => !x.IsDeleted).ToList();
 
-            foreach(var item in groups)
+            foreach (var item in groups)
             {
                 var people = (from pg in db.PeopleInGroups
                               join p in db.Users on pg.PersonID equals p.Id
                               where pg.ProfileGroupID == item.ProfileGroupID
                               select p).ToList();
-                item.SetAssignedPeople(people);
+                item.AssignedPeople = people;
             }
             return groups;
         }
 
         // POST api/<controller>
-        public HttpResponseMessage Post(ProfileGroup group)
+        public HttpResponseMessage Post(ProfileGroup obj)
         {
-            group.CreateDate = DateTime.Now;
+            obj.CreateDate = DateTime.Now;
             var usr = Person.GetLoggedPerson(User);
-            group.CreateUserID = usr.Id;
-            group.IsDeleted = false;
+            obj.CreateUserID = usr.Id;
+            obj.IsDeleted = false;
             if (ModelState.IsValid)
             {
-                db.Groups.Add(group);
+                db.Groups.Add(obj);
                 db.SaveChanges();
 
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, group);
+                if (obj.AssignedPeople != null)
+                {
+                    foreach (var item in obj.AssignedPeople)
+                    {
+                        var pg = new ProfileGroup2Person();
+                        pg.IsDeleted = false;
+                        pg.PersonID = item.Id;
+                        pg.ProfileGroupID = obj.ProfileGroupID;
+                        db.PeopleInGroups.Add(pg);
+                    }
+                    db.SaveChanges();
+                }
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
                 return response;
             }
             else
@@ -64,11 +77,41 @@ namespace OrganizationModule.Controllers
             }
 
 
-            if(obj.IsDeleted)
+            if (obj.IsDeleted)
             {
                 var usr = Person.GetLoggedPerson(User);
                 obj.DeletedUserID = usr.Id;
                 obj.DeletedDate = DateTime.Now;
+
+                var personsInGroups = (from t in db.PeopleInGroups
+                                       where t.ProfileGroupID == obj.ProfileGroupID
+                                       select t).ToList();
+                if (personsInGroups != null && personsInGroups.Any())
+                {
+                    db.PeopleInGroups.RemoveRange(personsInGroups);
+                }
+            }
+            else
+            {
+                var personsInGroups = (from t in db.PeopleInGroups
+                                       where t.ProfileGroupID == obj.ProfileGroupID
+                                       select t).ToList();
+                if (personsInGroups != null && personsInGroups.Any())
+                {
+                    db.PeopleInGroups.RemoveRange(personsInGroups);
+                }
+
+                if (obj.AssignedPeople != null && obj.AssignedPeople.Any())
+                {
+                    foreach (var item in obj.AssignedPeople)
+                    {
+                        var pg = new ProfileGroup2Person();
+                        pg.IsDeleted = false;
+                        pg.PersonID = item.Id;
+                        pg.ProfileGroupID = obj.ProfileGroupID;
+                        db.PeopleInGroups.Add(pg);
+                    }
+                }
             }
 
             db.Entry(obj).State = EntityState.Modified;

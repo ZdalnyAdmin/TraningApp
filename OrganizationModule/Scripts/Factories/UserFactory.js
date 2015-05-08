@@ -130,6 +130,23 @@
         return deferredObject.promise;
     };
 
+    var deleteUser = function (user) {
+
+        var deferredObject = $q.defer();
+
+        $http.post(
+            '/Account/DeleteUserMail', user
+        ).
+        success(function (data) {
+            deferredObject.resolve(data);
+        }).
+        error(function () {
+            deferredObject.resolve(data);
+        });
+
+        return deferredObject.promise;
+    };
+
     var getLoggedUser = function () {
         var deferredObject = $q.defer();
 
@@ -160,7 +177,8 @@
         inviteUser: inviteUser,
         removeInvitation: removeInvitation,
         resetPasswordConfirmation: resetPasswordConfirmation,
-        getLoggedUser: getLoggedUser
+        getLoggedUser: getLoggedUser,
+        deleteUser: deleteUser
     }
 };
 

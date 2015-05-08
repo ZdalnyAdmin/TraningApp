@@ -65,11 +65,12 @@ namespace SystemModule.Controllers.Api
                 obj.CreateUserID = usr.Id;
                 obj.CreateDate = DateTime.Now;
                 obj.IsDeleted = false;
-                obj.Status = StatusEnum.Active;
+                obj.Status = OrganizationEnum.Active;
                 if (ModelState.IsValid)
                 {
                     db.Organizations.Add(obj);
                     db.SaveChanges();
+                    LogService.OrganizationLogs(SystemLog.OrganizationCreate, db, obj.Name, obj.CreateUserID);
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
                     return response;
                 }
@@ -97,7 +98,7 @@ namespace SystemModule.Controllers.Api
                 var usr = Person.GetLoggedPerson(User);
                 obj.DeletedUserID = usr.Id;
                 obj.DeletedDate = DateTime.Now;
-                obj.Status = StatusEnum.Deleted;
+                obj.Status = OrganizationEnum.Deleted;
             }
 
             db.Entry(obj).State = EntityState.Modified;
@@ -106,14 +107,18 @@ namespace SystemModule.Controllers.Api
             {
 
                 db.SaveChanges();
-                //LogService.InsertTrainingLogs(OperationLog.TrainingEdit, db, obj.TrainingID, obj.CreateUserID);
+
+                if(obj.IsDeleted)
+                {
+                    LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, db, obj.Name, obj.CreateUserID);
+                }
             }
             catch (DbUpdateConcurrencyException ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.Created, obj);
         }
 
         protected override void Dispose(bool disposing)

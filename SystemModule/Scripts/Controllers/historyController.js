@@ -41,6 +41,16 @@
     $scope.change = function (obj) {
         $scope.Logs = [];
 
+        if (!obj) {
+            $scope.Logs = $scope.DbLogs
+            return;
+        }
+
+        angular.forEach($scope.DbLogs, function (item) {
+            if (item.SystemType == obj.Type) {
+                $scope.Logs.push(item);
+            }
+        });
 
     }
 }

@@ -1,4 +1,4 @@
-﻿function creatorEditTrainingController($scope, $http, $modal, $location) {
+﻿function creatorEditTrainingController($scope, $http, $modal, $location, UserFactory, UtilitiesFactory) {
     $scope.loading = true;
     $scope.currentTraining = {};
 
@@ -7,22 +7,24 @@
 
     //Used to display the data 
     $scope.loadGroups = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/Group')
         .success(function (data) {
             if (!data) {
                 return;
             }
             $scope.Groups = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadTraining = function () {
         var obj = {};
+        UtilitiesFactory.showSpinner();
         if (!!searchObj && !!searchObj.trainingID) {
             obj.TrainingID = searchObj.trainingID;
         }
@@ -30,14 +32,15 @@
             //hak
             obj.TrainingID = -1;
         }
+
         $http.post('/api/Training', obj)
         .success(function (data) {
             $scope.currentTraining = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -76,6 +79,7 @@
         if (!$scope.currentTraining.Name) {
             return;
         }
+        UtilitiesFactory.showSpinner();
         $scope.currentTraining.CreateUserID = 1;
         $scope.currentTraining.Details = $scope.trainingDetails;
         $scope.currentTraining.Questions = $scope.trainingQuestion;
@@ -90,18 +94,18 @@
 
         $http.put('/api/Training', $scope.currentTraining)
         .success(function (data) {
-            $scope.loading = false;
 
             $scope.currentTraining = {};
             $scope.trainingDetails = [];
             $scope.trainingQuestion = [];
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
 }
 
-creatorEditTrainingController.$inject = ['$scope', '$http', '$modal', '$location'];
+creatorEditTrainingController.$inject = ['$scope', '$http', '$modal', '$location', 'UserFactory', 'UtilitiesFactory'];

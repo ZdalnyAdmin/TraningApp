@@ -4,7 +4,7 @@
 
     <div ng-repeat="item in list">
         <div>
-            {{ item.Name}}
+            {{ item.UserName}}
         </div>
         <div>
             {{ item.Organization.Name}}
@@ -12,25 +12,27 @@
         <div>
             {{ item.RegistrationDate | date: 'dd.MM.yyyy hh.mm' }}
         </div>
-        <input type="button" value="Zobacz szczegoly" ng-click="showDetails(item, true)" ng-show="item.showDetails" />
-        <input type="button" value="Ukryj szczeogoly" ng-click="showDetails(item, false)" ng-hide="item.showDetails" />
+        <input type="button" value="Zobacz szczegoly" ng-click="showDetails(item, false)" ng-show="item.showDetails" />
+        <input type="button" value="Ukryj szczeogoly" ng-click="showDetails(item, true)" ng-hide="item.showDetails" />
 
-        <div ng-show="item.showDetails">
+        <div ng-hide="item.showDetails">
             <div>
-                {{ item.Name}} <input type="button" value="Edytuj" ng-click="edit(item)" ng-show="item.isEdit" />
+                nazwa opiekuna : 
+                <input type="text" ng-model="item.UserName" name="item.UserName">
+                <input type="button" value="Edytuj" ng-click="save(item)" />
             </div>
             <div>
-                Ostatnia aktywnosc : {{ item.LastActivationDate | date: 'dd.MM.yyyy hh.mm' }} 
+                Ostatnia aktywnosc : {{ item.LastActivationDate | date: 'dd.MM.yyyy hh.mm' }}
             </div>
-            <div ng-show="item.isEdit">
-                <div>
-                    adres email : <input type="text" ng-model="current.Email" name="current.Email"> <input type="button" value="Edytuj" ng-click="save(item)" ng-show="item.isEdit" />
-                </div>
-                <div>
-                    Czy chcesz usunac opiekuna ? <input type="button" value="Usun" ng-click="delete(item)" ng-show="item.isEdit" />
-                </div> 
+            <div>
+                Adres email : 
+                <input type="text" ng-model="item.Email" name="item.Email"> 
+                <input type="button" value="Edytuj" ng-click="save(item)" />
             </div>
-
+            <div>
+                Czy chcesz usunac opiekuna ? 
+                <input type="button" value="Usun" ng-click="delete(item)" />
+            </div>
         </div>
     </div>
 </div>

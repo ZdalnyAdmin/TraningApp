@@ -1,40 +1,39 @@
-﻿function managerResultController($scope, $http, $modal) {
-    $scope.loading = true;
-
-    //Used to display the data 
-
+﻿function managerResultController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
 
     $scope.loadTrainings = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/Training').success(function (data) {
             $scope.Trainings = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadPeople = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/SimplePerson').success(function (data) {
             $scope.Users = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadResults = function () {
+        UtilitiesFactory.showSpinner();
         $http.get('/api/TraningsResult').success(function (data) {
             $scope.Results = data;
             $scope.DbResult = data;
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
         });
     }
 
@@ -45,6 +44,7 @@
 
     $scope.changeTraning = function(obj)
     {
+        UtilitiesFactory.showSpinner();
         $scope.Results = [];
 
         if (!obj)
@@ -58,10 +58,12 @@
                 $scope.Results.push(item);
             }
         });
+        UtilitiesFactory.hideSpinner();
     }
 
     $scope.changePerson = function (obj)
     {
+        UtilitiesFactory.showSpinner();
         $scope.Results = [];
 
         if (!obj) {
@@ -74,7 +76,8 @@
                 $scope.Results.push(item);
             }
         });
+        UtilitiesFactory.hideSpinner();
     }
 }
 
-managerResultController.$inject = ['$scope', '$http', '$modal'];
+managerResultController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

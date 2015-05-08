@@ -9,7 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace OrganizationModule.Controllers
+namespace SystemModule.Controllers
 {
     [Authorize]
     public class UploadController : Controller
@@ -106,7 +106,7 @@ namespace OrganizationModule.Controllers
                 if (file != null && file.ContentLength > 0)
                 {
                     var fileName = loggedPerson.Id + "_" + Path.GetFileName(file.FileName);
-                    var path = Path.Combine(Server.MapPath("~"+ basePath), fileName);
+                    var path = Path.Combine(Server.MapPath("~" + basePath), fileName);
                     url = basePath + fileName;
                     file.SaveAs(path);
                 }

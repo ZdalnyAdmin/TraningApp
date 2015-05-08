@@ -188,6 +188,7 @@
     <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\Api\TrainingsInGroupController.cs" />
     <Compile Include="Controllers\Api\TraningsResultController.cs" />
+    <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="Controllers\CreatorController.cs" />
     <Compile Include="Controllers\Api\GroupController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -219,8 +220,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Directives\ngUploadFile.js" />
     <Content Include="Scripts\Directives\ngDragAndDrop.js" />
     <Content Include="Scripts\jquery.js" />
+    <Content Include="Templates\uploadFile.html" />
     <Content Include="Templates\dragAndDrop.html" />
     <Content Include="thirdParty\FroalaWysiwygEditor\js\angular-froala.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -401,16 +404,15 @@
     <Content Include="thirdParty\FroalaWysiwygEditor\fonts\FontAwesome.otf" />
     <Content Include="thirdParty\FroalaWysiwygEditor\package.json" />
     <Content Include="thirdParty\FroalaWysiwygEditor\Readme.md" />
-    <Content Include="Views\Menu\AdminMenu.cshtml" />
-    <Content Include="Views\Menu\CreatorMenu.cshtml" />
-    <Content Include="Views\Menu\ManagerMenu.cshtml" />
-    <Content Include="Views\Menu\UserMenu.cshtml" />
+    <Content Include="Views\Training\ActiveTraining.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\Providers\" />
+    <Folder Include="Temp\Files\" />
     <Folder Include="Temp\Images\" />
     <Folder Include="Temp\Movies\" />
+    <Folder Include="Temp\Presentations\" />
     <Folder Include="Views\Redirect\" />
     <Folder Include="Views\Upload\" />
   </ItemGroup>

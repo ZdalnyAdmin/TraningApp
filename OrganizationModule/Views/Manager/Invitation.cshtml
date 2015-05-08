@@ -43,7 +43,9 @@
                                 @user.DisplayName
                             </td>
                             <td>
-                                @user.Inviter.DisplayName
+                                @if(user.Inviter != null) {
+                                    @user.Inviter.DisplayName
+                                }
                             </td>
                             <td>
                                 @user.InvitationDate
