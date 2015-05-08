@@ -188,6 +188,7 @@
     <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\Api\TrainingsInGroupController.cs" />
     <Compile Include="Controllers\Api\TraningsResultController.cs" />
+    <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="Controllers\CreatorController.cs" />
     <Compile Include="Controllers\Api\GroupController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -403,6 +404,7 @@
     <Content Include="thirdParty\FroalaWysiwygEditor\fonts\FontAwesome.otf" />
     <Content Include="thirdParty\FroalaWysiwygEditor\package.json" />
     <Content Include="thirdParty\FroalaWysiwygEditor\Readme.md" />
+    <Content Include="Views\Training\ActiveTraining.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

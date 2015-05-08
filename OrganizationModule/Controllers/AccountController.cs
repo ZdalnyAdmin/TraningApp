@@ -242,7 +242,9 @@ namespace OrganizationModule.Controllers
         {
             return View();
         }
+        #endregion
 
+        #region Logged User
         [HttpPost]
         [AllowAnonymous]
         public JsonResult GetLoggedUser()

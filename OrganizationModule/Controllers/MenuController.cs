@@ -16,6 +16,26 @@ namespace OrganizationModule.Controllers
 
         // GET: Menu
         [ChildActionOnly]
+        public ActionResult UserMenu()
+        {
+            return View();
+        }
+        [ChildActionOnly]
+        public ActionResult CreatorMenu()
+        {
+            return View();
+        }
+        [ChildActionOnly]
+        public ActionResult ManagerMenu()
+        {
+            return View();
+        }
+        [ChildActionOnly]
+        public ActionResult AdminMenu()
+        {
+            return View();
+        }
+        [ChildActionOnly]
         public ActionResult KeeperMenu()
         {
             var loggedPerson = Person.GetLoggedPerson(User);
