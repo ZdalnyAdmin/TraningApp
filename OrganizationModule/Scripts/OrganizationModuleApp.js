@@ -7,6 +7,7 @@ OrganizationModuleApp.controller('RegisterController', RegisterController);
 OrganizationModuleApp.controller('invitationController', invitationController);
 OrganizationModuleApp.controller('ResetPasswordController', ResetPasswordController);
 OrganizationModuleApp.controller('usersListModalController', usersListModalController);
+OrganizationModuleApp.controller('trainingController', trainingController);
 OrganizationModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
 OrganizationModuleApp.controller('ViewWrapperController', ViewWrapperController);
 OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
@@ -93,7 +94,7 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             templateUrl: function (param) {
                 return '../Training/ActiveTraining/' + param.trainingID;
             },
-            controller: ViewWrapperController
+            controller: trainingController
         })
         .when('/Templates/registerUser', {
             templateUrl: 'viewWrapper.html',

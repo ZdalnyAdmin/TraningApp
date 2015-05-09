@@ -9,7 +9,8 @@ else
 {
     <div class="training-header">
         <div class="training-logo"></div>
-        <div>W dniu {data} uruchomiłeś szkolenie @ViewBag.Training.Name, dostarczone przez 
+        <div>
+            W dniu {data} uruchomiłeś szkolenie @ViewBag.Training.Name, dostarczone przez
             @if (TrainingType.Kenpro == @ViewBag.Training.TrainingType)
             {
                 <span>Kenpro</span>
@@ -20,7 +21,7 @@ else
             }
         </div>
     </div>
-    
+
     <div class="training-content">
         @{
     foreach (TrainingDetail detail in ViewBag.TrainingDetails)
@@ -32,28 +33,64 @@ else
 
             case TrainingResource.Graphic:
                 <div class="training-image">
-                    @if (!string.IsNullOrWhiteSpace(detail.ExternalResource)) { 
+                    @if (!string.IsNullOrWhiteSpace(detail.ExternalResource))
+                    {
                         <img src="@detail.ExternalResource" />
                     }
-                    
+
                     @if (!string.IsNullOrWhiteSpace(detail.InternalResource))
                     {
                         <img src="@detail.InternalResource" />
                     }
                 </div>
-                break;
+                    break;
 
             case TrainingResource.Presentation:
-                break;
+                    break;
 
             case TrainingResource.Video:
-                break;
+                    break;
 
             case TrainingResource.Text:
             default:
-                <div class="training-text">@Html.Raw(@detail.Text)</div>
+            <div class="training-text">@Html.Raw(@detail.Text)</div>
+                    break;
+        }
+    }
+        }
+    </div>
+
+    <div class="training-questions">
+        @{
+    foreach (TrainingQuestion question in ViewBag.Questions)
+    {
+        <div class="training-question">
+            @Html.Raw(@question.Text)
+            <div class="training-answers" ng-init="init('@question.TrainingQuestionID', '@question.Type')">
+                @{
+        switch ((QuestionType)question.Type)
+        {
+            case QuestionType.Single:
+                    foreach (TrainingAnswer answer in question.Answers)
+                    {
+                        <div class="training-answer"><input type="radio" name="@question.TrainingQuestionID" ng-model="answers['@question.TrainingQuestionID']" value="@answer.TrainingAnswerID" /> @answer.Text</div>
+                    }
+                    break;
+            case QuestionType.Multi:
+                foreach (TrainingAnswer answer in question.Answers)
+                {
+                    <div class="training-answer"><input type="checkbox" ng-model="answers['@question.TrainingQuestionID']['@answer.TrainingAnswerID']" value="@answer.TrainingAnswerID" ng-init="answers['@question.TrainingQuestionID']['@answer.TrainingAnswerID'] = false;" /> @answer.Text</div>
+                }
+                break;
+
+            case QuestionType.Text:
+            default:
+                <div class="training-answer"><input type="text" ng-model="answers['@question.TrainingQuestionID']" /></div>
                 break;
         }
+                }
+            </div>
+        </div>
     }
         }
     </div>

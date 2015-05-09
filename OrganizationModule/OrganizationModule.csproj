@@ -220,6 +220,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Controllers\trainingController.js" />
     <Content Include="Scripts\Directives\ngUploadFile.js" />
     <Content Include="Scripts\Directives\ngDragAndDrop.js" />
     <Content Include="Scripts\jquery.js" />

@@ -59,11 +59,18 @@ namespace OrganizationModule.Controllers
             {
                 ViewBag.AccessDenied = false;
                 var training = _db.Trainings.FirstOrDefault(x => x.TrainingID == id);
-                var trainingDetails = _db.TrainingDetails.Where(x => x.TrainingID == training.TrainingID).OrderBy(x => x.DisplayNo);
+                var trainingDetails = _db.TrainingDetails.Where(x => x.TrainingID == training.TrainingID).OrderBy(x => x.DisplayNo).ToList();
                 training.SetCreateUserName(_db.Users.FirstOrDefault(x => x.Id == training.CreateUserID).DisplayName);
+                var questions = _db.TrainingQuestons.Where(x => x.TrainingID == training.TrainingID).OrderBy(x => x.DisplayNo).ToList();
+
+                questions.ForEach(x =>
+                {
+                    x.Answers = _db.TrainingAnswers.Where(y => y.TrainingQuestionID == x.TrainingQuestionID).ToList();
+                });
 
                 ViewBag.Training = training;
                 ViewBag.TrainingDetails = trainingDetails;
+                ViewBag.Questions = questions;
             }
 
             return View();
