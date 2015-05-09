@@ -5,10 +5,16 @@
     <div id="simpleRow" ng-click="showTab(1)">
         WEWNETRZNE
     </div>
+
+    @if (@ViewBag.showKenpro == true)
+    {
+
     <div id="simpleRow" ng-click="showTab(2)">
         OD KENPRO
     </div>
-
+        
+    }
+    
     <div ng-repeat="item in InternalTrainings" ng-show="index  == 1">
         <div id="simpleRow">
             <div id="mainText">

@@ -93,7 +93,9 @@
     <Compile Include="Models\DataObject\AppSetting.cs" />
     <Compile Include="Models\DataObject\Organization.cs" />
     <Compile Include="Models\DataObject\Person.cs" />
+    <Compile Include="Models\DataObject\Person2Organization.cs" />
     <Compile Include="Models\DataObject\ProfileGroup.cs" />
+    <Compile Include="Models\DataObject\ProfileGroup2Organization.cs" />
     <Compile Include="Models\DataObject\ProfileGroup2Person.cs" />
     <Compile Include="Models\DataObject\ProfileGroup2Trainings.cs" />
     <Compile Include="Models\DataObject\Training.cs" />

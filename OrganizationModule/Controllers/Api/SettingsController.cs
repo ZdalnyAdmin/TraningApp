@@ -58,7 +58,7 @@ namespace OrganizationModule.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            if(obj.ProtectorID == -1)
+            if(obj.ProtectorID == "-1")
             {
                 obj.Protector = Person.GetLoggedPerson(User);
             }

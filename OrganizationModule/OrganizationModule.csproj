@@ -178,6 +178,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\Api\LocalFileController.cs" />
     <Compile Include="Controllers\Api\LogsController.cs" />
+    <Compile Include="Controllers\Api\ManageTrainingController.cs" />
     <Compile Include="Controllers\Api\OperationLogController.cs" />
     <Compile Include="Controllers\Api\PeopleInGroupController.cs" />
     <Compile Include="Controllers\Api\SettingsController.cs" />

@@ -12,8 +12,7 @@ namespace AppEngine.Models.DataObject
         public int AppSettingID { get; set; }
         public bool AllowUserToChangeName { get; set; }
         public bool AllowUserToChangeMail { get; set; }
-        public int? ProtectorID { get; set; }
-        [NotMapped]
+        public string ProtectorID { get; set; }
         public Person Protector { get; set; }
         public int SpaceDisk { get; set; }
         public int MaxAssignedUser { get; set; }
