@@ -7,8 +7,10 @@
     $scope.loadData = function () {
 
         UtilitiesFactory.showSpinner();
+        var training = {};
+        training.TrainingType = 1;
 
-        $http.get('/api/Training').success(function (data) {
+        $http.post('/api/ManageTraining', training).success(function (data) {
             var internalTrainings = [];
             var kenproTrainings = [];
             angular.forEach(data, function (item) {
@@ -25,7 +27,7 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.error = "Wystapil problem z pobraniem danych!";
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -42,7 +44,7 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.error = "Wystapil problem z pobraniem danych!";
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -63,7 +65,7 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.error = "Wystapil problem z pobraniem danych!";
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -82,7 +84,7 @@
             $scope.loadData();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.error = "Wystapil problem z pobraniem danych!";
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -117,7 +119,7 @@
             $scope.loadData();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.error = "Wystapil problem z zapisem danych!";
             UtilitiesFactory.hideSpinner();
         });
     }

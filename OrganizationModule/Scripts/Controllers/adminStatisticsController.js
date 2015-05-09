@@ -26,6 +26,20 @@
         });
     }
 
+    $scope.loadSetting = function () {
+        UtilitiesFactory.showSpinner();
+        var loggedUser = {};
+        //Used to display the data 
+        $http.get('/api/Settings').success(function (data) {
+            $scope.Trainings = data;
+            UtilitiesFactory.hideSpinner();
+        })
+        .error(function () {
+            $scope.error = "An Error has occured while loading posts!";
+            UtilitiesFactory.hideSpinner();
+        });
+    }
+
     $scope.loadData();
     $scope.loadTrainings();
 }

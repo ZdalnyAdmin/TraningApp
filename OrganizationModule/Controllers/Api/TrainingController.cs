@@ -30,6 +30,7 @@ namespace OrganizationModule.Controllers.Api
             {
                 return null;
             }
+
             foreach (var item in list)
             {
                 var user = db.Users.FirstOrDefault(x => x.Id == item.CreateUserID);
