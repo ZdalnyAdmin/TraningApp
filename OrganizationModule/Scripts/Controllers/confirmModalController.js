@@ -1,4 +1,5 @@
-﻿var confirmModalController = function ($scope, $modalInstance) {
+﻿var confirmModalController = function ($scope, $modalInstance, modalResult) {
+    $scope.modalResult = modalResult;
 
     $scope.confirm = function () {
 
@@ -11,4 +12,4 @@
     };
 };
 
-confirmModalController.$inject = ['$scope', '$modalInstance'];
+confirmModalController.$inject = ['$scope', '$modalInstance', 'modalResult'];

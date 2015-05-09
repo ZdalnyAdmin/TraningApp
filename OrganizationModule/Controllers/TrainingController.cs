@@ -1,5 +1,7 @@
 ﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
+using AppEngine.Models.ViewModels.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,17 +65,56 @@ namespace OrganizationModule.Controllers
                 training.SetCreateUserName(_db.Users.FirstOrDefault(x => x.Id == training.CreateUserID).DisplayName);
                 var questions = _db.TrainingQuestons.Where(x => x.TrainingID == training.TrainingID).OrderBy(x => x.DisplayNo).ToList();
 
+                var result = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id);
+
+                if (result == null)
+                {
+                    // Temp - should be deleted after adding training list.
+                    result = new TrainingResult();
+                    result.PersonID = loggedPerson.Id;
+                    result.StartDate = DateTime.Now;
+                    result.TrainingID = training.TrainingID;
+                    _db.TrainingResults.Add(result);
+                    _db.SaveChanges();
+                    ViewBag.StartDate = result.StartDate;
+
+                    // ViewBag.AccessDenied = true; - this is correct statement result.
+                }
+                else
+                {
+                    ViewBag.StartDate = result.StartDate;
+                }
+
                 questions.ForEach(x =>
                 {
                     x.Answers = _db.TrainingAnswers.Where(y => y.TrainingQuestionID == x.TrainingQuestionID).ToList();
                 });
 
+                ViewBag.GenerateDate = DateTime.Now;
                 ViewBag.Training = training;
                 ViewBag.TrainingDetails = trainingDetails;
                 ViewBag.Questions = questions;
             }
 
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult CheckDate(CheckTrainingDate model)
+        {
+            Result result = new Result() { Succeeded = false };
+
+            if(ModelState.IsValid)
+            {
+                var training = _db.Trainings.FirstOrDefault(x => x.TrainingID == model.TrainingID);
+
+                if (training != null)
+                {
+                    result.Succeeded = !(training.ModifiedDate < model.GenereateDate);
+                }
+            }
+
+            return Json(result);
         }
     }
 }

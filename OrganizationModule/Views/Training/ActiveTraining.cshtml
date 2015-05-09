@@ -7,10 +7,10 @@
 }
 else
 {
-    <div class="training-header">
+    <div class="training-header" ng-init="generateDate='@ViewBag.GenerateDate';trainingID='@ViewBag.Training.TrainingID';">
         <div class="training-logo"></div>
         <div>
-            W dniu {data} uruchomiłeś szkolenie @ViewBag.Training.Name, dostarczone przez
+            W dniu @ViewBag.StartDate.ToString("dd.MM.yyyy") uruchomiłeś szkolenie @ViewBag.Training.Name, dostarczone przez
             @if (TrainingType.Kenpro == @ViewBag.Training.TrainingType)
             {
                 <span>Kenpro</span>
@@ -59,7 +59,9 @@ else
     }
         }
     </div>
-
+    <div>
+        Sprawdź się!
+    </div>
     <div class="training-questions">
         @{
     foreach (TrainingQuestion question in ViewBag.Questions)
@@ -94,4 +96,9 @@ else
     }
         }
     </div>
+    <div>Czy jesteś zadowolony(a) z tego szkolenia?</div>
+    <div class="rate" ng-repeat="value in [1,2,3,4,5]">
+        <div class="rate-star" ng-class="{'selected': (currentRate >= value)}" ng-click="rate(value)">{{value}}</div>
+    </div>
+    <div class="btn" ng-click="summarize()">Podsumuj szkolenie</div>
 }

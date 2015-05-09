@@ -42,8 +42,8 @@ namespace OrganizationModule.Controllers
             var trainings = new List<Training>();
 
             trainings = _db.Trainings
-                            .Join(_db.TrainingsInOrganizations
-                                     .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
+                            .Join(_db.TrainingResults
+                                     .Where(y => y.PersonID == loggedPerson.Id),
                                   x => x.TrainingID,
                                   y => y.TrainingID,
                                   (x, y) => x)

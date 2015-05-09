@@ -4,7 +4,7 @@
     font-family: 'PT Sans', sans-serif;
 }
 
-.froala-element, froala-editor, froala-modal {
+.froala-element, froala-editor, froala-modal, .modal-text {
     color: #000;
 }
 
