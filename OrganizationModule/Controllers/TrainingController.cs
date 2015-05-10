@@ -1,11 +1,10 @@
 ﻿using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
-using AppEngine.Models.ViewModels.Account;
+using AppEngine.Models.ViewModels.Training;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace OrganizationModule.Controllers
@@ -65,7 +64,7 @@ namespace OrganizationModule.Controllers
                 training.SetCreateUserName(_db.Users.FirstOrDefault(x => x.Id == training.CreateUserID).DisplayName);
                 var questions = _db.TrainingQuestons.Where(x => x.TrainingID == training.TrainingID).OrderBy(x => x.DisplayNo).ToList();
 
-                var result = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id);
+                var result = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id && x.TrainingID == training.TrainingID);
 
                 if (result == null)
                 {
@@ -100,7 +99,64 @@ namespace OrganizationModule.Controllers
         }
 
         [HttpPost]
-        public JsonResult CheckDate(CheckTrainingDate model)
+        public ActionResult ActiveTraining(SaveTrainingAnswersModel model)
+        {
+            var result = new Result();
+            var s = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var answers = s.Deserialize<Dictionary<string, string>>(model.TrainingAnswers);
+
+            var loggedPerson = Person.GetLoggedPerson(User);
+            var trainingResult = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id && x.TrainingID == model.TrainingID);
+
+            if (trainingResult == null)
+            {
+                return Json(result);
+            }
+
+            trainingResult.EndDate = DateTime.Now;
+            trainingResult.Rating = 0;
+
+            foreach(var answer in answers)
+            {
+                int trainingQuestionID = 0;
+                int.TryParse(answer.Key, out trainingQuestionID);
+                var question = _db.TrainingQuestons.FirstOrDefault(x => x.TrainingQuestionID == trainingQuestionID && x.TrainingID == model.TrainingID);
+                question.Answers = _db.TrainingAnswers.Where(x=> x.TrainingQuestionID == question.TrainingQuestionID).ToList();
+
+                switch(question.Type)
+                {
+                    case AppEngine.Models.DataObject.QuestionType.Multi:
+                        var selectedAnswers = getSelectedAnswers(answer.Value);
+                        foreach (var selectedAnswer in selectedAnswers)
+                        {
+                            var multiAns = question.Answers.FirstOrDefault(x => x.TrainingAnswerID == selectedAnswer);
+                            trainingResult.Rating += multiAns != null ? int.Parse(multiAns.Score) : 0;
+                        }
+
+                        break;
+
+                    case AppEngine.Models.DataObject.QuestionType.Text:
+                        var textAns = question.Answers.FirstOrDefault(x => x.Text == answer.Value);
+                        trainingResult.Rating += textAns != null ? int.Parse(textAns.Score) : 0;
+                        break;
+
+                    default:
+                        int trainingAnswerID = 0;
+                        int.TryParse(answer.Value, out trainingAnswerID);
+                        var singleAns = question.Answers.FirstOrDefault(x => x.TrainingAnswerID == trainingAnswerID);
+                        trainingResult.Rating += singleAns != null ? int.Parse(singleAns.Score) : 0;
+                        break;
+                }
+            }
+
+            _db.SaveChanges();
+            result.Succeeded = true;
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        public JsonResult CheckDate(CheckTrainingDateModel model)
         {
             Result result = new Result() { Succeeded = false };
 
@@ -116,5 +172,31 @@ namespace OrganizationModule.Controllers
 
             return Json(result);
         }
+
+        #region Private Fields
+        private List<int> getSelectedAnswers(string selectedAnswers)
+        {
+            var listOfAnswers = selectedAnswers.Split(new string[]{";"}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var listOfSelectedAnswers = listOfAnswers.Select(x =>
+            {
+                var answer = x.Split(new string[] { "-" }, StringSplitOptions.RemoveEmptyEntries);
+                return
+                new
+                {
+                    ID = answer.First(),
+                    Value = bool.Parse(answer.Last())
+                };
+            })
+            .Where(x => x.Value)
+            .Select(x =>
+                    {
+                        return int.Parse(x.ID);
+                    }
+                )
+            .ToList();
+
+            return listOfSelectedAnswers;
+        }
+        #endregion
     }
 }

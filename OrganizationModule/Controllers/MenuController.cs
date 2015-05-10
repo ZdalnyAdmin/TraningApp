@@ -43,7 +43,7 @@ namespace OrganizationModule.Controllers
 
             trainings = _db.Trainings
                             .Join(_db.TrainingResults
-                                     .Where(y => y.PersonID == loggedPerson.Id),
+                                     .Where(y => y.PersonID == loggedPerson.Id && y.EndDate == null),
                                   x => x.TrainingID,
                                   y => y.TrainingID,
                                   (x, y) => x)

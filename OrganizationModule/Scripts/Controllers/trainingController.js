@@ -77,7 +77,7 @@
         ).
         success(function (data) {
             if (data.Succeeded) {
-                deferredObject.resolve({ success: true });
+                save();
             } else {
                 message = "To szkolenie zostało w międzyczasie edytowane. Niezbędne jest jego odświeżenie do najnowszej wersji przed podsumowaniem.";
 
@@ -111,8 +111,51 @@
                 }
             });
         });
-
     };
+
+    function save() {
+        var answers = {
+            TrainingID: $scope.trainingID,
+            GenereateDate: $scope.generateDate,
+            TrainingAnswers: {},
+            TrainingRate: $scope.currentRate
+        };
+
+        angular.forEach($scope.answers, function(answer, key) {
+            var obj = {};
+            answers.TrainingAnswers[key] = answer;
+
+            if (answer instanceof Array) {
+                var mulVal = '';
+
+                angular.forEach(answer, function (val, keyVal) {
+                    mulVal += keyVal + '-' + val + ';';
+                });
+
+                answers.TrainingAnswers[key] = mulVal;
+            }
+        });
+
+        answers.TrainingAnswers = JSON.stringify(answers.TrainingAnswers);
+
+        $http.post(
+            '/Training/ActiveTraining', answers
+        ).
+        success(function (data) {
+            // TODO: reload to results.
+        }).
+        error(function () {
+            var message = "Wystąpił błąd połączenia."
+            modalInstance = $modal.open({
+                templateUrl: '/Templates/Modals/messageModal.html',
+                controller: 'confirmModalController',
+                size: 'sm',
+                resolve: {
+                    modalResult: function () { return message; }
+                }
+            });
+        });
+    }
 }
 
 trainingController.$inject = ['$scope', '$http', '$modal', 'UtilitiesFactory', '$templateCache', '$route'];

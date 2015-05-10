@@ -108,15 +108,4 @@ namespace AppEngine.Models.ViewModels.Account
         [Display(Name = "UserName")]
         public string UserName { get; set; }
     }
-
-    public class CheckTrainingDate
-    {
-        [Required]
-        [Display(Name = "Data Wygenerowania")]
-        public DateTime GenereateDate { get; set; }
-
-        [Required]
-        [Display(Name = "ID szkolenia")]
-        public int TrainingID { get; set; }
-    }
 }
