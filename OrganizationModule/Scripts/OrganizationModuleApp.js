@@ -8,6 +8,7 @@ OrganizationModuleApp.controller('invitationController', invitationController);
 OrganizationModuleApp.controller('ResetPasswordController', ResetPasswordController);
 OrganizationModuleApp.controller('usersListModalController', usersListModalController);
 OrganizationModuleApp.controller('trainingController', trainingController);
+OrganizationModuleApp.controller('trainingListController', trainingListController);
 OrganizationModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
 OrganizationModuleApp.controller('ViewWrapperController', ViewWrapperController);
 OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
@@ -19,8 +20,12 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
 
     $locationProvider.hashPrefix('!').html5Mode(true);
 
-    $routeProvider.
-        when('/userCurrent', {
+    $routeProvider
+        .when('/userTranings', {
+            templateUrl: 'Training/TrainingList',
+            controller: trainingListController
+        })
+        .when('/userCurrent', {
             templateUrl: 'User/LoggedUser'
         })
         .when('/userTrainings', {
@@ -103,7 +108,8 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
         .when('/logoff', {
             templateUrl: 'Account/Logoff',
             controller: LogoffController
-        });
+        })
+        .otherwise({ redirectTo: '/userTranings' });
 
     $httpProvider.interceptors.push('AuthHttpResponseInterceptor');
 }

@@ -9,7 +9,7 @@
             $scope.menuUrl = '';
             $scope.currentUser = {};
             $scope.visible = false;
-            var MENU_URL = '../Menu/Index';
+            var MENU_URL = '../Menu/Index?random=';
 
             function reload() {
                 $scope.menuUrl = '';
@@ -20,7 +20,8 @@
 
                 result.then(function (user) {
                     if (user && user.Id) {
-                        $scope.menuUrl = MENU_URL;
+                        var random = Math.random();
+                        $scope.menuUrl = MENU_URL + random;
                         $scope.visible = true;
                         $scope.currentUser = user;
                     } else {
@@ -34,6 +35,7 @@
             }
 
             $rootScope.$on('userChanged', reload);
+            $rootScope.$on('reloadMenu', reload);
 
             reload();
         }]

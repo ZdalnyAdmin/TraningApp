@@ -1,0 +1,19 @@
+﻿<div>
+    <div>
+        <div class="btn" ng-click="changeDisplayedTrainings('All')">Wszystkie</div>
+        <div class="btn" ng-click="changeDisplayedTrainings('Internal')">Wewnętrzne</div>
+        <div class="btn" ng-click="changeDisplayedTrainings('Kenpro')">Od Kenpro</div>
+    </div>
+
+    @foreach (var training in ViewBag.Trainings)
+    {
+        <div ng-if="display == 'All' || ('@training.TrainingType' == display)">
+            <div>@training.Name</div>
+            <div>
+                <img src="@training.TrainingResources" />
+                <div>@training.Description</div>
+                <div><div class="btn">Szczegóły</div><div class="btn" ng-click="startTraining(@training.TrainingID)">Uruchom</div></div>
+            </div>
+        </div>
+    }
+</div>

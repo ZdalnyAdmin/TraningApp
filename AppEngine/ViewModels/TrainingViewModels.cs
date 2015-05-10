@@ -19,6 +19,13 @@ namespace AppEngine.Models.ViewModels.Training
         public int TrainingID { get; set; }
     }
 
+    public class StartTrainingModel
+    {
+        [Required]
+        [Display(Name = "ID szkolenia")]
+        public int TrainingID { get; set; }
+    }
+
     public class SaveTrainingAnswersModel
     {
         [Required]

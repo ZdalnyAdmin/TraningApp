@@ -221,6 +221,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Controllers\trainingListController.js" />
     <Content Include="Scripts\Controllers\trainingController.js" />
     <Content Include="Scripts\Directives\ngUploadFile.js" />
     <Content Include="Scripts\Directives\ngDragAndDrop.js" />
@@ -413,6 +414,7 @@
     <Content Include="Views\Menu\CreatorMenu.cshtml" />
     <Content Include="Views\Menu\ManagerMenu.cshtml" />
     <Content Include="Views\Menu\UserMenu.cshtml" />
+    <Content Include="Views\Training\TrainingList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

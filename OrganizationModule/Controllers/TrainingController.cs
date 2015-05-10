@@ -43,6 +43,58 @@ namespace OrganizationModule.Controllers
             return View();
         }
 
+        public ActionResult TrainingList()
+        {
+            var loggedPerson = Person.GetLoggedPerson(User);
+
+            ViewBag.Trainings = _db.Trainings
+                            .Join(_db.TrainingsInOrganizations
+                                     .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
+                                  x => x.TrainingID,
+                                  y => y.TrainingID,
+                                  (x, y) => x)
+                            .OrderByDescending(x => x.CreateDate)
+                            .ToList();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult TrainingList(StartTrainingModel model)
+        {
+            var result = new Result() { Errors = new List<string>() };
+            var loggedPerson = Person.GetLoggedPerson(User);
+
+            var trainingInOrg = _db.TrainingsInOrganizations
+                                   .FirstOrDefault(x => x.OrganizationID == loggedPerson.OrganizationID && x.TrainingID == model.TrainingID);
+
+            if (trainingInOrg == null)
+            {
+                result.Errors.Add("Nie masz uprawnień by uruchomić to szkolenie");
+                return Json(result);
+            }
+
+            var rslt = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id && x.TrainingID == model.TrainingID);
+
+            if (rslt != null)
+            {
+                result.Errors.Add("To szkolenie jest już aktywne :) Znajdziesz je na liście swoich aktywnych szkoleń");
+                return Json(result);
+            }
+
+            // TODO add condition for maximal started trainings.
+
+            var trainingResult = new TrainingResult();
+            trainingResult.PersonID = loggedPerson.Id;
+            trainingResult.StartDate = DateTime.Now;
+            trainingResult.TrainingID = model.TrainingID;
+            _db.TrainingResults.Add(trainingResult);
+            _db.SaveChanges();
+
+            result.Succeeded = true;
+
+            return Json(result);
+        }
+
         public ActionResult ActiveTraining(int id)
         {
             var loggedPerson = Person.GetLoggedPerson(User);
@@ -68,16 +120,7 @@ namespace OrganizationModule.Controllers
 
                 if (result == null)
                 {
-                    // Temp - should be deleted after adding training list.
-                    result = new TrainingResult();
-                    result.PersonID = loggedPerson.Id;
-                    result.StartDate = DateTime.Now;
-                    result.TrainingID = training.TrainingID;
-                    _db.TrainingResults.Add(result);
-                    _db.SaveChanges();
-                    ViewBag.StartDate = result.StartDate;
-
-                    // ViewBag.AccessDenied = true; - this is correct statement result.
+                    ViewBag.AccessDenied = true;
                 }
                 else
                 {
