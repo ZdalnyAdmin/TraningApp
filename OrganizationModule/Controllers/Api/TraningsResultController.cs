@@ -30,6 +30,17 @@ namespace OrganizationModule.Controllers.Api
                 item.Training = (from t in db.Trainings
                                  where t.TrainingID == item.TrainingID
                                  select t).FirstOrDefault();
+
+                item.Training.Questions = (from t in db.TrainingQuestons
+                                           where t.TrainingID == item.TrainingID
+                                           select t).ToList();
+
+                item.Training.Questions.ForEach(y =>
+                {
+                    y.Answers = (from t in db.TrainingAnswers
+                                 where t.TrainingQuestionID == y.TrainingQuestionID
+                                 select t).ToList();
+                });
             }
 
 

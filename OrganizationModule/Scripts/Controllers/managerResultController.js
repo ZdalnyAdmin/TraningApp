@@ -49,7 +49,8 @@
 
         if (!obj)
         {
-            $scope.Results = $scope.DbResult
+            $scope.Results = $scope.DbResult;
+            UtilitiesFactory.hideSpinner();
             return;
         }
 
@@ -67,7 +68,8 @@
         $scope.Results = [];
 
         if (!obj) {
-            $scope.Results = $scope.DbResult
+            $scope.Results = $scope.DbResult;
+            UtilitiesFactory.hideSpinner();
             return;
         }
 
