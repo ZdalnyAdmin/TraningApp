@@ -42,11 +42,11 @@ namespace OrganizationModule.Controllers.Api
                 var runCounter = db.TrainingResults.Count(x => x.TrainingID == item.TrainingID);
                 item.SetRunTrainingStats(runCounter);
 
-                var groups = (from pg in db.TrainingInGroups
-                              join g in db.Groups on pg.ProfileGroupID equals g.ProfileGroupID
-                              where pg.TrainingID == item.TrainingID
-                              select g.Name).ToList();
-                item.SetAssignedGroups(groups);
+                //var groups = (from pg in db.TrainingInGroups
+                //              join g in db.Groups on pg.ProfileGroupID equals g.ProfileGroupID
+                //              where pg.TrainingID == item.TrainingID
+                //              select g.Name).ToList();
+                ////item.SetAssignedGroups(groups);
             }
 
             return list;

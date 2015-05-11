@@ -4,6 +4,7 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AppEngine.Models.DataObject;
+using AppEngine.Models.DataBusiness;
 
 namespace AppEngine.Models.Common
 {
@@ -54,6 +55,12 @@ namespace AppEngine.Models.Common
         //odznaka - sciezka do pliku
         public string PassResources { get; set; }
 
+        [NotMapped]
+        public List<SimpleObject> Logs { get; set; }
+        [NotMapped]
+        public List<SimpleObject> AssignedGroups { get; set; }
+
+
         private string _createUserName;
         public string CreateUserName
         {
@@ -72,20 +79,6 @@ namespace AppEngine.Models.Common
         public void SetRunTrainingStats(int value)
         {
             _runTrainingStats = value;
-        }
-
-
-        private string _assignedGroups;
-        public string AssignedGroups
-        {
-            get { return _assignedGroups; }
-        }
-        public void SetAssignedGroups(List<string> groups)
-        {
-            if (groups != null && groups.Any())
-            {
-                _assignedGroups = String.Join(",", groups);
-            }
         }
 
     }

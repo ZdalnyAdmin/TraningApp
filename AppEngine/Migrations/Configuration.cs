@@ -39,6 +39,16 @@
                 });
                 context.SaveChanges();
             }
+
+            context.Groups.AddOrUpdate(new ProfileGroup()
+            {
+                Name = "Wszyscy",
+                IsDeleted = false,
+                CreateUserID = "9154c72e-a195-4a70-8de2-61927df9bd9d",
+                CreateDate = DateTime.Now
+            });
+
+            context.SaveChanges();
         }
 
         internal void CallSeed(Models.DataContext.EFContext eFContext)

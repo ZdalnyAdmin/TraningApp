@@ -1,29 +1,16 @@
-﻿function adminManagmentController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function adminManagmentController($scope, $http, $modal, UtilitiesFactory) {
     $scope.addMode = false;
-    $scope.selectedGroups = [];
-    $scope.logs = [];
-    $scope.index = 0;
+    $scope.viewModel = {};
+    $scope.index = 1;
 
     $scope.loadData = function () {
 
         UtilitiesFactory.showSpinner();
-        var training = {};
-        training.TrainingType = 1;
+        $scope.viewModel.ActionType = 0;
 
-        $http.post('/api/ManageTraining', training).success(function (data) {
-            var internalTrainings = [];
-            var kenproTrainings = [];
-            angular.forEach(data, function (item) {
-                if (item.TrainingTypeID == 1) {
-                    item.showLog = false;
-                    internalTrainings.push(item);
-                }
-                else {
-                    kenproTrainings.push(item);
-                }
-            });
-            $scope.InternalTrainings = internalTrainings;
-            $scope.KenproTrainings = kenproTrainings;
+        $http.post('/api/TrainingManagment', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
+            $scope.index = 1;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -31,37 +18,16 @@
             UtilitiesFactory.hideSpinner();
         });
     }
+
+    $scope.loadData();
 
     $scope.loadGroups = function () {
 
         UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 3;
 
-        $http.get('/api/Group').success(function (data) {
-            if (!data) {
-                return;
-            }
-            $scope.Groups = data;
-            UtilitiesFactory.hideSpinner();
-        })
-        .error(function () {
-            $scope.error = "Wystapil problem z pobraniem danych!";
-            UtilitiesFactory.hideSpinner();
-        });
-    }
-
-    loadLogs = function (training) {
-        var log = {};
-        log.OperationType = 6;
-        log.TrainingID = training.TrainingID;
-
-
-        UtilitiesFactory.showSpinner();
-
-        $http.post('/api/Logs'. log).success(function (data) {
-            if (!data) {
-                return;
-            }
-            $scope.logs = data;
+        $http.post('/api/TrainingManagment', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -79,9 +45,11 @@
 
         UtilitiesFactory.showSpinner();
 
-        $http.put('/api/Training', training).success(function (data) {
-            UtilitiesFactory.hideSpinner();
+        $scope.viewModel.Current = training;
+
+        $http.put('/api/TrainingManagment', $scope.viewModel).success(function (data) {
             $scope.loadData();
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
             $scope.error = "Wystapil problem z pobraniem danych!";
@@ -100,23 +68,10 @@
 
         UtilitiesFactory.showSpinner();
 
-        var trainigInGroups = [];
-        angular.forEach($scope.Groups, function (item) {
-            var obj = {};
-            obj.ProfileGroupID = item.ProfileGroupID;
-            obj.TrainingID = training.TrainingID
-            obj.IsDeleted = false;
-            trainigInGroups.push(obj);
+        $scope.viewModel.Current = training;
 
-            if (training.AssignedGroups != '') {
-                training.AssignedGroups += ', ';
-            }
-            training.AssignedGroups += item.Name;
-        });
-
-        $http.post('/api/TrainingsInGroup', trainigInGroups).success(function (data) {
+        $http.put('/api/TrainingManagment', $scope.viewModel).success(function (data) {
             UtilitiesFactory.hideSpinner();
-            $scope.loadData();
         })
         .error(function () {
             $scope.error = "Wystapil problem z zapisem danych!";
@@ -126,7 +81,6 @@
 
     $scope.showLogs = function (training) {
         training.showLog = true;
-        loadLogs(training);
     }
 
     $scope.hideLogs = function (training) {
@@ -135,10 +89,24 @@
 
     $scope.showTab = function (index) {
         $scope.index = index;
+
+        if ($scope.index == 2) {
+            UtilitiesFactory.showSpinner();
+            $scope.viewModel.ActionType = 1;
+
+            $http.post('/api/TrainingManagment', $scope.viewModel).success(function (data) {
+                $scope.viewModel = data;
+                UtilitiesFactory.hideSpinner();
+            })
+            .error(function () {
+                $scope.error = "Wystapil problem z pobraniem danych!";
+                UtilitiesFactory.hideSpinner();
+            });
+
+            $scope.loadGroups();
+        }
     }
     
-    $scope.loadData();
-    $scope.loadGroups();
 }
 
-adminManagmentController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+adminManagmentController.$inject = ['$scope', '$http', '$modal', 'UtilitiesFactory'];

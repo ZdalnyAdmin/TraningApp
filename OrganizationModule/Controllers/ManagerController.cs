@@ -21,7 +21,9 @@ namespace OrganizationModule.Controllers
     public class ManagerController : Controller
     {
         #region Private Fields
+
         private EFContext _db = new EFContext();
+
         #endregion
 
         #region Identity
@@ -41,6 +43,8 @@ namespace OrganizationModule.Controllers
         }
         #endregion
 
+        #region Training results
+
         /// <summary>
         /// Navigate to tranings results view
         /// </summary>
@@ -50,6 +54,10 @@ namespace OrganizationModule.Controllers
             return View();
         }
 
+        #endregion Trainings results
+
+        #region Edit trainings
+
         /// <summary>
         /// Navigate to trainig modifications view
         /// </summary>
@@ -58,6 +66,10 @@ namespace OrganizationModule.Controllers
         {
             return View();
         }
+
+        #endregion Edit trainings
+
+        #region Invitation
 
         /// <summary>
         /// Navigate to invitation view
@@ -198,6 +210,8 @@ namespace OrganizationModule.Controllers
 
             return getErrorsFromModel();
         }
+
+        #endregion Invitation
 
         #region Private Functions
         private JsonResult getErrorsFromModel()

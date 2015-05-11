@@ -16,6 +16,9 @@
     case ProfileEnum.User:
         @Html.Action("UserMenu", "Menu")
         break;
+    case ProfileEnum.Superuser:
+        @Html.Action("KeeperMenu", "Menu")
+        break;
     default:
         break;
 } 

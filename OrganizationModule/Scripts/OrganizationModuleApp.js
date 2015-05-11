@@ -5,6 +5,7 @@ OrganizationModuleApp.controller('LoginController', LoginController);
 OrganizationModuleApp.controller('LogoffController', LogoffController);
 OrganizationModuleApp.controller('RegisterController', RegisterController);
 OrganizationModuleApp.controller('invitationController', invitationController);
+OrganizationModuleApp.controller('adminManagmentController', adminManagmentController);
 OrganizationModuleApp.controller('ResetPasswordController', ResetPasswordController);
 OrganizationModuleApp.controller('usersListModalController', usersListModalController);
 OrganizationModuleApp.controller('trainingController', trainingController);
@@ -13,6 +14,7 @@ OrganizationModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfi
 OrganizationModuleApp.controller('ViewWrapperController', ViewWrapperController);
 OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 OrganizationModuleApp.factory('UserFactory', UserFactory);
+OrganizationModuleApp.factory('TrainingFactory', TrainingFactory);
 OrganizationModuleApp.factory('UtilitiesFactory', UtilitiesFactory);
 //OrganizationModuleApp.service('SessionService', SessionService)
 
@@ -66,7 +68,8 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             templateUrl: 'Admin/Groups'
         })
         .when('/adminManage', {
-            templateUrl: 'Admin/Managment'
+            templateUrl: 'Admin/Managment',
+            controller: adminManagmentController
         })
         .when('/adminStats', {
             templateUrl: 'Admin/Statistics'

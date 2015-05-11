@@ -9,6 +9,8 @@ namespace OrganizationModule.Controllers
     [Authorize]
     public class CreatorController : Controller
     {
+        #region Create new training
+
         /// <summary>
         /// Navigate to create traning template view
         /// </summary>
@@ -18,6 +20,10 @@ namespace OrganizationModule.Controllers
             return View();
         }
 
+        #endregion Create new training
+
+        #region Edit training
+
         /// <summary>
         /// Navigate to created tranings view
         /// </summary>
@@ -26,6 +32,8 @@ namespace OrganizationModule.Controllers
         {
             return View();
         }
+
+        #endregion Edit training
 
         /// <summary>
         /// Navigate to description how to create traning

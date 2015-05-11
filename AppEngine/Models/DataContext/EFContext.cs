@@ -50,6 +50,7 @@ namespace AppEngine.Models.DataContext
         public DbSet<TrainingDetail> TrainingDetails { get; set; }
         public DbSet<TrainingQuestion> TrainingQuestons { get; set; }
         public DbSet<Trainings2Organizations> TrainingsInOrganizations { get; set; }
+        public DbSet<ProfileGroup2Organization> GroupsInOrganizations { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
