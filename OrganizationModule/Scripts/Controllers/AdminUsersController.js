@@ -1,7 +1,5 @@
 ﻿function adminUsersController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    $scope.loading = true;
-    $scope.addMode = false;
-    $scope.showEdit = false;
+    $scope.viewModel = {};
     $scope.editablePerson = {};
     $scope.availableStatus = ['Aktywny', 'Zablokowany'];
     //temp solution
@@ -9,27 +7,13 @@
     //Used to display the data 
     $scope.loadData = function () {
         UtilitiesFactory.showSpinner();
-
-        $http.get('/api/Person').success(function (data) {
-            var people = [];
-            var deletePeople = [];
-            angular.forEach(data, function (item) {
-                if (item.IsDeleted) {
-                    deletePeople.push(item);
-                }
-                else {
-                    item.isEditable = false;
-                    item.selectedStatus = item.Status == 1 ? 'Aktywny' : 'Zablokowany';
-                    people.push(item);
-                }
-            });
-            $scope.People = people;
-            $scope.DeletePeople = deletePeople;
-            $scope.loading = false;
+        $scope.viewModel.ActionType = 0;
+        $http.post('/api/Person/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
             $scope.loading = false;
             UtilitiesFactory.hideSpinner();
         });
@@ -43,18 +27,16 @@
             return;
         }
         UtilitiesFactory.showSpinner();
-        $scope.loading = true;
-        $http.put('/api/Person/', person).success(function (data) {
+        $scope.viewModel.Current = person;
+        $scope.viewModel.ActionType = 2;
+        $http.post('/api/Person/', $scope.viewModel).success(function (data) {
+
             //shoudl get only by id
-            $scope.loading = false;
             person.isEditable = false;
-
             $scope.editablePerson = {};
-
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
-            $scope.error = 'Wystąpił nieoczekiwany błąd podczas zapisywania uzytkownika' + data;
-            $scope.loading = false;
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisywania uzytkownika' + data;
             UtilitiesFactory.hideSpinner();
         });
     };
@@ -64,7 +46,6 @@
         if (!person) {
             return;
         }
-        $scope.loading = true;
         person.UserName = $scope.editablePerson.UserName;
         person.Email = $scope.editablePerson.Email;
         person.Status = $scope.editablePerson.Status;
@@ -117,47 +98,16 @@
         if (!person) {
             return;
         }
+
         UtilitiesFactory.showSpinner();
         person.IsDeleted = true;
-        person.DeletedDate = new Date();
-        //get from score - logged user id
-        person.DeleteUserID = 1;
-        $scope.person = person;
-
-        $scope.loading = true;
-        $http.put('/api/Person/', person).success(function (data) {
-            $scope.loading = false;
-            var index = 0;
-
-            var result = UserFactory.deleteUser(person);
-
-            result.then(function (data) {
-                if (!data.Succeeded) {
-                    if (data.Errors) {
-                        $scope.errorMessage = '';
-                        angular.forEach(data.Errors, function (val) {
-                            $scope.errorMessage += ' ' + val;
-                        });
-                    } else {
-                        $scope.error = 'Wystąpił nieoczekiwany błąd podczas usuniecia uzytkownika';
-                    }
-                }
-            });
-
-            for (var i = 0; i < $scope.People.length; i++) {
-                if ($scope.People[i].IsDeleted) {
-                    index = i;
-                    break;
-                }
-            }
-            $scope.People.splice(index, 1);
-            //$scope.People. = people;
-            $scope.DeletePeople.push($scope.person);
-
+        $scope.viewModel.Current = person;
+        $scope.viewModel.ActionType = 1;
+        $http.post('/api/Person/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
-            $scope.error = 'Wystąpił nieoczekiwany błąd podczas usuniecia uzytkownika' + data;
-            $scope.loading = false;
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas usuniecia uzytkownika' + data;
             UtilitiesFactory.hideSpinner();
         });
     }

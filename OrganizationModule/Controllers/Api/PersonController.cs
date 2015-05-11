@@ -3,7 +3,9 @@ using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
+using AppEngine.Models.DTO;
 using AppEngine.Services;
+using AppEngine.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,121 +21,111 @@ namespace OrganizationModule.Controllers
     {
         private EFContext db = new EFContext();
 
-        // GET api/<controller>
-        [HttpGet]
-        public IEnumerable<Person> Get()
-        {
-            var people =  db.Users.Where(x=>x.Status == StatusEnum.Active || x.Status == StatusEnum.Blocked || x.Status == StatusEnum.Deleted).ToList();
-            foreach (var item in people)
-            {
-                item.SetAssignedTrainingsNumber((from t in db.TrainingResults
-                                                 where t.PersonID == item.Id
-                                                 select t).Count());
-
-                var groups = (from pg in db.PeopleInGroups
-                              join g in db.Groups on pg.ProfileGroupID equals g.ProfileGroupID
-                              where pg.PersonID == item.Id
-                              select g.Name).ToList();
-                item.SetAssignedGroups(groups);
-            }
-            return people;
-        }
-
-        // GET api/<controller>/5
-        public Person Get(int id)
-        {
-            var person = db.Users.Find(id);
-            if (person == null)
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-            return person;
-        }
-
         // POST api/<controller>
-        public HttpResponseMessage Post(Person person)
+        public HttpResponseMessage Post(UserManagmentViewModel obj)
         {
             if (ModelState.IsValid)
             {
-                //todo logs for add and send invitation
+                try
+                {
+                    if (obj.LoggedUser == null)
+                    {
+                        obj.LoggedUser = Person.GetLoggedPerson(User);
+                    }
 
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, person);
-                //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = Contact.Id }));
+                    if (obj.CurrentOrganization == null)
+                    {
+                        obj.CurrentOrganization = db.Organizations.FirstOrDefault(x => x.OrganizationID == obj.LoggedUser.OrganizationID);
+                    }
+
+                    switch (obj.ActionType)
+                    {
+                        case UserManagmentActionType.Get:
+                            //todo logs for add and send invitation
+                            var people = (from p in db.Users
+                                          where (p.Status == StatusEnum.Active || p.Status == StatusEnum.Blocked || p.Status == StatusEnum.Deleted)
+                                          && (p.Profile == ProfileEnum.User || p.Profile == ProfileEnum.Creator || p.Profile == ProfileEnum.Administrator || p.Profile == ProfileEnum.Manager)
+                                          orderby p.RegistrationDate
+                                          select p).ToList();
+
+
+
+
+                            foreach (var p in people)
+                            {
+                                p.AssignedTrainings = (from t in db.TrainingResults
+                                                       where t.PersonID == p.Id
+                                                       select new TrainingDto
+                                                       {
+                                                          Id= t.TrainingID,
+                                                          StartDate = t.StartDate.Value,
+                                                          EndDate = t.EndDate,
+                                                          Result = t.Rating
+                                                       }).ToList();
+
+                                p.AssignedGroups = (from pg in db.PeopleInGroups
+                                                    join g in db.Groups on pg.ProfileGroupID equals g.ProfileGroupID
+                                                    where pg.PersonID == p.Id
+                                                    select new ProfileGroup2Person
+                                                    {
+                                                        ProfileGroupID = pg.ProfileGroupID,
+                                                        PersonID = pg.PersonID,
+                                                        ProfileGroup2PersonID = pg.ProfileGroup2PersonID,
+                                                        GroupName = g.Name,
+                                                        IsDeleted = false
+                                                    }).ToList();
+
+
+                            }
+
+
+                            obj.People = (from t in people
+                                          where !t.IsDeleted
+                                          select t).ToList();
+
+                            obj.DeletedPeople = (from t in people
+                                                 where t.IsDeleted
+                                                 select t).ToList();
+                            break;
+                        case UserManagmentActionType.Delete:
+
+                            obj.Current.DeleteUserID = obj.LoggedUser.Id;
+                            obj.Current.DeletedDate = DateTime.Now;
+                            db.Entry(obj.Current).State = EntityState.Modified;
+                            LogService.InsertUserLogs(OperationLog.UserDelete, db, obj.Current.Id, obj.Current.DeleteUserID);
+
+                            db.SaveChanges();
+
+                            break;
+                        case UserManagmentActionType.Edit:
+
+
+                            obj.Current.ModifiedUserID = obj.LoggedUser.Id;
+                            db.Entry(obj.Current).State = EntityState.Modified;
+                            LogService.InsertUserLogs(OperationLog.UserEdit, db, obj.Current.Id, obj.Current.ModifiedUserID);
+
+                            db.SaveChanges();
+                            break;
+                        default:
+                            break;
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
                 return response;
             }
             else
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
-        }
-
-        // PUT api/<controller>/5
-        public HttpResponseMessage Put(Person person)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
-
-            var usr = Person.GetLoggedPerson(User);
-            if (person.IsDeleted)
-            {
-                
-                person.DeleteUserID = usr.Id;
-                person.DeletedDate = DateTime.Now;
-            }
-            else
-            {
-                person.ModifiedUserID = usr.Id;
-            }
-
-            db.Entry(person).State = EntityState.Modified;
-            try
-            {
-                db.SaveChanges();
-
-                if (person.IsDeleted && person.DeleteUserID == person.Id)
-                {
-                    LogService.InsertUserLogs(OperationLog.UserDeleteBySelf, db, person.Id, person.DeleteUserID);
-                }
-                if (person.IsDeleted && person.DeleteUserID != person.Id)
-                {
-                    LogService.InsertUserLogs(OperationLog.UserDelete, db, person.Id, person.DeleteUserID);
-                }
-                if (!person.IsDeleted)
-                {
-                    LogService.InsertUserLogs(OperationLog.UserEdit, db, person.Id, person.ModifiedUserID);
-                }
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
-
-        // DELETE api/<controller>/5
-        public HttpResponseMessage Delete(int id)
-        {
-            var person = db.Users.Find(id);
-            if (person == null)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
-            }
-
-            db.Users.Remove(person);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, person);
         }
 
         protected override void Dispose(bool disposing)

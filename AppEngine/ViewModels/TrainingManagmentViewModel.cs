@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace AppEngine.ViewModels
 {
-    public class TrainingManagmentViewModel
+    public class TrainingManagmentViewModel : BaseViewModel
     {
-        public Person LoggedUser { get; set; }
-        public Organization CurrentOrganization { get; set; }
         public bool ShowExternal { get; set; }
         public List<Training> InternalTrainings { get; set; }
         public List<Training> ExternalTrainings { get; set; }

@@ -14,7 +14,7 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "Wystapil problem z pobraniem danych!";
+            $scope.viewModel.ErrorMessage = "Wystapil problem z pobraniem danych!";
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -31,7 +31,7 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "Wystapil problem z pobraniem danych!";
+            $scope.viewModel.ErrorMessage = "Wystapil problem z pobraniem danych!";
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -52,7 +52,7 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "Wystapil problem z pobraniem danych!";
+            $scope.viewModel.ErrorMessage = "Wystapil problem z pobraniem danych!";
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -74,7 +74,7 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "Wystapil problem z zapisem danych!";
+            $scope.viewModel.ErrorMessage = "Wystapil problem z zapisem danych!";
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -99,7 +99,7 @@
                 UtilitiesFactory.hideSpinner();
             })
             .error(function () {
-                $scope.error = "Wystapil problem z pobraniem danych!";
+                $scope.viewModel.ErrorMessage = "Wystapil problem z pobraniem danych!";
                 UtilitiesFactory.hideSpinner();
             });
 

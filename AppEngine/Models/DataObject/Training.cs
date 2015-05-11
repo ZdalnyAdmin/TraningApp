@@ -1,10 +1,9 @@
-﻿using System;
+﻿using AppEngine.Models.DataObject;
+using AppEngine.Models.DTO;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using AppEngine.Models.DataObject;
-using AppEngine.Models.DataBusiness;
 
 namespace AppEngine.Models.Common
 {
@@ -56,9 +55,9 @@ namespace AppEngine.Models.Common
         public string PassResources { get; set; }
 
         [NotMapped]
-        public List<SimpleObject> Logs { get; set; }
+        public List<CommonDto> Logs { get; set; }
         [NotMapped]
-        public List<SimpleObject> AssignedGroups { get; set; }
+        public List<CommonDto> AssignedGroups { get; set; }
 
 
         private string _createUserName;

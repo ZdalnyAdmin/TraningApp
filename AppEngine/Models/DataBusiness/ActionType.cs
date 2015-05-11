@@ -13,4 +13,11 @@ namespace AppEngine.Models.DataBusiness
         GetSettings = 2,
         GetGroups = 3
     }
+
+    public enum UserManagmentActionType
+    {
+        Get = 0,
+        Delete = 1,
+        Edit = 2,
+    }
 }
