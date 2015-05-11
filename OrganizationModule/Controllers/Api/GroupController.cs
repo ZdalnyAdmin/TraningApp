@@ -34,6 +34,7 @@ namespace OrganizationModule.Controllers
         }
 
         // POST api/<controller>
+        [HttpPost]
         public HttpResponseMessage Post(ProfileGroup obj)
         {
             obj.CreateDate = DateTime.Now;
@@ -126,35 +127,6 @@ namespace OrganizationModule.Controllers
             }
 
             return Request.CreateResponse(HttpStatusCode.OK);
-        }
-
-        // DELETE api/<controller>/5
-        public HttpResponseMessage Delete(ProfileGroup group)
-        {
-            if (group == null)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, group);
-            }
-
-
-            var obj = db.Groups.Find(group.ProfileGroupID);
-            if (obj == null)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
-            }
-
-            db.Groups.Remove(obj);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, obj);
         }
 
         protected override void Dispose(bool disposing)

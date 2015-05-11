@@ -4,6 +4,9 @@ using AppEngine.Models.DataContext;
 using AppEngine.Models.DataObject;
 using System.Web.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
 
 namespace OrganizationModule.Controllers
 {
@@ -16,6 +19,8 @@ namespace OrganizationModule.Controllers
 
         #endregion
 
+        #region Users list
+
         /// <summary>
         /// Navigate to user managment view
         /// </summary>
@@ -24,6 +29,10 @@ namespace OrganizationModule.Controllers
         {
             return View();
         }
+
+        #endregion Users lists
+
+        #region Groups
 
         /// <summary>
         /// Navigate to user group managment view
@@ -34,41 +43,23 @@ namespace OrganizationModule.Controllers
             return View();
         }
 
+        #endregion Groups
+
+        #region Training managments
+
         /// <summary>
         /// Navigate to traning managment view
         /// </summary>
         /// <returns></returns>
         public ActionResult Managment()
         {
-            Person currentUser = Person.GetLoggedPerson(User);
-
-            if (string.IsNullOrWhiteSpace(currentUser.UserName))
-            {
-                return new HttpNotFoundResult("Użytkownik nie zalogowany");
-            }
-
-            bool allTrainings = true;
-
-            if (currentUser.Profile == ProfileEnum.Administrator)
-            {
-                allTrainings = false;
-                //get protector
-                var protector = _db.Users.FirstOrDefault(x => x.Profile == ProfileEnum.Administrator && x.OrganizationID == currentUser.OrganizationID);
-
-                AppSetting setting = null;
-                if (protector != null)
-                {
-                    setting = _db.AppSettings.FirstOrDefault(x => x.ProtectorID == protector.Id);
-                }
-
-                allTrainings = setting != null ? setting.IsTrainingAvailableForAll : false;
-            }
-
-            ViewBag.User = currentUser;
-            ViewBag.showKenpro = allTrainings;
-
             return View();
         }
+
+        #endregion Training managments
+
+        #region Statistics
+
         /// <summary>
         /// Navigate to statistics view
         /// </summary>
@@ -78,6 +69,10 @@ namespace OrganizationModule.Controllers
             return View();
         }
 
+        #endregion Statistics
+
+        #region Settings
+
         /// <summary>
         /// Navigate to global organization settings
         /// </summary>
@@ -86,6 +81,8 @@ namespace OrganizationModule.Controllers
         {
             return View();
         }
+
+        #endregion Settings
 
         /// <summary>
         /// Navigate to about - how to use view
