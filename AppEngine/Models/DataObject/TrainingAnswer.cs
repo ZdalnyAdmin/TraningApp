@@ -14,7 +14,7 @@ namespace AppEngine.Models.DataObject
         public int TrainingQuestionID { get; set; }
         public string Text { get; set; }
         public string Answers { get; set; }
-        public string Score { get; set; }
+        public int Score { get; set; }
         public bool IsSelected { get; set; }
     }
 }

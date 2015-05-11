@@ -173,21 +173,21 @@ namespace OrganizationModule.Controllers
                         foreach (var selectedAnswer in selectedAnswers)
                         {
                             var multiAns = question.Answers.FirstOrDefault(x => x.TrainingAnswerID == selectedAnswer);
-                            trainingResult.Rating += multiAns != null ? int.Parse(multiAns.Score) : 0;
+                            trainingResult.Rating += multiAns != null ? multiAns.Score : 0;
                         }
 
                         break;
 
                     case AppEngine.Models.DataObject.QuestionType.Text:
                         var textAns = question.Answers.FirstOrDefault(x => x.Text == answer.Value);
-                        trainingResult.Rating += textAns != null ? int.Parse(textAns.Score) : 0;
+                        trainingResult.Rating += textAns != null ? textAns.Score : 0;
                         break;
 
                     default:
                         int trainingAnswerID = 0;
                         int.TryParse(answer.Value, out trainingAnswerID);
                         var singleAns = question.Answers.FirstOrDefault(x => x.TrainingAnswerID == trainingAnswerID);
-                        trainingResult.Rating += singleAns != null ? int.Parse(singleAns.Score) : 0;
+                        trainingResult.Rating += singleAns != null ? singleAns.Score : 0;
                         break;
                 }
             }

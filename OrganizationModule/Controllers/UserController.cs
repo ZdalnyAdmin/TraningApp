@@ -85,6 +85,20 @@ namespace OrganizationModule.Controllers
         /// <returns></returns>
         public ActionResult TrainingResult()
         {
+            var loggedPerson = Person.GetLoggedPerson(User);
+            var trainingResults = _db.TrainingResults.Where(x => x.PersonID == loggedPerson.Id && x.EndDate.HasValue).ToList();
+            trainingResults.ForEach(x =>
+                                        {
+                                            x.Training = _db.Trainings.FirstOrDefault(y => y.TrainingID == x.TrainingID);
+                                            x.Training.Questions = _db.TrainingQuestons.Where(y => y.TrainingID == x.TrainingID).ToList();
+                                            x.Training.Questions.ForEach(y =>
+                                                                            {
+                                                                                y.Answers = _db.TrainingAnswers.Where(z => z.TrainingQuestionID == y.TrainingQuestionID).ToList();
+                                                                            });
+                                        });
+
+            ViewBag.TrainingResults = trainingResults;
+            
             return View();
         }
 

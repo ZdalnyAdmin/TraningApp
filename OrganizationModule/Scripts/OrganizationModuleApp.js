@@ -118,7 +118,7 @@ configFunction.$inject = ['$routeProvider', '$httpProvider', '$locationProvider'
 
 OrganizationModuleApp.config(configFunction);
 
-OrganizationModuleApp.run(function ($rootScope, $location, UtilitiesFactory) {
+OrganizationModuleApp.run(['$rootScope', '$location', 'UtilitiesFactory', '$templateCache', '$route', function ($rootScope, $location, UtilitiesFactory, $templateCache, $route) {
     $rootScope.$on('$routeChangeStart', function () {
         //show loading gif
         UtilitiesFactory.showSpinner();
@@ -126,9 +126,11 @@ OrganizationModuleApp.run(function ($rootScope, $location, UtilitiesFactory) {
     $rootScope.$on('$routeChangeSuccess', function () {
         //hide loading gif
         UtilitiesFactory.hideSpinner();
+        var currentPageTemplate = $route.current.templateUrl;
+        $templateCache.remove(currentPageTemplate);
     });
     $rootScope.$on('$routeChangeError', function () {
         //hide loading gif
         UtilitiesFactory.hideSpinner();
     });
-});
+}]);

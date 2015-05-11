@@ -1,4 +1,4 @@
-﻿function trainingController($scope, $http, $modal, UtilitiesFactory, $templateCache, $route) {
+﻿function trainingController($rootScope, $scope, $http, $modal, UtilitiesFactory, $templateCache, $route, $location) {
     $scope.answers = {};
     $scope.currentRate = 0;
 
@@ -142,7 +142,8 @@
             '/Training/ActiveTraining', answers
         ).
         success(function (data) {
-            // TODO: reload to results.
+            $rootScope.$broadcast('reloadMenu');
+            $location.path('/userResult');
         }).
         error(function () {
             var message = "Wystąpił błąd połączenia."
@@ -158,4 +159,4 @@
     }
 }
 
-trainingController.$inject = ['$scope', '$http', '$modal', 'UtilitiesFactory', '$templateCache', '$route'];
+trainingController.$inject = ['$rootScope', '$scope', '$http', '$modal', 'UtilitiesFactory', '$templateCache', '$route', '$location'];

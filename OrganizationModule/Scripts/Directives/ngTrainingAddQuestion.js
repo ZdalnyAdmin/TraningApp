@@ -61,7 +61,7 @@
                 var obj = {};
                 obj.Text = '';
                 obj.IsSelected = false;
-                obj.Score = '';
+                obj.Score = 0;
                 return obj;
             }
 
