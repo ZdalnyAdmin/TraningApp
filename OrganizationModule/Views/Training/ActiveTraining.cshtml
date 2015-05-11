@@ -29,6 +29,7 @@ else
         switch ((TrainingResource)detail.ResourceType)
         {
             case TrainingResource.File:
+                <a href="@detail.InternalResource" target="_blank">pobierz</a>
                 break;
 
             case TrainingResource.Graphic:
@@ -46,9 +47,28 @@ else
                     break;
 
             case TrainingResource.Presentation:
+                    <iframe src="@detail.InternalResource" style="width:600px; height:500px;" frameborder="0"></iframe>
                     break;
 
             case TrainingResource.Video:
+                    if (!String.IsNullOrWhiteSpace(detail.InternalResource))
+                    {
+                        <video width="560" height="315" controls>
+                            <source src="@detail.InternalResource">
+                            Your browser does not support the video tag.
+                        </video>
+                    }
+                    else if (!String.IsNullOrWhiteSpace(detail.ExternalResource))
+                    {
+                        if (detail.ExternalResource.IndexOf("youtube.com") != -1)
+                        {
+                            <iframe width="560" height="315" src="@detail.ExternalResource" frameborder="0" allowfullscreen></iframe>
+                        }
+                        else if (detail.ExternalResource.IndexOf("player.vimeo.com") != -1)
+                        {
+                            <iframe src="@detail.ExternalResource" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                        }
+                    }
                     break;
 
             case TrainingResource.Text:

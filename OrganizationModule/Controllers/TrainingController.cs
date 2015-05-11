@@ -97,6 +97,8 @@ namespace OrganizationModule.Controllers
 
         public ActionResult ActiveTraining(int id)
         {
+            string googleDocViewer = "http://docs.google.com/gview?url={0}&embedded=true";
+
             var loggedPerson = Person.GetLoggedPerson(User);
 
             var org2Train = _db.TrainingsInOrganizations
@@ -113,6 +115,14 @@ namespace OrganizationModule.Controllers
                 ViewBag.AccessDenied = false;
                 var training = _db.Trainings.FirstOrDefault(x => x.TrainingID == id);
                 var trainingDetails = _db.TrainingDetails.Where(x => x.TrainingID == training.TrainingID).OrderBy(x => x.DisplayNo).ToList();
+                trainingDetails.ForEach(x=> {
+                    if (x.ResourceType == AppEngine.Models.DataObject.TrainingResource.Presentation)
+                    {
+                        x.InternalResource = string.Format(googleDocViewer, Request.Url.Scheme + "://" + Request.Url.Authority + x.InternalResource);
+                    }
+                });
+
+
                 training.SetCreateUserName(_db.Users.FirstOrDefault(x => x.Id == training.CreateUserID).DisplayName);
                 var questions = _db.TrainingQuestons.Where(x => x.TrainingID == training.TrainingID).OrderBy(x => x.DisplayNo).ToList();
 
