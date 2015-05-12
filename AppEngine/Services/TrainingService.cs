@@ -170,48 +170,56 @@ namespace AppEngine.Services
                         if (isInternal)
                         {
 
-                           
+
 
                             model.Trainings = (from t in context.Trainings
-                                          join to in context.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
-                                          join u in context.Users on t.CreateUserID equals u.Id
-                                          where to.OrganizationID == model.CurrentOrganization.OrganizationID && t.TrainingType == TrainingType.Internal
-                                          orderby t.CreateDate
-                                          select new Training
-                                             {
-                                                 TrainingID = t.TrainingID,
-                                                 CreateUserID = u.UserName,
-                                                 CreateDate = t.CreateDate, 
-                                                 Name = t.Name
-                                             }).ToList();
+                                               join to in context.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
+                                               where to.OrganizationID == model.CurrentOrganization.OrganizationID && t.TrainingType == TrainingType.Internal
+                                               orderby t.CreateDate
+                                               select new Training
+                                                  {
+                                                      TrainingID = t.TrainingID,
+                                                      CreateDate = t.CreateDate,
+                                                      Name = t.Name
+                                                  }).ToList();
 
                             foreach (var item in model.Trainings)
                             {
                                 item.AssignedGroups = (from git1 in context.TrainingInGroups
-                                                      join g1 in context.Groups on git1.ProfileGroupID equals g1.ProfileGroupID
-                                                      where git1.TrainingID == item.TrainingID
-                                                      select new CommonDto
-                                                      {
-                                                          Name = g1.Name,
-                                                          Id = g1.ProfileGroupID
-                                                      }).ToList();
+                                                       join g1 in context.Groups on git1.ProfileGroupID equals g1.ProfileGroupID
+                                                       where git1.TrainingID == item.TrainingID
+                                                       select new CommonDto
+                                                       {
+                                                           Name = g1.Name,
+                                                           Id = g1.ProfileGroupID
+                                                       }).ToList();
 
+                                if (!String.IsNullOrEmpty(item.CreateUserID))
+                                {
+                                    item.UserName = context.Users.FirstOrDefault(x => x.Id == item.CreateUserID).UserName;
+                                }
                             }
 
                         }
                         else
                         {
                             model.Trainings = (from t in context.Trainings
-                                               join u in context.Users on t.CreateUserID equals u.Id
                                                where t.TrainingType == TrainingType.Kenpro
                                                orderby t.CreateDate
                                                select new Training
                                                {
                                                    TrainingID = t.TrainingID,
-                                                   CreateUserID = u.UserName,
                                                    CreateDate = t.CreateDate,
                                                    Name = t.Name
                                                }).ToList();
+
+                            foreach (var item in model.Trainings)
+                            {
+                                if (!String.IsNullOrEmpty(item.CreateUserID))
+                                {
+                                    item.UserName = context.Users.FirstOrDefault(x => x.Id == item.CreateUserID).UserName;
+                                }
+                            }
                         }
 
 

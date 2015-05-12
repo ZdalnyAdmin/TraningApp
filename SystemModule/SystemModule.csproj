@@ -183,7 +183,6 @@
     <Compile Include="Controllers\Api\OrganizationsController.cs" />
     <Compile Include="Controllers\Api\ProtectorController.cs" />
     <Compile Include="Controllers\Api\SettingsController.cs" />
-    <Compile Include="Controllers\Api\SimpleTrainingController.cs" />
     <Compile Include="Controllers\Api\StatisticsController.cs" />
     <Compile Include="Controllers\Api\SystemLogController.cs" />
     <Compile Include="Controllers\Api\TrainingController.cs" />

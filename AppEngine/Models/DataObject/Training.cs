@@ -58,6 +58,8 @@ namespace AppEngine.Models.Common
         public List<CommonDto> Logs { get; set; }
         [NotMapped]
         public List<CommonDto> AssignedGroups { get; set; }
+        [NotMapped]
+        public string UserName { get; set; }
 
 
         private string _createUserName;
