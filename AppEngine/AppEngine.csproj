@@ -80,7 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="Helpers\AppSettings.cs" />
     <Compile Include="Helpers\Helpers.cs" />
+    <Compile Include="Helpers\Mail.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DataBusiness\ActionType.cs" />
     <Compile Include="Models\DataBusiness\LogsEnum.cs" />
