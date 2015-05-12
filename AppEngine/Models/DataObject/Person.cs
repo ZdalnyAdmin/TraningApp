@@ -1,5 +1,6 @@
 ﻿using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
+using AppEngine.Models.DTO;
 using AppEngine.Models.ViewModels.Account;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -41,18 +42,14 @@ namespace AppEngine.Models.Common
         public string ModifiedUserID { get; set; }
         //public List<TrainingResult> AssignedTrainings { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public int TrainingNumber
-        {
-            get { return _trainingNumber; }
-        }
+        [NotMapped]
+        public int TrainingNumber { get { return AssignedTrainings == null ? 0 : AssignedTrainings.Count(); } }
 
-        public string AssignedGroups
-        {
-            get { return _assignedGroups; }
-        }
+        [NotMapped]
+        public List<ProfileGroup2Person> AssignedGroups { get; set; }
+
+        [NotMapped]
+        public List<TrainingDto> AssignedTrainings { get; set; }
 
         #endregion Properties
 
@@ -75,7 +72,7 @@ namespace AppEngine.Models.Common
             }
 
             var code = await manager.GeneratePasswordResetTokenAsync(this.Id);
-            
+
             this.ResetPasswordDate = DateTime.Now;
             result = await manager.UpdateAsync(this);
 
@@ -141,7 +138,7 @@ namespace AppEngine.Models.Common
             }
 
             var user = db.Users.FirstOrDefault(x => x.Id == currentUserId);
-            if(user == null)
+            if (user == null)
             {
                 return null;
             }
@@ -172,7 +169,7 @@ namespace AppEngine.Models.Common
 
         public void SetAssignedGroups(List<string> groups)
         {
-            if(groups != null && groups.Any())
+            if (groups != null && groups.Any())
             {
                 _assignedGroups = String.Join(",", groups);
             }

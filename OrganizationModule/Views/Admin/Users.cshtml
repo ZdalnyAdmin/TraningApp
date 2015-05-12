@@ -1,7 +1,7 @@
 ﻿<div ng-app="" ng-controller="adminUsersController" class="container">
 
-    <strong class="error">{{ error }}</strong>
-    <div ng-repeat="person in People">
+    <strong class="error">{{ viewModel.ErrorMessage }}</strong>
+    <div ng-repeat="person in viewModel.People">
         <div id="simpleRow">
             <div id="mainText" ng-hide="person.isEditable">
                 {{ person.UserName }}
@@ -38,13 +38,16 @@
                 {{ person.LastActivationDate | date: 'dd.MM.yyyy hh.mm' }}
             </div>
             <div id="detailText">
-                {{ person.Profile.Name }}
+                {{ person.Profile }}
             </div>
             <div id="detailText">
-                {{ person.AssignedGroups }}
+
+                <div ng-repeat="group in person.AssignedGroups">
+                    {{ group.GroupName }} ,
+                </div>
             </div>
             <div id="detailText">
-                {{ person.Login }}
+                {{ person.DisplayName }}
             </div>
         </div>
         <div id="simpleRow">
@@ -63,7 +66,7 @@
             <div ng-repeat="item in person.AssignedTrainings">
                 <div id="simpleRow">
                     <div id="detailText">
-                        {{ item.TraningID }}
+                        {{ item.Id }}
                     </div>
                     <div id="detailText">
                         {{ item.StartDate | date: 'dd.MM.yyyy hh.mm' }}
@@ -73,6 +76,9 @@
                     </div>
                     <div id="detailText">
                         {{ item.EndDate | date: 'dd.MM.yyyy hh.mm'}}
+                    </div>
+                    <div ng-show="{{item.IsCompleted}}">
+                        {{item.Result}}
                     </div>
                 </div>
             </div>
@@ -90,7 +96,7 @@
         <div id="mainText">
             Uzytkowanicy usunieci
         </div>
-        <div ng-repeat="person in DeletePeople">
+        <div ng-repeat="person in viewModel.DeletedPeople">
 
             <div id="simpleRow">
                 <div id="mainText">

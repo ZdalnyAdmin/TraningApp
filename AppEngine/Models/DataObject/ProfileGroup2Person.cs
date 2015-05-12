@@ -16,5 +16,8 @@ namespace AppEngine.Models.Common
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
         public string DeletedUserID { get; set; }
+
+        [NotMapped]
+        public string GroupName { get; set; }
     }
 }

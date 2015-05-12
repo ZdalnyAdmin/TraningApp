@@ -2,6 +2,7 @@
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.DataObject;
+using AppEngine.Models.DTO;
 using AppEngine.Services;
 using AppEngine.ViewModels;
 using System;
@@ -74,7 +75,7 @@ namespace OrganizationModule.Controllers.Api
                                              join user in db.Users on item.ModifiedUserID equals user.Id
                                              where item.TrainingID == training.TrainingID && !item.IsSystemLog &&
                                              (item.OperationType == OperationLog.TrainingCreate || item.OperationType == OperationLog.TrainingEdit)
-                                             select new SimpleObject
+                                             select new CommonDto
                                              {
                                                  Date = item.ModifiedDate.Value,
                                                  Name = user.UserName
@@ -83,7 +84,7 @@ namespace OrganizationModule.Controllers.Api
                             training.AssignedGroups = (from item in db.TrainingInGroups
                                                        join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
                                                        where grp.Name != "Wszyscy"
-                                                       select new SimpleObject
+                                                       select new CommonDto
                                                        {
                                                            Name = grp.Name
                                                        }).ToList();
@@ -103,7 +104,7 @@ namespace OrganizationModule.Controllers.Api
                                              join user in db.Users on item.ModifiedUserID equals user.Id
                                              where item.TrainingID == training.TrainingID && !item.IsSystemLog &&
                                              (item.OperationType == OperationLog.TrainingCreate || item.OperationType == OperationLog.TrainingEdit)
-                                             select new SimpleObject
+                                             select new CommonDto
                                              {
                                                  Date = item.ModifiedDate.Value,
                                                  Name = user.UserName
@@ -112,7 +113,7 @@ namespace OrganizationModule.Controllers.Api
                             training.AssignedGroups = (from item in db.GroupsInOrganizations
                                                        join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
                                                        where grp.Name != "Wszyscy"
-                                                       select new SimpleObject
+                                                       select new CommonDto
                                                        {
                                                            Name = grp.Name
                                                        }).ToList();

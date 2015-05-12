@@ -91,7 +91,7 @@
     <Compile Include="Models\DataBusiness\Statistic.cs" />
     <Compile Include="Models\DataBusiness\StatisticEnum.cs" />
     <Compile Include="Models\DataBusiness\StatusEnum.cs" />
-    <Compile Include="Models\DataBusiness\SimpleObject.cs" />
+    <Compile Include="Models\DTO\CommonDto.cs" />
     <Compile Include="Models\DataBusiness\UserImage.cs" />
     <Compile Include="Models\DataObject\AppLog.cs" />
     <Compile Include="Models\DataObject\AppSetting.cs" />
@@ -111,7 +111,9 @@
     <Compile Include="Models\DataObject\TrainingResult.cs" />
     <Compile Include="Models\DataContext\EFContext.cs" />
     <Compile Include="Models\DataObject\Trainings2Organizations.cs" />
+    <Compile Include="Models\DTO\TrainingDto.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ManagerViewModels.cs" />
     <Compile Include="ViewModels\TrainingManagmentViewModel.cs" />
     <Compile Include="ViewModels\TrainingViewModels.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ImageService.cs" />
     <Compile Include="Services\LogService.cs" />
+    <Compile Include="ViewModels\UserManagmentViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
