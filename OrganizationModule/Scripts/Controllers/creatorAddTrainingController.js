@@ -1,4 +1,4 @@
-﻿function creatorAddTrainingController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function creatorAddTrainingController($scope, $http, $element, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
 
     //Used to display the data 
@@ -6,7 +6,7 @@
 
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 5;
-        $http.post('/api/Training/')
+        $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
@@ -21,39 +21,39 @@
 
     $scope.loadImage = function (item) {
         $scope.$apply(function (scope) {
-            var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
+            var file = $element[0].getElementsByClassName('upload-image')[0].files[0];
 
             if (!checkExtension(file)) {
                 return;
             }
 
-            if ($scope.model.InternalResource) {
-                deleteFile($scope.model.InternalResource);
+            if ($scope.viewModel.Current.TrainingResources) {
+                deleteFile($scope.viewModel.Current.TrainingResources);
             }
 
             $scope.fileName = file.name;
             var fd = new FormData();
             fd.append('file', file);
-            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
+            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), false);
         });
     }
 
-    $scope.loadIcon = function () {
+    $scope.loadIcon = function (item) {
         $scope.$apply(function (scope) {
-            var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
+            var file = $element[0].getElementsByClassName('upload-mark')[0].files[0];
 
             if (!checkExtension(file)) {
                 return;
             }
 
-            if ($scope.model.InternalResource) {
-                deleteFile($scope.model.InternalResource);
+            if ($scope.viewModel.Current.PassResources) {
+                deleteFile($scope.viewModel.Current.PassResources);
             }
 
             $scope.fileName = file.name;
             var fd = new FormData();
             fd.append('file', file);
-            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
+            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), true);
         });
     }
 
@@ -74,6 +74,86 @@
                 $scope.viewModel.Current.PassResources = selectedMark;
             }
         });
+    }
+
+    function checkExtension(file) {
+        var fileNameParts = file.name.split('.');
+        var extension = fileNameParts[fileNameParts.length - 1];
+        return file.type.indexOf('image') !== -1;
+    }
+
+    function sendFileToServer(formData, status, marks) {
+        var uploadURL = ""; //Upload URL
+
+        uploadURL = "./Upload/UploadImage";
+
+        var extraData = {}; //Extra Data.
+        var jqXHR = $.ajax({
+            xhr: function () {
+                var xhrobj = $.ajaxSettings.xhr();
+                if (xhrobj.upload) {
+                    xhrobj.upload.addEventListener('progress', function (event) {
+                        var percent = 0;
+                        var position = event.loaded || event.position;
+                        var total = event.total;
+                        if (event.lengthComputable) {
+                            percent = Math.ceil(position / total * 100);
+                        }
+                        //Set progress
+                        status.setProgress(percent);
+                    }, false);
+                }
+                return xhrobj;
+            },
+            url: uploadURL,
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: formData,
+            success: function (data) {
+                if (data.Succeeded) {
+
+                    if (marks) {
+                        $scope.viewModel.Current.PassResources = $scope.fileSrc = data.Message;
+                    }
+                    else {
+                        $scope.viewModel.Current.TrainingResources = $scope.fileSrc = data.Message;
+                    }
+
+                    $scope.$apply();
+                }
+            }
+        });
+    }
+
+    function createStatusbar(obj) {
+
+        this.statusbar = $("<div class='statusBar'></div>");
+        this.progressBar = $("<div class='progressBar'><div></div></div>").appendTo(this.statusbar);
+        $(obj).html('');
+        $(obj).append(this.statusbar);
+
+        this.setProgress = function (progress) {
+            var progressBarWidth = progress * this.progressBar.width() / 100;
+            this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "% ");
+
+            $scope.$apply();
+        }
+    }
+
+    function deleteFile(fileName) {
+        var deleteURL = ""; //Upload URL
+        deleteURL = "./Upload/DeleteImage";
+
+        $scope.fileName = undefined;
+        $scope.fileSrc = undefined;
+
+        $http.post(
+            deleteURL, {
+                FileName: fileName
+            }
+        );
     }
 
     $scope.save = function () {
@@ -103,4 +183,4 @@
     }
 }
 
-creatorAddTrainingController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+creatorAddTrainingController.$inject = ['$scope', '$http', '$element', '$modal', 'UserFactory', 'UtilitiesFactory'];

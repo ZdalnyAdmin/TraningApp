@@ -19,16 +19,18 @@ namespace AppEngine.Services
             {
                 model.ErrorMessage = String.Empty;
 
-
-                if (model.CurrentOrganization == null)
+                if (!isInternal)
                 {
-                    model.CurrentOrganization = context.Organizations.FirstOrDefault(x => x.OrganizationID == model.LoggedUser.OrganizationID);
-                }
+                    if (model.CurrentOrganization == null)
+                    {
+                        model.CurrentOrganization = context.Organizations.FirstOrDefault(x => x.OrganizationID == model.LoggedUser.OrganizationID);
+                    }
 
-                if (model.CurrentOrganization == null)
-                {
-                    model.ErrorMessage = "Brak organizacji do ktorej mozna przypisac grupe!";
-                    return true;
+                    if (model.CurrentOrganization == null)
+                    {
+                        model.ErrorMessage = "Brak organizacji do ktorej mozna przypisac grupe!";
+                        return true;
+                    }
                 }
 
                 switch (model.ActionType)
@@ -71,7 +73,11 @@ namespace AppEngine.Services
 
                         context.SaveChanges();
 
-                        LogService.InsertTrainingLogs(OperationLog.TrainingEdit, context, model.Current.TrainingID, model.LoggedUser.Id);
+                        if (isInternal)
+                        {
+                            LogService.InsertTrainingLogs(OperationLog.TrainingEdit, context, model.Current.TrainingID, model.LoggedUser.Id);
+
+                        }
 
                         break;
                     case AppEngine.Models.DataBusiness.BaseActionType.Add:
@@ -110,46 +116,53 @@ namespace AppEngine.Services
                         context.Trainings.Add(model.Current);
                         context.SaveChanges();
 
-                        LogService.InsertTrainingLogs(OperationLog.TrainingCreate, context, model.Current.TrainingID, model.LoggedUser.Id);
-                        if (model.Groups != null && model.Groups.Any())
+                        if (isInternal)
                         {
-                            foreach (var item in model.Groups)
+                            LogService.InsertTrainingLogs(OperationLog.TrainingCreate, context, model.Current.TrainingID, model.LoggedUser.Id);
+                            if (model.Groups != null && model.Groups.Any())
                             {
-                                var grp = new ProfileGroup2Trainings();
-                                grp.IsDeleted = false;
-                                grp.ProfileGroupID = item.ProfileGroupID;
-                                grp.TrainingID = model.Current.TrainingID;
-                                context.TrainingInGroups.Add(grp);
+                                foreach (var item in model.Groups)
+                                {
+                                    var grp = new ProfileGroup2Trainings();
+                                    grp.IsDeleted = false;
+                                    grp.ProfileGroupID = item.ProfileGroupID;
+                                    grp.TrainingID = model.Current.TrainingID;
+                                    context.TrainingInGroups.Add(grp);
+                                }
+                                context.SaveChanges();
                             }
-                            context.SaveChanges();
+
+                            var organization = context.Organizations.FirstOrDefault(x => x.ProtectorID == model.LoggedUser.Id);
+                            if (organization != null)
+                            {
+                                var trainingInOrganization = new Trainings2Organizations();
+                                trainingInOrganization.Organization = organization;
+                                trainingInOrganization.OrganizationID = organization.OrganizationID;
+                                trainingInOrganization.Training = model.Current;
+                                trainingInOrganization.TrainingID = model.Current.TrainingID;
+                                trainingInOrganization.IsDeleted = false;
+                                context.TrainingsInOrganizations.Add(trainingInOrganization);
+                                context.SaveChanges();
+                            }
                         }
 
-                        var organization = context.Organizations.FirstOrDefault(x => x.ProtectorID == model.LoggedUser.Id);
-                        if (organization != null)
-                        {
-                            var trainingInOrganization = new Trainings2Organizations();
-                            trainingInOrganization.Organization = organization;
-                            trainingInOrganization.OrganizationID = organization.OrganizationID;
-                            trainingInOrganization.Training = model.Current;
-                            trainingInOrganization.TrainingID = model.Current.TrainingID;
-                            trainingInOrganization.IsDeleted = false;
-                            context.TrainingsInOrganizations.Add(trainingInOrganization);
-                            context.SaveChanges();
-                        }
 
                         model.Current = new Training();
                         model.Current.PassResult = 80;
                         model.Details = new List<TrainingDetail>();
                         model.Questions = new List<TrainingQuestion>();
-                        model.Groups = model.Groups = (from gio in context.GroupsInOrganizations
-                                                       join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
-                                                       where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
-                                                       select new ProfileGroup
-                                                       {
-                                                           Name = g.Name,
-                                                           ProfileGroupID = g.ProfileGroupID
-                                                       }).ToList();
 
+                        if (isInternal)
+                        {
+                            model.Groups = model.Groups = (from gio in context.GroupsInOrganizations
+                                                           join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
+                                                           where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
+                                                           select new ProfileGroup
+                                                           {
+                                                               Name = g.Name,
+                                                               ProfileGroupID = g.ProfileGroupID
+                                                           }).ToList();
+                        }
 
                         break;
                     case BaseActionType.GetSimple:
@@ -176,15 +189,18 @@ namespace AppEngine.Services
                         model.Current.PassResult = 80;
                         model.Details = new List<TrainingDetail>();
                         model.Questions = new List<TrainingQuestion>();
-                        model.Groups = (from gio in context.GroupsInOrganizations
-                                        join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
-                                        where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
-                                        select new ProfileGroup
-                                        {
-                                            Name = g.Name,
-                                            ProfileGroupID = g.ProfileGroupID
-                                        }).ToList();
 
+                        if (isInternal)
+                        {
+                            model.Groups = (from gio in context.GroupsInOrganizations
+                                            join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
+                                            where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
+                                            select new ProfileGroup
+                                            {
+                                                Name = g.Name,
+                                                ProfileGroupID = g.ProfileGroupID
+                                            }).ToList();
+                        }
                         break;
 
                     case BaseActionType.ById:

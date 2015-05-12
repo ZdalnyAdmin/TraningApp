@@ -20,7 +20,7 @@ namespace SystemModule.Controllers.Api
                 obj.LoggedUser = Person.GetLoggedPerson(User);
             }
 
-            var result = TrainingService.ManageTrainings(db, obj, true);
+            var result = TrainingService.ManageTrainings(db, obj, false);
 
             if (result)
             {
