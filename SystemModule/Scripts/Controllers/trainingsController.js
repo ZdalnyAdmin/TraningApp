@@ -1,14 +1,16 @@
-﻿function trainingsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    $scope.Trainings = [];
+﻿function trainingsController($scope, $http, $modal, $location, UserFactory, UtilitiesFactory) {
+    $scope.viewModel = {};
 
     $scope.loadTrainings = function () {
         UtilitiesFactory.showSpinner();
-        $http.get('/api/SimpleTraining').success(function (data) {
-            $scope.Trainings = data;
+        $scope.viewModel.ActionType = 4;
+        $http.post('/api/Training/', $scope.viewModel)
+        .success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -19,10 +21,9 @@
         if (!item) {
 
         }
-        UtilitiesFactory.showSpinner();
-        //call view
-        UtilitiesFactory.hideSpinner();
+        //call view 
+        $location.path('/' + 'createTraning/').search({ trainingID: item.TrainingID });
     }
 }
 
-trainingsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+trainingsController.$inject = ['$scope', '$http', '$modal', '$location', 'UserFactory', 'UtilitiesFactory'];

@@ -176,7 +176,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\AdminController.cs" />
-    <Compile Include="Controllers\Api\GroupController.cs" />
     <Compile Include="Controllers\Api\InternalTrainingsController.cs" />
     <Compile Include="Controllers\Api\LocalFileController.cs" />
     <Compile Include="Controllers\Api\LogsController.cs" />

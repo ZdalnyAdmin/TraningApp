@@ -8,7 +8,7 @@
     $scope.loadGroups = function () {
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 5;
-        $http.post('/api/Group/', $scope.viewModel)
+        $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();

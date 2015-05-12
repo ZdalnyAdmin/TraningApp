@@ -19,7 +19,7 @@ namespace AppEngine.Services
             {
                 model.ErrorMessage = String.Empty;
 
-                if (!isInternal)
+                if (isInternal)
                 {
                     if (model.CurrentOrganization == null)
                     {
@@ -167,18 +167,52 @@ namespace AppEngine.Services
                         break;
                     case BaseActionType.GetSimple:
 
+                        if (isInternal)
+                        {
 
+                           
 
-                        var result = (from t in context.Trainings
-                                      join to in context.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
-                                      join u in context.Users on t.CreateUserID equals u.Id
-                                      where to.OrganizationID == model.CurrentOrganization.OrganizationID
-                                      select new TrainingDto
-                                         {
+                            model.Trainings = (from t in context.Trainings
+                                          join to in context.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
+                                          join u in context.Users on t.CreateUserID equals u.Id
+                                          where to.OrganizationID == model.CurrentOrganization.OrganizationID && t.TrainingType == TrainingType.Internal
+                                          orderby t.CreateDate
+                                          select new Training
+                                             {
+                                                 TrainingID = t.TrainingID,
+                                                 CreateUserID = u.UserName,
+                                                 CreateDate = t.CreateDate, 
+                                                 Name = t.Name
+                                             }).ToList();
 
-                                         }).ToList();
+                            foreach (var item in model.Trainings)
+                            {
+                                item.AssignedGroups = (from git1 in context.TrainingInGroups
+                                                      join g1 in context.Groups on git1.ProfileGroupID equals g1.ProfileGroupID
+                                                      where git1.TrainingID == item.TrainingID
+                                                      select new CommonDto
+                                                      {
+                                                          Name = g1.Name,
+                                                          Id = g1.ProfileGroupID
+                                                      }).ToList();
 
+                            }
 
+                        }
+                        else
+                        {
+                            model.Trainings = (from t in context.Trainings
+                                               join u in context.Users on t.CreateUserID equals u.Id
+                                               where t.TrainingType == TrainingType.Kenpro
+                                               orderby t.CreateDate
+                                               select new Training
+                                               {
+                                                   TrainingID = t.TrainingID,
+                                                   CreateUserID = u.UserName,
+                                                   CreateDate = t.CreateDate,
+                                                   Name = t.Name
+                                               }).ToList();
+                        }
 
 
                         break;
