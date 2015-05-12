@@ -1,19 +1,20 @@
 ﻿function adminGroupsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.isCreated = false;
-    $scope.currentGroup = {};
+    $scope.viewModel = {};
     $scope.editableGroup = {};
     //Used to display the data 
 
 
     $scope.loadData = function () {
-        UtilitiesFactory.showSpinner();
 
-        $http.get('/api/Group').success(function (data) {
-            $scope.Groups = data;
+        UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 0;
+        $http.post('/api/Group/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania grup';
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -22,19 +23,15 @@
 
     $scope.add = function () {
         UtilitiesFactory.showSpinner();
-
-        $http.post('/api/Group/', $scope.currentGroup).success(function (data) {
-
+        $scope.viewModel.ActionType = 3;
+        $http.post('/api/Group/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             $scope.isCreated = false;
             $scope.editableGroup = {};
-            $scope.currentGroup = {};
-
-            $scope.loadData();
-
             UtilitiesFactory.hideSpinner();
 
         }).error(function (data) {
-            $scope.error = "An Error has occured while creating group! " + data;
+            $scope.viewModel.ErrorMessage = " Wystąpił nieoczekiwany błąd podczas zapisu grupy " + data;
             $scope.loadData();
             UtilitiesFactory.hideSpinner();
         });
@@ -49,13 +46,13 @@
             return;
         }
         UtilitiesFactory.showSpinner();
-        
-        $http.put('/api/Group/', group).success(function (data) {
-            group.isEditable = false;
+        $scope.viewModel.ActionType = 2;
+        $http.post('/api/Group/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             $scope.editableGroup = {};
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
-            $scope.error = "An Error has occured while saving group! " + data;
+            $scope.viewModel.ErrorMessage = "Wystąpił nieoczekiwany błąd podczas edycji grupy " + data;
             UtilitiesFactory.hideSpinner();
         });
 
@@ -86,21 +83,13 @@
             return;
         }
         UtilitiesFactory.showSpinner();
-        group.IsDeleted = true;
+        $scope.viewModel.ActionType = 1;
 
-        $http.put('/api/Group/', group).success(function (data) {
-            var index = 0;
-
-            for (var i = 0; i < $scope.Groups.length; i++) {
-                if ($scope.Groups[i].IsDeleted) {
-                    index = i;
-                    break;
-                }
-            }
-            $scope.Groups.splice(index, 1);
+        $http.post('/api/Group/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
-            $scope.error = "An Error has occured while deleting group! " + data;
+            $scope.viewModel.ErrorMessage = "Wystąpił nieoczekiwany błąd podczas usuwanie grupy ";
             UtilitiesFactory.hideSpinner();
         });
     };

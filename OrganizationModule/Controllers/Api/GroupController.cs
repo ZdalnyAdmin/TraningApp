@@ -1,6 +1,9 @@
 ﻿using AppEngine.Helpers;
 using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
+using AppEngine.Models.DataObject;
+using AppEngine.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,118 +19,166 @@ namespace OrganizationModule.Controllers
     {
         private EFContext db = new EFContext();
 
-        // GET api/<controller>
-        [HttpGet]
-        public IEnumerable<ProfileGroup> Get()
-        {
-            var groups = db.Groups.Where(x => !x.IsDeleted).ToList();
-
-            foreach (var item in groups)
-            {
-                var people = (from pg in db.PeopleInGroups
-                              join p in db.Users on pg.PersonID equals p.Id
-                              where pg.ProfileGroupID == item.ProfileGroupID
-                              select p).ToList();
-                item.AssignedPeople = people;
-            }
-            return groups;
-        }
-
         // POST api/<controller>
         [HttpPost]
-        public HttpResponseMessage Post(ProfileGroup obj)
+        public HttpResponseMessage Post(GroupManagmentViewModel obj)
         {
-            obj.CreateDate = DateTime.Now;
-            var usr = Person.GetLoggedPerson(User);
-            obj.CreateUserID = usr.Id;
-            obj.IsDeleted = false;
-            if (ModelState.IsValid)
-            {
-                db.Groups.Add(obj);
-                db.SaveChanges();
-
-                if (obj.AssignedPeople != null)
-                {
-                    foreach (var item in obj.AssignedPeople)
-                    {
-                        var pg = new ProfileGroup2Person();
-                        pg.IsDeleted = false;
-                        pg.PersonID = item.Id;
-                        pg.ProfileGroupID = obj.ProfileGroupID;
-                        db.PeopleInGroups.Add(pg);
-                    }
-                    db.SaveChanges();
-                }
-
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
-                return response;
-            }
-            else
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
-        }
-
-        // PUT api/<controller>/5
-        public HttpResponseMessage Put(ProfileGroup obj)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
-
-
-            if (obj.IsDeleted)
-            {
-                var usr = Person.GetLoggedPerson(User);
-                obj.DeletedUserID = usr.Id;
-                obj.DeletedDate = DateTime.Now;
-
-                var personsInGroups = (from t in db.PeopleInGroups
-                                       where t.ProfileGroupID == obj.ProfileGroupID
-                                       select t).ToList();
-                if (personsInGroups != null && personsInGroups.Any())
-                {
-                    db.PeopleInGroups.RemoveRange(personsInGroups);
-                }
-            }
-            else
-            {
-                var personsInGroups = (from t in db.PeopleInGroups
-                                       where t.ProfileGroupID == obj.ProfileGroupID
-                                       select t).ToList();
-                if (personsInGroups != null && personsInGroups.Any())
-                {
-                    db.PeopleInGroups.RemoveRange(personsInGroups);
-                }
-
-                if (obj.AssignedPeople != null && obj.AssignedPeople.Any())
-                {
-                    foreach (var item in obj.AssignedPeople)
-                    {
-                        var pg = new ProfileGroup2Person();
-                        pg.IsDeleted = false;
-                        pg.PersonID = item.Id;
-                        pg.ProfileGroupID = obj.ProfileGroupID;
-                        db.PeopleInGroups.Add(pg);
-                    }
-                }
-            }
-
-            db.Entry(obj).State = EntityState.Modified;
-
             try
             {
-                db.SaveChanges();
+                obj.ErrorMessage = String.Empty;
+                if (obj.LoggedUser == null)
+                {
+                    obj.LoggedUser = Person.GetLoggedPerson(User);
+                }
+
+                if (obj.CurrentOrganization == null)
+                {
+                    obj.CurrentOrganization = db.Organizations.FirstOrDefault(x => x.OrganizationID == obj.LoggedUser.OrganizationID);
+                }
+
+                if(obj.CurrentOrganization == null)
+                {
+                    obj.ErrorMessage = "Brak organizacji do ktorej mozna przypisac grupe!";
+                    return Request.CreateResponse(HttpStatusCode.Created, obj);;
+                }
+
+                switch (obj.ActionType)
+                {
+                    case BaseActionType.Get:
+                        //get groups assigned to organizaction
+
+                        var groups = (from gio in db.GroupsInOrganizations
+                                      join g in db.Groups on gio.ProfileGroupID equals g.ProfileGroupID
+                                      where gio.OrganizationID == obj.CurrentOrganization.OrganizationID
+                                      && g.Name != "Wszyscy" && !g.IsDeleted
+                                      select new ProfileGroup
+                                      {
+                                          Name = g.Name,
+                                          ProfileGroupID = g.ProfileGroupID
+                                      }).ToList();
+
+
+                        foreach (var g in groups)
+                        {
+                            g.AssignedPeople = (from pig in db.PeopleInGroups
+                                                join p in db.Users on pig.PersonID equals p.Id
+                                                where pig.ProfileGroupID == g.ProfileGroupID
+                                                select new Person
+                                                {
+                                                    Id = pig.PersonID,
+                                                    UserName = p.UserName
+
+                                                }).ToList();
+                        }
+
+                        break;
+                    case BaseActionType.Delete:
+
+                        obj.Current.IsDeleted = true;
+                        obj.Current.DeletedUserID = obj.LoggedUser.Id;
+                        obj.Current.DeletedDate = DateTime.Now;
+
+                        var personsInGroups = (from t in db.PeopleInGroups
+                                               where t.ProfileGroupID == obj.Current.ProfileGroupID
+                                               select t).ToList();
+                        if (personsInGroups != null && personsInGroups.Any())
+                        {
+                            db.PeopleInGroups.RemoveRange(personsInGroups);
+                        }
+
+
+                        db.Entry(obj).State = EntityState.Modified;
+
+                        db.SaveChanges();
+
+                        var current = obj.Groups.FirstOrDefault(x => x.ProfileGroupID == obj.Current.ProfileGroupID);
+                        if(current != null)
+                        {
+                            obj.Groups.Remove(current);
+                        }
+
+                        break;
+                    case BaseActionType.Edit:
+
+                        var group = db.Groups.FirstOrDefault(x => x.ProfileGroupID == obj.Current.ProfileGroupID);
+
+                        group.Name = obj.Current.Name;
+
+                        var toRemove = (from t in db.PeopleInGroups
+                                        where t.ProfileGroupID == obj.Current.ProfileGroupID
+                                        select t).ToList();
+                        if (toRemove != null && toRemove.Any())
+                        {
+                            db.PeopleInGroups.RemoveRange(toRemove);
+                        }
+
+                        if (obj.Current.AssignedPeople != null && obj.Current.AssignedPeople.Any())
+                        {
+                            foreach (var item in obj.Current.AssignedPeople)
+                            {
+                                var pg = new ProfileGroup2Person();
+                                pg.IsDeleted = false;
+                                pg.PersonID = item.Id;
+                                pg.ProfileGroupID = obj.Current.ProfileGroupID;
+                                db.PeopleInGroups.Add(pg);
+                            }
+                        }
+
+                        db.Entry(obj.Current).State = EntityState.Modified;
+
+                        db.SaveChanges();
+
+                        break;
+
+                    case BaseActionType.Add:
+
+
+                        obj.Current.CreateDate = DateTime.Now;
+                        obj.Current.CreateUserID = obj.LoggedUser.Id;
+                        obj.Current.IsDeleted = false;
+
+                        db.Groups.Add(obj.Current);
+
+                        var gip = new ProfileGroup2Organization();
+                        gip.OrganizationID = obj.CurrentOrganization.OrganizationID;
+                        gip.ProfileGroupID = obj.Current.ProfileGroupID;
+
+                        db.GroupsInOrganizations.Add(gip);
+
+                        db.SaveChanges();
+
+                        //assigned people to group
+                        if (obj.Current.AssignedPeople != null)
+                        {
+                            foreach (var item in obj.Current.AssignedPeople)
+                            {
+                                var pg = new ProfileGroup2Person();
+                                pg.IsDeleted = false;
+                                pg.PersonID = item.Id;
+                                pg.ProfileGroupID = obj.Current.ProfileGroupID;
+                                db.PeopleInGroups.Add(pg);
+                            }
+                            db.SaveChanges();
+                        }
+
+                        obj.Groups.Add(obj.Current);
+                        obj.Current = new ProfileGroup();
+
+                        break;
+                    default:
+                        break;
+                }
+
+                return Request.CreateResponse(HttpStatusCode.Created, obj);;
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+
 
         protected override void Dispose(bool disposing)
         {

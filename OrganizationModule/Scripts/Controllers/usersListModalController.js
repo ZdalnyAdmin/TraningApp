@@ -1,17 +1,22 @@
-﻿var usersListModalController = function ($scope, $http, $modalInstance) {
+﻿var usersListModalController = function ($scope, $http, $modalInstance, UtilitiesFactory) {
+    $scope.viewModel = {};
+    //temp solution
 
-    $scope.loadPeople = function () {
-        $http.get('/api/SimplePerson').success(function (data) {
-            $scope.users = data;
-            $scope.loading = false;
+    //Used to display the data 
+    $scope.loadData = function () {
+        UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 0;
+        $http.post('/api/Person/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
+            UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
-            $scope.loading = false;
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
+            UtilitiesFactory.hideSpinner();
         });
     }
 
-    $scope.loadPeople();
+    $scope.loadData();
 
     $scope.close = function () {
         $modalInstance.close();
@@ -19,7 +24,7 @@
 
     $scope.save = function () {
         var selectedUsers = new Array();
-        angular.forEach($scope.users, function (user) {
+        angular.forEach($scope.viewModel.People, function (user) {
             if (user.selected) {
                 selectedUsers.push(user);
             }
@@ -29,4 +34,4 @@
     };
 };
 
-usersListModalController.$inject = ['$scope', '$http', '$modalInstance'];
+usersListModalController.$inject = ['$scope', '$http', '$modalInstance', 'UtilitiesFactory'];

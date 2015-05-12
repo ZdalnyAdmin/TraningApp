@@ -14,10 +14,12 @@ namespace AppEngine.Models.DataBusiness
         GetGroups = 3
     }
 
-    public enum UserManagmentActionType
+    public enum BaseActionType
     {
         Get = 0,
         Delete = 1,
         Edit = 2,
+        Add = 3,
+        GetSimple = 4
     }
 }

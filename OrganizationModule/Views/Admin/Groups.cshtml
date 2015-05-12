@@ -1,6 +1,6 @@
 ﻿<div ng-app="" ng-controller="adminGroupsController" class="container">
 
-    <strong class="error">{{ error }}</strong>
+    <strong class="error">{{ viewModel.ErrorMessage }}</strong>
 
     <div>
         Domyslnie kazde szkolenie moze byc widoczne przez jego autora lub przez wszystkich uzytkowanikow. Mozesz jednak stworzyc grupy skladajaca sie z czesci uzytkownikow i
@@ -18,23 +18,27 @@
             <div id="mainText">
                 Nazwa grupy
             </div>
-            <input type="text" id="mainInput" name="currentGroup.Name" ng-model="currentGroup.Name" ng-minlength=3 ng-maxlength=40>
+            <input type="text" id="mainInput" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" ng-minlength=3 ng-maxlength=40>
         </div>
         <div id="simpleRow">
             <div id="mainText">
-                Czlonkowie grupy {{currentGroup.AssignedPeopleDisplay}}
+                Czlonkowie grupy :
+                <div ng-repeat="user in viewModel.Current.AssignedPeople">
+                    {{user.Name}} ,
+                </div>
+               
             </div>
-            <div id="inputButto" ng-click="chooseUsers(currentGroup)">
+            <div id="inputButto" ng-click="chooseUsers(viewModel.Current.AssignedPeople)">
                 Wybierz z listy
             </div>
         </div>
         <div id="simpleRow">
-            <div id="inputButto" ng-click="add()">
+            <div id="inputButto" ng-click="add(viewModel.Current)">
                 Zapisz
             </div>
         </div>
     </div>
-    <div ng-repeat="group in Groups">
+    <div ng-repeat="group in viewModel.Groups">
         <div id="simpleRow">
             <div id="mainText">
                 Grupa :
@@ -42,7 +46,7 @@
             <div id="mainText" ng-hide="group.isEditable">
                 {{ group.Name }}
             </div>
-            <input type="text" id="mainInput" name="group.Name" ng-model="group.Name" ng-show="group.isEditable" ng-minlength=3 ng-maxlength=40>
+            <input type="text" id="mainInput" name="group.Name" ng-model="group.Name" ng-show="group.isEditable">
             <div id="inputButto" ng-hide="group.isEditable" ng-click="showEdit(group)">
                 EDYCJA
             </div>
@@ -52,7 +56,10 @@
         </div>
         <div id="simpleRow">
             <div id="mainText">
-                Czlonkowie grupy : {{ group.AssignedPeopleDisplay }}
+                Czlonkowie grupy : 
+                <div ng-repeat="user in viewModel.Current.AssignedPeople">
+                    {{user.Name}} ,
+                </div>
             </div>
             <div id="inputButto" ng-show="group.isEditable" ng-click="chooseUsers(group)">
                 Wybierz z listy

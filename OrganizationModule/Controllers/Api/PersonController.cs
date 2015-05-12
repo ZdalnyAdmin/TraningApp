@@ -40,7 +40,7 @@ namespace OrganizationModule.Controllers
 
                     switch (obj.ActionType)
                     {
-                        case UserManagmentActionType.Get:
+                        case BaseActionType.Get:
                             //todo logs for add and send invitation
                             var people = (from p in db.Users
                                           where (p.Status == StatusEnum.Active || p.Status == StatusEnum.Blocked || p.Status == StatusEnum.Deleted)
@@ -87,7 +87,7 @@ namespace OrganizationModule.Controllers
                                                  where t.IsDeleted
                                                  select t).ToList();
                             break;
-                        case UserManagmentActionType.Delete:
+                        case BaseActionType.Delete:
 
                             obj.Current.DeleteUserID = obj.LoggedUser.Id;
                             obj.Current.DeletedDate = DateTime.Now;
@@ -97,7 +97,7 @@ namespace OrganizationModule.Controllers
                             db.SaveChanges();
 
                             break;
-                        case UserManagmentActionType.Edit:
+                        case BaseActionType.Edit:
 
 
                             obj.Current.ModifiedUserID = obj.LoggedUser.Id;
@@ -105,6 +105,15 @@ namespace OrganizationModule.Controllers
                             LogService.InsertUserLogs(OperationLog.UserEdit, db, obj.Current.Id, obj.Current.ModifiedUserID);
 
                             db.SaveChanges();
+                            break;
+
+                        case BaseActionType.GetSimple:
+
+                            obj.People = (from p in db.Users
+                                          where (p.Status == StatusEnum.Active)
+                                          && (p.Profile == ProfileEnum.User || p.Profile == ProfileEnum.Creator || p.Profile == ProfileEnum.Administrator || p.Profile == ProfileEnum.Manager)
+                                          orderby p.RegistrationDate
+                                          select p).ToList();
                             break;
                         default:
                             break;

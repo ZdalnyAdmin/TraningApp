@@ -114,6 +114,7 @@
     <Compile Include="Models\DTO\TrainingDto.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\GroupManagmentViewModel.cs" />
     <Compile Include="ViewModels\ManagerViewModels.cs" />
     <Compile Include="ViewModels\TrainingManagmentViewModel.cs" />
     <Compile Include="ViewModels\TrainingViewModels.cs" />
