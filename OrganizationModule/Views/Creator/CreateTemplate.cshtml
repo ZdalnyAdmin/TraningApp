@@ -1,6 +1,6 @@
 ﻿<div ng-app="" ng-controller="creatorAddTrainingController" class="container">
 
-    <strong class="error">{{ error }}</strong>
+    <strong class="error">{{ viewModel.ErrorMessage }}</strong>
 
     <div id="simpleRow">
         INFORMACJE O SZKOLENIU
@@ -12,12 +12,12 @@
 
     <div id="simpleRow">
         NAZWA SZKOLENIA
-        <input type="text" name="currentTraining.Name" ng-model="currentTraining.Name" />
+        <input type="text" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" />
     </div>
 
     <div id="simpleRow">
         OPIS SZKOLENIA
-        <input type="text" name="currentTraining.Description" ng-model="currentTraining.Description" />
+        <input type="text" name="viewModel.Current.Description" ng-model="viewModel.Current.Description" />
     </div>
 
     <div id="simpleRow">
@@ -43,10 +43,10 @@
     </div>
 
     <div id="simpleRow">
-        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="100" />100%
-        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="80" checked="checked" />80%
-        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="65" />65%
-        <input type="radio" name="passResult" ng-model="currentTraining.PassResult" value="50" />50%
+        <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="100" />100%
+        <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="80" checked="checked" />80%
+        <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="65" />65%
+        <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="50" />50%
     </div>
 
     <div id="simpleRow">
@@ -54,7 +54,7 @@
     </div>
 
     <div id="simpleRow">
-        <input type="text" name="currentTraining.PassInfo" ng-model="currentTraining.PassInfo" />
+        <input type="text" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" />
     </div>
 
     <div id="simpleRow">
@@ -80,15 +80,15 @@
         ZAWARTOSC SZKOLENIA
     </div>
 
-    <div ng-training-details-tab obj="trainingDetails"></div>
-    <div ng-training-edit-details collection="trainingDetails"></div>
+    <div ng-training-details-tab obj="viewModel.Details"></div>
+    <div ng-training-edit-details collection="viewModel.Details"></div>
 
     <div id="simpleRow">
         PYTANIE W SZKOLENIU
     </div>
 
-    <div ng-training-edit-question questions="trainingQuestion"></div>
-    <div ng-training-add-question questions="trainingQuestion"></div>
+    <div ng-training-edit-question questions="viewModel.Questions"></div>
+    <div ng-training-add-question questions="viewModel.Questions"></div>
 
     <div id="simpleRow">
         OKRESL DLA KOGO MA BYC WIDOCZNE SZKOLENIE
@@ -96,7 +96,7 @@
     <div id="simpleRow">
         Na ta chwile polecamy Ci nie zaznaczac zadnej grupy. W takiej sytuacji kurs bedzie widoczny tylko dla Ciebie. Polecamy Ci go uruchomić i przetestowac a dopiero pozniej przyznac uprawnienia dla innych uzytkownikow (Mozesz to zrobic w zakladce moje szkolenia)
     </div>
-    <div ng-repeat="item in Groups">
+    <div ng-repeat="item in viewModel.Groups">
         <input type="checkbox" ng-model="item.selected" />{{item.Name}}
     </div>
     <div id="simpleRow">

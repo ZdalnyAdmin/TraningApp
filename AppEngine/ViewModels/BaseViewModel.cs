@@ -1,4 +1,5 @@
 ﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 
 namespace AppEngine.ViewModels
 {
@@ -7,5 +8,6 @@ namespace AppEngine.ViewModels
         public Person LoggedUser { get; set; }
         public Organization CurrentOrganization { get; set; }
         public string ErrorMessage { get; set; }
+        public BaseActionType ActionType { get; set; }
     }
 }

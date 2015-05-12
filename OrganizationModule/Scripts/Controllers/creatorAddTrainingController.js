@@ -1,29 +1,23 @@
 ﻿function creatorAddTrainingController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    $scope.loading = true;
-    $scope.currentTraining = {};
-    //training question elements
-    $scope.trainingQuestion = [];
-    //training details elements
-    $scope.trainingDetails = [];
+    $scope.viewModel = {};
 
     //Used to display the data 
-    $scope.loadGroups = function () {
+    $scope.loadData = function () {
+
         UtilitiesFactory.showSpinner();
-        $http.get('/api/Group')
+        $scope.viewModel.ActionType = 5;
+        $http.post('/api/Training/')
         .success(function (data) {
-            if (!data) {
-                return;
-            }
-            $scope.Groups = data;
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
             UtilitiesFactory.hideSpinner();
         });
     }
 
-    $scope.loadGroups();
+    $scope.loadData();
 
     $scope.loadImage = function (item) {
         $scope.$apply(function (scope) {
@@ -77,39 +71,33 @@
 
         modalInstance.result.then(function (selectedMark) {
             if (!!selectedMark) {
-                $scope.currentTraining.PassResources = selectedMark;
+                $scope.viewModel.Current.PassResources = selectedMark;
             }
         });
     }
 
     $scope.save = function () {
         //check conditions
-        if (!$scope.currentTraining.Name) {
+        if (!$scope.viewModel.Current.Name) {
             return;
         }
 
         UtilitiesFactory.showSpinner();
-        $scope.currentTraining.CreateUserID = 1;
-        $scope.currentTraining.Details = $scope.trainingDetails;
-        $scope.currentTraining.Questions = $scope.trainingQuestion;
-
-        $scope.currentTraining.Groups = [];
-        angular.forEach($scope.Groups, function (val) {
+        $scope.viewModel.ActionType = 3;
+        angular.forEach($scope.viewModel.Groups, function (val) {
             if (val.selected) {
-                $scope.currentTraining.Groups.push(val);
+                $scope.viewModel.Current.Groups.push(val);
             }
         });
 
 
-        $http.post('/api/Training', $scope.currentTraining)
+        $http.post('/api/Training/', $scope.viewModel.Current)
         .success(function (data) {
-            $scope.currentTraining = {};
-            $scope.trainingDetails = [];
-            $scope.trainingQuestion = [];
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisu szkolenia';
             UtilitiesFactory.hideSpinner();
         });
     }

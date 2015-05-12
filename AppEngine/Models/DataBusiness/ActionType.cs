@@ -20,6 +20,8 @@ namespace AppEngine.Models.DataBusiness
         Delete = 1,
         Edit = 2,
         Add = 3,
-        GetSimple = 4
+        GetSimple = 4,
+        GetGroup = 5,
+        ById = 6,
     }
 }
