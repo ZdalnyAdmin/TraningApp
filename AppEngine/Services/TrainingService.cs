@@ -169,9 +169,6 @@ namespace AppEngine.Services
 
                         if (isInternal)
                         {
-
-
-
                             model.Trainings = (from t in context.Trainings
                                                join to in context.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
                                                where to.OrganizationID == model.CurrentOrganization.OrganizationID && t.TrainingType == TrainingType.Internal
@@ -203,15 +200,10 @@ namespace AppEngine.Services
                         }
                         else
                         {
-                            model.Trainings = (from t in context.Trainings
-                                               where t.TrainingType == TrainingType.Kenpro
-                                               orderby t.CreateDate
-                                               select new Training
-                                               {
-                                                   TrainingID = t.TrainingID,
-                                                   CreateDate = t.CreateDate,
-                                                   Name = t.Name
-                                               }).ToList();
+                            model.Trainings = (from ext in context.Trainings
+                                               where ext.TrainingType == TrainingType.Kenpro
+                                               orderby ext.CreateDate
+                                               select ext).ToList();
 
                             foreach (var item in model.Trainings)
                             {
