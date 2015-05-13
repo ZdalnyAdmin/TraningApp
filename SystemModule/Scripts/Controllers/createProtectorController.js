@@ -1,27 +1,19 @@
 ﻿function createProtectorController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    $scope.loading = true;
-    $scope.organizations = [];
-    $scope.current = {};
+    $scope.viewModel = {};
 
     $scope.loadOrganization = function () {
 
         UtilitiesFactory.showSpinner();
 
+        UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 7;
 
-        $http.get('/api/NotProtectedOrganization')
-        .success(function (data) {
-            if (!data) {
-                return;
-            }
-            $scope.organizations = data;
-            $scope.loading = false;
-
+        $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.errorMessage = "Wystąpił nieoczekiwany błąd podczas pobierania organizacji!";
-            $scope.loading = false;
-
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -29,13 +21,13 @@
     $scope.loadOrganization();
 
     $scope.save = function () {
-        if (!$scope.current.UserName || !$scope.current.Email || !$scope.current.Organization) {
+        if (!$scope.viewModel.Protector.UserName || !$scope.viewModel.Protector.Email) {
             return;
         }
 
         UtilitiesFactory.showSpinner();
-
-        $scope.current.OrganizationID = $scope.current.Organization.OrganizationID;
+        //todo
+        $scope.viewModel.Protector.OrganizationID = $scope.current.Organization.OrganizationID;
 
         $scope.errorMessage = '';
         var result = UserFactory.registerOperator($scope.current);

@@ -111,12 +111,14 @@
     <Compile Include="Models\DataObject\TrainingResult.cs" />
     <Compile Include="Models\DataContext\EFContext.cs" />
     <Compile Include="Models\DataObject\Trainings2Organizations.cs" />
+    <Compile Include="Models\DTO\OrganizationDto.cs" />
     <Compile Include="Models\DTO\TrainingDto.cs" />
     <Compile Include="Services\TrainingService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\GroupManagmentViewModel.cs" />
     <Compile Include="ViewModels\ManagerViewModels.cs" />
+    <Compile Include="ViewModels\OrganizationViewModel.cs" />
     <Compile Include="ViewModels\TrainingManagmentViewModel.cs" />
     <Compile Include="ViewModels\TrainingViewModel.cs" />
     <Compile Include="ViewModels\TrainingViewModels.cs" />

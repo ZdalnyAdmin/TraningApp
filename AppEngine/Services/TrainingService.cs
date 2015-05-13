@@ -224,7 +224,7 @@ namespace AppEngine.Services
 
 
                         break;
-                    case BaseActionType.GetGroup:
+                    case BaseActionType.GetExtData:
 
 
                         model.Current = new Training();

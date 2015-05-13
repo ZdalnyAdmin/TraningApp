@@ -21,7 +21,9 @@ namespace AppEngine.Models.DataBusiness
         Edit = 2,
         Add = 3,
         GetSimple = 4,
-        GetGroup = 5,
+        GetExtData = 5,
         ById = 6,
+        GetSpecial = 7,
+        SaveProtector = 8,
     }
 }

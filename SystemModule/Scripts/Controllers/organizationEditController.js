@@ -1,13 +1,16 @@
 ﻿function organizationEditController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    $scope.list = [];
+    $scope.viewModel = {};
     $scope.availableStatus = ['Aktywny', 'Ukryty'];
 
     $scope.loadDate = function () {
-        UtilitiesFactory.showSpinner();
-        $http.get('/api/Organizations').success(function (data) {
-            $scope.list = data;
 
-            angular.forEach($scope.list, function (item) {
+        UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 4;
+
+        $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
+
+            angular.forEach($scope.viewModel.Organizations, function (item) {
                 if (item.Status == 1) {
                     item.selectedStatus = 'Aktywny';
                 } else if (item.Status == 3) {
@@ -20,7 +23,7 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = "An Error has occured while loading posts!";
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -33,24 +36,49 @@
         }
 
         UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 2;
 
         if (item.selectedStatus == 'Aktywny') {
-            item.Status = 1;
+            $scope.viewModel.Current.Status = 1;
         } else if (item.selectedStatus == 'Usuniety') {
-            item.Status = 3;
+            $scope.viewModel.Current.Status = 3;
         } else if (item.selectedStatus == 'Ukryty') {
-            item.Status = 2;
+            $scope.viewModel.Current.Status = 2;
         }
 
-        $http.put('/api/Organizations', item).success(function (data) {
+        $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
 
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = "Wystąpił nieoczekiwany błąd podczas zmiany statusu organizacji";
             UtilitiesFactory.hideSpinner();
         });
     };
+
+    $scope.showOrganizationDetails = function(item, show)
+    {
+        item.showDetails = show;
+
+        if (!show)
+        {
+            return;
+        }
+
+        UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 6;
+        $scope.viewModel.OrganizationID = item.OrganizationID;
+
+        $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
+            $scope.viewModel.Detail = data.Detail;
+            UtilitiesFactory.hideSpinner();
+        })
+        .error(function () {
+            $scope.viewModel.ErrorMessage = "An Error has occured while loading posts!";
+            UtilitiesFactory.hideSpinner();
+        });
+    }
 
     $scope.delete = function (item) {
         $scope.current = item;
@@ -67,32 +95,31 @@
 
         modalInstance.result.then(function (selectedReason) {
             if (!!selectedReason.Text) {
-                item.DeletedReason = selectedReason.Text;
-                item.IsDeleted = true;
-                item.Status = 3;
-                $http.put('/api/Organizations', item).success(function (data) {
-                    $scope.loading = false;
-                    item.DeletedDate = data.DeletedDate;
 
-                    var result = UserFactory.organizationDeleteMail(item);
+                $scope.viewModel.ActionType = 1;
+
+                $scope.viewModel.Current.DeletedReason = selectedReason.Text;
+                $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
+                    $scope.viewModel = data;
+
+                    var result = UserFactory.organizationDeleteMail($scope.viewModel.Current);
 
                     result.then(function (data) {
                         if (!data.Succeeded) {
                             if (data.Errors) {
-                                $scope.errorMessage = '';
+                                $scope.viewModel.ErrorMessage = '';
                                 angular.forEach(data.Errors, function (val) {
-                                    $scope.errorMessage += ' ' + val;
+                                    $scope.viewModel.ErrorMessage += ' ' + val;
                                 });
                             } else {
-                                $scope.errorMessage = 'Wystąpił nieoczekiwany błąd podczas usuniecia organizacji';
+                                $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas usuniecia organizacji';
                             }
                         }
                     });
 
                 })
                 .error(function () {
-                    $scope.error = "Wystąpił nieoczekiwany błąd podczas usuniecia organizacji";
-                    $scope.loading = false;
+                    $scope.viewModel.ErrorMessage = "Wystąpił nieoczekiwany błąd podczas usuniecia organizacji";
                 });
             }
         });
