@@ -26,14 +26,16 @@
         }
 
         UtilitiesFactory.showSpinner();
-        //todo
-        $scope.viewModel.Protector.OrganizationID = $scope.current.Organization.OrganizationID;
 
         $scope.errorMessage = '';
-        var result = UserFactory.registerOperator($scope.current);
+        var result = UserFactory.registerOperator($scope.viewModel.Protector);
 
         result.then(function (data) {
             if (!data.Succeeded) {
+                $scope.viewModel.Protector = {};
+                $scope.viewModel.Protector.Profile = 4;
+            }
+            else {
                 if (data.Errors) {
                     $scope.errorMessage = '';
                     angular.forEach(data.Errors, function (val) {
@@ -51,10 +53,10 @@
 
     $scope.changeOrganization = function (selected) {
         if (!selected) {
-            $scope.current.Organization = undefined;
+            $scope.viewModel.Protector.OrganizationID = 0;
             return;
         }
-        $scope.current.Organization = selected;
+        $scope.viewModel.Protector.OrganizationID = selected.Id;
     }
 }
 
