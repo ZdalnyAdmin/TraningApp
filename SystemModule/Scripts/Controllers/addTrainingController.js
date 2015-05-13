@@ -1,5 +1,7 @@
 ﻿function addTrainingController($scope, $http, $element, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
+    $scope.availableForAll = true;
+
 
     //Used to display the data 
     $scope.loadData = function () {
@@ -179,6 +181,27 @@
         .error(function () {
             $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisu szkolenia';
             UtilitiesFactory.hideSpinner();
+        });
+    }
+
+    $scope.showOrganization = function()
+    {
+        var modalInstance = $modal.open({
+            templateUrl: '/Templates/Modals/organizationModal.html',
+            controller: 'organizationModalController',
+            size: 'sm',
+            resolve: {
+                selectedOrganization: function () {
+                    return $scope.selectedOrganization;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedOrganization) {
+            if (!!selectedOrganization) {
+                $scope.viewModel.Organizations = selectedOrganization;
+                $scope.availableForAll = false;
+            }
         });
     }
 }

@@ -219,6 +219,7 @@
     <Content Include="Scripts\Controllers\organizationCreateController.js" />
     <Content Include="Scripts\Controllers\organizationDeleteModalController.js" />
     <Content Include="Scripts\Controllers\organizationEditController.js" />
+    <Content Include="Scripts\Controllers\organizationModelController.js" />
     <Content Include="Scripts\Controllers\settingsController.js" />
     <Content Include="Scripts\Controllers\statisticsController.js" />
     <Content Include="Scripts\Controllers\trainingInternalController.js" />
@@ -260,6 +261,7 @@
     <Content Include="Templates\dragAndDrop.html" />
     <Content Include="Templates\menu.html" />
     <Content Include="Templates\Modals\organizationDeleteModal.html" />
+    <Content Include="Templates\Modals\organizationModal.html" />
     <Content Include="Templates\trainingAddQuestion.html" />
     <Content Include="Templates\trainingDetailsTab.html" />
     <Content Include="Templates\trainingEditDetails.html" />

@@ -145,6 +145,27 @@ namespace AppEngine.Services
                                 context.SaveChanges();
                             }
                         }
+                        else
+                        {
+                            var organizations = new List<Trainings2Organizations>();
+                            foreach (var item in model.Organizations)
+                            {
+                                var trainingInOrganization = new Trainings2Organizations();
+                                trainingInOrganization.Organization = item;
+                                trainingInOrganization.OrganizationID = item.OrganizationID;
+                                trainingInOrganization.Training = model.Current;
+                                trainingInOrganization.TrainingID = model.Current.TrainingID;
+                                trainingInOrganization.IsDeleted = false;
+                                context.TrainingsInOrganizations.Add(trainingInOrganization);
+                            }
+
+                            if(organizations.Any())
+                            {
+                                context.TrainingsInOrganizations.AddRange(organizations);
+                                context.SaveChanges();
+                            }
+                        }
+
 
 
                         model.Current = new Training();

@@ -18,6 +18,7 @@ namespace AppEngine.ViewModels
         public List<TrainingDetail> Details { get; set; }
         public List<TrainingQuestion> Questions { get; set; }
         public List<ProfileGroup> Groups { get; set; }
+        public List<Organization> Organizations { get; set; }
         public int trainingID { get; set; }
     }
 }

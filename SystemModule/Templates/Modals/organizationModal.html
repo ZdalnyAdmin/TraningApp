@@ -1,0 +1,16 @@
+﻿<div>
+    <div class="modal-header">
+        <div class="btn btn-primary" ng-click="close()">X</div>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div ng-repeat="item in viewModel.Organizations" class="user-item">
+                <input type="checkbox" ng-model="item.selected" />
+                {{item.Name}}
+            </div>
+        </div>
+    </div>
+    <div class="modal-header">
+        <div class="btn btn-primary" ng-click="save()">ZAPISZ</div>
+    </div>
+</div>
