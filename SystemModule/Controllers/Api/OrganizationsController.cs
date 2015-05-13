@@ -165,6 +165,7 @@ namespace SystemModule.Controllers.Api
                         break;
                     case BaseActionType.GetSpecial:
                         obj.Protector = new Person();
+                        obj.Protector.Profile = ProfileEnum.Protector;
 
                         obj.NotAssigned = (from t in db.Organizations
                                            where t.ProtectorID == null && t.Status == OrganizationEnum.Active

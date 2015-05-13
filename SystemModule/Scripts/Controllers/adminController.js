@@ -1,14 +1,16 @@
 ﻿function adminController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    $scope.list = [];
+    $scope.viewModel = {};
 
     $scope.loadDate = function () {
         UtilitiesFactory.showSpinner();
-        $http.get('/api/Admin').success(function (data) {
-            $scope.list = data;
+        $scope.viewModel.ActionType = 5;
+
+        $http.post('/api/User/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
             UtilitiesFactory.hideSpinner();
         });
     }

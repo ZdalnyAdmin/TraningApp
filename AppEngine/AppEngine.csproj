@@ -119,6 +119,7 @@
     <Compile Include="ViewModels\GroupManagmentViewModel.cs" />
     <Compile Include="ViewModels\ManagerViewModels.cs" />
     <Compile Include="ViewModels\OrganizationViewModel.cs" />
+    <Compile Include="ViewModels\PersonViewModel.cs" />
     <Compile Include="ViewModels\TrainingManagmentViewModel.cs" />
     <Compile Include="ViewModels\TrainingViewModel.cs" />
     <Compile Include="ViewModels\TrainingViewModels.cs" />

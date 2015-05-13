@@ -25,6 +25,28 @@ namespace SystemModule.Controllers.Api
                 }
             }
 
+            //var descs = new List<EnumData>();
+            //var type = typeof(SystemLog);
+            //var names = Enum.GetNames(type);
+            //int index = 1;
+            //EnumData data = null;
+            //foreach (var name in names)
+            //{
+            //    data = new EnumData();
+            //    var field = type.GetField(name);
+            //    var fds = field.GetCustomAttributes(typeof(DescriptionAttribute), true);
+            //    foreach (DescriptionAttribute fd in fds)
+            //    {
+            //        data.Name = fd.Description;
+            //        data.Type = index;
+            //    }
+
+            //    descs.Add(data);
+            //    index++;
+            //}
+            //return descs;
+
+
             return logs;
         }
 
