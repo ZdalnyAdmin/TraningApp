@@ -16,6 +16,7 @@ OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInt
 OrganizationModuleApp.factory('UserFactory', UserFactory);
 OrganizationModuleApp.factory('TrainingFactory', TrainingFactory);
 OrganizationModuleApp.factory('UtilitiesFactory', UtilitiesFactory);
+OrganizationModuleApp.factory('loggedUserController', loggedUserController);
 //OrganizationModuleApp.service('SessionService', SessionService)
 
 var configFunction = function ($routeProvider, $httpProvider, $locationProvider) {
@@ -28,7 +29,8 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             controller: trainingListController
         })
         .when('/userCurrent', {
-            templateUrl: 'User/LoggedUser'
+            templateUrl: 'User/LoggedUser',
+            controller: loggedUserController
         })
         .when('/userTrainings', {
             templateUrl: 'User/TrainingList'

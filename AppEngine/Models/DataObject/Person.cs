@@ -127,9 +127,13 @@ namespace AppEngine.Models.Common
             return new Result() { Succeeded = resetResult.Succeeded, Errors = new List<string>(resetResult.Errors) };
         }
 
-        public static Person GetLoggedPerson(IPrincipal User)
+        public static Person GetLoggedPerson(IPrincipal User, EFContext dbContext = null)
         {
-            var db = new EFContext();
+            EFContext db = dbContext;
+
+            if(db == null)
+                db = new EFContext();
+
             string currentUserId = User.Identity.GetUserId();
 
             if (string.IsNullOrWhiteSpace(currentUserId))

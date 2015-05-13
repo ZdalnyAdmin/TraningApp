@@ -44,7 +44,7 @@
             {{ item.EndDate | date: 'dd.MM.yyyy hh.mm' }}
         </div>
         <div>
-            <span ng-show="item.EndDate">{{ item.Rating }} / {{ item.PossibleRating }} - {{ (item.Rating * 100 / item.PossibleRating) | number : 0 }} %</span>
+            <span ng-show="item.EndDate">{{ item.Rating }} / {{ item.PossibleRate }} - {{ (item.Rating * 100 / item.PossibleRate) | number : 0 }} %</span>
         </div>
 
     </div>

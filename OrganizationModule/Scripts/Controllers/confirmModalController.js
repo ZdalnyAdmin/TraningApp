@@ -10,6 +10,11 @@
 
         $modalInstance.close(false);
     };
+
+    $scope.cancel = function () {
+
+        $modalInstance.dismiss('cancel');
+    };
 };
 
 confirmModalController.$inject = ['$scope', '$modalInstance', 'modalResult'];
