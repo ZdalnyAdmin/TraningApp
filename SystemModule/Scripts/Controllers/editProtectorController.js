@@ -7,7 +7,7 @@
         $scope.viewModel.ActionType = 0;
 
         $http.post('/api/User/', $scope.viewModel).success(function (data) {
-            angular.forEach(data, function (val) {
+            angular.forEach(data.People, function (val) {
                 val.showDetails = true;
             });
             $scope.viewModel = data;
@@ -32,7 +32,7 @@
         $scope.viewModel.Current = item;
 
         $http.post('/api/User/', $scope.viewModel).success(function (data) {
-            angular.forEach(data, function (val) {
+            angular.forEach(data.People, function (val) {
                 val.showDetails = true;
             });
             $scope.viewModel = data;
@@ -50,7 +50,7 @@
         $scope.viewModel.Current = item;
 
         $http.post('/api/User/', $scope.viewModel).success(function (data) {
-            angular.forEach(data, function (val) {
+            angular.forEach(data.People, function (val) {
                 val.showDetails = true;
             });
             $scope.viewModel = data;
