@@ -22,10 +22,8 @@ namespace SystemModule.Controllers.Api
         [HttpPost]
         public HttpResponseMessage Post(PersonViewModel obj)
         {
-
             try
             {
-                
                 switch (obj.ActionType)
                 {
                     case PeopleActionType.GetProtectors:
@@ -103,9 +101,6 @@ namespace SystemModule.Controllers.Api
                     default:
                         break;
                 }
-
-
-
                 return Request.CreateResponse(HttpStatusCode.Created, obj);
             }
             catch (Exception ex)

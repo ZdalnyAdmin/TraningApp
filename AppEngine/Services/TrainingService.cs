@@ -261,6 +261,59 @@ namespace AppEngine.Services
                         }
 
                         break;
+
+                    case BaseActionType.GetSpecial:
+
+                        var take = 50;
+                        var skip = 0;
+
+                        if (model.InternalTrainings != null)
+                        {
+                            skip = model.InternalTrainings.Count();
+                        }
+                        else
+                        {
+                            model.InternalTrainings = new List<TrainingDto>();
+                        }
+
+                        var query = (from t in context.Trainings
+                                     join to in context.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
+                                     join o in context.Organizations on to.OrganizationID equals o.OrganizationID
+                                     where t.TrainingType == TrainingType.Internal
+                                     orderby t.CreateDate
+                                     select new TrainingDto
+                                        {
+                                            Id = t.TrainingID,
+                                            StartDate = t.CreateDate,
+                                            Name = t.Name,
+                                            Organization = o.Name,
+                                            CreatorID = t.CreateUserID
+                                        }).Skip(skip).Take(take);
+
+
+                        var collection = query.ToList();
+
+                        foreach (var item in collection)
+                        {
+                            var result = (from tr in context.Logs
+                                          where tr.TrainingID == item.Id && !tr.IsSystem && tr.OperationType == OperationLog.TrainingEdit
+                                          orderby tr.ModifiedDate
+                                          select tr).FirstOrDefault();
+
+                            if (result != null)
+                            {
+                                item.EndDate = result.ModifiedDate;
+                            }
+
+                            if (!String.IsNullOrEmpty(item.CreatorID))
+                            {
+                                item.CreatorName = context.Users.FirstOrDefault(x => x.Id == item.CreatorID).UserName;
+                            }
+                        }
+
+                        model.InternalTrainings.AddRange(collection);
+
+                        break;
                     default:
                         break;
                 }

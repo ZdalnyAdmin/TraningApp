@@ -10,7 +10,10 @@ namespace AppEngine.Models.DTO
     {
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public string Organization { get; set; }
         public float Result { get; set; }
+        public string CreatorName { get; set; }
+        public string CreatorID { get; set; }
         public bool IsComplete
         {
             get { return EndDate.HasValue; }
