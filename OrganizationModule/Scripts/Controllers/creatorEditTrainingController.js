@@ -1,6 +1,5 @@
-﻿function creatorEditTrainingController($scope, $http, $modal, $location, UserFactory, UtilitiesFactory) {
-    $scope.loading = true;
-    $scope.currentTraining = {};
+﻿function creatorEditTrainingController($scope, $http, $element, $modal, $location, UserFactory, UtilitiesFactory) {
+    $scope.viewModel = {};
 
     var searchObj = $location.search();
 
@@ -8,51 +7,77 @@
     //Used to display the data 
     $scope.loadGroups = function () {
         UtilitiesFactory.showSpinner();
-        $http.get('/api/Group')
+        $scope.viewModel.ActionType = 5;
+        $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
-            if (!data) {
-                return;
-            }
-            $scope.Groups = data;
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
             UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadTraining = function () {
-        var obj = {};
-        UtilitiesFactory.showSpinner();
+       
         if (!!searchObj && !!searchObj.trainingID) {
-            obj.TrainingID = searchObj.trainingID;
-        }
-        else {
-            //hak
-            obj.TrainingID = -1;
+            $scope.viewModel.TrainingID = searchObj.trainingID;
         }
 
-        $http.post('/api/Training', obj)
+        UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 6;
+        $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
-            $scope.currentTraining = data;
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
             UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadGroups();
+
     $scope.loadTraining();
 
-    $scope.loadImage = function () {
+    $scope.loadImage = function (item) {
+        $scope.$apply(function (scope) {
+            var file = $element[0].getElementsByClassName('upload-image')[0].files[0];
 
+            if (!checkExtension(file)) {
+                return;
+            }
+
+            if ($scope.viewModel.Current.TrainingResources) {
+                deleteFile($scope.viewModel.Current.TrainingResources);
+            }
+
+            $scope.fileName = file.name;
+            var fd = new FormData();
+            fd.append('file', file);
+            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), false);
+        });
     }
 
-    $scope.loadIcon = function () {
+    $scope.loadIcon = function (item) {
+        $scope.$apply(function (scope) {
+            var file = $element[0].getElementsByClassName('upload-mark')[0].files[0];
 
+            if (!checkExtension(file)) {
+                return;
+            }
+
+            if ($scope.viewModel.Current.PassResources) {
+                deleteFile($scope.viewModel.Current.PassResources);
+            }
+
+            $scope.fileName = file.name;
+            var fd = new FormData();
+            fd.append('file', file);
+            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), true);
+        });
     }
 
     $scope.showIcon = function () {
@@ -69,43 +94,115 @@
 
         modalInstance.result.then(function (selectedMark) {
             if (!!selectedMark) {
-                $scope.currentTraining.PassResources = selectedMark;
+                $scope.viewModel.Current.PassResources = selectedMark;
             }
         });
     }
 
+    function checkExtension(file) {
+        var fileNameParts = file.name.split('.');
+        var extension = fileNameParts[fileNameParts.length - 1];
+        return file.type.indexOf('image') !== -1;
+    }
+
+    function sendFileToServer(formData, status, marks) {
+        var uploadURL = ""; //Upload URL
+
+        uploadURL = "./Upload/UploadImage";
+
+        var extraData = {}; //Extra Data.
+        var jqXHR = $.ajax({
+            xhr: function () {
+                var xhrobj = $.ajaxSettings.xhr();
+                if (xhrobj.upload) {
+                    xhrobj.upload.addEventListener('progress', function (event) {
+                        var percent = 0;
+                        var position = event.loaded || event.position;
+                        var total = event.total;
+                        if (event.lengthComputable) {
+                            percent = Math.ceil(position / total * 100);
+                        }
+                        //Set progress
+                        status.setProgress(percent);
+                    }, false);
+                }
+                return xhrobj;
+            },
+            url: uploadURL,
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: formData,
+            success: function (data) {
+                if (data.Succeeded) {
+
+                    if (marks) {
+                        $scope.viewModel.Current.PassResources = $scope.fileSrc = data.Message;
+                    }
+                    else {
+                        $scope.viewModel.Current.TrainingResources = $scope.fileSrc = data.Message;
+                    }
+
+                    $scope.$apply();
+                }
+            }
+        });
+    }
+
+    function createStatusbar(obj) {
+
+        this.statusbar = $("<div class='statusBar'></div>");
+        this.progressBar = $("<div class='progressBar'><div></div></div>").appendTo(this.statusbar);
+        $(obj).html('');
+        $(obj).append(this.statusbar);
+
+        this.setProgress = function (progress) {
+            var progressBarWidth = progress * this.progressBar.width() / 100;
+            this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "% ");
+
+            $scope.$apply();
+        }
+    }
+
+    function deleteFile(fileName) {
+        var deleteURL = ""; //Upload URL
+        deleteURL = "./Upload/DeleteImage";
+
+        $scope.fileName = undefined;
+        $scope.fileSrc = undefined;
+
+        $http.post(
+            deleteURL, {
+                FileName: fileName
+            }
+        );
+    }
+
     $scope.save = function () {
         //check conditions
-        if (!$scope.currentTraining.Name) {
+        if (!$scope.viewModel.Current.Name) {
             return;
         }
         UtilitiesFactory.showSpinner();
-        $scope.currentTraining.CreateUserID = 1;
-        $scope.currentTraining.Details = $scope.trainingDetails;
-        $scope.currentTraining.Questions = $scope.trainingQuestion;
-
-
-        $scope.currentTraining.Groups = [];
-        angular.forEach($scope.Groups, function (val) {
+        $scope.viewModel.ActionType = 2;
+        angular.forEach($scope.viewModel.Groups, function (val) {
             if (val.selected) {
-                $scope.currentTraining.Groups.push(val);
+                $scope.viewModel.Current.Groups.push(val);
             }
         });
 
-        $http.put('/api/Training', $scope.currentTraining)
+        $http.post('/api/Training', $scope.viewModel)
         .success(function (data) {
-
-            $scope.currentTraining = {};
-            $scope.trainingDetails = [];
-            $scope.trainingQuestion = [];
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisu szkolenia';
             UtilitiesFactory.hideSpinner();
         });
     }
 
 }
 
-creatorEditTrainingController.$inject = ['$scope', '$http', '$modal', '$location', 'UserFactory', 'UtilitiesFactory'];
+creatorEditTrainingController.$inject = ['$scope', '$http', '$element', '$modal', '$location', 'UserFactory', 'UtilitiesFactory'];

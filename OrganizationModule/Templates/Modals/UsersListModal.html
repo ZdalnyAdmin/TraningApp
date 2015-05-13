@@ -4,13 +4,13 @@
     </div>
     <div class="modal-body">
         <div>
-            <div ng-repeat="user in users" class="user-item">
+            <div ng-repeat="user in $scope.viewModel.People" class="user-item">
                 <input type="checkbox" ng-model="user.selected" />
-                {{user.UserName}} 
+                {{user.UserName}} ({{user.Email}})
             </div>
         </div>
-        <div class="modal-header">
-            <div class="btn btn-primary" ng-click="save()">ZAPISZ</div>
-        </div>
+    </div>
+    <div class="modal-header">
+        <div class="btn btn-primary" ng-click="save()">ZAPISZ</div>
     </div>
 </div>

@@ -1,34 +1,34 @@
 ﻿<div ng-app="" ng-controller="organizationCreateController" class="container">
 
-    <strong class="error">{{ errorMessage }}</strong>
+    <strong class="error">{{ viewModel.ErrorMessage }}</strong>
 
     <div>
         Nazwa firmy
-        <input type="text" name="current.Name" ng-model="current.Name" />
+        <input type="text" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" />
     </div>
     <div>
         Przestrzen dyskowa (w GB) 
-        <input type="text" name="current.SpaceDisk" ng-model="current.SpaceDisk" />
+        <input type="text" name="viewModel.Current.SpaceDisk" ng-model="viewModel.Current.SpaceDisk" />
     </div>
     <div>
         Maksymalna liczba użytkowników
-        <input type="text" name="current.MaxAssignedUser" ng-model="current.MaxAssignedUser" />
+        <input type="text" name="viewModel.Current.MaxAssignedUser" ng-model="viewModel.Current.MaxAssignedUser" />
     </div>
     <div>
         Dostęp do kursów globalnych
-        <input type="checkbox" name="current.IsGlobalAvailable" ng-model="current.IsGlobalAvailable" />
+        <input type="checkbox" name="viewModel.Current.IsGlobalAvailable" ng-model="viewModel.Current.IsGlobalAvailable" />
     </div>
     <div>
         Czy nowe kursy globalne dla firmy automatycznie widoczne dla grupy "wszyscy" w organizacji?
-        <input type="checkbox" name="current.IsTrainingAvailableForAll" ng-model="current.IsTrainingAvailableForAll" />
+        <input type="checkbox" name="viewModel.Current.IsTrainingAvailableForAll" ng-model="viewModel.Current.IsTrainingAvailableForAll" />
     </div>
     <div>
         Czy użytkownicy organizacji mogą zmieniać swojego maila?
-        <input type="checkbox" name="current.CanUserChangeMail" ng-model="current.CanUserChangeMail" />
+        <input type="checkbox" name="viewModel.Current.CanUserChangeMail" ng-model="viewModel.Current.CanUserChangeMail" />
     </div>
     <div>
         Czy użytkownicy ogranizacji mogą zmianiać swoją nazwę wyświetloną?
-        <input type="checkbox" name="current.CanUserChangeName" ng-model="current.CanUserChangeName" />
+        <input type="checkbox" name="viewModel.Current.CanUserChangeName" ng-model="viewModel.Current.CanUserChangeName" />
     </div>
 
     <div>

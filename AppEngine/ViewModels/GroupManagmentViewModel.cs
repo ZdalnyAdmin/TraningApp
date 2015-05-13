@@ -4,12 +4,11 @@ using System.Collections.Generic;
 
 namespace AppEngine.ViewModels
 {
-    public class UserManagmentViewModel : BaseViewModel
+    public class GroupManagmentViewModel : BaseViewModel
     {
-        public List<Person> People { get; set; }
-        public List<Person> DeletedPeople { get; set; }
-        public Person Current { get; set; }
-
+        public List<ProfileGroup> Groups { get; set; }
+        public ProfileGroup Current { get; set; }
         public BaseActionType ActionType { get; set; }
+
     }
 }

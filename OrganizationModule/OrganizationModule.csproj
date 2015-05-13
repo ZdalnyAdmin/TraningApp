@@ -182,8 +182,6 @@
     <Compile Include="Controllers\Api\OperationLogController.cs" />
     <Compile Include="Controllers\Api\PeopleInGroupController.cs" />
     <Compile Include="Controllers\Api\SettingsController.cs" />
-    <Compile Include="Controllers\Api\SimpleTrainingController.cs" />
-    <Compile Include="Controllers\Api\SimplePersonController.cs" />
     <Compile Include="Controllers\Api\StatisticsController.cs" />
     <Compile Include="Controllers\Api\StatusController.cs" />
     <Compile Include="Controllers\Api\TrainingController.cs" />
