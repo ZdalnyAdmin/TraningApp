@@ -167,6 +167,15 @@ namespace SystemModule.Controllers.Api
                         obj.Protector = new Person();
                         obj.Protector.Profile = ProfileEnum.Protector;
 
+
+                        var setting = db.AppSettings.FirstOrDefault(x => x.IsDefault);
+
+                        if(setting  != null)
+                        {
+                            obj.Protector.UserName = setting.DefaultName;
+                            obj.Protector.Email = setting.DefaultEmail;
+                        }
+
                         obj.NotAssigned = (from t in db.Organizations
                                            where t.ProtectorID == null && t.Status == OrganizationEnum.Active
                                            select new OrganizationDto
