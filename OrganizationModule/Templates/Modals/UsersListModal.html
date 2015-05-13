@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body">
         <div>
-            <div ng-repeat="user in $scope.viewModel.People" class="user-item">
+            <div ng-repeat="user in viewModel.People" class="user-item">
                 <input type="checkbox" ng-model="user.selected" />
                 {{user.UserName}} ({{user.Email}})
             </div>
