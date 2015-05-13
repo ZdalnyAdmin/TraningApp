@@ -60,6 +60,12 @@ namespace OrganizationModule.Controllers
         [AllowAnonymous]
         public async Task<bool> Login(LoginViewModel model)
         {
+            var person = _db.Users.Where(x => x.UserName == model.Email && !x.IsDeleted).FirstOrDefault();
+            if (person == null)
+            {
+                return false;
+            }
+
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
             switch (result)
             {

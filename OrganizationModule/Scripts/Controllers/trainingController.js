@@ -138,14 +138,18 @@
 
         answers.TrainingAnswers = JSON.stringify(answers.TrainingAnswers);
 
+        UtilitiesFactory.showSpinner();
+
         $http.post(
             '/Training/ActiveTraining', answers
         ).
         success(function (data) {
+            UtilitiesFactory.hideSpinner();
             $rootScope.$broadcast('reloadMenu');
             $location.path('/userResult');
         }).
         error(function () {
+            UtilitiesFactory.hideSpinner();
             var message = "Wystąpił błąd połączenia."
             modalInstance = $modal.open({
                 templateUrl: '/Templates/Modals/messageModal.html',

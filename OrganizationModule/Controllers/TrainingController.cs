@@ -73,7 +73,9 @@ namespace OrganizationModule.Controllers
                 return Json(result);
             }
 
-            var rslt = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id && x.TrainingID == model.TrainingID);
+            var rslt = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id && 
+                                                               x.TrainingID == model.TrainingID && 
+                                                               !x.EndDate.HasValue);
 
             if (rslt != null)
             {
@@ -81,7 +83,17 @@ namespace OrganizationModule.Controllers
                 return Json(result);
             }
 
-            // TODO add condition for maximal started trainings.
+            var settings = _db.AppSettings.FirstOrDefault(x => x.IsDefault);
+
+            var activeTrainingsCount = _db.TrainingResults.Where(x => x.PersonID == loggedPerson.Id && 
+                                                                     !x.EndDate.HasValue)
+                                                          .Count();
+            if(settings != null &&
+                settings.MaxActiveTrainings <= activeTrainingsCount)
+            {
+                result.Errors.Add("Masz uruchomioną maksymalną ilość kursów, jeżeli chcesz uruchomić kolejny zakończ wcześniej któryś z aktywowanych kursów");
+                return Json(result);
+            }
 
             var trainingResult = new TrainingResult();
             trainingResult.PersonID = loggedPerson.Id;
@@ -159,7 +171,9 @@ namespace OrganizationModule.Controllers
             var answers = s.Deserialize<Dictionary<string, string>>(model.TrainingAnswers);
 
             var loggedPerson = Person.GetLoggedPerson(User);
-            var trainingResult = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id && x.TrainingID == model.TrainingID);
+            var trainingResult = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id && 
+                                                                         x.TrainingID == model.TrainingID &&
+                                                                         x.EndDate == null);
 
             if (trainingResult == null)
             {
@@ -168,6 +182,8 @@ namespace OrganizationModule.Controllers
 
             trainingResult.EndDate = DateTime.Now;
             trainingResult.Rating = 0;
+            trainingResult.Training = _db.Trainings.FirstOrDefault(x => x.TrainingID == trainingResult.TrainingID);
+            trainingResult.TrainingScore = model.TrainingRate;
 
             foreach(var answer in answers)
             {
@@ -201,6 +217,9 @@ namespace OrganizationModule.Controllers
                         break;
                 }
             }
+
+            trainingResult.PossibleRate = trainingResult.GetPossibleRate();
+            trainingResult.IsPassed = trainingResult.Rating >= trainingResult.Training.PassResult;
 
             _db.SaveChanges();
             result.Succeeded = true;

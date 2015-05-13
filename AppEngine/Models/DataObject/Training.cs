@@ -48,7 +48,7 @@ namespace AppEngine.Models.Common
         //logo szkolenia - sciezka
         public string TrainingResources { get; set; }
         //liczba punktow zeby zdac
-        public int PassResult { get; set; }
+        public float PassResult { get; set; }
         //tekst jak zaliczone szkolenie
         public string PassInfo { get; set; }
         //odznaka - sciezka do pliku
