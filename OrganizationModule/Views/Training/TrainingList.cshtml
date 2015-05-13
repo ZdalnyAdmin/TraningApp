@@ -7,12 +7,12 @@
 
     @foreach (var training in ViewBag.Trainings)
     {
-        <div ng-if="display == 'All' || ('@training.TrainingType' == display)">
+        <div class="training" ng-show="display == 'All' || ('@training.TrainingType' == display)">
             <div>@training.Name</div>
             <div>
                 <img src="@training.TrainingResources" />
-                <div>@training.Description</div>
-                <div><div class="btn">Szczegóły</div><div class="btn" ng-click="startTraining(@training.TrainingID)">Uruchom</div></div>
+                <div class="description">@training.Description</div>
+                <div><button class="details">Szczegóły</button><button class="hide-details">Ukryj szczegóły</button><button ng-click="startTraining(@training.TrainingID)">Uruchom</button></div>
             </div>
         </div>
     }
