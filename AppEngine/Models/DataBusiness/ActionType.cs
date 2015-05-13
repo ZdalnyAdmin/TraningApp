@@ -26,4 +26,13 @@ namespace AppEngine.Models.DataBusiness
         GetSpecial = 7,
         SaveProtector = 8,
     }
+
+    public enum PeopleActionType
+    {
+        GetProtectors = 0,
+        DeleteProtector = 1,
+        EditProtector = 2,
+        AddProtector = 3,
+        GetAdministrators = 5,
+    }
 }

@@ -1,8 +1,8 @@
 ﻿<div ng-app="" ng-controller="editProtectorController" class="container">
 
-    <strong class="error">{{ error }}</strong>
+    <strong class="error">{{ viewModel.ErrorMessage }}</strong>
 
-    <div ng-repeat="item in list">
+    <div ng-repeat="item in viewModel.People">
         <div>
             {{ item.UserName}}
         </div>
@@ -17,7 +17,7 @@
 
         <div ng-hide="item.showDetails">
             <div>
-                nazwa opiekuna : 
+                nazwa opiekuna :
                 <input type="text" ng-model="item.UserName" name="item.UserName">
                 <input type="button" value="Edytuj" ng-click="save(item)" />
             </div>
@@ -25,12 +25,12 @@
                 Ostatnia aktywnosc : {{ item.LastActivationDate | date: 'dd.MM.yyyy hh.mm' }}
             </div>
             <div>
-                Adres email : 
-                <input type="text" ng-model="item.Email" name="item.Email"> 
+                Adres email :
+                <input type="text" ng-model="item.Email" name="item.Email">
                 <input type="button" value="Edytuj" ng-click="save(item)" />
             </div>
             <div>
-                Czy chcesz usunac opiekuna ? 
+                Czy chcesz usunac opiekuna ?
                 <input type="button" value="Usun" ng-click="delete(item)" />
             </div>
         </div>
