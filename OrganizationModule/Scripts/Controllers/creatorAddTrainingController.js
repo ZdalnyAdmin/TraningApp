@@ -31,7 +31,7 @@
                 deleteFile($scope.viewModel.Current.TrainingResources);
             }
 
-            checkImageArtibutesAndUpload(file, 350, 400, 300);
+            checkImageArtibutesAndUpload(file, 350, 400, 300, false);
         });
     }
 
@@ -49,11 +49,11 @@
                 deleteFile($scope.viewModel.Current.PassResources);
             }
 
-            checkImageArtibutesAndUpload(file, 150, 100, 100);
+            checkImageArtibutesAndUpload(file, 150, 100, 100, true);
         });
     }
 
-    function checkImageArtibutesAndUpload(file, maxSize, maxWidth, maxHeight) {
+    function checkImageArtibutesAndUpload(file, maxSize, maxWidth, maxHeight, marks) {
         $scope.fileName = file.name;
         var size = ~~(file.size / 1024);
 
@@ -75,7 +75,7 @@
             if (width == maxWidth && height == maxHeight) {
                 var fd = new FormData();
                 fd.append('file', file);
-                sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), true);
+                sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), marks);
             }
             else {
                 $scope.viewModel.ErrorMessage = 'Nieprawidłowa rozdzielczość obrazka. Musi być ' + maxWidth + 'px na ' + maxHeight + 'px.';
