@@ -1,23 +1,26 @@
 ﻿function trainingInternalController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    $scope.Trainings = data;
+    $scope.viewModel = {};
 
-    $scope.loadTrainings = function () {
+    $scope.loadDate = function () {
         UtilitiesFactory.showSpinner();
-        $http.get('/api/InternalTrainings').success(function (data) {
-            $scope.Trainings = data;
+
+        $scope.viewModel.ActionType = 7;
+
+        $http.post('/api/Training/', $scope.viewModel)
+        .success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
             UtilitiesFactory.hideSpinner();
         });
     }
 
-    $scope.loadTrainings();
-
-    $scope.showMore = function (item) {
-        UtilitiesFactory.showSpinner();
-        UtilitiesFactory.hideSpinner();
+    $scope.loadDate();
+    
+    $scope.showMore = function () {
+        $scope.loadDate();
     }
 }
 

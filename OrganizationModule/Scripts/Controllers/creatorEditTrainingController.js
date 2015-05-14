@@ -54,10 +54,7 @@
                 deleteFile($scope.viewModel.Current.TrainingResources);
             }
 
-            $scope.fileName = file.name;
-            var fd = new FormData();
-            fd.append('file', file);
-            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), false);
+            checkImageArtibutesAndUpload(file, 350, 400, 300);
         });
     }
 
@@ -73,11 +70,40 @@
                 deleteFile($scope.viewModel.Current.PassResources);
             }
 
-            $scope.fileName = file.name;
-            var fd = new FormData();
-            fd.append('file', file);
-            sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), true);
+            checkImageArtibutesAndUpload(file, 150, 100, 100);
         });
+    }
+
+    function checkImageArtibutesAndUpload(file, maxSize, maxWidth, maxHeight) {
+        $scope.fileName = file.name;
+        var size = ~~(file.size / 1024);
+
+        if (size > maxSize) {
+            $scope.viewModel.ErrorMessage = 'Nieprawidłowa wielkość obrazka. Musi być mniejsze niz ' + maxSize + 'kb';
+            return;
+        }
+
+        var img = new Image();
+
+        img.src = window.URL.createObjectURL(file);
+
+        img.onload = function () {
+            var width = img.naturalWidth,
+                height = img.naturalHeight;
+
+            window.URL.revokeObjectURL(img.src);
+
+            if (width == maxWidth && height == maxHeight) {
+                var fd = new FormData();
+                fd.append('file', file);
+                sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), true);
+            }
+            else {
+                $scope.viewModel.ErrorMessage = 'Nieprawidłowa rozdzielczość obrazka. Musi być ' + maxWidth + 'px na ' + maxHeight + 'px.';
+                $scope.fileName = '';
+                return;
+            }
+        };
     }
 
     $scope.showIcon = function () {
@@ -100,6 +126,9 @@
     }
 
     function checkExtension(file) {
+        if (!file) {
+            return;
+        }
         var fileNameParts = file.name.split('.');
         var extension = fileNameParts[fileNameParts.length - 1];
         return file.type.indexOf('image') !== -1;
