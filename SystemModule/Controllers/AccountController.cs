@@ -150,14 +150,14 @@ namespace SystemModule.Controllers
                     var logged = Person.GetLoggedPerson(User);
                     var user = new Person
                     {
-                        UserName = model.UserName,
+                        UserName = Guid.NewGuid().ToString(),
+                        DisplayName = model.UserName,
                         Email = model.Email,
-                        RegistrationDate = DateTime.Now,
-                        Profile = model.Profile,
-                        InvitationDate = DateTime.Now,
-                        OrganizationID = model.OrganizationID,
                         InviterID = logged != null ? logged.Id : null,
-                        Status = StatusEnum.Active // Temporary
+                        Profile = model.Profile,
+                        Status = StatusEnum.Active, // Temporary
+                        OrganizationID = model.OrganizationID,
+                        InvitationDate = DateTime.Now
                     };
 
                     result = await UserManager.CreateAsync(user, "Operator123!");

@@ -43,11 +43,12 @@ namespace AppEngine
 
         private MailAccount getAccount(string subject)
         {
-            switch (subject)
+            switch (subject.ToUpper())
             {
-                case "Rejestracja Kenpro":
+                case "REJESTRACJA KENPRO":
                     return MailAccount.REGISTER;
-                case "Zaproszenie Kenpro":
+                case "ZAPROSZENIE KENPRO":
+                case "ZAPROSZENIE UŻYTKOWNIKA":
                     return MailAccount.INVITATION;
                 default:
                     return MailAccount.ADMIN;
