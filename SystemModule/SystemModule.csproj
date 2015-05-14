@@ -176,17 +176,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Api\AdminController.cs" />
-    <Compile Include="Controllers\Api\InternalTrainingsController.cs" />
     <Compile Include="Controllers\Api\LocalFileController.cs" />
     <Compile Include="Controllers\Api\LogsController.cs" />
-    <Compile Include="Controllers\Api\NotProtectedOrganizationController.cs" />
     <Compile Include="Controllers\Api\OrganizationsController.cs" />
-    <Compile Include="Controllers\Api\ProtectorController.cs" />
     <Compile Include="Controllers\Api\SettingsController.cs" />
     <Compile Include="Controllers\Api\StatisticsController.cs" />
-    <Compile Include="Controllers\Api\SystemLogController.cs" />
     <Compile Include="Controllers\Api\TrainingController.cs" />
+    <Compile Include="Controllers\Api\UserController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
@@ -198,11 +194,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\OrganizationModule\Templates\Modals\commonMarksModal.html">
-      <Link>Templates\Modals\commonMarksModal.html</Link>
-    </Content>
     <Content Include="Assets\Image\ajax-loader.gif" />
     <Content Include="Assets\Image\empty.png" />
+    <Content Include="Assets\Image\main_image.png" />
     <Content Include="Assets\Marks\All\Kowalski.png" />
     <Content Include="Assets\Marks\All\Król_Julian.png" />
     <Content Include="Assets\Marks\All\Marlenka.png" />
@@ -224,6 +218,7 @@
     <Content Include="Scripts\Controllers\organizationCreateController.js" />
     <Content Include="Scripts\Controllers\organizationDeleteModalController.js" />
     <Content Include="Scripts\Controllers\organizationEditController.js" />
+    <Content Include="Scripts\Controllers\organizationModelController.js" />
     <Content Include="Scripts\Controllers\settingsController.js" />
     <Content Include="Scripts\Controllers\statisticsController.js" />
     <Content Include="Scripts\Controllers\trainingInternalController.js" />
@@ -264,7 +259,9 @@
     <Content Include="Scripts\Controllers\commonMarksModalController.js" />
     <Content Include="Templates\dragAndDrop.html" />
     <Content Include="Templates\menu.html" />
+    <Content Include="Templates\Modals\commonMarksModal.html" />
     <Content Include="Templates\Modals\organizationDeleteModal.html" />
+    <Content Include="Templates\Modals\organizationModal.html" />
     <Content Include="Templates\trainingAddQuestion.html" />
     <Content Include="Templates\trainingDetailsTab.html" />
     <Content Include="Templates\trainingEditDetails.html" />

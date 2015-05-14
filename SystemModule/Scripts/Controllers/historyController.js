@@ -1,47 +1,33 @@
 ﻿function historyController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    //Used to display the data 
-    $scope.loadType = function () {
-        UtilitiesFactory.showSpinner();
-        $scope.currentItem = {};
-        $scope.currentItem.ProtectorID = 1;
-        $http.get('/api/SystemLog').success(function (data) {
-            $scope.types = data;
-            UtilitiesFactory.hideSpinner();
-        })
-        .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
-            UtilitiesFactory.hideSpinner();
-        });
-    }
+    $scope.viewModel = {};
+
 
     $scope.loadLogs = function () {
         UtilitiesFactory.showSpinner();
-        $http.get('/api/Logs').success(function (data) {
-            $scope.Logs = data;
-            $scope.DbLogs = data;
+        $http.get('/api/Logs/').success(function (data) {
+            $scope.viewModel = data[0];
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
             UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadLogs();
-    $scope.loadType();
 
 
     $scope.change = function (obj) {
-        $scope.Logs = [];
+        $scope.viewModel.DisplayLogs = [];
         UtilitiesFactory.showSpinner();
         if (!obj) {
-            $scope.Logs = $scope.DbLogs
+            $scope.viewModel.DisplayLogs = $scope.viewModel.Logs;
             return;
         }
 
-        angular.forEach($scope.DbLogs, function (item) {
+        angular.forEach($scope.viewModel.Logs, function (item) {
             if (item.SystemType == obj.Type) {
-                $scope.Logs.push(item);
+                $scope.viewModel.DisplayLogs.push(item);
             }
         });
         UtilitiesFactory.hideSpinner();

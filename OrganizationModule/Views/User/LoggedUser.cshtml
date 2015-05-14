@@ -94,7 +94,7 @@
         <div class="row">
             <div class="col-sm-12 delete-account">
                 <h4>USUŃ SWOJE KONTO W TEJ ORGANIZACJI</h4>
-                <button class="btn btn-l empty-button">USUŃ SWOJE KONTO</button>
+                <button class="btn btn-l empty-button" ng-click="deleteUser()">USUŃ SWOJE KONTO</button>
             </div>
         </div>
     </div>
@@ -113,7 +113,7 @@
                 <span>ADRESY ADMINISTRATORÓW</span>
                 @foreach (var mail in ViewBag.AdminEmails)
                 {
-                    <div><a href="@mail">@mail</a></div>
+                    <div><a href="mailto:@mail">@mail</a></div>
                 }
             </div>
             <div class="col-sm-6 col-lg-4">
@@ -152,35 +152,3 @@
     })
 </script>
 @Styles.Render("~/Settings")
-
-@*<div>
-    <div>Nazwa Organizacji: <span>@ViewBag.Organization.Name</span></div>
-    <div>Twój adres email: 
-        @if (@ViewBag.Organization.CanUserChangeMail == true)
-        {
-            <input type="text" ng-model="user.Email" /> <div class="btn">Zmień adres email</div>
-        }
-        else
-        {
-            <span>{{ user.Email }}</span>
-        }
-    </div>
-    <div>Twoja nazwa:
-        @if (ViewBag.Organization.CanUserChangeName == true)
-        {
-            <input type="text" ng-model="user.UserName" /><div class="btn">Zmień nazwę</div>
-        }
-        else
-        {
-            <span>{{ user.UserName }}</span>
-        }
-    </div>
-    <div>Twoje hasło: <input type="password" ng-model="user.Password" /><div class="btn">Zmień hasło</div></div>
-    <div><div class="btn">Usuń moje konto</div></div>
-    <div>Jeśli chcesz skotaktować się z administratorem tej organizacji napisz na adres email: 
-        @foreach (var mail in ViewBag.AdminEmails)
-        { 
-            <span>@mail</span> 
-        }
-    </div>
-</div>*@

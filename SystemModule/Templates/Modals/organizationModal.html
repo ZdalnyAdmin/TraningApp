@@ -4,9 +4,9 @@
     </div>
     <div class="modal-body">
         <div>
-            <div ng-repeat="user in viewModel.People" class="user-item">
-                <input type="checkbox" ng-model="user.selected" />
-                {{user.UserName}} ({{user.Email}})
+            <div ng-repeat="item in viewModel.Organizations" class="user-item">
+                <input type="checkbox" ng-model="item.selected" />
+                {{item.Name}}
             </div>
         </div>
     </div>

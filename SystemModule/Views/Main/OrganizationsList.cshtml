@@ -1,9 +1,9 @@
 ﻿<div ng-app="" ng-controller="organizationEditController" class="container">
 
-    <strong class="error">{{ error }}</strong>
+    <strong class="error">{{ viewModel.ErrorMessage }}</strong>
 
 
-    <div ng-repeat="item in list">
+    <div ng-repeat="item in viewModel.Organizations">
         <div>
             {{ item.Name}}
         </div>
@@ -13,13 +13,13 @@
         <div>
             {{ item.selectedStatus}}
         </div>
-        <button id="inputButto" ng-click="showDetails = ! showDetails" ng-show="!showDetails">
+        <button id="inputButto" ng-click="showOrganizationDetails(item, true)" ng-hide="item.showDetails">
             Pokaz szczegoly
         </button>
-        <button id="inputButto" ng-click="showDetails = ! showDetails" ng-show="showDetails">
+        <button id="inputButto" ng-click="showOrganizationDetails(item, false)" ng-show="item.showDetails">
             Ukryj szczegoly
         </button>
-        <div ng-show="showDetails">
+        <div ng-show="item.showDetails">
             <div ng-show="item.Status == 1">
 
                 <div>
@@ -27,22 +27,22 @@
                     <input type="text" name="item.Name" ng-model="item.Name" />
                 </div>
                 <div>
-                    Osoby aktywne :{{ item.AssignedUser}}
+                    Osoby aktywne : {{ viewModel.Detail.AssignedUser}}
                 </div>
                 <div>
-                    Uzytkownicy zablokowani :{{ item.BlockedUser}}
+                    Uzytkownicy zablokowani : {{ viewModel.Detail.BlockedUser}}
                 </div>
                 <div>
-                    Uzytkownicy usuniecie :{{ item.DeleteUser}}
+                    Uzytkownicy usuniecie : {{ viewModel.Detail.DeleteUser}}
                 </div>
                 <div>
-                    Zaproszenie oczekujaca :{{item.InvationUser }}
+                    Zaproszenie oczekujaca : {{viewModel.Detail.InvationUser }}
                 </div>
                 <div>
-                    Opiekun :{{ item.Protector.Email}}
+                    Opiekun : {{ viewModel.Detail.Protector.Email}}
                 </div>
                 <div>
-                    Wykorzystana przestrzen dyskowa :{{ item.UsedSpaceDisk}}
+                    Wykorzystana przestrzen dyskowa : {{ viewModel.Detail.UsedSpaceDisk}}
                 </div>
                 <div>
                     Zmian status
@@ -82,7 +82,7 @@
                 <div>
                     Nazwa firmy
                     {{item.Name}}
-                 </div>
+                </div>
                 <div>
                     Data usunięcia
                     {{ item.DeletedDate | date: 'dd.MM.yyyy hh.mm' }}
@@ -94,7 +94,10 @@
 
             </div>
             <div ng-show="item.Status == 2">
-
+                <div>
+                    Nazwa firmy
+                    {{item.Name}}
+                </div>
             </div>
         </div>
 

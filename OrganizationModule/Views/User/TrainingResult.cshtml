@@ -1,40 +1,50 @@
-﻿@foreach(var trainingResult in ViewBag.TrainingResults)
-{ 
-    <div>
-        <div>@trainingResult.Training.Name</div>
-        <div>Data uruchomienia: @trainingResult.StartDate.ToString("dd.MM.yyyy")</div>
-        <div>Data ukończenia: @trainingResult.StartDate.ToString("dd.MM.yyyy")</div>
-    </div>
-    
-    <div>
+﻿@if (ViewBag.TrainingResults.Count > 0)
+{
+    foreach (var trainingResult in ViewBag.TrainingResults)
+    {
         <div>
-            <span>Zdobyte umiejętności:</span>
-            @if (trainingResult.Rating >= trainingResult.Training.PassResult)
-            {
-                <span>@trainingResult.Training.PassInfo</span>
-            } else {
-                <span>Szkolenie nie zostało zaliczone</span>
-            }
+            <div>@trainingResult.Training.Name</div>
+            <div>Data uruchomienia: @trainingResult.StartDate.ToString("dd.MM.yyyy")</div>
+            <div>Data ukończenia: @trainingResult.StartDate.ToString("dd.MM.yyyy")</div>
         </div>
 
         <div>
-            <span>Zdobyta odznaka:</span>
-            @if (trainingResult.Rating >= trainingResult.Training.PassResult)
-            {
-                <img src="@trainingResult.Training.PassResources" />
-            }
-        </div>
+            <div>
+                <span>Zdobyte umiejętności:</span>
+                @if (trainingResult.IsPassed)
+                {
+                    <span>@trainingResult.Training.PassInfo</span>
+                }
+                else
+                {
+                    <span>Szkolenie nie zostało zaliczone</span>
+                }
+            </div>
 
-        <div>
-            <span>Punkty:</span>
-            <span>@trainingResult.Rating</span>/<span>@trainingResult.PossibleRating</span>
-            <span>@if(trainingResult.PossibleRating != 0) 
-                  {
-                    <span>@(trainingResult.Rating * 100 / trainingResult.PossibleRating)</span>
-                  }
-                    %
+            <div>
+                <span>Zdobyta odznaka:</span>
+                @if (trainingResult.IsPassed)
+                {
+                    <img src="@trainingResult.Training.PassResources" />
+                }
+            </div>
+
+            <div>
+                <span>Punkty:</span>
+                <span>@trainingResult.Rating</span>/<span>@trainingResult.PossibleRate</span>
+                <span>
+                    @if (trainingResult.PossibleRate != 0)
+                    {
+                        <span>@(trainingResult.Rating * 100 / trainingResult.PossibleRate)</span>
+                    }
+                %
             </span>
         </div>
 
     </div>
+    }
+}
+else
+{
+    <div>Brak ukończonych szkoleń.</div>
 }

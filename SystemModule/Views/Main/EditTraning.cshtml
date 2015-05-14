@@ -73,13 +73,18 @@
     </div>
 
     <div id="simpleRow">
-        OKRESL DLA KOGO MA BYC WIDOCZNE SZKOLENIE
-    </div>
-    <div ng-repeat="item in viewModel.Current.Groups">
-        <input type="checkbox" ng-model="item.selected" />{{item.Name}}
+        DOSTEPNOSC SZKOLENIA
     </div>
     <div id="simpleRow">
-        Jesli nie zaznaczysz zadnej grupy, kurs będzie widoczny tylko dla Ciebie
+        <input type="checkbox" ng-model="viewModel.AvailableForAll" ng-disabled="viewModel.Organizations.length > 0" />Wszystkie firmy
+    </div>
+    <div> lub wybierz z list</div>
+    <button ng-click="showOrganization()">WYBIERZ</button>
+    <div>
+        Wybrane firmy:
+    </div>
+    <div ng-repeat="item in viewModel.Organizations">
+        {{item.Name}}  ,
     </div>
 
     <div id="simpleRow">

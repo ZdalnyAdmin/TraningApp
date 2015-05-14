@@ -1,17 +1,17 @@
 ﻿function organizationCreateController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    $scope.current = {};
+    $scope.viewModel = {};
 
     $scope.loadDate = function () {
-        $scope.current = {};
-        UtilitiesFactory.showSpinner();
 
-        $scope.current.OrganizationID = -1;
-        $http.post('/api/Organizations', $scope.current).success(function (data) {
-            $scope.current = data;
+        UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 5;
+
+        $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -19,36 +19,34 @@
     $scope.loadDate();
 
     $scope.save = function () {
-        if (!$scope.current || !$scope.current.Name) {
+        if (!$scope.viewModel.Current.Name) {
             return;
         }
 
         UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 3;
 
-        $scope.current.OrganizationID = 0;
-        $http.post('/api/Organizations', $scope.current).success(function (data) {
+        $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
 
             var result = UserFactory.organizationCreateMail($scope.current);
-
             UtilitiesFactory.hideSpinner();
 
             result.then(function (data) {
-                if (data.Succeeded) {
-                    $scope.loadDate();
-                } else {
+                if (!data.Succeeded) {
                     if (data.Errors) {
-                        $scope.errorMessage = '';
+                        $scope.viewModel.ErrorMessage = '';
                         angular.forEach(data.Errors, function (val) {
-                            $scope.errorMessage += ' ' + val;
+                            $scope.viewModel.ErrorMessage += ' ' + val;
                         });
                     } else {
-                        $scope.errorMessage = 'Wystąpił nieoczekiwany błąd podczas rejestracji organizacji';
+                        $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas wysylania wiadomosci email';
                     }
                 }
             });           
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapsiu danych';
             UtilitiesFactory.hideSpinner();
         });
     }

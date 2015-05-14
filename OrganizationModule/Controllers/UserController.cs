@@ -1,16 +1,37 @@
-﻿using AppEngine.Models.Common;
+﻿using AppEngine;
+using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
-using Microsoft.AspNet.Identity;
-using System.Collections.Generic;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace OrganizationModule.Controllers
 {
     [Authorize]
     public class UserController : Controller
     {
+        #region Identity
+        private ApplicationUserManager _userManager;
+        private ApplicationSignInManager _signInManager;
+
+        public ApplicationSignInManager SignInManager
+        {
+            get { return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
+            private set { _signInManager = value; }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+            private set { _userManager = value; }
+        }
+        #endregion
+
         #region Private Fields
         private EFContext _db = new EFContext();
         #endregion
@@ -21,13 +42,7 @@ namespace OrganizationModule.Controllers
         /// <returns></returns>
         public ActionResult LoggedUser()
         {
-            string currentUserId = User.Identity.GetUserId();
-            Person currentUser = _db.Users.FirstOrDefault(x => x.Id == currentUserId);
-
-            if (currentUser == null)
-            {
-                return Redirect("/");
-            }
+            Person currentUser = Person.GetLoggedPerson(User);
 
             if (currentUser.OrganizationID == null)
             {
@@ -35,7 +50,6 @@ namespace OrganizationModule.Controllers
             } 
             else
             {
-                currentUser.Organization = _db.Organizations.FirstOrDefault(org => org.OrganizationID == currentUser.OrganizationID);
                 if (currentUser.Organization == null)
                 {
                     ViewBag.OrganizationName = "Organizacja do której należał użytkownik nie istnieje.";
@@ -51,6 +65,26 @@ namespace OrganizationModule.Controllers
                                            .ToList();
 
             return View();
+        }
+
+        [HttpPost]
+        public void DeleteUser()
+        {
+            var loggedPerson = Person.GetLoggedPerson(User, _db);
+            loggedPerson.DeleteUserID = loggedPerson.Id;
+            loggedPerson.IsDeleted = true;
+            loggedPerson.DeletedDate = DateTime.Now;
+            _db.SaveChanges();
+
+            var ctx = Request.GetOwinContext();
+            var authManager = ctx.Authentication;
+            authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            UserManager.SendEmail(loggedPerson.InviterID,
+                       "Usunięcie Użytkownika",
+                       "W dniu " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "Użytkownik o Id " + loggedPerson.Id
+                       + "i nazwie wyświetlanej: " + loggedPerson.DisplayName
+                       + " usunął swoje konto z organizacji " + loggedPerson.Organization != null ? loggedPerson.Organization.Name : "Brak nazwy organizacji");
         }
 
         /// <summary>

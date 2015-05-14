@@ -1,6 +1,7 @@
 ﻿namespace AppEngine.Migrations
 {
     using AppEngine.Models.Common;
+    using AppEngine.Models.DataObject;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -47,6 +48,23 @@
                 CreateUserID = "9154c72e-a195-4a70-8de2-61927df9bd9d",
                 CreateDate = DateTime.Now
             });
+
+            if (!context.AppSettings.Any(x => x.IsDefault))
+            {
+                context.AppSettings.AddOrUpdate(new AppSetting()
+                {
+                    AllowUserToChangeName = true,
+                    AllowUserToChangeMail = true,
+                    SpaceDisk = 50,
+                    MaxAssignedUser = 10,
+                    IsGlobalAvailable = true,
+                    IsTrainingAvailableForAll = true,
+                    MaxActiveTrainings = 5,
+                    DefaultEmail = "support@kenpro.pl",
+                    DefaultName = "Kenpro",
+                    IsDefault = true
+                });
+            }
 
             context.SaveChanges();
         }

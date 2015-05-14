@@ -1,6 +1,10 @@
 ﻿using AppEngine.Models;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
+using AppEngine.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,7 +17,7 @@ namespace SystemModule.Controllers.Api
         private EFContext db = new EFContext();
 
         [HttpGet]
-        public IEnumerable<AppLog> Get()
+        public IEnumerable<LogsViewModel> Get()
         {
             //get from correct profil
             var logs = db.Logs.Where(x => x.IsSystem).ToList();
@@ -25,7 +29,34 @@ namespace SystemModule.Controllers.Api
                 }
             }
 
-            return logs;
+            var obj = new LogsViewModel();
+            obj.Logs = logs;
+            obj.DisplayLogs = logs;
+            obj.Criteria = new List<EnumData>();
+
+            var type = typeof(SystemLog);
+            var names = Enum.GetNames(type);
+            int index = 1;
+            EnumData data = null;
+            foreach (var name in names)
+            {
+                data = new EnumData();
+                var field = type.GetField(name);
+                var fds = field.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                foreach (DescriptionAttribute fd in fds)
+                {
+                    data.Name = fd.Description;
+                    data.Type = index;
+                }
+
+                obj.Criteria.Add(data);
+                index++;
+            }
+            //return descs;
+            var list = new List<LogsViewModel>();
+            list.Add(obj);
+
+            return list;
         }
 
         // POST api/<controller>

@@ -16,20 +16,21 @@ namespace AppEngine.Models.Common
         public Person Person { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public int Rating { get; set; }
+        public float Rating { get; set; }
+        public bool? IsPassed { get; set; }
+        public float? PossibleRate { get; set; }
 
-        [NotMapped]
-        public int PossibleRating
+        public int? TrainingScore { get; set; }
+
+        public float GetPossibleRate()
         {
-            get
-            {
                 if(Training == null ||
                     Training.Questions == null)
                 {
                     return 0;
                 }
 
-                var possibleRate = 0;
+                float possibleRate = 0;
                 Training.Questions.ForEach(x => 
                     {
                         if(x.Answers == null)
@@ -44,7 +45,7 @@ namespace AppEngine.Models.Common
                         }
                         else
                         {
-                            var max = 0;
+                            float max = 0;
 
                             x.Answers.ForEach(y =>
                             {
@@ -59,8 +60,8 @@ namespace AppEngine.Models.Common
                     });
 
                 return possibleRate;
-            }
         }
+
         public bool IsCompleted
         {
             get { return EndDate.HasValue; }

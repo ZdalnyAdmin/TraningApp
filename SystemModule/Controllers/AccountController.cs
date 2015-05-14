@@ -61,7 +61,7 @@ namespace SystemModule.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    var user = Person.GetLoggedPerson(User);
+                    var user = _db.Users.FirstOrDefault(x => x.UserName == model.Email && x.Profile == ProfileEnum.Superuser);
                     if (user != null)
                     {
                         LogService.AdministrationLogs(SystemLog.LogIn, _db, user.Id);
