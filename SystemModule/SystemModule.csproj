@@ -193,11 +193,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\OrganizationModule\Templates\Modals\commonMarksModal.html">
-      <Link>Templates\Modals\commonMarksModal.html</Link>
-    </Content>
     <Content Include="Assets\Image\ajax-loader.gif" />
     <Content Include="Assets\Image\empty.png" />
+    <Content Include="Assets\Image\main_image.png" />
     <Content Include="Assets\Marks\All\Kowalski.png" />
     <Content Include="Assets\Marks\All\Król_Julian.png" />
     <Content Include="Assets\Marks\All\Marlenka.png" />
@@ -260,6 +258,7 @@
     <Content Include="Scripts\Controllers\commonMarksModalController.js" />
     <Content Include="Templates\dragAndDrop.html" />
     <Content Include="Templates\menu.html" />
+    <Content Include="Templates\Modals\commonMarksModal.html" />
     <Content Include="Templates\Modals\organizationDeleteModal.html" />
     <Content Include="Templates\Modals\organizationModal.html" />
     <Content Include="Templates\trainingAddQuestion.html" />

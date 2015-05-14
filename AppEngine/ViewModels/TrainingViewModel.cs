@@ -20,5 +20,6 @@ namespace AppEngine.ViewModels
         public List<ProfileGroup> Groups { get; set; }
         public List<Organization> Organizations { get; set; }
         public int trainingID { get; set; }
+        public bool AvailableForAll { get; set; }
     }
 }

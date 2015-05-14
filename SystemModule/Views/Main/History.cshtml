@@ -1,15 +1,15 @@
 ﻿<div ng-app="" ng-controller="historyController" class="container">
 
-    <strong class="error">{{ error }}</strong>
+    <strong class="error">{{ viewModel.ErrorMessage }}</strong>
 
 
     <div id="simpleRow">
         WYBIERZ TYP ZDARZENIA
-        <select ng-model="selected" ng-options="c as c.Name for c in types" ng-change="change(selected)">
+        <select ng-model="selected" ng-options="c as c.Name for c in viewModel.Criteria" ng-change="change(selected)">
             <option value="">Wszystkie</option>
         </select>
     </div>
-    <div ng-repeat="item in Logs">
+    <div ng-repeat="item in viewModel.DisplayLogs">
         <div id="simpleRow">
             <div ng-show="item.SystemType == 1">
                 Utworzenie firmy
@@ -51,7 +51,7 @@
                 {{ item.OrganizationName}}
             </div>
 
-           
+
             <div ng-show="item.SystemType == 4">
                 Wysłanie zaproszenia do opiekuna
             </div>
@@ -78,7 +78,7 @@
             <div ng-show="item.SystemType == 5">
                 {{ item.ModifiedUser.UserName}}
             </div>
-           
+
 
             <div ng-show="item.SystemType == 6">
                 Logowanie do panelu systemowego
@@ -89,10 +89,10 @@
             <div ng-show="item.SystemType == 6">
                 {{ item.ModifiedUser.UserName}}
             </div>
-           
+
 
             <div ng-show="item.SystemType == 7">
-                 Wylogowanie z panelu systemowego
+                Wylogowanie z panelu systemowego
             </div>
             <div ng-show="item.SystemType == 7">
                 {{ item.ModifiedDate  | date: 'dd.MM.yyyy hh.mm'}}

@@ -29,16 +29,18 @@ namespace AppEngine.Models.Common
 
         [NotMapped]
         public List<ProfileGroup> Groups { get; set; }
-        /// <summary>
-        /// Get from training to organization ?? create ??
-        /// </summary>
         [NotMapped]
-        public string AssignedOrganizationsName { get; set; }
-        /// <summary>
-        /// Get from training to organization ?? create ??
-        /// </summary>
-        [NotMapped]
-        public string AssignedOrganizationsID { get; set; }
+        public List<Organization> Organizations { get; set; }
+        ///// <summary>
+        ///// Get from training to organization ?? create ??
+        ///// </summary>
+        //[NotMapped]
+        //public string AssignedOrganizationsName { get; set; }
+        ///// <summary>
+        ///// Get from training to organization ?? create ??
+        ///// </summary>
+        //[NotMapped]
+        //public string AssignedOrganizationsID { get; set; }
         /// <summary>
         /// Get from logs
         /// </summary>
@@ -62,25 +64,25 @@ namespace AppEngine.Models.Common
         public string UserName { get; set; }
 
 
-        private string _createUserName;
-        public string CreateUserName
-        {
-            get { return _createUserName; }
-        }
-        public void SetCreateUserName(string name)
-        {
-            _createUserName = name;
-        }
+        //private string _createUserName;
+        //public string CreateUserName
+        //{
+        //    get { return _createUserName; }
+        //}
+        //public void SetCreateUserName(string name)
+        //{
+        //    _createUserName = name;
+        //}
 
-        private int _runTrainingStats;
-        public int RunTrainingStats
-        {
-            get { return _runTrainingStats; }
-        }
-        public void SetRunTrainingStats(int value)
-        {
-            _runTrainingStats = value;
-        }
+        //private int _runTrainingStats;
+        //public int RunTrainingStats
+        //{
+        //    get { return _runTrainingStats; }
+        //}
+        //public void SetRunTrainingStats(int value)
+        //{
+        //    _runTrainingStats = value;
+        //}
 
     }
 

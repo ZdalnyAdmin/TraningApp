@@ -207,6 +207,7 @@
   <ItemGroup>
     <Content Include="Assets\Image\ajax-loader.gif" />
     <Content Include="Assets\Image\empty.png" />
+    <Content Include="Assets\Image\main_image.png" />
     <Content Include="Assets\Marks\All\Kowalski.png" />
     <Content Include="Assets\Marks\All\Król_Julian.png" />
     <Content Include="Assets\Marks\All\Marlenka.png" />

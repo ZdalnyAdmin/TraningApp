@@ -94,7 +94,7 @@
         DOSTEPNOSC SZKOLENIA
     </div>
     <div id="simpleRow">
-        <input type="checkbox" ng-model="availableForAll" />Wszystkie firmy
+        <input type="checkbox" ng-model="viewModel.AvailableForAll" ng-disabled="viewModel.Organizations.length > 0" />Wszystkie firmy
     </div>
     <div> lub wybierz z list</div>
     <button ng-click="showOrganization()">WYBIERZ</button>

@@ -70,13 +70,81 @@ namespace AppEngine.Services
 
                         //todo assigned group
 
+                        if (isInternal)
+                        {
+                            //todo change to only update
+                            if (model.Current.Groups != null && model.Current.Groups.Any())
+                            {
+                                foreach (var item in model.Current.Groups)
+                                {
+                                    var grp = new ProfileGroup2Trainings();
+                                    grp.IsDeleted = false;
+                                    grp.ProfileGroupID = item.ProfileGroupID;
+                                    grp.TrainingID = model.Current.TrainingID;
+                                    context.TrainingInGroups.Remove(grp);
+                                }
+                            }
+
+
+                            if (model.Groups != null && model.Groups.Any())
+                            {
+                                foreach (var item in model.Groups)
+                                {
+                                    var grp = new ProfileGroup2Trainings();
+                                    grp.IsDeleted = false;
+                                    grp.ProfileGroupID = item.ProfileGroupID;
+                                    grp.TrainingID = model.Current.TrainingID;
+                                    context.TrainingInGroups.Add(grp);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (var item in model.Current.Organizations)
+                            {
+                                var trainingInOrganization = new Trainings2Organizations();
+                                trainingInOrganization.Organization = item;
+                                trainingInOrganization.OrganizationID = item.OrganizationID;
+                                trainingInOrganization.Training = model.Current;
+                                trainingInOrganization.TrainingID = model.Current.TrainingID;
+                                trainingInOrganization.IsDeleted = false;
+                                context.TrainingsInOrganizations.Remove(trainingInOrganization);
+                            }
+
+
+                            if (model.Organizations == null || model.Organizations.Any())
+                            {
+                                model.Organizations = new List<Organization>();
+                                model.Organizations = context.Organizations.Where(x => !x.IsDeleted).ToList();
+                            }
+
+
+                            var organizations = new List<Trainings2Organizations>();
+
+
+                            foreach (var item in model.Organizations)
+                            {
+                                var trainingInOrganization = new Trainings2Organizations();
+                                trainingInOrganization.Organization = item;
+                                trainingInOrganization.OrganizationID = item.OrganizationID;
+                                trainingInOrganization.Training = model.Current;
+                                trainingInOrganization.TrainingID = model.Current.TrainingID;
+                                trainingInOrganization.IsDeleted = false;
+                                context.TrainingsInOrganizations.Add(trainingInOrganization);
+                            }
+
+                            if (organizations.Any())
+                            {
+                                context.TrainingsInOrganizations.AddRange(organizations);
+                            }
+                        }
+
 
                         context.SaveChanges();
 
                         if (isInternal)
                         {
                             LogService.InsertTrainingLogs(OperationLog.TrainingEdit, context, model.Current.TrainingID, model.LoggedUser.Id);
-
                         }
 
                         break;
@@ -87,6 +155,10 @@ namespace AppEngine.Services
 
                         model.Current.IsDeleted = false;
                         model.Current.IsActive = false;
+                        if (String.IsNullOrEmpty(model.Current.TrainingResources))
+                        {
+                            model.Current.TrainingResources = @"Assets\Image\main_image.png";
+                        }
 
                         model.Current.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
                         int index = 0;
@@ -147,7 +219,16 @@ namespace AppEngine.Services
                         }
                         else
                         {
+                            if (model.Organizations == null || model.Organizations.Any())
+                            {
+                                model.Organizations = new List<Organization>();
+                                model.Organizations = context.Organizations.Where(x => !x.IsDeleted).ToList();
+                            }
+
+
                             var organizations = new List<Trainings2Organizations>();
+
+
                             foreach (var item in model.Organizations)
                             {
                                 var trainingInOrganization = new Trainings2Organizations();
@@ -159,7 +240,7 @@ namespace AppEngine.Services
                                 context.TrainingsInOrganizations.Add(trainingInOrganization);
                             }
 
-                            if(organizations.Any())
+                            if (organizations.Any())
                             {
                                 context.TrainingsInOrganizations.AddRange(organizations);
                                 context.SaveChanges();
@@ -226,12 +307,15 @@ namespace AppEngine.Services
                                                orderby ext.CreateDate
                                                select ext).ToList();
 
+                            
+
                             foreach (var item in model.Trainings)
                             {
                                 if (!String.IsNullOrEmpty(item.CreateUserID))
                                 {
                                     item.UserName = context.Users.FirstOrDefault(x => x.Id == item.CreateUserID).UserName;
                                 }
+                                
                             }
                         }
 
@@ -244,6 +328,7 @@ namespace AppEngine.Services
                         model.Current.PassResult = 80;
                         model.Details = new List<TrainingDetail>();
                         model.Questions = new List<TrainingQuestion>();
+                        model.AvailableForAll = true;
 
                         if (isInternal)
                         {
@@ -271,6 +356,24 @@ namespace AppEngine.Services
                         if (model.Current == null)
                         {
                             model.ErrorMessage = "Blad wczytanie szkolenia";
+                        }
+
+                        if(isInternal)
+                        {
+                            //todo groups
+                            model.Groups = (from extTig in context.TrainingInGroups
+                                                   join extG in context.Groups on extTig.ProfileGroupID equals extG.ProfileGroupID
+                                                   where extTig.TrainingID == model.Current.TrainingID
+                                                   select extG).ToList();
+                            model.Current.Groups = model.Groups;
+                        }
+                        else
+                        {
+                            model.Organizations = (from extTio in context.TrainingsInOrganizations
+                                                  join extO in context.Organizations on extTio.OrganizationID equals extO.OrganizationID
+                                                  where extTio.TrainingID == model.Current.TrainingID
+                                                  select extO).ToList();
+                            model.Current.Organizations = model.Organizations;
                         }
 
                         break;

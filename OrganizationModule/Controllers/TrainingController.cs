@@ -135,7 +135,7 @@ namespace OrganizationModule.Controllers
                 });
 
 
-                training.SetCreateUserName(_db.Users.FirstOrDefault(x => x.Id == training.CreateUserID).DisplayName);
+                training.UserName = _db.Users.FirstOrDefault(x => x.Id == training.CreateUserID).DisplayName;
                 var questions = _db.TrainingQuestons.Where(x => x.TrainingID == training.TrainingID).OrderBy(x => x.DisplayNo).ToList();
 
                 var result = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id && x.TrainingID == training.TrainingID);
