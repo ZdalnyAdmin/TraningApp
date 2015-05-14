@@ -39,6 +39,8 @@
         $scope.$apply(function (scope) {
             var file = $element[0].getElementsByClassName('upload-mark')[0].files[0];
 
+
+
             if (!checkExtension(file)) {
                 return;
             }
@@ -76,7 +78,9 @@
                 sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), true);
             }
             else {
-                $scope.viewModel.ErrorMessage = 'Nieprawidłowa rozdzielczość obrazka. Musi być ' + width + 'px na ' + hight + 'px.';
+                $scope.viewModel.ErrorMessage = 'Nieprawidłowa rozdzielczość obrazka. Musi być ' + maxWidth + 'px na ' + maxHeight + 'px.';
+                $scope.fileName = '';
+                return;
             }
         };
     }
@@ -101,6 +105,9 @@
     }
 
     function checkExtension(file) {
+        if (!file) {
+            return;
+        }
         var fileNameParts = file.name.split('.');
         var extension = fileNameParts[fileNameParts.length - 1];
         return file.type.indexOf('image') !== -1;
@@ -195,7 +202,7 @@
         });
 
 
-        $http.post('/api/Training/', $scope.viewModel.Current)
+        $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
