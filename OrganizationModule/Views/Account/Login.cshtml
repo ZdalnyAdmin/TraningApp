@@ -1,40 +1,34 @@
-﻿<div class="login-container">
+﻿<div class="login-container" ng-form="loginFrm">
+    <div class="row" ng-show="loginForm.loginFailure">Niepoprawny login lub hasło!</div>
     <div class="row">
         <div class="col-md-4 col-md-offset-4 login-input login-form-row">
-            <input class="input-xl form-control" type="text" name="Login" placeholder="Login" ng-model="loginForm.emailAddress" required />
+            <input class=" input-xl form-control" type="text" name="Login" placeholder="Login" ng-model="loginForm.emailAddress" required tooltip-enable="loginFrm.Login.$error.required" tooltip="Wpisz Login!" />
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4 password-input login-form-row">
-            <input class="input-xl form-control" type="password" name="Password" placeholder="Hasło" ng-model="loginForm.password" required />
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4 login-form-row">
-            <button class="btn-xl btn green-button" ng-click="login()" ng-disabled="loginFrm.$invalid||processing">ZALOGUJ</button>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 password-input login-form-row">
+                <input class="input-xl form-control" type="password" name="Password" placeholder="Hasło" ng-model="loginForm.password" required tooltip-enable="loginFrm.Password.$error.required" tooltip="Podaj hasło!" />
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4 login-form-row">
-            <div class="forgot-password">
-                <a href="/resetPassword">Ups, nie pamiętam hasła</a>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 login-form-row">
+                <button class="btn-xl btn green-button" ng-click="login()" ng-disabled="loginFrm.$invalid||processing">ZALOGUJ</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 login-form-row">
+                <div class="forgot-password">
+                    <a href="/resetPassword">Ups, nie pamiętam hasła</a>
+                </div>
             </div>
         </div>
     </div>
 
-    @*<div class="login-message center" ng-show="loginForm.loginFailure">Wystąpił błąd podczas logowania</div>
-    <div class="form" ng-form="loginFrm">
-        <div class="login-form-row"><label>Login:</label><input type="text" ng-model="loginForm.emailAddress" required /></div>
-        <div class="login-form-row"><label>Hasło:</label><input type="password" ng-model="loginForm.password" required /></div>
-        <div class="login-form-row center"><div class="btn" ng-click="login()" ng-disabled="loginFrm.$invalid">Login</div></div>
-        <div class="login-form-row center"><a href="/resetPassword" class="btn">Niepamiętam Hasła</a></div>
-    </div>*@
+    <script>
+        $(function () {
+            $('#content').removeClass('col-md-8 col-lg-9').addClass('col-md-12');
+        })
+    </script>
+
+    @Styles.Render("~/Login")
 </div>
-
-<script>
-    $(function () {
-        $('#content').removeClass('col-md-8 col-lg-9').addClass('col-md-12');
-    })
-</script>
-
-@Styles.Render("~/Login")
