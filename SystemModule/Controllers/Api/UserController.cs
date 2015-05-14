@@ -29,7 +29,7 @@ namespace SystemModule.Controllers.Api
                     case PeopleActionType.GetProtectors:
                         obj.Current = new Person();
 
-                        var items = db.Users.Where(x => x.Profile == ProfileEnum.Protector && !x.IsDeleted).OrderByDescending(p => p.RegistrationDate).ToList();
+                        var items = db.Users.Where(x => x.Profile == ProfileEnum.Protector && x.Status == StatusEnum.Active && !x.IsDeleted).OrderByDescending(p => p.RegistrationDate).ToList();
 
                         foreach (var item in items)
                         {
