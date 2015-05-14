@@ -7,6 +7,8 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
+using System.Net.Configuration;
 
 namespace AppEngine.Helpers
 {
@@ -25,10 +27,11 @@ namespace AppEngine.Helpers
                                  X509Chain chain, SslPolicyErrors sslPolicyErrors)
                         { return true; };
 #endif
+                    var smtp = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
 
-                    client.Port = AppSettings.Setting<int>("mailClientPort");
-                    client.Host = AppSettings.Setting<string>("mailClientHost");
-                    client.EnableSsl = true;
+                    client.Port = smtp.Network.Port;
+                    client.Host = smtp.Network.Host;
+                    client.EnableSsl = smtp.Network.EnableSsl;
                     client.Timeout = 10000;
                     client.DeliveryMethod = SmtpDeliveryMethod.Network;
                     client.UseDefaultCredentials = false;

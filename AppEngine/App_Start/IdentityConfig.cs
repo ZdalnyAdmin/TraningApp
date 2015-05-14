@@ -20,21 +20,22 @@ namespace AppEngine
         {
             try
             {
-                    MailMessage mail = new MailMessage(new MailAddress("noreply@kenpro.pl", "(do not reply)"),
-                    new MailAddress(message.Destination))
-                    {
-                        Subject = message.Subject,
-                        Body = message.Body,
-                        IsBodyHtml = true
-                    };
+                var account = getAccount(message.Subject);
+                MailMessage mail = new MailMessage(new MailAddress(getMailFrom(account), "(do not reply)"),
+                new MailAddress(message.Destination))
+                {
+                    Subject = message.Subject,
+                    Body = message.Body,
+                    IsBodyHtml = true
+                };
 
-                    mail.BodyEncoding = UTF8Encoding.UTF8;
-                    mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+                mail.BodyEncoding = UTF8Encoding.UTF8;
+                mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
-                    Mail.Send(mail, getAccount(message.Subject));
+                Mail.Send(mail, account);
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
             }
 
             return Task.FromResult(0);
@@ -42,7 +43,7 @@ namespace AppEngine
 
         private MailAccount getAccount(string subject)
         {
-            switch(subject)
+            switch (subject)
             {
                 case "Rejestracja Kenpro":
                     return MailAccount.REGISTER;
@@ -50,6 +51,35 @@ namespace AppEngine
                     return MailAccount.INVITATION;
                 default:
                     return MailAccount.ADMIN;
+            }
+        }
+
+        private static string getMailFrom(MailAccount account)
+        {
+            switch (account)
+            {
+
+                case MailAccount.REGISTER:
+                    return AppSettings.Setting<string>("registerMail");
+
+                case MailAccount.INVITATION:
+                    return AppSettings.Setting<string>("invitationMail");
+
+                case MailAccount.ACTIVATION:
+                    return AppSettings.Setting<string>("activationMail");
+
+                case MailAccount.EVENT:
+                    return AppSettings.Setting<string>("eventMail");
+
+                case MailAccount.CONFIRMATION:
+                    return AppSettings.Setting<string>("confirmationMail");
+
+                case MailAccount.DELETE:
+                    return AppSettings.Setting<string>("deleteMail");
+
+                case MailAccount.ADMIN:
+                default:
+                    return AppSettings.Setting<string>("adminMail");
             }
         }
     }
@@ -71,7 +101,7 @@ namespace AppEngine
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<Person>(context.Get<EFContext>()));
             // Configure validation logic for usernames
@@ -112,7 +142,7 @@ namespace AppEngine
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<Person>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
