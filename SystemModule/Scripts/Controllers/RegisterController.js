@@ -1,23 +1,18 @@
-﻿var RegisterController = function ($scope, $routeParams, $location, UserFactory, UtilitiesFactory) {
-    $scope.registrationData = {
-        Email: 'email@mail.pl',
-        Role: 'xxx'
-    };
+﻿var RegisterController = function ($scope, $routeParams, $location, UserFactory) {
+    var search = $location.search();
 
-    $scope.company = {
-        name: 'nazwa',
-        displayName: 'xxx'
+    $scope.registrationData = {
+        Token: search.code,
+        UserId: search.id
     };
 
     $scope.errorMessage = '';
 
     $scope.register = function () {
-        UtilitiesFactory.showSpinner();
         $scope.errorMessage = '';
         var result = UserFactory.register($scope.registrationData);
 
         result.then(function (data) {
-            UtilitiesFactory.hideSpinner();
             if (data.Succeeded) {
                 $location.path('/').search('');
             } else {
@@ -34,4 +29,4 @@
     }
 };
 
-RegisterController.$inject = ['$scope', '$routeParams', '$location', 'UserFactory', 'UtilitiesFactory'];
+RegisterController.$inject = ['$scope', '$routeParams', '$location', 'UserFactory'];

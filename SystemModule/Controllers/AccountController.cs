@@ -14,6 +14,7 @@ using System.Web;
 using System.Web.Mvc;
 using AppEngine.Services;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace SystemModule.Controllers
 {
@@ -80,62 +81,6 @@ namespace SystemModule.Controllers
         }
         #endregion
 
-        #region Register
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<JsonResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityResult result = new IdentityResult();
-
-                try
-                {
-
-                    var user = new Person
-                    {
-                        UserName = model.UserName,
-                        Email = "dadadsa@dasdas.pl",
-                        RegistrationDate = DateTime.Now,
-                        Profile = ProfileEnum.Administrator, // Temporary
-                        InvitationDate = DateTime.Now,
-                        //Organization = (from o in _db.Organizations select o)
-                        //              .FirstOrDefault(), // Temporary
-                        Status = StatusEnum.Active // Temporary
-                    };
-
-                    result = await UserManager.CreateAsync(user, model.Password);
-                    if (!result.Succeeded)
-                    {
-                        return this.Json(result);
-                    }
-                    else
-                    {
-                        await UserManager.SendEmailAsync(user.Id,
-                           "Rejestracja Kenpro",
-                           "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
-                           + "<br/>Twoja nazwa wyświetlana: " + user.UserName
-                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Zaloguj się</a>");
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-                return this.Json(result);
-            }
-
-            return getErrorsFromModel();
-        }
-
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
-        #endregion
-
         #region Operator
         [HttpPost]
         [AllowAnonymous]
@@ -155,7 +100,7 @@ namespace SystemModule.Controllers
                         Email = model.Email,
                         InviterID = logged != null ? logged.Id : null,
                         Profile = model.Profile,
-                        Status = StatusEnum.Active, // Temporary
+                        Status = StatusEnum.Invited,
                         OrganizationID = model.OrganizationID,
                         InvitationDate = DateTime.Now
                     };
@@ -173,11 +118,13 @@ namespace SystemModule.Controllers
                         _db.Entry<Organization>(organization).State = EntityState.Modified;
                         _db.SaveChanges();
 
-                        await UserManager.SendEmailAsync(user.Id,
-                            "ZAPROSZENIE UŻYTKOWNIKA",
-                            "Zostałeś zaproszony do organizacji : " + organization != null ? organization.Name : string.Empty + "<br/>"
-                            + "Zaproszenie zostało wysłane przez : " + logged != null ? logged.UserName : string.Empty
-                            + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Link</a>");
+                        var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+
+                        UserManager.SendEmailAsync(user.Id,
+                            "Zaproszenie Kenpro",
+                           "Zakończyłeś zaproszony do organizacji:" + (organization != null ? organization.Name : string.Empty)
+                           + "<br/>Zaproszenie zostało wysłane przez: " + (logged != null ? logged.UserName : string.Empty)
+                           + "<br/><br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/register?id=" + user.Id + "&code=" + code + "\">Link</a>");
 
                         LogService.ProtectorLogs(SystemLog.ProtectorInvitation, _db, organization.Name, user.InviterID);
                     }
@@ -214,6 +161,100 @@ namespace SystemModule.Controllers
         }
 
         #endregion 
+
+        #region Register
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityResult result = new IdentityResult();
+                Result responseResult = new Result() { Errors = new List<string>(), Succeeded = false };
+
+                try
+                {
+                    var user = UserManager.FindById(model.UserId);
+                    var userByName = UserManager.FindByName(model.UserName);
+                    bool tokenValidation = await UserManager.UserTokenProvider.ValidateAsync("ResetPassword", model.Token, UserManager, user);
+
+                    if (user == null || (DateTime.Now - user.InvitationDate).Days > 2 || !tokenValidation)
+                    {
+                        responseResult.Errors.Add("Nieprawidłowy token, lub token wygasł.");
+                        return Json(responseResult);
+                    }
+
+                    if (userByName != null && user.Id != userByName.Id)
+                    {
+                        responseResult.Errors.Add("Ten login jest już zajęty. Proszę wybrać inny.");
+                        return Json(responseResult);
+                    }
+
+                    user.RegistrationDate = DateTime.Now;
+                    user.ResetPasswordDate = DateTime.Now;
+                    user.Status = StatusEnum.Active;
+                    user.UserName = model.UserName;
+                    result = UserManager.Update(user);
+
+                    if (!result.Succeeded)
+                    {
+                        return this.Json(result);
+                    }
+
+                    var rslt = await Person.ChangePasswordAsync(UserManager, new ResetPasswordViewModel()
+                    {
+                        Code = model.Token,
+                        Password = model.Password,
+                        ConfirmPassword = model.ConfirmPassword,
+                        UserName = user.UserName
+                    });
+
+                    if (!rslt.Succeeded)
+                    {
+                        return this.Json(rslt);
+                    }
+
+                    LogService.InsertUserLogs(OperationLog.UserRegistration, _db, user.Id, user.Id);
+
+                    await UserManager.UpdateSecurityStampAsync(user.Id);
+                    await UserManager.SendEmailAsync(user.Id,
+                        "Rejestracja Kenpro",
+                        "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
+                        + "<br/>Twoja nazwa wyświetlana: " + user.DisplayName
+                        + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Zaloguj się</a>");
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return this.Json(result);
+            }
+
+            return getErrorsFromModel();
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> Register(string id, string code)
+        {
+            var user = UserManager.FindById(id);
+            ViewBag.User = user;
+
+            if (user != null)
+            {
+                ViewBag.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+                ViewBag.isTokenValid = await UserManager.UserTokenProvider.ValidateAsync("ResetPassword", code, UserManager, user);
+                ViewBag.tokenExpired = (DateTime.Now - user.InvitationDate).Days > 2 || user.Status == StatusEnum.Rejected;
+            }
+            else
+            {
+                ViewBag.isTokenValid = false;
+                ViewBag.tokenExpired = true;
+            }
+
+            return View();
+        }
+        #endregion
 
         #region Organization
 
