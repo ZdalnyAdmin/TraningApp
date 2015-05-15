@@ -18,6 +18,7 @@ namespace AppEngine.Models.DataObject
         public string ExternalResource { get; set; }
         public string InternalResource { get; set; }
         public int DisplayNo { get; set; }
+        public decimal FileSize { get; set; }
     }
 
     public enum TrainingResource

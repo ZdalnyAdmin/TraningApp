@@ -1,4 +1,5 @@
-﻿using AppEngine.Models.Common;
+﻿using AppEngine.Helpers;
+using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.DataObject;
@@ -7,7 +8,9 @@ using AppEngine.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Web;
 
 namespace AppEngine.Services
 {
@@ -150,6 +153,15 @@ namespace AppEngine.Services
                         break;
                     case AppEngine.Models.DataBusiness.BaseActionType.Add:
 
+                        var serverPath = AppSettings.ServerPath();
+                        var path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
+
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+
                         model.Current.CreateDate = DateTime.Now;
                         model.Current.CreateUserID = model.LoggedUser.Id;
 
@@ -160,6 +172,15 @@ namespace AppEngine.Services
                             model.Current.TrainingResources = @"Assets\Image\main_image.png";
                         }
 
+                        var size = 0m;
+                        model.Current.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out size);
+                        if (!String.IsNullOrEmpty(model.Current.PassResources))
+                        {
+                            size = 0m;
+                            model.Current.PassResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out size);
+                        }
+
+
                         model.Current.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
                         int index = 0;
 
@@ -169,6 +190,11 @@ namespace AppEngine.Services
                             {
                                 item.DisplayNo = index;
                                 index++;
+
+                                //move file and save size in MG
+                                size = 0m;
+                                item.InternalResource = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, item.InternalResource, out size);
+                                item.FileSize = size;
                             }
                             model.Current.Details = model.Details;
                         }
@@ -266,6 +292,8 @@ namespace AppEngine.Services
                                                            }).ToList();
                         }
 
+                        //delete temp
+
                         break;
                     case BaseActionType.GetSimple:
 
@@ -307,7 +335,7 @@ namespace AppEngine.Services
                                                orderby ext.CreateDate
                                                select ext).ToList();
 
-                            
+
 
                             foreach (var item in model.Trainings)
                             {
@@ -315,7 +343,7 @@ namespace AppEngine.Services
                                 {
                                     item.UserName = context.Users.FirstOrDefault(x => x.Id == item.CreateUserID).UserName;
                                 }
-                                
+
                             }
                         }
 
@@ -358,21 +386,21 @@ namespace AppEngine.Services
                             model.ErrorMessage = "Blad wczytanie szkolenia";
                         }
 
-                        if(isInternal)
+                        if (isInternal)
                         {
                             //todo groups
                             model.Groups = (from extTig in context.TrainingInGroups
-                                                   join extG in context.Groups on extTig.ProfileGroupID equals extG.ProfileGroupID
-                                                   where extTig.TrainingID == model.Current.TrainingID
-                                                   select extG).ToList();
+                                            join extG in context.Groups on extTig.ProfileGroupID equals extG.ProfileGroupID
+                                            where extTig.TrainingID == model.Current.TrainingID
+                                            select extG).ToList();
                             model.Current.Groups = model.Groups;
                         }
                         else
                         {
                             model.Organizations = (from extTio in context.TrainingsInOrganizations
-                                                  join extO in context.Organizations on extTio.OrganizationID equals extO.OrganizationID
-                                                  where extTio.TrainingID == model.Current.TrainingID
-                                                  select extO).ToList();
+                                                   join extO in context.Organizations on extTio.OrganizationID equals extO.OrganizationID
+                                                   where extTio.TrainingID == model.Current.TrainingID
+                                                   select extO).ToList();
                             model.Current.Organizations = model.Organizations;
                         }
 

@@ -159,7 +159,7 @@ namespace SystemModule.Controllers.Api
                                              where tio.OrganizationID == obj.OrganizationID
                                              select td).ToList();
 
-                        obj.Detail.UsedSpaceDisk = trainings.Count();
+                        obj.Detail.UsedSpaceDisk = trainings.Sum(x=>x.FileSize);
                         //todo details
 
                         break;
