@@ -26,6 +26,18 @@ namespace SystemModule
             );
 
             routes.MapRoute(
+                name: "ReloadRegisterUser",
+                url: "Templates/registerUser",
+                defaults: new { controller = "Redirect", action = "RegisterUser", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Register",
+                url: "registerUser",
+                defaults: new { controller = "Account", action = "Register", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Redirect",
                 url: "{id}",
                 defaults: new { controller = "Redirect", action = "Index" }

@@ -1,13 +1,23 @@
-﻿<div class="login-container">
-    <div class="login-message center" ng-show="errorMessage">{{errorMessage}}</div>
-    <div class="form" ng-form="registerFrm">
-        <div class="login-form-row">{{ company.name }}</div>
-        <div class="login-form-row">Twoja nazwa wyświetlania: {{ company.displayName }}</div>
-        <div class="login-form-row">Adres e-mail: {{ registrationData.Email }}</div>
-        <div class="login-form-row">Rola: {{ registrationData.Role }}</div>
-        <div class="login-form-row"><label>Login:</label><input type="text" ng-model="registrationData.UserName" required /></div>
-        <div class="login-form-row"><label>Hasło:</label><input type="password" ng-model="registrationData.Password" required /></div>
-        <div class="login-form-row"><label>Powtórz hasło:</label><input type="password" ng-model="registrationData.ConfirmPassword" required /></div>
-        <div class="login-form-row center"><div class="btn" ng-click="register()" ng-disabled="registerFrm.$invalid || registrationData.Password !== registrationData.ConfirmPassword">Utwórz konto</div></div>
+﻿@using AppEngine.Helpers
+@using AppEngine.Models.DataBusiness
+
+@if (!ViewBag.isTokenValid || ViewBag.User == null || ViewBag.tokenExpired)
+{
+    <div>Zaproszenie nie istnieje</div>
+}
+else
+{
+    <div class="login-container" ng-controller="RegisterController">
+        <div class="login-message center" ng-show="errorMessage">{{errorMessage}}</div>
+        <div class="form" ng-form="registerFrm">
+            <div class="login-form-row">@ViewBag.Organization.Name</div>
+            <div class="login-form-row">Twoja nazwa wyświetlania: @ViewBag.User.DisplayName</div>
+            <div class="login-form-row">Adres e-mail: @ViewBag.User.Email</div>
+            <div class="login-form-row">Rola: @(((ProfileEnum)ViewBag.User.Profile).GetDescription()) </div>
+            <div class="login-form-row"><label>Login:</label><input type="text" ng-model="registrationData.UserName" required /></div>
+            <div class="login-form-row"><label>Hasło:</label><input type="password" ng-model="registrationData.Password" required /></div>
+            <div class="login-form-row"><label>Powtórz hasło:</label><input type="password" ng-model="registrationData.ConfirmPassword" required /></div>
+            <div class="login-form-row center"><div class="btn" ng-click="register()" ng-disabled="registerFrm.$invalid || registrationData.Password !== registrationData.ConfirmPassword">Utwórz konto</div></div>
+        </div>
     </div>
-</div>
+}

@@ -32,5 +32,19 @@ namespace SystemModule.Controllers
                 return Redirect("/?page=resetPasswordConfirmation&code=" + code);
             }
         }
+
+        public ActionResult RegisterUser(string code, string id)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                code = Url.Encode(code);
+                id = Url.Encode(id);
+                return Redirect("/?page=registerUser&controller=Templates&code=" + code + "&id=" + id);
+            }
+        }
     }
 }
