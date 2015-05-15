@@ -174,6 +174,40 @@ namespace OrganizationModule.Controllers
             return getErrorsFromModel();
         }
 
+        [HttpPost]
+        public async Task<JsonResult> ChangeEmail(ChangeEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var loggedUser = Person.GetLoggedPerson(User);
+                loggedUser = UserManager.FindById(loggedUser.Id);
+                var result = await loggedUser.ChangeEmailAsync(UserManager, Request, model.Email);
+
+                return Json(result);
+
+            }
+
+            return getErrorsFromModel();
+        }
+
+        [HttpPost]
+        public JsonResult ChangeUserName(ChangeUserNameViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = new Result() { Errors = new System.Collections.Generic.List<string>() };
+                var loggedUser = Person.GetLoggedPerson(User, _db);
+
+                loggedUser.DisplayName = model.UserName;
+                _db.SaveChanges();
+
+                result.Succeeded = true;
+                return Json(result);
+            }
+
+            return getErrorsFromModel();
+        }
+
         #region Private Functions
         private JsonResult getErrorsFromModel()
         {

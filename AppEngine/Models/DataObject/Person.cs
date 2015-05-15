@@ -94,6 +94,35 @@ namespace AppEngine.Models.Common
             return result;
         }
 
+        public async Task<IdentityResult> ChangeEmailAsync(UserManager<Person> manager, HttpRequestBase request, string newEmail)
+        {
+            var result = await manager.UpdateSecurityStampAsync(this.Id);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            var code = await manager.GenerateEmailConfirmationTokenAsync(this.Id);
+
+            this.ChangeEmailDate = DateTime.Now;
+            this.NewEmail = newEmail;
+            result = await manager.UpdateAsync(this);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            await manager.SendEmailAsync(this.Id, "Zmiana Adresu Email",
+            "Została wysłana prośba o zmianę twojego maila na " + newEmail + ". <br/>"
+            + "Jeżeli chcesz zmienić adres email potwierdź to wciskając link. <br/>"
+            + "<a href=\""
+                + request.Url.Scheme + "://" + request.Url.Authority + "/changeEmail?code=" + code + "&Id=" + this.Id + "\">link</a>");
+
+            return result;
+        }
+
         public static async Task<Result> ChangePasswordAsync(UserManager<Person> manager, ResetPasswordViewModel model)
         {
             var userByUserName = await manager.FindByNameAsync(model.UserName);

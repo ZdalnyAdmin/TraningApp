@@ -14,9 +14,6 @@ namespace AppEngine.Models.DataContext
 {
     public class EFContext : IdentityDbContext<Person> 
     {
-        public static bool firsLog = true;
-
-
         public EFContext()
             : base("name=DefaultConnection", throwIfV1Schema: false)
         {
@@ -24,13 +21,8 @@ namespace AppEngine.Models.DataContext
             if (!Database.Exists())
             {
                 Database.Initialize(true);
-            }  
-
-            if(firsLog)
-            {
-                firsLog = false;
                 new Configuration().CallSeed(this);
-            }
+            }  
         }
 
         public static EFContext Create()

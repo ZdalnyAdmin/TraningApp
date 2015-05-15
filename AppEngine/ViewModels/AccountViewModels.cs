@@ -96,6 +96,21 @@ namespace AppEngine.Models.ViewModels.Account
         public string Code { get; set; }
     }
 
+    public class ChangeEmailViewModel
+    {
+        [Display(Name = "Email")]
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+    }
+
+    public class ChangeUserNameViewModel
+    {
+        [Display(Name = "Nazwa użytkownika")]
+        [Required]
+        public string UserName { get; set; }
+    }
+
     public class ForgotPasswordViewModel
     {
         [Required]

@@ -34,7 +34,10 @@
                 });
             }
 
-            $rootScope.$on('userChanged', reload);
+            $rootScope.$on('userChanged', function () {
+                UserFactory.clearUser();
+                reload();
+            });
             $rootScope.$on('reloadMenu', reload);
 
             reload();
