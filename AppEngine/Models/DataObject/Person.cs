@@ -38,6 +38,12 @@ namespace AppEngine.Models.Common
         public string InviterID { get; set; }
         public Person Inviter { get; set; }
 
+        public string NewUserName { get; set; }
+        public DateTime? ChangeUserNameDate { get; set; }
+
+        public string NewEmail { get; set; }
+        public DateTime? ChangeEmailDate { get; set; }
+
         [NotMapped]
         public string ModifiedUserID { get; set; }
         //public List<TrainingResult> AssignedTrainings { get; set; }

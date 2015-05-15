@@ -79,7 +79,6 @@ namespace AppEngine.Models.ViewModels.Account
 
     public class ResetPasswordViewModel
     {
-        [Required]
         [Display(Name = "Userame")]
         public string UserName { get; set; }
 

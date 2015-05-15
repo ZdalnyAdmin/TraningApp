@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using AppEngine.Models.ViewModels.Account;
+using System.Collections.ObjectModel;
 
 namespace OrganizationModule.Controllers
 {
@@ -144,5 +146,53 @@ namespace OrganizationModule.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<JsonResult> ChangePassword(ResetPasswordViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var loggedUser = Person.GetLoggedPerson(User);
+
+                if (model.UserName == loggedUser.UserName)
+                {
+                    Result result = new Result();
+                    model.Code = await UserManager.GeneratePasswordResetTokenAsync(loggedUser.Id);
+
+                    result = await Person.ChangePasswordAsync(UserManager, model);
+                    return Json(result);
+                }
+                else
+                {
+                    loggedUser = UserManager.FindById(loggedUser.Id);
+                   var result = await loggedUser.ResetPasswordAsync(UserManager, Request);
+
+                   return Json(result);
+                }
+            }
+
+            return getErrorsFromModel();
+        }
+
+        #region Private Functions
+        private JsonResult getErrorsFromModel()
+        {
+            var Errors = new Collection<string>();
+
+            foreach (ModelState modelState in ViewData.ModelState.Values)
+            {
+                foreach (ModelError error in modelState.Errors)
+                {
+                    Errors.Add(error.ErrorMessage);
+                }
+            }
+
+            return Json(new
+            {
+                Succeeded = false,
+                Errors = Errors
+            });
+        }
+        #endregion
     }
 }

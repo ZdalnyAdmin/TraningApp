@@ -1,20 +1,19 @@
 ﻿using AppEngine;
-using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.ViewModels.Account;
+using AppEngine.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using AppEngine.Services;
-using System.Data.Entity;
-using System.Collections.Generic;
 
 namespace SystemModule.Controllers
 {
@@ -92,6 +91,30 @@ namespace SystemModule.Controllers
 
                 try
                 {
+                    var jsonResult = new Result() { Succeeded = false, Errors = new List<string>() };
+                    var previousInvitedUsers = _db.Users.Where(x => x.Email.Equals(model.Email) && x.OrganizationID == model.OrganizationID).ToList();
+
+                    if (previousInvitedUsers != null &&
+                        previousInvitedUsers.Exists(x => x.Status != StatusEnum.Rejected &&
+                        x.Status != StatusEnum.Reinvited &&
+                        x.Status != StatusEnum.Invited))
+                    {
+                        jsonResult.Errors.Add("Użytkownik o podanym mailu został już dodany do organizacji");
+                        return Json(jsonResult);
+                    }
+                    else
+                    {
+                        previousInvitedUsers.ForEach(x =>
+                        {
+                            if (x.Status == StatusEnum.Invited)
+                            {
+                                x.Status = StatusEnum.Reinvited;
+                            }
+                        });
+
+                        await _db.SaveChangesAsync();
+                    }
+
                     var logged = Person.GetLoggedPerson(User);
                     var user = new Person
                     {

@@ -1,5 +1,4 @@
 ﻿using AppEngine;
-using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
@@ -60,7 +59,10 @@ namespace OrganizationModule.Controllers
         [AllowAnonymous]
         public async Task<bool> Login(LoginViewModel model)
         {
-            var person = _db.Users.Where(x => x.UserName == model.Email && !x.IsDeleted).FirstOrDefault();
+            var person = _db.Users.Where(x => x.UserName == model.Email && 
+                                              !x.IsDeleted && 
+                                              x.Status == StatusEnum.Active &&
+                                              x.Profile != ProfileEnum.Superuser).FirstOrDefault();
             if (person == null)
             {
                 return false;
@@ -140,7 +142,7 @@ namespace OrganizationModule.Controllers
                     await UserManager.UpdateSecurityStampAsync(user.Id);
                     await UserManager.SendEmailAsync(user.Id,
                         "Rejestracja Kenpro",
-                        "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
+                        "Zakończyłeś rejestrację. <br/>Twój login to: " + user.DisplayName
                         + "<br/>Twoja nazwa wyświetlana: " + user.DisplayName
                         + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Zaloguj się</a>");
                 }
@@ -271,7 +273,7 @@ namespace OrganizationModule.Controllers
                 {
                     var user = UserManager.FindById(model.Id);
                     var sb = new StringBuilder();
-                    sb.AppendFormat("<b>ZOSTAŁA WYSŁANA PROŚBA O USUNIĘCIE UŻYTKOWNIKA </b> {0}", user.UserName);
+                    sb.AppendFormat("<b>ZOSTAŁA WYSŁANA PROŚBA O USUNIĘCIE UŻYTKOWNIKA </b> {0}", user.DisplayName);
                     sb.AppendLine();
                     sb.AppendLine("JEŚLI CHCESZ GO USUNAĆ POTWIERDZ TO WCISKAJĄC LINK");
                     sb.AppendLine();
