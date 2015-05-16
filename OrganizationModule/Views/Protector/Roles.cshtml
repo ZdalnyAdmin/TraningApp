@@ -1,34 +1,34 @@
 ﻿<div ng-app="" ng-controller="protectorPermissionsController" class="container">
 
-    <strong class="error">{{ error }}</strong>
+    <strong class="error">{{ viewModel.ErrorMessage }}</strong>
 
     <div id="simpleRow">
         Maksymalna ilosc aktywnych kursow dla uzytkownika
-        <input type="text" name="currentItem.MaxActiveTrainings" ng-model="currentItem.MaxActiveTrainings" />
-        <div id="inputButto" ng-click="edit(currentItem)">
+        <input type="text" name="viewModel.Setting.MaxActiveTrainings" ng-model="viewModel.Setting.MaxActiveTrainings" />
+        <div id="inputButto" ng-click="edit()">
             EDYCJA
         </div>
     </div>
     <div id="simpleRow">
         Przestrzen dyskowa (w GB)
-        <input type="text" name="currentItem.SpaceDisk" ng-model="currentItem.SpaceDisk" />
-        <div id="inputButto" ng-click="edit(currentItem)">
+        <input type="text" name="viewModel.Setting.SpaceDisk" ng-model="viewModel.Setting.SpaceDisk" />
+        <div id="inputButto" ng-click="edit()">
             EDYCJA
         </div>
     </div>
     <div id="simpleRow">
         Maksymalna liczba uzytkownikow w organizacji
-        <input type="text" name="currentItem.MaxAssignedUser" ng-model="currentItem.MaxAssignedUser" />
-        <div id="inputButto" ng-click="edit(currentItem)">
+        <input type="text" name="viewModel.Setting.MaxAssignedUser" ng-model="viewModel.Setting.MaxAssignedUser" />
+        <div id="inputButto" ng-click="edit()">
             EDYCJA
         </div>
     </div>
     <div id="simpleRow">
         Czy dostepne kursy globelne dla tej organizacji?
-        <input type="checkbox" ng-model="currentItem.IsGlobalAvailable" ng-change="edit(currentItem)" /> Tak
+        <input type="checkbox" ng-model="viewModel.Setting.IsGlobalAvailable" ng-change="edit()" /> Tak
     </div>
     <div id="simpleRow">
         Czy nowe kursy globalne dla firmy automatycznie dostepne dla wszystkich w organizacji
-        <input type="checkbox" ng-model="currentItem.IsTrainingAvailableForAll" ng-change="edit(currentItem)" /> Tak
+        <input type="checkbox" ng-model="viewModel.Setting.IsTrainingAvailableForAll" ng-change="edit()" /> Tak
     </div>
 </div>

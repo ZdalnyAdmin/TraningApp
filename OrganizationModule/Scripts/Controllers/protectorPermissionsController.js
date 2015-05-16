@@ -1,36 +1,45 @@
 ﻿function protectorPermissionsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    $scope.loading = true;
-    $scope.currentItem = {};
+    $scope.viewModel = {};
     //Used to display the data 
     $scope.loadData = function () {
+
         UtilitiesFactory.showSpinner();
-        $scope.currentItem = {};
-        $scope.currentItem.ProtectorID = 1;
-        $http.post('/api/Settings', $scope.currentItem).success(function (data) {
-            $scope.currentItem = data;
+        $scope.viewModel.ActionType = 0;
+
+        $http.post('/api/Settings/', $scope.viewModel)
+        .success(function (data) {
+            $scope.viewModel = data;
+            if (!$scope.viewModel.Setting) {
+                $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania ustawień, Brak definicji ustawien globalnych dla organizacji.';
+            }
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania ustawień';
             UtilitiesFactory.hideSpinner();
         });
-
         //Used to display the data 
 
     }
 
     $scope.loadData();
 
-    $scope.edit = function (obj) {
-        if (!obj) {
+    $scope.edit = function () {
+
+        if (!$scope.viewModel.CurrentOrganization) {
             return;
         }
         UtilitiesFactory.showSpinner();
-        $http.put('/api/Settings', obj).success(function (data) {
+
+        $scope.viewModel.ActionType = 3;
+
+        $http.post('/api/Settings/', $scope.viewModel)
+        .success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisu ustawień';
             UtilitiesFactory.hideSpinner();
         });
 
