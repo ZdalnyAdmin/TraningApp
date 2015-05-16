@@ -6,6 +6,7 @@ SystemModuleApp.controller('LogoffController', LogoffController);
 SystemModuleApp.controller('RegisterController', RegisterController); 
 SystemModuleApp.controller('ResetPasswordController', ResetPasswordController);
 SystemModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
+SystemModuleApp.controller('loggedUserController', loggedUserController);
 SystemModuleApp.controller('ViewWrapperController', ViewWrapperController);
 SystemModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 SystemModuleApp.factory('UserFactory', UserFactory);
@@ -18,7 +19,8 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
 
     $routeProvider.
         when('/currentUser', {
-            templateUrl: 'Main/LoggedUser'
+            templateUrl: 'Main/LoggedUser',
+            controller: loggedUserController
         })
         .when('/createOrganization', {
             templateUrl: 'Main/CreateOrganization'

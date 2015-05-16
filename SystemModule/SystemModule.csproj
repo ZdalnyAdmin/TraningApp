@@ -215,6 +215,7 @@
     <Content Include="Scripts\Controllers\editProtectorController.js" />
     <Content Include="Scripts\Controllers\editTrainingController.js" />
     <Content Include="Scripts\Controllers\historyController.js" />
+    <Content Include="Scripts\Controllers\loggedUserController.js" />
     <Content Include="Scripts\Controllers\organizationCreateController.js" />
     <Content Include="Scripts\Controllers\organizationDeleteModalController.js" />
     <Content Include="Scripts\Controllers\organizationEditController.js" />

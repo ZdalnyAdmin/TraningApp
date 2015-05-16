@@ -464,6 +464,7 @@ namespace SystemModule.Controllers
             return Json(Person.GetLoggedPerson(User));
         }
         #endregion
+
         #endregion
 
         #region Private Functions

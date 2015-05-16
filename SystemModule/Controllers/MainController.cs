@@ -1,6 +1,8 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿﻿using AppEngine;
+using AppEngine.Models.Common;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -9,6 +11,23 @@ namespace SystemModule.Controllers
     [Authorize]
     public class MainController : Controller
     {
+        #region Identity
+        private ApplicationUserManager _userManager;
+        private ApplicationSignInManager _signInManager;
+
+        public ApplicationSignInManager SignInManager
+        {
+            get { return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
+            private set { _signInManager = value; }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+            private set { _userManager = value; }
+        }
+        #endregion
+
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -21,6 +40,7 @@ namespace SystemModule.Controllers
         /// <returns></returns>
         public ActionResult LoggedUser()
         {
+            ViewBag.loggedUser = Person.GetLoggedPerson(User);
             return View();
         }
 
@@ -64,7 +84,6 @@ namespace SystemModule.Controllers
             return View();
         }
 
-        [Authorize]
         public ActionResult InternalTrainings()
         {
             return View();
@@ -80,5 +99,13 @@ namespace SystemModule.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> ResetUserPassword()
+        {
+            var loggedUser = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var result = await loggedUser.ResetPasswordAsync(UserManager, Request);
+
+            return Json(result);
+        }
     }
 }
