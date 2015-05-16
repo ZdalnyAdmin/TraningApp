@@ -12,12 +12,12 @@
 
     <div id="simpleRow">
         NAZWA SZKOLENIA
-        <input type="text" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" />
+        <input type="text" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" maxlength="140" />
     </div>
 
     <div id="simpleRow">
         OPIS SZKOLENIA
-        <input type="text" name="viewModel.Current.Description" ng-model="viewModel.Current.Description" />
+        <input type="text" name="viewModel.Current.Description" ng-model="viewModel.Current.Description" maxlength="1500" />
     </div>
 
     <div id="simpleRow">
@@ -54,7 +54,7 @@
     </div>
 
     <div id="simpleRow">
-        <input type="text" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" />
+        <input type="text" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" maxlength="500" />
     </div>
 
     <div id="simpleRow">
@@ -100,8 +100,8 @@
         <input type="checkbox" ng-model="item.selected" />{{item.Name}}
     </div>
     <div id="simpleRow">
-        <div id="inputButto" ng-click="save()">
+        <button ng-click="save()" ng-disabled="viewModel.Details && viewModel.Details.length == 0">
             ZAPISZ SZKOLENIE
-        </div>
+        </button>
     </div>
 </div>
