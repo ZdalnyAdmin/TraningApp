@@ -29,7 +29,8 @@
                             $location.path().indexOf('/signin') == -1 &&
                             $location.path().indexOf('/registerUser') == -1 &&
                             $location.path().indexOf('/changeEmail') == -1 && 
-                            $location.path().indexOf('/Templates/changeUserEmail') == -1) {
+                            $location.path().indexOf('/Templates/changeUserEmail' == -1) &&
+                            $location.path().indexOf('/deleteUser') == -1) {
                                 $location.path('/signin').search('');
                         }
                     }

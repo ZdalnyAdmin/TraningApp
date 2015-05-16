@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using AppEngine.Models.ViewModels.Account;
 using System.Collections.ObjectModel;
+using AppEngine.Services;
 
 namespace OrganizationModule.Controllers
 {
@@ -69,24 +70,57 @@ namespace OrganizationModule.Controllers
             return View();
         }
 
-        [HttpPost]
-        public void DeleteUser()
+        [AllowAnonymous]
+        public async Task<ActionResult> DeleteUser(string code, string id)
         {
-            var loggedPerson = Person.GetLoggedPerson(User, _db);
-            loggedPerson.DeleteUserID = loggedPerson.Id;
-            loggedPerson.IsDeleted = true;
-            loggedPerson.DeletedDate = DateTime.Now;
-            _db.SaveChanges();
+            code = code.Replace(' ', '+');
+            var usereDeleted = false;
+            var user = UserManager.FindById(id);
+            var isTokenValid = await UserManager.UserTokenProvider.ValidateAsync("DELETE_USER", code, UserManager, user);
 
-            var ctx = Request.GetOwinContext();
-            var authManager = ctx.Authentication;
-            authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            if (isTokenValid && (DateTime.Now - user.DeleteUserDate.Value).Days < 3)
+            {
+                var loggedPerson = UserManager.FindById(id);
+                loggedPerson.IsDeleted = true;
+                loggedPerson.DeletedDate = DateTime.Now;
+                await UserManager.UpdateAsync(loggedPerson);
 
-            UserManager.SendEmail(loggedPerson.InviterID,
+                loggedPerson.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+
+                var ctx = Request.GetOwinContext();
+                var authManager = ctx.Authentication;
+                authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+                LogService.InsertUserLogs(loggedPerson.DeleteUserID == loggedPerson.Id ? OperationLog.UserDeleteBySelf : OperationLog.UserDelete, _db, loggedPerson.Id, loggedPerson.DeleteUserID);
+
+                UserManager.SendEmail(loggedPerson.InviterID,
                        "Usunięcie Użytkownika",
                        "W dniu " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "Użytkownik o Id " + loggedPerson.Id
                        + "i nazwie wyświetlanej: " + loggedPerson.DisplayName
-                       + " usunął swoje konto z organizacji " + loggedPerson.Organization != null ? loggedPerson.Organization.Name : "Brak nazwy organizacji");
+                       + " usunął swoje konto z organizacji " + (loggedPerson.Organization != null ? loggedPerson.Organization.Name : "Brak nazwy organizacji"));
+
+                usereDeleted = true;
+            }
+            else
+            {
+                usereDeleted = false;
+            }
+
+            ViewBag.UserDeleted = usereDeleted;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteUser()
+        {
+            var loggedUser = UserManager.FindById(User.Identity.GetUserId());
+            loggedUser.DeleteUserID = loggedUser.Id;
+            await UserManager.UpdateAsync(loggedUser);
+
+            var result = await loggedUser.DeleteUserAsync(UserManager, Request);
+
+            return Json(result);
         }
 
         /// <summary>

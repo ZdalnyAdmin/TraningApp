@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -43,6 +44,8 @@ namespace AppEngine.Models.Common
 
         public string NewEmail { get; set; }
         public DateTime? ChangeEmailDate { get; set; }
+
+        public DateTime? DeleteUserDate { get; set; }
 
         [NotMapped]
         public string ModifiedUserID { get; set; }
@@ -119,6 +122,38 @@ namespace AppEngine.Models.Common
             + "Jeżeli chcesz zmienić adres email potwierdź to wciskając link. <br/>"
             + "<a href=\""
                 + request.Url.Scheme + "://" + request.Url.Authority + "/changeEmail?code=" + code + "&Id=" + this.Id + "\">link</a>");
+
+            return result;
+        }
+
+        public async Task<IdentityResult> DeleteUserAsync(UserManager<Person> manager, HttpRequestBase request)
+        {
+            var result = await manager.UpdateSecurityStampAsync(this.Id);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            var code = await manager.GenerateUserTokenAsync("DELETE_USER", this.Id);
+
+            this.DeleteUserDate = DateTime.Now;
+            result = await manager.UpdateAsync(this);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            var sb = new StringBuilder();
+            sb.AppendFormat("<b>ZOSTAŁA WYSŁANA PROŚBA O USUNIĘCIE UŻYTKOWNIKA </b> {0}", this.DisplayName);
+            sb.AppendLine();
+            sb.AppendLine("JEŚLI CHCESZ GO USUNAĆ POTWIERDZ TO WCISKAJĄC LINK");
+            sb.AppendLine();
+            sb.AppendFormat("<br/><a href=\"{0}://{1}/deleteUser?Id={2}&code={3}\">LINK</a>", request.Url.Scheme, request.Url.Authority, this.Id, code);
+            await manager.SendEmailAsync(this.Id,
+               "POTWIERDZENIE USUNIECIA UZYTKOWNIKA",
+               sb.ToString());
 
             return result;
         }

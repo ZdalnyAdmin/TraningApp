@@ -38,6 +38,12 @@ namespace OrganizationModule
             );
 
             routes.MapRoute(
+                name: "DeleteUser",
+                url: "deleteUser",
+                defaults: new { controller = "User", action = "DeleteUser", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "ReloadChangeUserEmail",
                 url: "Templates/changeUserEmail",
                 defaults: new { controller = "Redirect", action = "ChangeEmail", id = UrlParameter.Optional, code = UrlParameter.Optional }

@@ -262,8 +262,6 @@ namespace OrganizationModule.Controllers
         #endregion
 
         #region Deleted
-
-        [HttpPost]
         [AllowAnonymous]
         public async Task<bool> DeleteUserMail(Person model)
         {
@@ -272,16 +270,7 @@ namespace OrganizationModule.Controllers
                 try
                 {
                     var user = UserManager.FindById(model.Id);
-                    var sb = new StringBuilder();
-                    sb.AppendFormat("<b>ZOSTAŁA WYSŁANA PROŚBA O USUNIĘCIE UŻYTKOWNIKA </b> {0}", user.DisplayName);
-                    sb.AppendLine();
-                    sb.AppendLine("JEŚLI CHCESZ GO USUNAĆ POTWIERDZ TO WCISKAJĄC LINK");
-                    sb.AppendLine();
-                    sb.AppendFormat("<br/><a href=\\{0}//{1}/signin\">LINK</a>",Request.Url.Scheme, Request.Url.Authority);
-                    await UserManager.SendEmailAsync(user.DeleteUserID,
-                       "POTWIERDZENIE USUNIECIA UZYTKOWNIKA",
-                       sb.ToString());
-
+                    await user.DeleteUserAsync(UserManager, Request);
                 }
                 catch (Exception ex)
                 {
