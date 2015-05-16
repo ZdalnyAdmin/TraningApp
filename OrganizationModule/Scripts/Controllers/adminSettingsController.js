@@ -6,7 +6,7 @@
         UtilitiesFactory.showSpinner();
         $scope.currentItem = {};
         $scope.currentItem.ProtectorID = -1;
-        $http.post('/api/Settings', $scope.currentItem).success(function (data) {
+        $http.post('/api/Settings/', $scope.currentItem).success(function (data) {
             $scope.currentItem = data;
             $scope.currentItem.ChangeMail = $scope.currentItem.AllowUserToChangeMail ? "1" : "0";
             $scope.currentItem.ChangeName = $scope.currentItem.AllowUserToChangeName ? "1" : "0";
@@ -31,7 +31,7 @@
         $scope.currentItem.AllowUserToChangeMail = $scope.currentItem.ChangeMail == "1";
         $scope.currentItem.AllowUserToChangeName = $scope.currentItem.ChangeName == "1";
        
-        $http.put('/api/Settings', obj).success(function (data) {
+        $http.put('/api/Settings/', obj).success(function (data) {
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
