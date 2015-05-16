@@ -1,6 +1,8 @@
 ﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.DataObject;
+using AppEngine.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,84 +18,101 @@ namespace OrganizationModule.Controllers.Api
     {
         private EFContext db = new EFContext();
 
-        // GET api/<controller>
-        [HttpGet]
-        public IEnumerable<AppSetting> Get()
+        // POST api/<controller>
+        public HttpResponseMessage Post(OrganizationViewModel obj)
         {
-            //get from correct profil
-            return db.AppSettings.AsEnumerable();
-        }
-
-
-        // PUT api/<controller>/5
-        public HttpResponseMessage Put(AppSetting obj)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
-            //only system can change for true;
-            obj.IsDefault = false;
-
-            db.Entry(obj).State = EntityState.Modified;
-
             try
             {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
-            }
+                //check if object exist 
+                if (obj == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
 
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
 
-        // POST api/<controller>
-        public HttpResponseMessage Post(AppSetting obj)
-        {
-            //check if object exist 
-            if (obj == null)
+                if (obj.LoggedUser == null)
+                {
+                    obj.LoggedUser = Person.GetLoggedPerson(User);
+
+                }
+
+                if (obj.LoggedUser.Profile != ProfileEnum.Protector)
+                {
+                    obj.ErrorMessage = "Zalogowany użytkowanik nie jest Opiekunem. Brak uprawnien do modyfikacji.";
+                    return Request.CreateResponse(HttpStatusCode.Created, obj);
+                }
+
+                if (!obj.LoggedUser.OrganizationID.HasValue || obj.LoggedUser.OrganizationID == 0)
+                {
+                    obj.ErrorMessage = "Zalogowany użytkowanik nie posiada przypisanej organizacji.";
+                    return Request.CreateResponse(HttpStatusCode.Created, obj);
+                }
+
+                if (obj.CurrentOrganization == null)
+                {
+                    obj.CurrentOrganization = db.Organizations.FirstOrDefault(x => x.OrganizationID == obj.LoggedUser.OrganizationID);
+                }
+
+                if(obj.Setting == null)
+                {
+                    //get setting for organization
+                    var setting = db.AppSettings.FirstOrDefault(x => x.ProtectorID == obj.LoggedUser.Id);
+                    if (setting == null)
+                    {
+                        setting = db.AppSettings.FirstOrDefault(x => x.IsDefault);
+                    }
+
+                    if (setting == null)
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                    }
+
+                    if (setting.IsDefault)
+                    {
+                        obj.Setting = new AppSetting();
+                        obj.Setting.AllowUserToChangeMail = setting.AllowUserToChangeMail;
+                        obj.Setting.AllowUserToChangeName = setting.AllowUserToChangeName;
+                        obj.Setting.DefaultEmail = setting.DefaultEmail;
+                        obj.Setting.DefaultName = setting.DefaultName;
+                        obj.Setting.IsDefault = false;
+                        obj.Setting.IsGlobalAvailable = setting.IsGlobalAvailable;
+                        obj.Setting.IsTrainingAvailableForAll = setting.IsTrainingAvailableForAll;
+                        obj.Setting.MaxActiveTrainings = setting.MaxActiveTrainings;
+                        obj.Setting.MaxAssignedUser = setting.MaxAssignedUser;
+                        obj.Setting.SpaceDisk = setting.SpaceDisk;
+                        obj.Setting.ProtectorID = obj.LoggedUser.Id;
+                        db.AppSettings.Add(obj.Setting);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        obj.Setting = setting;
+                    }
+                }
+
+                switch (obj.ActionType)
+                {
+                    case BaseActionType.Get:
+                        return Request.CreateResponse(HttpStatusCode.Created, obj);
+                    case BaseActionType.Edit:
+                        db.Entry(obj.CurrentOrganization).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return Request.CreateResponse(HttpStatusCode.Created, obj);
+                    case BaseActionType.Add:
+                        db.Entry(obj.Setting).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return Request.CreateResponse(HttpStatusCode.Created, obj);
+                }
+
+            }
+            catch (Exception ex)
             {
+                obj.ErrorMessage = "Nieoczekiwany blad " + ex.Message;
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            if(obj.ProtectorID == "-1")
-            {
-                obj.Protector = Person.GetLoggedPerson(User);
-            }
 
-            //one settings per single protector
-            if (obj.Protector != null)
-            {
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj.Protector);
-                return response;
-            }
-
-            var global = db.AppSettings.FirstOrDefault(x => x.IsDefault);
-
-            if (ModelState.IsValid)
-            {
-                //default settings
-                obj.AllowUserToChangeName = true;
-                obj.AllowUserToChangeMail = true;
-                obj.SpaceDisk = global != null ? global.SpaceDisk : 50;
-                obj.MaxAssignedUser = global != null ? global.MaxAssignedUser : 10;
-                obj.IsGlobalAvailable = true;
-                obj.IsTrainingAvailableForAll = true;
-                obj.MaxActiveTrainings = 5;
-                obj.DefaultEmail = global != null ? global.DefaultEmail : string.Empty;
-                obj.DefaultName = global != null ? global.DefaultName : string.Empty;
-                db.AppSettings.Add(obj);
-                db.SaveChanges();
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, obj);
-                //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = Contact.Id }));
-                return response;
-            }
-            else
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
+            return Request.CreateResponse(HttpStatusCode.Created, obj);
         }
 
         protected override void Dispose(bool disposing)

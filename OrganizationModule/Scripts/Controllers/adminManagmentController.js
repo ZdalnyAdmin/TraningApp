@@ -8,7 +8,7 @@
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 0;
 
-        $http.post('/api/TrainingManagment', $scope.viewModel).success(function (data) {
+        $http.post('/api/TrainingManagment/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
             $scope.index = 1;
             UtilitiesFactory.hideSpinner();
@@ -26,7 +26,7 @@
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 3;
 
-        $http.post('/api/TrainingManagment', $scope.viewModel).success(function (data) {
+        $http.post('/api/TrainingManagment/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
@@ -47,7 +47,7 @@
 
         $scope.viewModel.Current = training;
 
-        $http.put('/api/TrainingManagment', $scope.viewModel).success(function (data) {
+        $http.put('/api/TrainingManagment/', $scope.viewModel).success(function (data) {
             $scope.loadData();
             UtilitiesFactory.hideSpinner();
         })
@@ -96,6 +96,9 @@
 
             $http.post('/api/TrainingManagment', $scope.viewModel).success(function (data) {
                 $scope.viewModel = data;
+
+
+                $scope.loadGroups();
                 UtilitiesFactory.hideSpinner();
             })
             .error(function () {
@@ -103,7 +106,6 @@
                 UtilitiesFactory.hideSpinner();
             });
 
-            $scope.loadGroups();
         }
     }
     
