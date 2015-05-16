@@ -103,7 +103,7 @@ namespace AppEngine.Models.Common
                 return result;
             }
 
-            var code = await manager.GenerateEmailConfirmationTokenAsync(this.Id);
+            var code = await manager.GenerateUserTokenAsync("CHANGE_EMAIL", this.Id);
 
             this.ChangeEmailDate = DateTime.Now;
             this.NewEmail = newEmail;

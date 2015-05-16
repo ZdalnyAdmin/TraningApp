@@ -190,6 +190,36 @@ namespace OrganizationModule.Controllers
             return getErrorsFromModel();
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult> ChangeEmail(string code, string id)
+        {
+            var emailChanged = false;
+            var user = UserManager.FindById(id);
+            var isTokenValid = await UserManager.UserTokenProvider.ValidateAsync("CHANGE_EMAIL", code, UserManager, user);
+
+            if (isTokenValid && (DateTime.Now - user.ChangeEmailDate.Value).Days < 3)
+            {
+                await UserManager.UpdateSecurityStampAsync(id);
+
+                user.Email = user.NewEmail;
+                user.NewEmail = string.Empty;
+                user.ChangeEmailDate = null;
+
+                UserManager.Update(user);
+
+                emailChanged = true;
+            }
+            else
+            {
+                emailChanged = false;
+            }
+
+            ViewBag.EmailChanged = emailChanged;
+
+            return View();
+        }
+
         [HttpPost]
         public JsonResult ChangeUserName(ChangeUserNameViewModel model)
         {

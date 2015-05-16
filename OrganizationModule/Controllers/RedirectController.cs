@@ -47,6 +47,21 @@ namespace OrganizationModule.Controllers
             }
         }
 
+        [AllowAnonymous]
+        public ActionResult ChangeEmail(string code, string id)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                code = Url.Encode(code);
+                id = Url.Encode(id);
+                return Redirect("/?page=changeUserEmail&controller=Templates&code=" + code + "&id=" + id);
+            }
+        }
+
         public ActionResult ActiveTraining(int trainingID)
         {
             return Redirect("/?page=ActiveTraining&trainingID=" + trainingID);
