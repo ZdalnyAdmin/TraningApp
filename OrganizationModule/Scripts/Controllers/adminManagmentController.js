@@ -96,6 +96,9 @@
 
             $http.post('/api/TrainingManagment', $scope.viewModel).success(function (data) {
                 $scope.viewModel = data;
+
+
+                $scope.loadGroups();
                 UtilitiesFactory.hideSpinner();
             })
             .error(function () {
@@ -103,7 +106,6 @@
                 UtilitiesFactory.hideSpinner();
             });
 
-            $scope.loadGroups();
         }
     }
     
