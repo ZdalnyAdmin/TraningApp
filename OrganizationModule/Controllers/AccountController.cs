@@ -59,22 +59,29 @@ namespace OrganizationModule.Controllers
         [AllowAnonymous]
         public async Task<bool> Login(LoginViewModel model)
         {
-            var person = _db.Users.Where(x => x.UserName == model.Email && 
-                                              !x.IsDeleted && 
-                                              x.Status == StatusEnum.Active &&
-                                              x.Profile != ProfileEnum.Superuser).FirstOrDefault();
-            if (person == null)
+            try
+            {
+                var person = _db.Users.Where(x => x.UserName == model.Email &&
+                                                  !x.IsDeleted &&
+                                                  x.Status == StatusEnum.Active &&
+                                                  x.Profile != ProfileEnum.Superuser).FirstOrDefault();
+                if (person == null)
+                {
+                    return false;
+                }
+
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+            catch(Exception ex)
             {
                 return false;
-            }
-
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return true;
-                default:
-                    return false;
             }
         }
 

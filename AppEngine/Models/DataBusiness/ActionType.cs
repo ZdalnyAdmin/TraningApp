@@ -11,7 +11,7 @@ namespace AppEngine.Models.DataBusiness
         GetInternal = 0,
         GetExternal = 1,
         GetSettings = 2,
-        GetGroups = 3
+        SaveGroups = 3
     }
 
     public enum BaseActionType

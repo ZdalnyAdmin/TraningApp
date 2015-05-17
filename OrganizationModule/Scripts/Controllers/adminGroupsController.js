@@ -22,11 +22,11 @@
     $scope.loadData();
 
     $scope.add = function () {
-        if (!viewModel.Current.Name) {
+        if (!$scope.viewModel.Current.Name) {
             $scope.viewModel.ErrorMessage = "Nazwa grupy jest wymagana";
         }
 
-        if (viewModel.Current.Name.length < 3) {
+        if ($scope.viewModel.Current.Name.length < 3) {
             $scope.viewModel.ErrorMessage = "Nazwa grupy wymagana co najmniej 3 znaków";
         }
 
