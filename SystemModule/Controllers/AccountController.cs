@@ -305,12 +305,18 @@ namespace SystemModule.Controllers
         {
             try
             {
+                var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == model.OrganizationID);
+                organization.UpdateSecurityStamp();
+                _db.SaveChanges();
+
+                var code = Url.Encode(organization.GenerateToken("DELETE"));
+
                 await UserManager.SendEmailAsync(model.CreateUserID,
                     "USUNIECIE ORGANIZACJI POTWIERDZENIE",
                            "Nazwa : " + model.Name + " została zgłoszona do usunięcia."
                            + "<br/>Powód : " + model.DeletedReason
                            + "<br/>Jeśli chcesz ją usunać wcisnij link" 
-                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">LINK</a>");
+                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/deleteOrganization?code=" + code + "&id=" + organization.OrganizationID + "\">LINK</a>");
             }
             catch (Exception ex)
             {
@@ -327,11 +333,18 @@ namespace SystemModule.Controllers
         {
             try
             {
+                var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == model.OrganizationID);
+                organization.NewName = model.NewName;
+                organization.UpdateSecurityStamp();
+                _db.SaveChanges();
+
+                var code = Url.Encode(organization.GenerateToken("CHANGE"));
+
                 await UserManager.SendEmailAsync(model.CreateUserID,
                     "POTWIERDZENIE ZMIANY NAZWY ORGANIZACJI",
-                           "Nazwa : " + model.Name + " została zmieniona na " + model.Name
+                           "Nazwa : " + model.Name + " została zmieniona na " + model.NewName
                            + " Jeśli zmiana ma być zapisana i aktywowana naciśnij link."
-                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">LINK</a>");
+                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/changeOrganizationName?code=" + code + "&id=" + organization.OrganizationID +"\">LINK</a>");
             }
             catch (Exception ex)
             {

@@ -42,10 +42,10 @@ namespace SystemModule.Controllers.Api
                         obj.Current.IsDeleted = true;
                         obj.Current.DeletedUserID = obj.LoggedUser.Id;
                         obj.Current.DeletedDate = DateTime.Now;
-                        obj.Current.Status = OrganizationEnum.Deleted;
+                        // obj.Current.Status = OrganizationEnum.Deleted; this should done be set after confirmation.
                         db.Entry(obj.Current).State = EntityState.Modified;
                         db.SaveChanges();
-                        LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, db, obj.Current.Name, obj.LoggedUser.Id);
+                        //LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, db, obj.Current.Name, obj.LoggedUser.Id); this should done be set after confirmation.
 
                         break;
                     case BaseActionType.Edit:
