@@ -59,9 +59,9 @@ namespace OrganizationModule.Controllers.Api
                         }
 
                         obj.InternalTrainings = (from t in db.Trainings
-                                                     join to in db.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
+                                                 join to in db.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
                                                  where to.OrganizationID == obj.LoggedUser.OrganizationID && t.TrainingType == TrainingType.Internal
-                                                     select t).ToList();
+                                                 select t).ToList();
 
 
 
@@ -98,19 +98,35 @@ namespace OrganizationModule.Controllers.Api
                                                  where t.TrainingType == TrainingType.Kenpro
                                                  select t).ToList();
 
-                        foreach (var training in obj.InternalTrainings)
-                        {
-                            training.Logs = (from item in db.Logs
-                                             join user in db.Users on item.ModifiedUserID equals user.Id
-                                             where item.TrainingID == training.TrainingID && !item.IsSystemLog &&
-                                             (item.OperationType == OperationLog.TrainingCreate || item.OperationType == OperationLog.TrainingEdit)
-                                             select new CommonDto
-                                             {
-                                                 Date = item.ModifiedDate.Value,
-                                                 Name = user.UserName
-                                             }).ToList();
 
-                            training.AssignedGroups = (from item in db.GroupsInOrganizations
+                        var groups = (from grp in db.GroupsInOrganizations
+                                      join g in db.Groups on grp.ProfileGroupID equals g.ProfileGroupID
+                                      where grp.OrganizationID == obj.CurrentOrganization.OrganizationID && g.Name != "Wszyscy"
+                                      select new
+                                      {
+
+                                          ProfileGroupID = g.ProfileGroupID,
+                                          Name = g.Name
+                                      }
+                             ).ToList();
+
+                        obj.Groups = new List<ProfileGroup>();
+
+                        if (groups.Any())
+                        {
+                            obj.Groups = (from grp in groups
+                                          group grp by grp.ProfileGroupID
+                                              into gp
+                                              select new ProfileGroup
+                                              {
+                                                  ProfileGroupID = gp.Key,
+                                                  Name = groups.FirstOrDefault(x => x.ProfileGroupID == gp.Key).Name
+                                              }).ToList();
+                        }
+
+                        foreach (var training in obj.ExternalTrainings)
+                        {
+                            training.AssignedGroups = (from item in db.TrainingInGroups
                                                        join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
                                                        where grp.Name != "Wszyscy"
                                                        select new CommonDto
@@ -119,6 +135,8 @@ namespace OrganizationModule.Controllers.Api
                                                        }).ToList();
                         }
 
+
+
                         break;
                     case TrainingManagmentActionType.GetSettings:
 
@@ -126,18 +144,54 @@ namespace OrganizationModule.Controllers.Api
 
 
                         break;
-                    case TrainingManagmentActionType.GetGroups:
+                    case TrainingManagmentActionType.SaveGroups:
 
-                        obj.Groups = (from grp in db.GroupsInOrganizations
-                                      join g in db.Groups on grp.ProfileGroupID equals g.ProfileGroupID
-                                      where grp.OrganizationID == obj.CurrentOrganization.OrganizationID && g.Name != "Wszyscy"
-                                      select new ProfileGroup
-                                      {
-                                          ProfileGroupID = g.ProfileGroupID,
-                                          Name = g.Name
-                                      }
-                                     ).ToList();
+                        if (obj.Current == null)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Grupa nie istnieje");
+                        }
 
+
+                        var assigend = (from item in db.TrainingInGroups
+                                        join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
+                                        where grp.Name != "Wszyscy" && item.TrainingID == obj.Current.TrainingID
+                                        select item).ToList();
+
+                        if (assigend != null && assigend.Any())
+                        {
+                            db.TrainingInGroups.RemoveRange(assigend);
+                            db.SaveChanges();
+                        }
+
+                        if (obj.Current.Groups.Any())
+                        {
+                            foreach (var item in obj.Current.Groups)
+                            {
+                                var tig = new ProfileGroup2Trainings();
+                                tig.TrainingID = obj.Current.TrainingID;
+                                tig.ProfileGroupID = item.ProfileGroupID;
+                                tig.IsDeleted = false;
+                                db.TrainingInGroups.Add(tig);
+                            }
+
+                            db.SaveChanges();
+                            obj.Current.AssignedGroups = (from item in db.TrainingInGroups
+                                                          join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
+                                                          where grp.Name != "Wszyscy" && item.TrainingID == obj.Current.TrainingID
+                                                          select new CommonDto
+                                                          {
+                                                              Name = grp.Name
+                                                          }).ToList();
+                        }
+
+                        var current = obj.ExternalTrainings.FirstOrDefault(x => x.TrainingID == obj.Current.TrainingID);
+                        obj.ExternalTrainings.Remove(current);
+
+                        obj.ExternalTrainings.Add(obj.Current);
+
+                        obj.ExternalTrainings = obj.ExternalTrainings.OrderBy(x => x.CreateDate).ToList();
+
+                        obj.Current = new Training();
                         break;
                     default:
                         break;
@@ -175,7 +229,7 @@ namespace OrganizationModule.Controllers.Api
 
             try
             {
-            
+
                 db.SaveChanges();
 
                 LogService.InsertTrainingLogs(OperationLog.TrainingEdit, db, obj.Current.TrainingID, obj.LoggedUser.Id);
