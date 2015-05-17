@@ -192,6 +192,12 @@ namespace AppEngine.Models.Common
                 return new Result() { Succeeded = resetResult.Succeeded, Errors = new List<string>(resetResult.Errors) }; ;
             }
 
+            EFContext db = new EFContext();
+            userByUserName.Organization = db.Organizations.FirstOrDefault(x => x.OrganizationID == userByUserName.OrganizationID);
+
+            await manager.SendEmailAsync(userByUserName.InviterID, "Zmiana hasała przez podopiecznego",
+                string.Format("Użytkownik organizacji {0} i o Id {1} i nazwie wyświetlania {2} zmienił swoje hasło.", userByUserName.Organization.Name, userByUserName.Id, userByUserName.DisplayName));
+
             await manager.UpdateSecurityStampAsync(userByUserName.Id);
 
             return new Result() { Succeeded = resetResult.Succeeded, Errors = new List<string>(resetResult.Errors) };

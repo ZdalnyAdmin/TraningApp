@@ -7,12 +7,11 @@ using AppEngine.Models.DTO;
 using AppEngine.Services;
 using AppEngine.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Web.Http;
 
 namespace SystemModule.Controllers.Api
@@ -61,6 +60,8 @@ namespace SystemModule.Controllers.Api
                         obj.Current.CreateDate = DateTime.Now;
                         obj.Current.IsDeleted = false;
                         obj.Current.Status = OrganizationEnum.Active;
+                        obj.Current.UpdateSecurityStamp();
+
                         if (ModelState.IsValid)
                         {
                             db.Organizations.Add(obj.Current);

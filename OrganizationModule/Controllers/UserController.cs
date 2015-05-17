@@ -235,6 +235,7 @@ namespace OrganizationModule.Controllers
             if (isTokenValid && (DateTime.Now - user.ChangeEmailDate.Value).Days < 3)
             {
                 await UserManager.UpdateSecurityStampAsync(id);
+                var oldEmail = user.Email;
 
                 user.Email = user.NewEmail;
                 user.NewEmail = string.Empty;
@@ -242,7 +243,12 @@ namespace OrganizationModule.Controllers
 
                 UserManager.Update(user);
 
+                user.Organization = _db.Organizations.FirstOrDefault(x=> x.OrganizationID == user.OrganizationID);
+
                 emailChanged = true;
+
+                await UserManager.SendEmailAsync(user.InviterID, "Zmiana adresu email przez podopiecznego",
+                    string.Format("Użytkownik organizacji {0} o Id {1} i mailu {2} (stary email) zmienił swój adres email na nowy {3}", user.Organization.Name, user.Id, oldEmail, user.Email));
             }
             else
             {
@@ -255,17 +261,21 @@ namespace OrganizationModule.Controllers
         }
 
         [HttpPost]
-        public JsonResult ChangeUserName(ChangeUserNameViewModel model)
+        public async Task<JsonResult> ChangeUserName(ChangeUserNameViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var result = new Result() { Errors = new System.Collections.Generic.List<string>() };
                 var loggedUser = Person.GetLoggedPerson(User, _db);
-
+                var oldDisplayName = loggedUser.DisplayName;
                 loggedUser.DisplayName = model.UserName;
                 _db.SaveChanges();
 
                 result.Succeeded = true;
+
+                await UserManager.SendEmailAsync(loggedUser.InviterID, "Zmiana nazwy wyświetlania przez podopiecznego",
+                    string.Format("Użytkownik organizacji {0} o Id {1} i nazwie wyświetlania {2} (stara nazwa) zmienił swoją nazwę na {3}", loggedUser.Organization.Name, loggedUser.Id, oldDisplayName, loggedUser.DisplayName));
+
                 return Json(result);
             }
 

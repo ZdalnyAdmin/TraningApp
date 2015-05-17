@@ -47,6 +47,8 @@ namespace AppEngine
             {
                 case "REJESTRACJA KENPRO":
                     return MailAccount.REGISTER;
+                case "USUNIĘCIE UŻYTKOWNIKA":
+                    return MailAccount.EVENT;
                 case "ZAPROSZENIE KENPRO":
                 case "ZAPROSZENIE UŻYTKOWNIKA":
                     return MailAccount.INVITATION;
