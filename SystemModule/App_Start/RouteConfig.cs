@@ -38,6 +38,24 @@ namespace SystemModule
             );
 
             routes.MapRoute(
+                name: "DeleteOrganization",
+                url: "deleteOrganization",
+                defaults: new { controller = "Redirect", action = "DeleteOrganization", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "DelOrganization",
+                url: "delOrganization",
+                defaults: new { controller = "Account", action = "DeleteOrganization", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "ReloadDeleteOrganization",
+                url: "Templates/delOrganization",
+                defaults: new { controller = "Redirect", action = "DeleteOrganization", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Redirect",
                 url: "{id}",
                 defaults: new { controller = "Redirect", action = "Index" }

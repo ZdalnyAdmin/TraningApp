@@ -382,6 +382,7 @@
     <Content Include="thirdParty\FroalaWysiwygEditor\package.json" />
     <Content Include="thirdParty\FroalaWysiwygEditor\Readme.md" />
     <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\Account\DeleteOrganization.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

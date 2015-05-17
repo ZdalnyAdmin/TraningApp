@@ -60,7 +60,7 @@ namespace AppEngine.Models.Common
         public bool IsTokenValid(string purpose, string token)
         {
             var newToken = this.GenerateToken(purpose);
-            return newToken.Equals(newToken, StringComparison.InvariantCulture);
+            return newToken.Equals(token, StringComparison.InvariantCulture);
         }
 
     }

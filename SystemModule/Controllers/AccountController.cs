@@ -326,6 +326,36 @@ namespace SystemModule.Controllers
             return true;
         }
 
+        public ActionResult DeleteOrganization(string code, string id)
+        {
+            try
+            {
+                var orgId = 0;
+                int.TryParse(id, out orgId);
+
+                var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == orgId);
+                if (organization != null && organization.IsTokenValid("DELETE", code) && (DateTime.Now - organization.DeletedDate.Value).Days < 3)
+                {
+                    ViewBag.Token = true;
+                    organization.Status = OrganizationEnum.Deleted;
+                    organization.UpdateSecurityStamp();
+                    _db.SaveChanges();
+
+                    LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, _db, organization.Name, organization.DeletedUserID);
+
+                } else {
+                    ViewBag.Token = false;
+                }
+
+                ViewBag.Error = false;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = true;
+            }
+
+            return View();
+        }
 
         [HttpPost]
         [AllowAnonymous]
