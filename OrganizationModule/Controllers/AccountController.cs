@@ -1,5 +1,4 @@
 ﻿using AppEngine;
-using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
@@ -60,19 +59,29 @@ namespace OrganizationModule.Controllers
         [AllowAnonymous]
         public async Task<bool> Login(LoginViewModel model)
         {
-            var person = _db.Users.Where(x => x.UserName == model.Email && !x.IsDeleted).FirstOrDefault();
-            if (person == null)
+            try
+            {
+                var person = _db.Users.Where(x => x.UserName == model.Email &&
+                                                  !x.IsDeleted &&
+                                                  x.Status == StatusEnum.Active &&
+                                                  x.Profile != ProfileEnum.Superuser).FirstOrDefault();
+                if (person == null)
+                {
+                    return false;
+                }
+
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+            catch(Exception ex)
             {
                 return false;
-            }
-
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return true;
-                default:
-                    return false;
             }
         }
 
@@ -140,7 +149,7 @@ namespace OrganizationModule.Controllers
                     await UserManager.UpdateSecurityStampAsync(user.Id);
                     await UserManager.SendEmailAsync(user.Id,
                         "Rejestracja Kenpro",
-                        "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
+                        "Zakończyłeś rejestrację. <br/>Twój login to: " + user.DisplayName
                         + "<br/>Twoja nazwa wyświetlana: " + user.DisplayName
                         + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Zaloguj się</a>");
                 }
@@ -260,8 +269,6 @@ namespace OrganizationModule.Controllers
         #endregion
 
         #region Deleted
-
-        [HttpPost]
         [AllowAnonymous]
         public async Task<bool> DeleteUserMail(Person model)
         {
@@ -270,16 +277,7 @@ namespace OrganizationModule.Controllers
                 try
                 {
                     var user = UserManager.FindById(model.Id);
-                    var sb = new StringBuilder();
-                    sb.AppendFormat("<b>ZOSTAŁA WYSŁANA PROŚBA O USUNIĘCIE UŻYTKOWNIKA </b> {0}", user.UserName);
-                    sb.AppendLine();
-                    sb.AppendLine("JEŚLI CHCESZ GO USUNAĆ POTWIERDZ TO WCISKAJĄC LINK");
-                    sb.AppendLine();
-                    sb.AppendFormat("<br/><a href=\\{0}//{1}/signin\">LINK</a>",Request.Url.Scheme, Request.Url.Authority);
-                    await UserManager.SendEmailAsync(user.DeleteUserID,
-                       "POTWIERDZENIE USUNIECIA UZYTKOWNIKA",
-                       sb.ToString());
-
+                    await user.DeleteUserAsync(UserManager, Request);
                 }
                 catch (Exception ex)
                 {

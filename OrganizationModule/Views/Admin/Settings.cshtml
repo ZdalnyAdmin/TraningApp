@@ -1,14 +1,14 @@
 ﻿
 <div ng-app="" ng-controller="adminSettingsController" class="container">
-
+    <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <div>
         Czy uzytkownicy moga samodzielnie zmieniac swoja nazwe
-        <input type="radio" name="allowToChangeName" value=1 ng-model="currentItem.ChangeName" ng-change="edit(currentItem )" /> TAK
-        <input type="radio" name="allowToChangeName" value=0 ng-model="currentItem.ChangeName" ng-change="edit(currentItem)" /> NIE
+        <input type="radio" name="allowToChangeName" value=1 ng-model="currentItem.ChangeName" ng-change="edit()" /> TAK
+        <input type="radio" name="allowToChangeName" value=0 ng-model="currentItem.ChangeName" ng-change="edit()" /> NIE
     </div>
     <div>
         Czy uzytkownik moze samodzielnie zmieniac adres email
-        <input type="radio" name="allowToChangeMail" value=1 ng-model="currentItem.ChangeMail" ng-change="edit(currentItem)" /> TAK
-        <input type="radio" name="allowToChangeMail" value=0 ng-model="currentItem.ChangeMail" ng-change="edit(currentItem)" />NIE
+        <input type="radio" name="allowToChangeMail" value=1 ng-model="currentItem.ChangeMail" ng-change="edit()" /> TAK
+        <input type="radio" name="allowToChangeMail" value=0 ng-model="currentItem.ChangeMail" ng-change="edit()" />NIE
     </div>
 </div>

@@ -1,0 +1,15 @@
+﻿@if (ViewBag.Error)
+{
+    <div>Wystąpił błąd przy usuwaniu organizacji</div>
+}
+else
+{
+    if (!ViewBag.Token)
+    {
+        <div>Token jest nieprawidłowy</div>
+    }
+    else
+    {
+        <div>Organizacja została usunięta</div>
+    }
+}

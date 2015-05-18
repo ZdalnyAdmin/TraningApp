@@ -26,7 +26,9 @@
                     } else {
                         if ($location.path().indexOf('/resetPassword') == -1 &&
                             $location.path().indexOf('/signin') == -1 &&
-                            $location.path().indexOf('/registerUser') == -1) {
+                            $location.path().indexOf('/registerUser') == -1 &&
+                            $location.path().indexOf('/changeEmail') == -1 &&
+                            $location.path().indexOf('/deleteUser') == -1) {
                                 $location.path('/signin').search('');
                         }
                     }

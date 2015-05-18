@@ -26,6 +26,30 @@ namespace OrganizationModule
             );
 
             routes.MapRoute(
+                name: "ChangeEmail",
+                url: "changeEmail",
+                defaults: new { controller = "Redirect", action = "ChangeEmail", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "ChangeUserEmail",
+                url: "changeUserEmail",
+                defaults: new { controller = "User", action = "ChangeEmail", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "DeleteUser",
+                url: "deleteUser",
+                defaults: new { controller = "User", action = "DeleteUser", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "ReloadChangeUserEmail",
+                url: "Templates/changeUserEmail",
+                defaults: new { controller = "Redirect", action = "ChangeEmail", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "ReloadTraining",
                 url: "ActiveTraining/{trainingID}",
                 defaults: new { controller = "Redirect", action = "ActiveTraining", trainingID = "1" }

@@ -1,19 +1,19 @@
 ﻿using AppEngine;
-using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.ViewModels.Account;
+using AppEngine.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using AppEngine.Services;
-using System.Data.Entity;
 
 namespace SystemModule.Controllers
 {
@@ -80,62 +80,6 @@ namespace SystemModule.Controllers
         }
         #endregion
 
-        #region Register
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<JsonResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityResult result = new IdentityResult();
-
-                try
-                {
-
-                    var user = new Person
-                    {
-                        UserName = model.UserName,
-                        Email = "dadadsa@dasdas.pl",
-                        RegistrationDate = DateTime.Now,
-                        Profile = ProfileEnum.Administrator, // Temporary
-                        InvitationDate = DateTime.Now,
-                        //Organization = (from o in _db.Organizations select o)
-                        //              .FirstOrDefault(), // Temporary
-                        Status = StatusEnum.Active // Temporary
-                    };
-
-                    result = await UserManager.CreateAsync(user, model.Password);
-                    if (!result.Succeeded)
-                    {
-                        return this.Json(result);
-                    }
-                    else
-                    {
-                        await UserManager.SendEmailAsync(user.Id,
-                           "Rejestracja Kenpro",
-                           "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
-                           + "<br/>Twoja nazwa wyświetlana: " + user.UserName
-                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Zaloguj się</a>");
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-                return this.Json(result);
-            }
-
-            return getErrorsFromModel();
-        }
-
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
-        #endregion
-
         #region Operator
         [HttpPost]
         [AllowAnonymous]
@@ -147,6 +91,30 @@ namespace SystemModule.Controllers
 
                 try
                 {
+                    var jsonResult = new Result() { Succeeded = false, Errors = new List<string>() };
+                    var previousInvitedUsers = _db.Users.Where(x => x.Email.Equals(model.Email) && x.OrganizationID == model.OrganizationID).ToList();
+
+                    if (previousInvitedUsers != null &&
+                        previousInvitedUsers.Exists(x => x.Status != StatusEnum.Rejected &&
+                        x.Status != StatusEnum.Reinvited &&
+                        x.Status != StatusEnum.Invited))
+                    {
+                        jsonResult.Errors.Add("Użytkownik o podanym mailu został już dodany do organizacji");
+                        return Json(jsonResult);
+                    }
+                    else
+                    {
+                        previousInvitedUsers.ForEach(x =>
+                        {
+                            if (x.Status == StatusEnum.Invited)
+                            {
+                                x.Status = StatusEnum.Reinvited;
+                            }
+                        });
+
+                        await _db.SaveChangesAsync();
+                    }
+
                     var logged = Person.GetLoggedPerson(User);
                     var user = new Person
                     {
@@ -155,7 +123,7 @@ namespace SystemModule.Controllers
                         Email = model.Email,
                         InviterID = logged != null ? logged.Id : null,
                         Profile = model.Profile,
-                        Status = StatusEnum.Active, // Temporary
+                        Status = StatusEnum.Invited,
                         OrganizationID = model.OrganizationID,
                         InvitationDate = DateTime.Now
                     };
@@ -173,11 +141,13 @@ namespace SystemModule.Controllers
                         _db.Entry<Organization>(organization).State = EntityState.Modified;
                         _db.SaveChanges();
 
-                        await UserManager.SendEmailAsync(user.Id,
-                            "ZAPROSZENIE UŻYTKOWNIKA",
-                            "Zostałeś zaproszony do organizacji : " + organization != null ? organization.Name : string.Empty + "<br/>"
-                            + "Zaproszenie zostało wysłane przez : " + logged != null ? logged.UserName : string.Empty
-                            + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Link</a>");
+                        var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+
+                        UserManager.SendEmailAsync(user.Id,
+                            "Zaproszenie Kenpro",
+                           "Zakończyłeś zaproszony do organizacji:" + (organization != null ? organization.Name : string.Empty)
+                           + "<br/>Zaproszenie zostało wysłane przez: " + (logged != null ? logged.UserName : string.Empty)
+                           + "<br/><br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/register?id=" + user.Id + "&code=" + code + "\">Link</a>");
 
                         LogService.ProtectorLogs(SystemLog.ProtectorInvitation, _db, organization.Name, user.InviterID);
                     }
@@ -215,6 +185,100 @@ namespace SystemModule.Controllers
 
         #endregion 
 
+        #region Register
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityResult result = new IdentityResult();
+                Result responseResult = new Result() { Errors = new List<string>(), Succeeded = false };
+
+                try
+                {
+                    var user = UserManager.FindById(model.UserId);
+                    var userByName = UserManager.FindByName(model.UserName);
+                    bool tokenValidation = await UserManager.UserTokenProvider.ValidateAsync("ResetPassword", model.Token, UserManager, user);
+
+                    if (user == null || (DateTime.Now - user.InvitationDate).Days > 2 || !tokenValidation)
+                    {
+                        responseResult.Errors.Add("Nieprawidłowy token, lub token wygasł.");
+                        return Json(responseResult);
+                    }
+
+                    if (userByName != null && user.Id != userByName.Id)
+                    {
+                        responseResult.Errors.Add("Ten login jest już zajęty. Proszę wybrać inny.");
+                        return Json(responseResult);
+                    }
+
+                    user.RegistrationDate = DateTime.Now;
+                    user.ResetPasswordDate = DateTime.Now;
+                    user.Status = StatusEnum.Active;
+                    user.UserName = model.UserName;
+                    result = UserManager.Update(user);
+
+                    if (!result.Succeeded)
+                    {
+                        return this.Json(result);
+                    }
+
+                    var rslt = await Person.ChangePasswordAsync(UserManager, new ResetPasswordViewModel()
+                    {
+                        Code = model.Token,
+                        Password = model.Password,
+                        ConfirmPassword = model.ConfirmPassword,
+                        UserName = user.UserName
+                    });
+
+                    if (!rslt.Succeeded)
+                    {
+                        return this.Json(rslt);
+                    }
+
+                    LogService.InsertUserLogs(OperationLog.UserRegistration, _db, user.Id, user.Id);
+
+                    await UserManager.UpdateSecurityStampAsync(user.Id);
+                    await UserManager.SendEmailAsync(user.Id,
+                        "Rejestracja Kenpro",
+                        "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
+                        + "<br/>Twoja nazwa wyświetlana: " + user.DisplayName
+                        + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Zaloguj się</a>");
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return this.Json(result);
+            }
+
+            return getErrorsFromModel();
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> Register(string id, string code)
+        {
+            var user = UserManager.FindById(id);
+            ViewBag.User = user;
+
+            if (user != null)
+            {
+                ViewBag.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+                ViewBag.isTokenValid = await UserManager.UserTokenProvider.ValidateAsync("ResetPassword", code, UserManager, user);
+                ViewBag.tokenExpired = (DateTime.Now - user.InvitationDate).Days > 2 || user.Status == StatusEnum.Rejected;
+            }
+            else
+            {
+                ViewBag.isTokenValid = false;
+                ViewBag.tokenExpired = true;
+            }
+
+            return View();
+        }
+        #endregion
+
         #region Organization
 
         [HttpPost]
@@ -241,12 +305,18 @@ namespace SystemModule.Controllers
         {
             try
             {
+                var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == model.OrganizationID);
+                organization.UpdateSecurityStamp();
+                _db.SaveChanges();
+
+                var code = Url.Encode(organization.GenerateToken("DELETE"));
+
                 await UserManager.SendEmailAsync(model.CreateUserID,
                     "USUNIECIE ORGANIZACJI POTWIERDZENIE",
                            "Nazwa : " + model.Name + " została zgłoszona do usunięcia."
                            + "<br/>Powód : " + model.DeletedReason
                            + "<br/>Jeśli chcesz ją usunać wcisnij link" 
-                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">LINK</a>");
+                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/deleteOrganization?code=" + code + "&id=" + organization.OrganizationID + "\">LINK</a>");
             }
             catch (Exception ex)
             {
@@ -256,6 +326,36 @@ namespace SystemModule.Controllers
             return true;
         }
 
+        public ActionResult DeleteOrganization(string code, string id)
+        {
+            try
+            {
+                var orgId = 0;
+                int.TryParse(id, out orgId);
+
+                var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == orgId);
+                if (organization != null && organization.IsTokenValid("DELETE", code) && (DateTime.Now - organization.DeletedDate.Value).Days < 3)
+                {
+                    ViewBag.Token = true;
+                    organization.Status = OrganizationEnum.Deleted;
+                    organization.UpdateSecurityStamp();
+                    _db.SaveChanges();
+
+                    LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, _db, organization.Name, organization.DeletedUserID);
+
+                } else {
+                    ViewBag.Token = false;
+                }
+
+                ViewBag.Error = false;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = true;
+            }
+
+            return View();
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -263,11 +363,18 @@ namespace SystemModule.Controllers
         {
             try
             {
+                var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == model.OrganizationID);
+                organization.NewName = model.NewName;
+                organization.UpdateSecurityStamp();
+                _db.SaveChanges();
+
+                var code = Url.Encode(organization.GenerateToken("CHANGE"));
+
                 await UserManager.SendEmailAsync(model.CreateUserID,
                     "POTWIERDZENIE ZMIANY NAZWY ORGANIZACJI",
-                           "Nazwa : " + model.Name + " została zmieniona na " + model.Name
+                           "Nazwa : " + model.Name + " została zmieniona na " + model.NewName
                            + " Jeśli zmiana ma być zapisana i aktywowana naciśnij link."
-                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">LINK</a>");
+                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/changeOrganizationName?code=" + code + "&id=" + organization.OrganizationID +"\">LINK</a>");
             }
             catch (Exception ex)
             {
@@ -400,6 +507,7 @@ namespace SystemModule.Controllers
             return Json(Person.GetLoggedPerson(User));
         }
         #endregion
+
         #endregion
 
         #region Private Functions

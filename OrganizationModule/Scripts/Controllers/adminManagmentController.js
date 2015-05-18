@@ -8,7 +8,7 @@
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 0;
 
-        $http.post('/api/TrainingManagment', $scope.viewModel).success(function (data) {
+        $http.post('/api/TrainingManagment/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
             $scope.index = 1;
             UtilitiesFactory.hideSpinner();
@@ -21,21 +21,6 @@
 
     $scope.loadData();
 
-    $scope.loadGroups = function () {
-
-        UtilitiesFactory.showSpinner();
-        $scope.viewModel.ActionType = 3;
-
-        $http.post('/api/TrainingManagment', $scope.viewModel).success(function (data) {
-            $scope.viewModel = data;
-            UtilitiesFactory.hideSpinner();
-        })
-        .error(function () {
-            $scope.viewModel.ErrorMessage = "Wystapil problem z pobraniem danych!";
-            UtilitiesFactory.hideSpinner();
-        });
-    }
-
     $scope.changeStatus = function (training) {
         if (!training) {
             return;
@@ -47,7 +32,7 @@
 
         $scope.viewModel.Current = training;
 
-        $http.put('/api/TrainingManagment', $scope.viewModel).success(function (data) {
+        $http.put('/api/TrainingManagment/', $scope.viewModel).success(function (data) {
             $scope.loadData();
             UtilitiesFactory.hideSpinner();
         })
@@ -70,7 +55,18 @@
 
         $scope.viewModel.Current = training;
 
-        $http.put('/api/TrainingManagment', $scope.viewModel).success(function (data) {
+        $scope.viewModel.Current.Groups = [];
+
+        angular.forEach($scope.viewModel.Groups, function (val) {
+            if (val.selected) {
+                $scope.viewModel.Current.Groups.push(val);
+            }
+        });
+
+        $scope.viewModel.ActionType = 3;
+
+        $http.post('/api/TrainingManagment/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -103,7 +99,6 @@
                 UtilitiesFactory.hideSpinner();
             });
 
-            $scope.loadGroups();
         }
     }
     

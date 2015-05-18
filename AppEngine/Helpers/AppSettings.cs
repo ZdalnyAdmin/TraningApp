@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Web.Configuration;
+using System.Linq;
 
 namespace AppEngine.Helpers
 {
@@ -16,6 +18,69 @@ namespace AppEngine.Helpers
             }
 
             return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
+        }
+
+        private static string generateID()
+        {
+            return Guid.NewGuid().ToString("N");
+        }
+
+        public static string ServerPath()
+        {
+            return Path.Combine("Assets", AppSettings.generateID(), "Resources");
+        }
+
+        public static string CopyFile(string filePath,string domainPath, string sourcePath, out decimal size, bool delete=true)
+        {
+            try
+            {
+                size = 0;
+
+                if (sourcePath.StartsWith("/"))
+                {
+                    sourcePath = sourcePath.Substring(1, sourcePath.Length-1);
+                    sourcePath = sourcePath.Replace("/", "\\");
+                }
+
+                sourcePath = Path.Combine(domainPath, sourcePath);
+
+                var name = System.IO.Path.GetFileName(sourcePath);
+
+                if (name.Contains("_"))
+                {
+                    var temp = (from t in name.Split('_')
+                                select t).Skip(1);
+
+                    name = string.Join("_", temp);
+                }
+
+                var destFile = Path.Combine(filePath, name);
+
+                System.IO.File.Copy(sourcePath, destFile, true);
+
+                var toDelete = sourcePath.Contains("Temp");
+
+                if (toDelete)
+                {
+                    File.Delete(destFile);
+                }
+
+                FileInfo f = new FileInfo(sourcePath);
+                long s1 = f.Length;
+
+                if (s1 != 0)
+                {
+                    size = System.Convert.ToDecimal((s1 / 1024f) / 1024f);
+                }
+
+                return destFile;
+            }
+            catch (Exception ex)
+            {
+                size = 0;
+                return string.Empty;
+            }
+
         }
     }
 }

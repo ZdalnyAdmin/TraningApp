@@ -27,14 +27,20 @@
                     } else {
                         if ($location.path().indexOf('/resetPassword') == -1 &&
                             $location.path().indexOf('/signin') == -1 &&
-                            $location.path().indexOf('/registerUser') == -1) {
+                            $location.path().indexOf('/registerUser') == -1 &&
+                            $location.path().indexOf('/changeEmail') == -1 && 
+                            $location.path().indexOf('/Templates/changeUserEmail' == -1) &&
+                            $location.path().indexOf('/deleteUser') == -1) {
                                 $location.path('/signin').search('');
                         }
                     }
                 });
             }
 
-            $rootScope.$on('userChanged', reload);
+            $rootScope.$on('userChanged', function () {
+                UserFactory.clearUser();
+                reload();
+            });
             $rootScope.$on('reloadMenu', reload);
 
             reload();

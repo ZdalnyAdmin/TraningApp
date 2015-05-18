@@ -24,7 +24,7 @@
 
                 <div>
                     Nazwa firmy :
-                    <input type="text" name="item.Name" ng-model="item.Name" />
+                    <input type="text" name="item.Name" ng-model="item.NewName" /><button ng-click="changeName(item)">Edytuj Nazwę</button>
                 </div>
                 <div>
                     Osoby aktywne : {{ viewModel.Detail.AssignedUser}}

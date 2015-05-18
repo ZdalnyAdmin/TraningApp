@@ -184,7 +184,6 @@
     <Compile Include="Controllers\Api\PeopleInGroupController.cs" />
     <Compile Include="Controllers\Api\SettingsController.cs" />
     <Compile Include="Controllers\Api\StatisticsController.cs" />
-    <Compile Include="Controllers\Api\StatusController.cs" />
     <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\Api\TrainingsInGroupController.cs" />
     <Compile Include="Controllers\Api\TraningsResultController.cs" />
@@ -418,6 +417,8 @@
     <Content Include="Views\Menu\ManagerMenu.cshtml" />
     <Content Include="Views\Menu\UserMenu.cshtml" />
     <Content Include="Views\Training\TrainingList.cshtml" />
+    <Content Include="Views\User\ChangeEmail.cshtml" />
+    <Content Include="Views\User\DeleteUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

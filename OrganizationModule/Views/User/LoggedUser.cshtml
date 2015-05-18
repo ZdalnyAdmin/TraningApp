@@ -10,15 +10,20 @@
                 <div class="col-sm-6 col-lg-4">
                     <button class="btn btn-input-l blue-button change-button">ZMIEŃ E-MAIL</button>
                     <form style="display:none;" class="change-form">
+                        <div class="row" ng-show="changeEmailModel.Errors">
+                            <div class="col-md-12">
+                                {{ changeEmailModel.Errors }}
+                            </div>
+                        </div>
                         <h4>ZMIANA ADRESU E-MAIL</h4>
                         <div class="row">
                             <div class="col-md-12">
-                                <input class="input-xl form-control" ng-model="user.Email" type="text" name="E-mail" placeholder="nowy adres e-mail" />
+                                <input class="input-xl form-control" ng-model="changeEmailModel.Email" type="text" name="E-mail" placeholder="nowy adres e-mail" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn-input-l btn blue-button">ZMIEŃ E-MAIL</button>
+                                <button class="btn-input-l btn blue-button" ng-click="changeEmail()">ZMIEŃ E-MAIL</button>
                             </div>
                         </div>
                     </form>
@@ -36,15 +41,20 @@
                 <div class="col-sm-6 col-lg-4">
                     <button class="btn btn-input-l blue-button change-button">ZMIEŃ NAZWĘ</button>
                     <form style="display:none;" class="change-form">
+                        <div class="row" ng-show="changeNameModel.Errors">
+                            <div class="col-md-12">
+                                {{ changeNameModel.Errors }}
+                            </div>
+                        </div>
                         <h4>ZMIANA NAZWY</h4>
                         <div class="row">
                             <div class="col-md-12">
-                                <input class="input-xl form-control" ng-model="user.UserName" type="text" name="Name" placeholder="nowa nazwa użytkownika" />
+                                <input class="input-xl form-control" ng-model="changeNameModel.UserName" type="text" name="Name" placeholder="nowa nazwa użytkownika" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn-input-l btn blue-button">ZMIEŃ NAZWĘ</button>
+                                <button class="btn-input-l btn blue-button" ng-click="changeName()">ZMIEŃ NAZWĘ</button>
                             </div>
                         </div>
                     </form>
@@ -62,29 +72,34 @@
             <div class="col-sm-6 col-lg-4">
                 <button class="btn btn-input-l blue-button change-button">ZMIEŃ HASŁO</button>
                 <form style="display:none;" class="change-form">
+                    <div class="row" ng-show="changePasswordModel.Errors">
+                        <div class="col-md-12">
+                            {{ changePasswordModel.Errors }}
+                        </div>
+                    </div>
                     <h4>ZMIANA HASŁA</h4>
                     <div class="row">
                         <div class="col-md-12">
-                            <input class="input-xl form-control" type="text" name="Login" placeholder="login" />
+                            <input class="input-xl form-control" ng-model="changePasswordModel.UserName" type="text" name="Login" placeholder="login" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <input class="input-xl form-control" ng-model="user.Password" type="password" name="Password" placeholder="nowe hasło (6-20) znaków" />
+                            <input class="input-xl form-control" ng-model="changePasswordModel.Password" type="password" name="Password" placeholder="nowe hasło (6-20) znaków" />
                             <img class="show-signs" src="~/Content/Images/input-show-signs.png" />
                             <img class="hide-signs" src="~/Content/Images/input-hide-signs.png" style="display:none;" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <input class="input-xl form-control" type="password" name="RepeatPassword" placeholder="powtórz nowe hasło" />
+                            <input class="input-xl form-control" ng-model="changePasswordModel.ConfirmPassword" type="password" name="RepeatPassword" placeholder="powtórz nowe hasło" />
                             <img class="show-signs" src="~/Content/Images/input-show-signs.png" />
                             <img class="hide-signs" src="~/Content/Images/input-hide-signs.png" style="display:none;" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <button class="btn-input-l btn blue-button">ZMIEŃ HASŁO</button>
+                            <button class="btn-input-l btn blue-button" ng-click="changePassword()">ZMIEŃ HASŁO</button>
                         </div>
                     </div>
                 </form>

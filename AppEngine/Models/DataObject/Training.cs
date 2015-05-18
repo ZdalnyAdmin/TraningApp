@@ -31,19 +31,6 @@ namespace AppEngine.Models.Common
         public List<ProfileGroup> Groups { get; set; }
         [NotMapped]
         public List<Organization> Organizations { get; set; }
-        ///// <summary>
-        ///// Get from training to organization ?? create ??
-        ///// </summary>
-        //[NotMapped]
-        //public string AssignedOrganizationsName { get; set; }
-        ///// <summary>
-        ///// Get from training to organization ?? create ??
-        ///// </summary>
-        //[NotMapped]
-        //public string AssignedOrganizationsID { get; set; }
-        /// <summary>
-        /// Get from logs
-        /// </summary>
         [NotMapped]
         public DateTime LastActivationDate { get; set; }
 
@@ -62,28 +49,6 @@ namespace AppEngine.Models.Common
         public List<CommonDto> AssignedGroups { get; set; }
         [NotMapped]
         public string UserName { get; set; }
-
-
-        //private string _createUserName;
-        //public string CreateUserName
-        //{
-        //    get { return _createUserName; }
-        //}
-        //public void SetCreateUserName(string name)
-        //{
-        //    _createUserName = name;
-        //}
-
-        //private int _runTrainingStats;
-        //public int RunTrainingStats
-        //{
-        //    get { return _runTrainingStats; }
-        //}
-        //public void SetRunTrainingStats(int value)
-        //{
-        //    _runTrainingStats = value;
-        //}
-
     }
 
     public enum TrainingType

@@ -7,12 +7,11 @@ using AppEngine.Models.DTO;
 using AppEngine.Services;
 using AppEngine.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Web.Http;
 
 namespace SystemModule.Controllers.Api
@@ -43,10 +42,8 @@ namespace SystemModule.Controllers.Api
                         obj.Current.IsDeleted = true;
                         obj.Current.DeletedUserID = obj.LoggedUser.Id;
                         obj.Current.DeletedDate = DateTime.Now;
-                        obj.Current.Status = OrganizationEnum.Deleted;
                         db.Entry(obj.Current).State = EntityState.Modified;
                         db.SaveChanges();
-                        LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, db, obj.Current.Name, obj.LoggedUser.Id);
 
                         break;
                     case BaseActionType.Edit:
@@ -61,6 +58,8 @@ namespace SystemModule.Controllers.Api
                         obj.Current.CreateDate = DateTime.Now;
                         obj.Current.IsDeleted = false;
                         obj.Current.Status = OrganizationEnum.Active;
+                        obj.Current.UpdateSecurityStamp();
+
                         if (ModelState.IsValid)
                         {
                             db.Organizations.Add(obj.Current);
@@ -159,7 +158,7 @@ namespace SystemModule.Controllers.Api
                                              where tio.OrganizationID == obj.OrganizationID
                                              select td).ToList();
 
-                        obj.Detail.UsedSpaceDisk = trainings.Count();
+                        obj.Detail.UsedSpaceDisk = trainings.Sum(x=>x.FileSize);
                         //todo details
 
                         break;

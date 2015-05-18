@@ -82,6 +82,8 @@
 
     $scope.delete = function (item) {
         $scope.current = item;
+        $scope.viewModel.Current = item;
+
         var modalInstance = $modal.open({
             templateUrl: '/Templates/Modals/organizationDeleteModal.html',
             controller: 'organizationDeleteModalController',
@@ -105,15 +107,8 @@
                     var result = UserFactory.organizationDeleteMail($scope.viewModel.Current);
 
                     result.then(function (data) {
-                        if (!data.Succeeded) {
-                            if (data.Errors) {
-                                $scope.viewModel.ErrorMessage = '';
-                                angular.forEach(data.Errors, function (val) {
-                                    $scope.viewModel.ErrorMessage += ' ' + val;
-                                });
-                            } else {
-                                $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas usuniecia organizacji';
-                            }
+                        if (data !== 'True') {
+                            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas usuniecia organizacji';
                         }
                     });
 
@@ -123,7 +118,21 @@
                 });
             }
         });
+    }
 
+    $scope.changeName = function (item) {
+        $scope.current = item;
+        $scope.viewModel.Current = item;
+
+        $scope.viewModel.ActionType = 1;
+
+        var result = UserFactory.organizationNameChangesMail($scope.viewModel.Current);
+
+        result.then(function (data) {
+            if (data !== 'True') {
+                $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zmiany nazwy organizacji';
+            }
+        });
     }
 }
 

@@ -155,7 +155,7 @@ namespace OrganizationModule.Controllers
                         await UserManager.SendEmailAsync(user.Id,
                            "Zaproszenie Kenpro",
                            "Zakończyłeś zaproszony do organizacji:" + currentUser.Organization.Name
-                           + "<br/>Zaproszenie zostało wysłane przez: " + currentUser.UserName
+                           + "<br/>Zaproszenie zostało wysłane przez: " + currentUser.DisplayName
                            + "<br/><br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/register?id=" + user.Id + "&code=" + code + "\">Link</a>");
                     }
 

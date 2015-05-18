@@ -36,29 +36,45 @@ namespace OrganizationModule.Controllers
                     obj.CurrentOrganization = db.Organizations.FirstOrDefault(x => x.OrganizationID == obj.LoggedUser.OrganizationID);
                 }
 
-                if(obj.CurrentOrganization == null)
+                if (obj.CurrentOrganization == null)
                 {
                     obj.ErrorMessage = "Brak organizacji do ktorej mozna przypisac grupe!";
-                    return Request.CreateResponse(HttpStatusCode.Created, obj);;
+                    return Request.CreateResponse(HttpStatusCode.Created, obj); ;
                 }
 
                 switch (obj.ActionType)
                 {
                     case BaseActionType.Get:
                         //get groups assigned to organizaction
+                        obj.Current = new ProfileGroup();
 
-                        var groups = (from gio in db.GroupsInOrganizations
-                                      join g in db.Groups on gio.ProfileGroupID equals g.ProfileGroupID
-                                      where gio.OrganizationID == obj.CurrentOrganization.OrganizationID
-                                      && g.Name != "Wszyscy" && !g.IsDeleted
-                                      select new ProfileGroup
+
+                        var groups = (from grp in db.GroupsInOrganizations
+                                      join g in db.Groups on grp.ProfileGroupID equals g.ProfileGroupID
+                                      where grp.OrganizationID == obj.CurrentOrganization.OrganizationID && g.Name != "Wszyscy" && !g.IsDeleted
+                                      select new
                                       {
-                                          Name = g.Name,
-                                          ProfileGroupID = g.ProfileGroupID
-                                      }).ToList();
+                                          ProfileGroupID = g.ProfileGroupID,
+                                          Name = g.Name
+                                      }
+                         ).ToList();
+
+                        obj.Groups = new List<ProfileGroup>();
+
+                        if (groups.Any())
+                        {
+                            obj.Groups = (from grp in groups
+                                          group grp by grp.ProfileGroupID
+                                              into gp
+                                              select new ProfileGroup
+                                              {
+                                                  ProfileGroupID = gp.Key,
+                                                  Name = groups.FirstOrDefault(x => x.ProfileGroupID == gp.Key).Name
+                                              }).ToList();
+                        }
 
 
-                        foreach (var g in groups)
+                        foreach (var g in obj.Groups)
                         {
                             g.AssignedPeople = (from pig in db.PeopleInGroups
                                                 join p in db.Users on pig.PersonID equals p.Id
@@ -92,7 +108,7 @@ namespace OrganizationModule.Controllers
                         db.SaveChanges();
 
                         var current = obj.Groups.FirstOrDefault(x => x.ProfileGroupID == obj.Current.ProfileGroupID);
-                        if(current != null)
+                        if (current != null)
                         {
                             obj.Groups.Remove(current);
                         }
@@ -169,7 +185,7 @@ namespace OrganizationModule.Controllers
                         break;
                 }
 
-                return Request.CreateResponse(HttpStatusCode.Created, obj);;
+                return Request.CreateResponse(HttpStatusCode.Created, obj); ;
             }
             catch (Exception ex)
             {

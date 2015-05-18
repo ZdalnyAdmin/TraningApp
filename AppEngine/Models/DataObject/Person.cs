@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -37,6 +38,14 @@ namespace AppEngine.Models.Common
         public DateTime? ResetPasswordDate { get; set; }
         public string InviterID { get; set; }
         public Person Inviter { get; set; }
+
+        public string NewUserName { get; set; }
+        public DateTime? ChangeUserNameDate { get; set; }
+
+        public string NewEmail { get; set; }
+        public DateTime? ChangeEmailDate { get; set; }
+
+        public DateTime? DeleteUserDate { get; set; }
 
         [NotMapped]
         public string ModifiedUserID { get; set; }
@@ -88,6 +97,67 @@ namespace AppEngine.Models.Common
             return result;
         }
 
+        public async Task<IdentityResult> ChangeEmailAsync(UserManager<Person> manager, HttpRequestBase request, string newEmail)
+        {
+            var result = await manager.UpdateSecurityStampAsync(this.Id);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            var code = await manager.GenerateUserTokenAsync("CHANGE_EMAIL", this.Id);
+
+            this.ChangeEmailDate = DateTime.Now;
+            this.NewEmail = newEmail;
+            result = await manager.UpdateAsync(this);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            await manager.SendEmailAsync(this.Id, "Zmiana Adresu Email",
+            "Została wysłana prośba o zmianę twojego maila na " + newEmail + ". <br/>"
+            + "Jeżeli chcesz zmienić adres email potwierdź to wciskając link. <br/>"
+            + "<a href=\""
+                + request.Url.Scheme + "://" + request.Url.Authority + "/changeEmail?code=" + code + "&Id=" + this.Id + "\">link</a>");
+
+            return result;
+        }
+
+        public async Task<IdentityResult> DeleteUserAsync(UserManager<Person> manager, HttpRequestBase request)
+        {
+            var result = await manager.UpdateSecurityStampAsync(this.Id);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            var code = await manager.GenerateUserTokenAsync("DELETE_USER", this.Id);
+
+            this.DeleteUserDate = DateTime.Now;
+            result = await manager.UpdateAsync(this);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            var sb = new StringBuilder();
+            sb.AppendFormat("<b>ZOSTAŁA WYSŁANA PROŚBA O USUNIĘCIE UŻYTKOWNIKA </b> {0}", this.DisplayName);
+            sb.AppendLine();
+            sb.AppendLine("JEŚLI CHCESZ GO USUNAĆ POTWIERDZ TO WCISKAJĄC LINK");
+            sb.AppendLine();
+            sb.AppendFormat("<br/><a href=\"{0}://{1}/deleteUser?Id={2}&code={3}\">LINK</a>", request.Url.Scheme, request.Url.Authority, this.Id, code);
+            await manager.SendEmailAsync(this.Id,
+               "POTWIERDZENIE USUNIECIA UZYTKOWNIKA",
+               sb.ToString());
+
+            return result;
+        }
+
         public static async Task<Result> ChangePasswordAsync(UserManager<Person> manager, ResetPasswordViewModel model)
         {
             var userByUserName = await manager.FindByNameAsync(model.UserName);
@@ -121,6 +191,12 @@ namespace AppEngine.Models.Common
             {
                 return new Result() { Succeeded = resetResult.Succeeded, Errors = new List<string>(resetResult.Errors) }; ;
             }
+
+            EFContext db = new EFContext();
+            userByUserName.Organization = db.Organizations.FirstOrDefault(x => x.OrganizationID == userByUserName.OrganizationID);
+
+            await manager.SendEmailAsync(userByUserName.InviterID, "Zmiana hasała przez podopiecznego",
+                string.Format("Użytkownik organizacji {0} i o Id {1} i nazwie wyświetlania {2} zmienił swoje hasło.", userByUserName.Organization.Name, userByUserName.Id, userByUserName.DisplayName));
 
             await manager.UpdateSecurityStampAsync(userByUserName.Id);
 

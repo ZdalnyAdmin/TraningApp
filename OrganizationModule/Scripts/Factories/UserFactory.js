@@ -171,6 +171,10 @@
         return deferredObject.promise;
     };
 
+    var clearUser = function () {
+        currentUser = null;
+    }
+
     return {
         login: login,
         logoff: logoff,
@@ -180,7 +184,8 @@
         removeInvitation: removeInvitation,
         resetPasswordConfirmation: resetPasswordConfirmation,
         getLoggedUser: getLoggedUser,
-        deleteUser: deleteUser
+        deleteUser: deleteUser,
+        clearUser: clearUser
     }
 };
 

@@ -9,6 +9,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using AppEngine.Models.ViewModels.Account;
+using System.Collections.ObjectModel;
+using AppEngine.Services;
 
 namespace OrganizationModule.Controllers
 {
@@ -67,24 +70,57 @@ namespace OrganizationModule.Controllers
             return View();
         }
 
-        [HttpPost]
-        public void DeleteUser()
+        [AllowAnonymous]
+        public async Task<ActionResult> DeleteUser(string code, string id)
         {
-            var loggedPerson = Person.GetLoggedPerson(User, _db);
-            loggedPerson.DeleteUserID = loggedPerson.Id;
-            loggedPerson.IsDeleted = true;
-            loggedPerson.DeletedDate = DateTime.Now;
-            _db.SaveChanges();
+            code = code.Replace(' ', '+');
+            var usereDeleted = false;
+            var user = UserManager.FindById(id);
+            var isTokenValid = await UserManager.UserTokenProvider.ValidateAsync("DELETE_USER", code, UserManager, user);
 
-            var ctx = Request.GetOwinContext();
-            var authManager = ctx.Authentication;
-            authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            if (isTokenValid && (DateTime.Now - user.DeleteUserDate.Value).Days < 3)
+            {
+                var loggedPerson = UserManager.FindById(id);
+                loggedPerson.IsDeleted = true;
+                loggedPerson.DeletedDate = DateTime.Now;
+                await UserManager.UpdateAsync(loggedPerson);
 
-            UserManager.SendEmail(loggedPerson.InviterID,
+                loggedPerson.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+
+                var ctx = Request.GetOwinContext();
+                var authManager = ctx.Authentication;
+                authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+                LogService.InsertUserLogs(loggedPerson.DeleteUserID == loggedPerson.Id ? OperationLog.UserDeleteBySelf : OperationLog.UserDelete, _db, loggedPerson.Id, loggedPerson.DeleteUserID);
+
+                UserManager.SendEmail(loggedPerson.InviterID,
                        "Usunięcie Użytkownika",
                        "W dniu " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "Użytkownik o Id " + loggedPerson.Id
                        + "i nazwie wyświetlanej: " + loggedPerson.DisplayName
-                       + " usunął swoje konto z organizacji " + loggedPerson.Organization != null ? loggedPerson.Organization.Name : "Brak nazwy organizacji");
+                       + " usunął swoje konto z organizacji " + (loggedPerson.Organization != null ? loggedPerson.Organization.Name : "Brak nazwy organizacji"));
+
+                usereDeleted = true;
+            }
+            else
+            {
+                usereDeleted = false;
+            }
+
+            ViewBag.UserDeleted = usereDeleted;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteUser()
+        {
+            var loggedUser = UserManager.FindById(User.Identity.GetUserId());
+            loggedUser.DeleteUserID = loggedUser.Id;
+            await UserManager.UpdateAsync(loggedUser);
+
+            var result = await loggedUser.DeleteUserAsync(UserManager, Request);
+
+            return Json(result);
         }
 
         /// <summary>
@@ -144,5 +180,127 @@ namespace OrganizationModule.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<JsonResult> ChangePassword(ResetPasswordViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var loggedUser = Person.GetLoggedPerson(User);
+
+                if (model.UserName == loggedUser.UserName)
+                {
+                    Result result = new Result();
+                    model.Code = await UserManager.GeneratePasswordResetTokenAsync(loggedUser.Id);
+
+                    result = await Person.ChangePasswordAsync(UserManager, model);
+                    return Json(result);
+                }
+                else
+                {
+                    loggedUser = UserManager.FindById(loggedUser.Id);
+                   var result = await loggedUser.ResetPasswordAsync(UserManager, Request);
+
+                   return Json(result);
+                }
+            }
+
+            return getErrorsFromModel();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ChangeEmail(ChangeEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var loggedUser = Person.GetLoggedPerson(User);
+                loggedUser = UserManager.FindById(loggedUser.Id);
+                var result = await loggedUser.ChangeEmailAsync(UserManager, Request, model.Email);
+
+                return Json(result);
+
+            }
+
+            return getErrorsFromModel();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult> ChangeEmail(string code, string id)
+        {
+            var emailChanged = false;
+            var user = UserManager.FindById(id);
+            var isTokenValid = await UserManager.UserTokenProvider.ValidateAsync("CHANGE_EMAIL", code, UserManager, user);
+
+            if (isTokenValid && (DateTime.Now - user.ChangeEmailDate.Value).Days < 3)
+            {
+                await UserManager.UpdateSecurityStampAsync(id);
+                var oldEmail = user.Email;
+
+                user.Email = user.NewEmail;
+                user.NewEmail = string.Empty;
+                user.ChangeEmailDate = null;
+
+                UserManager.Update(user);
+
+                user.Organization = _db.Organizations.FirstOrDefault(x=> x.OrganizationID == user.OrganizationID);
+
+                emailChanged = true;
+
+                await UserManager.SendEmailAsync(user.InviterID, "Zmiana adresu email przez podopiecznego",
+                    string.Format("Użytkownik organizacji {0} o Id {1} i mailu {2} (stary email) zmienił swój adres email na nowy {3}", user.Organization.Name, user.Id, oldEmail, user.Email));
+            }
+            else
+            {
+                emailChanged = false;
+            }
+
+            ViewBag.EmailChanged = emailChanged;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ChangeUserName(ChangeUserNameViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = new Result() { Errors = new System.Collections.Generic.List<string>() };
+                var loggedUser = Person.GetLoggedPerson(User, _db);
+                var oldDisplayName = loggedUser.DisplayName;
+                loggedUser.DisplayName = model.UserName;
+                _db.SaveChanges();
+
+                result.Succeeded = true;
+
+                await UserManager.SendEmailAsync(loggedUser.InviterID, "Zmiana nazwy wyświetlania przez podopiecznego",
+                    string.Format("Użytkownik organizacji {0} o Id {1} i nazwie wyświetlania {2} (stara nazwa) zmienił swoją nazwę na {3}", loggedUser.Organization.Name, loggedUser.Id, oldDisplayName, loggedUser.DisplayName));
+
+                return Json(result);
+            }
+
+            return getErrorsFromModel();
+        }
+
+        #region Private Functions
+        private JsonResult getErrorsFromModel()
+        {
+            var Errors = new Collection<string>();
+
+            foreach (ModelState modelState in ViewData.ModelState.Values)
+            {
+                foreach (ModelError error in modelState.Errors)
+                {
+                    Errors.Add(error.ErrorMessage);
+                }
+            }
+
+            return Json(new
+            {
+                Succeeded = false,
+                Errors = Errors
+            });
+        }
+        #endregion
     }
 }

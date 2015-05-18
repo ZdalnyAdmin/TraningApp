@@ -22,6 +22,15 @@
     $scope.loadData();
 
     $scope.add = function () {
+        if (!$scope.viewModel.Current.Name) {
+            $scope.viewModel.ErrorMessage = "Nazwa grupy jest wymagana";
+        }
+
+        if ($scope.viewModel.Current.Name.length < 3) {
+            $scope.viewModel.ErrorMessage = "Nazwa grupy wymagana co najmniej 3 znaków";
+        }
+
+
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 3;
         $http.post('/api/Group/', $scope.viewModel).success(function (data) {

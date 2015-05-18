@@ -59,6 +59,10 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
         .when('/managerEdit', {
             templateUrl: 'Manager/EditTrainings'
         })
+        .when('/Templates/changeUserEmail', {
+            templateUrl: 'viewWrapper.html',
+            controller: ViewWrapperController
+        })
         .when('/managerInvitation', {
             templateUrl: 'Manager/Invitation',
             controller: invitationController

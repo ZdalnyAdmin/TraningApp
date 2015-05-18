@@ -1,1 +1,27 @@
-﻿
+﻿<div id="user-settings">
+    <div class="account-settings">
+        <div class="row" ng-show="Message">{{Message}}</div>
+        <h2>Dane konta</h2>
+        <div class="row">
+            <div class="col-sm-6 col-lg-8">
+                <span>TWOJA NAZWA UŻYTKOWNIKA</span>
+                <strong>@ViewBag.loggedUser.DisplayName</strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-lg-8">
+                <span>TWÓJ ADRES E-MAIL</span>
+                <strong>{{ user.Email }}</strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-lg-8">
+                <span>TWOJE HASŁO</span>
+                <strong>*******</strong>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <button class="btn btn-input-l blue-button change-button" ng-click="resetPassword()">Resetuj</button>
+            </div>
+        </div>
+    </div>
+</div>
