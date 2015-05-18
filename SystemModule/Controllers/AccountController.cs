@@ -17,6 +17,7 @@ using System.Web.Mvc;
 
 namespace SystemModule.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
 
