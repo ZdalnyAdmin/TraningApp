@@ -357,6 +357,39 @@ namespace SystemModule.Controllers
             return View();
         }
 
+        public ActionResult ChangeOrganizationName(string code, string id)
+        {
+            try
+            {
+                var orgId = 0;
+                int.TryParse(id, out orgId);
+
+                var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == orgId);
+                if (organization != null && organization.IsTokenValid("CHANGE", code) && (DateTime.Now - organization.ChangeNameDate.Value).Days < 3)
+                {
+                    ViewBag.Token = true;
+                    organization.Name = organization.NewName;
+                    organization.UpdateSecurityStamp();
+                    _db.SaveChanges();
+
+                    LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, _db, organization.Name, organization.DeletedUserID);
+
+                }
+                else
+                {
+                    ViewBag.Token = false;
+                }
+
+                ViewBag.Error = false;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = true;
+            }
+
+            return View();
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<bool> OrganizationNameChangesMail(Organization model)
@@ -365,6 +398,7 @@ namespace SystemModule.Controllers
             {
                 var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == model.OrganizationID);
                 organization.NewName = model.NewName;
+                organization.ChangeNameDate = DateTime.Now;
                 organization.UpdateSecurityStamp();
                 _db.SaveChanges();
 

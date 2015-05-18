@@ -67,6 +67,10 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             templateUrl: 'Account/ResetPasswordConfirmation',
             controller: ResetPasswordConfirmation
         })
+        .when('/Templates/changeOrganization', {
+            templateUrl: 'viewWrapper.html',
+            controller: ViewWrapperController
+        })
         .when('/Templates/delOrganization', {
             templateUrl: 'viewWrapper.html',
             controller: ViewWrapperController

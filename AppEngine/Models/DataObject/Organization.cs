@@ -26,6 +26,7 @@ namespace AppEngine.Models.Common
         public OrganizationEnum Status { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
+        public DateTime? ChangeNameDate { get; set; }
         public string DeletedUserID { get; set; }
         public string DeletedReason { get; set; }
         public string SecurityStamp { get; set; }

@@ -1,0 +1,15 @@
+﻿@if (ViewBag.Error)
+{
+    <div>Wystąpił błąd przy zmianie nazwy organizacji</div>
+}
+else
+{
+    if (!ViewBag.Token)
+    {
+        <div>Token jest nieprawidłowy</div>
+    }
+    else
+    {
+        <div>Nazwa organizacji została zmieniona</div>
+    }
+}
