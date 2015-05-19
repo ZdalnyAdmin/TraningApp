@@ -192,9 +192,12 @@ namespace AppEngine.Services
                                 index++;
 
                                 //move file and save size in MG
-                                size = 0m;
-                                item.InternalResource = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, item.InternalResource, out size);
-                                item.FileSize = size;
+                                if (!String.IsNullOrEmpty(item.InternalResource))
+                                {
+                                    size = 0m;
+                                    item.InternalResource = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, item.InternalResource, out size);
+                                    item.FileSize = size;
+                                }
                             }
                             model.Current.Details = model.Details;
                         }
@@ -217,9 +220,9 @@ namespace AppEngine.Services
                         if (isInternal)
                         {
                             LogService.InsertTrainingLogs(OperationLog.TrainingCreate, context, model.Current.TrainingID, model.LoggedUser.Id);
-                            if (model.Groups != null && model.Groups.Any())
+                            if (model.Current.Groups != null && model.Current.Groups.Any())
                             {
-                                foreach (var item in model.Groups)
+                                foreach (var item in model.Current.Groups)
                                 {
                                     var grp = new ProfileGroup2Trainings();
                                     grp.IsDeleted = false;
@@ -230,18 +233,15 @@ namespace AppEngine.Services
                                 context.SaveChanges();
                             }
 
-                            var organization = context.Organizations.FirstOrDefault(x => x.ProtectorID == model.LoggedUser.Id);
-                            if (organization != null)
-                            {
-                                var trainingInOrganization = new Trainings2Organizations();
-                                trainingInOrganization.Organization = organization;
-                                trainingInOrganization.OrganizationID = organization.OrganizationID;
-                                trainingInOrganization.Training = model.Current;
-                                trainingInOrganization.TrainingID = model.Current.TrainingID;
-                                trainingInOrganization.IsDeleted = false;
-                                context.TrainingsInOrganizations.Add(trainingInOrganization);
-                                context.SaveChanges();
-                            }
+
+                            var trainingInOrganization = new Trainings2Organizations();
+                            trainingInOrganization.OrganizationID = model.CurrentOrganization.OrganizationID;
+                            trainingInOrganization.Training = model.Current;
+                            trainingInOrganization.TrainingID = model.Current.TrainingID;
+                            trainingInOrganization.IsDeleted = false;
+                            context.TrainingsInOrganizations.Add(trainingInOrganization);
+                            context.SaveChanges();
+
                         }
                         else
                         {
