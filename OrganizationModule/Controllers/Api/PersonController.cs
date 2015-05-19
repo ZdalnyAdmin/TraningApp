@@ -38,12 +38,19 @@ namespace OrganizationModule.Controllers
                         obj.CurrentOrganization = db.Organizations.FirstOrDefault(x => x.OrganizationID == obj.LoggedUser.OrganizationID);
                     }
 
+                    if (obj.CurrentOrganization == null)
+                    {
+                        obj.ErrorMessage = "Brak organizacji dla której można pobrać użytkowników";
+                        return Request.CreateResponse(HttpStatusCode.Created, obj); ;
+                    }
                     switch (obj.ActionType)
                     {
                         case BaseActionType.Get:
                             //todo logs for add and send invitation
                             var people = (from p in db.Users
-                                          where (p.Status == StatusEnum.Active || p.Status == StatusEnum.Blocked || p.Status == StatusEnum.Deleted)
+                                          where
+                                          p.OrganizationID == obj.CurrentOrganization.OrganizationID &&
+                                          (p.Status == StatusEnum.Active || p.Status == StatusEnum.Blocked || p.Status == StatusEnum.Deleted)
                                           && (p.Profile == ProfileEnum.User || p.Profile == ProfileEnum.Creator || p.Profile == ProfileEnum.Administrator || p.Profile == ProfileEnum.Manager)
                                           orderby p.RegistrationDate
                                           select p).ToList();
@@ -110,7 +117,7 @@ namespace OrganizationModule.Controllers
                         case BaseActionType.GetSimple:
 
                             obj.People = (from p in db.Users
-                                          where (p.Status == StatusEnum.Active)
+                                          where p.OrganizationID == obj.CurrentOrganization.OrganizationID && p.Status == StatusEnum.Active
                                           && (p.Profile == ProfileEnum.User || p.Profile == ProfileEnum.Creator || p.Profile == ProfileEnum.Administrator || p.Profile == ProfileEnum.Manager)
                                           orderby p.RegistrationDate
                                           select p).ToList();

@@ -5,7 +5,7 @@
     //Used to display the data 
     $scope.loadData = function () {
         UtilitiesFactory.showSpinner();
-        $scope.viewModel.ActionType = 0;
+        $scope.viewModel.ActionType = 4;
         $http.post('/api/Person/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();

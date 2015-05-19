@@ -21,7 +21,7 @@ namespace AppEngine.Models.DataContext
             if (!Database.Exists())
             {
                 Database.Initialize(true);
-                new Configuration().CallSeed(this);
+                //new Configuration().CallSeed(this);
             }  
         }
 

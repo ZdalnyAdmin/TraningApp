@@ -60,5 +60,19 @@ namespace SystemModule.Controllers
                 return Redirect("/?page=delOrganization&controller=Templates&code=" + code + "&id=" + id);
             }
         }
+
+        public ActionResult ChangeOrganizationName(string code, string id)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                code = Url.Encode(code);
+                id = Url.Encode(id);
+                return Redirect("/?page=changeOrganization&controller=Templates&code=" + code + "&id=" + id);
+            }
+        }
     }
 }

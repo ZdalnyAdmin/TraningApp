@@ -14,7 +14,10 @@
                 $scope.processing = false;
                 $rootScope.$broadcast('userChanged');
                 if ($scope.loginForm.returnUrl !== undefined) {
-                    $location.path($scope.loginForm.returnUrl).search('');
+                    var search = $location.search();
+                    delete search.returnUrl;
+
+                    $location.path($scope.loginForm.returnUrl).search(search);
                 } else {
                     $location.path('/').search('');
                 }

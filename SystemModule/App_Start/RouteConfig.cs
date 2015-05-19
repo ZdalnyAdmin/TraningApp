@@ -56,6 +56,24 @@ namespace SystemModule
             );
 
             routes.MapRoute(
+                name: "ChangeOrganizationName",
+                url: "changeOrganizationName",
+                defaults: new { controller = "Redirect", action = "ChangeOrganizationName", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "ChangeOrganization",
+                url: "changeOrganization",
+                defaults: new { controller = "Account", action = "ChangeOrganizationName", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "ReloadChangeOrganization",
+                url: "Templates/changeOrganization",
+                defaults: new { controller = "Redirect", action = "ChangeOrganizationName", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Redirect",
                 url: "{id}",
                 defaults: new { controller = "Redirect", action = "Index" }
