@@ -285,11 +285,7 @@ namespace AppEngine.Services
                             model.Groups = model.Groups = (from gio in context.GroupsInOrganizations
                                                            join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
                                                            where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
-                                                           select new ProfileGroup
-                                                           {
-                                                               Name = g.Name,
-                                                               ProfileGroupID = g.ProfileGroupID
-                                                           }).ToList();
+                                                           select g).ToList();
                         }
 
                         //delete temp
@@ -303,12 +299,7 @@ namespace AppEngine.Services
                                                join to in context.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
                                                where to.OrganizationID == model.CurrentOrganization.OrganizationID && t.TrainingType == TrainingType.Internal
                                                orderby t.CreateDate
-                                               select new Training
-                                                  {
-                                                      TrainingID = t.TrainingID,
-                                                      CreateDate = t.CreateDate,
-                                                      Name = t.Name
-                                                  }).ToList();
+                                               select t).ToList();
 
                             foreach (var item in model.Trainings)
                             {
@@ -363,11 +354,7 @@ namespace AppEngine.Services
                             model.Groups = (from gio in context.GroupsInOrganizations
                                             join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
                                             where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
-                                            select new ProfileGroup
-                                            {
-                                                Name = g.Name,
-                                                ProfileGroupID = g.ProfileGroupID
-                                            }).ToList();
+                                            select g).ToList();
                         }
                         break;
 

@@ -79,12 +79,7 @@ namespace OrganizationModule.Controllers
                             g.AssignedPeople = (from pig in db.PeopleInGroups
                                                 join p in db.Users on pig.PersonID equals p.Id
                                                 where pig.ProfileGroupID == g.ProfileGroupID
-                                                select new Person
-                                                {
-                                                    Id = pig.PersonID,
-                                                    UserName = p.UserName
-
-                                                }).ToList();
+                                                select p).ToList();
                         }
 
                         break;
