@@ -373,6 +373,14 @@ namespace AppEngine.Services
                             model.ErrorMessage = "Blad wczytanie szkolenia";
                         }
 
+                        model.Current.Details = context.TrainingDetails.Where(x => x.TrainingID == model.trainingID).ToList();
+                        model.Current.Questions = context.TrainingQuestons.Where(x => x.TrainingID == model.trainingID).ToList();
+
+                        foreach(var question in model.Current.Questions)
+                        {
+                            question.Answers = context.TrainingAnswers.Where(x => x.TrainingQuestionID == question.TrainingQuestionID).ToList();
+                        }
+
                         if (isInternal)
                         {
                             //todo groups
