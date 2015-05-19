@@ -1,6 +1,8 @@
 ﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 
 namespace AppEngine.Helpers
@@ -30,6 +32,54 @@ namespace AppEngine.Helpers
             int.TryParse(person.Id, out id);
 
             return id;
+        }
+        public static bool CheckAccess(MethodBase method, ProfileEnum profile)
+        {
+            var attributes = method.GetCustomAttributes(typeof(AccessAttribute), true);
+
+            if (attributes.Count() == 0)
+            {
+                return true;
+            }
+
+            var access = attributes.FirstOrDefault() as AccessAttribute;
+
+            if (access == null)
+            {
+                return true;
+            }
+
+            switch (access.MinimumProfile)
+            {
+                case ProfileEnum.Superuser:
+                    return profile == ProfileEnum.Superuser;
+
+                case ProfileEnum.Administrator:
+                    return profile == ProfileEnum.Superuser ||
+                           profile == ProfileEnum.Administrator;
+
+                case ProfileEnum.Creator:
+                    return profile == ProfileEnum.Superuser ||
+                           profile == ProfileEnum.Administrator ||
+                           profile == ProfileEnum.Creator;
+
+                case ProfileEnum.Manager:
+                    return profile == ProfileEnum.Superuser ||
+                           profile == ProfileEnum.Administrator ||
+                           profile == ProfileEnum.Creator ||
+                           profile == ProfileEnum.Manager;
+
+                case ProfileEnum.Protector:
+                    return profile == ProfileEnum.Superuser ||
+                           profile == ProfileEnum.Administrator ||
+                           profile == ProfileEnum.Creator ||
+                           profile == ProfileEnum.Manager ||
+                           profile == ProfileEnum.Protector;
+
+                case ProfileEnum.User:
+                default:
+                    return true;
+            }
         }
     }
 }
