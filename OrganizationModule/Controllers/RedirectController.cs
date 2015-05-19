@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -22,6 +23,8 @@ namespace OrganizationModule.Controllers
 
         public ActionResult ResetPasswordConfirmation(string code)
         {
+            logoff();
+
             if (string.IsNullOrWhiteSpace(code))
             {
                 return Redirect("/");
@@ -35,6 +38,8 @@ namespace OrganizationModule.Controllers
 
         public ActionResult RegisterUser(string code, string id)
         {
+            logoff();
+
             if (string.IsNullOrWhiteSpace(code))
             {
                 return Redirect("/");
@@ -66,5 +71,15 @@ namespace OrganizationModule.Controllers
         {
             return Redirect("/?page=ActiveTraining&trainingID=" + trainingID);
         }
+
+        #region Private Methods
+        private void logoff()
+        {
+            var ctx = Request.GetOwinContext();
+            var authManager = ctx.Authentication;
+
+            authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+        }
+        #endregion
     }
 }
