@@ -124,18 +124,19 @@ namespace OrganizationModule.Controllers.Api
                                               }).ToList();
                         }
 
-                        foreach (var training in obj.ExternalTrainings)
+                        if (obj.ExternalTrainings != null)
                         {
-                            training.AssignedGroups = (from item in db.TrainingInGroups
-                                                       join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
-                                                       where grp.Name != "Wszyscy"
-                                                       select new CommonDto
-                                                       {
-                                                           Name = grp.Name
-                                                       }).ToList();
+                            foreach (var training in obj.ExternalTrainings)
+                            {
+                                training.AssignedGroups = (from item in db.TrainingInGroups
+                                                           join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
+                                                           where grp.Name != "Wszyscy"
+                                                           select new CommonDto
+                                                           {
+                                                               Name = grp.Name
+                                                           }).ToList();
+                            }
                         }
-
-
 
                         break;
                     case TrainingManagmentActionType.GetSettings:

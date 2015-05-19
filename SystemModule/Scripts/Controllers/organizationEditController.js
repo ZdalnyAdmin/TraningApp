@@ -57,12 +57,11 @@
         });
     };
 
-    $scope.showOrganizationDetails = function(item, show)
-    {
+    $scope.showOrganizationDetails = function (item, show) {
         item.showDetails = show;
+        item.NewName = item.Name;
 
-        if (!show)
-        {
+        if (!show) {
             return;
         }
 
@@ -72,6 +71,7 @@
 
         $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
             $scope.viewModel.Detail = data.Detail;
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -121,6 +121,10 @@
     }
 
     $scope.changeName = function (item) {
+        if (item.NewName === item.Name) {
+            return;
+        }
+
         $scope.current = item;
         $scope.viewModel.Current = item;
 
