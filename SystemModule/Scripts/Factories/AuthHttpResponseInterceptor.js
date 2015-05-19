@@ -12,7 +12,7 @@
                 console.log("Response Error 401", rejection);
                 var searchPath = $location.path();
                 $location.path('/signin').search('returnUrl', searchPath);
-            } else if (rejection.status === 404) {
+            } else if (rejection.status === 404 && !isNaN(rejection.statusText)) {
                 console.log("Response Error 404", rejection);
                 $location.path('/Error/' + rejection.statusText + '/').search('');
             }
