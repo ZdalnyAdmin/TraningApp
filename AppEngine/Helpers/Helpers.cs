@@ -54,22 +54,22 @@ namespace AppEngine.Helpers
                 case ProfileEnum.Superuser:
                     return profile == ProfileEnum.Superuser;
 
+                case ProfileEnum.Protector:
+                    return profile == ProfileEnum.Superuser ||
+                           profile == ProfileEnum.Protector;
+
                 case ProfileEnum.Administrator:
                     return profile == ProfileEnum.Superuser ||
-                           profile == ProfileEnum.Administrator;
-
-                case ProfileEnum.Creator:
-                    return profile == ProfileEnum.Superuser ||
                            profile == ProfileEnum.Administrator ||
-                           profile == ProfileEnum.Creator;
+                           profile == ProfileEnum.Protector;
 
                 case ProfileEnum.Manager:
                     return profile == ProfileEnum.Superuser ||
                            profile == ProfileEnum.Administrator ||
-                           profile == ProfileEnum.Creator ||
-                           profile == ProfileEnum.Manager;
+                           profile == ProfileEnum.Manager ||
+                           profile == ProfileEnum.Protector;
 
-                case ProfileEnum.Protector:
+                case ProfileEnum.Creator:
                     return profile == ProfileEnum.Superuser ||
                            profile == ProfileEnum.Administrator ||
                            profile == ProfileEnum.Creator ||
