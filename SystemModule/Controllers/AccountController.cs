@@ -61,6 +61,16 @@ namespace SystemModule.Controllers
         [AllowAnonymous]
         public async Task<bool> Login(LoginViewModel model)
         {
+            var person = _db.Users.Where(x => x.UserName == model.Email &&
+                                                  !x.IsDeleted &&
+                                                  x.Status == StatusEnum.Active &&
+                                                  x.Profile == ProfileEnum.Superuser).FirstOrDefault();
+
+            if (person == null)
+            {
+                return false;
+            }
+
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
             switch (result)
             {
