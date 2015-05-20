@@ -30,7 +30,7 @@
         $scope.viewModel.Current = person;
         $scope.viewModel.ActionType = 2;
         $http.post('/api/Person/', $scope.viewModel).success(function (data) {
-
+            $scope.viewModel.Success = 'Dane zostaly zapisane';
             //shoudl get only by id
             person.isEditable = false;
             $scope.editablePerson = {};

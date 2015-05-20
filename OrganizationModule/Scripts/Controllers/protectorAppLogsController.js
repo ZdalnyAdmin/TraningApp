@@ -1,12 +1,13 @@
 ﻿function protectorAppLogsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
-    $scope.loading = true;
     //Used to display the data 
     $scope.loadOperationType = function () {
         UtilitiesFactory.showSpinner();
         $scope.currentItem = {};
         $scope.currentItem.ProtectorID = 1;
-        $http.get('/api/OperationLog').success(function (data) {
+        $http.get('/api/OperationLog/').success(function (data) {
+
             $scope.OperationTypes = data;
+            $scope.success = "Dane wczytane!";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -23,6 +24,7 @@
         $http.get('/api/Logs').success(function (data) {
             $scope.Logs = data;
             $scope.DbLogs = data;
+            $scope.success = "Dane wczytane!";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {

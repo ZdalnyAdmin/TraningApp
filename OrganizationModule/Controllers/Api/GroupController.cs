@@ -82,6 +82,8 @@ namespace OrganizationModule.Controllers
                                                 select p).ToList();
                         }
 
+                        obj.Success = "Dane wczytane!";
+
                         break;
                     case BaseActionType.Delete:
 
@@ -107,6 +109,8 @@ namespace OrganizationModule.Controllers
                         {
                             obj.Groups.Remove(current);
                         }
+
+                        obj.Success = "Dane usuniete!";
 
                         break;
                     case BaseActionType.Edit:
@@ -138,6 +142,8 @@ namespace OrganizationModule.Controllers
                         db.Entry(obj.Current).State = EntityState.Modified;
 
                         db.SaveChanges();
+
+                        obj.Success = "Dane zapisane!";
 
                         break;
 
@@ -174,6 +180,8 @@ namespace OrganizationModule.Controllers
 
                         obj.Groups.Add(obj.Current);
                         obj.Current = new ProfileGroup();
+
+                        obj.Success = "Dane zapisane!";
 
                         break;
                     default:

@@ -93,6 +93,8 @@ namespace OrganizationModule.Controllers
                             obj.DeletedPeople = (from t in people
                                                  where t.IsDeleted
                                                  select t).ToList();
+
+                            obj.Success = "Dane wczytane!";
                             break;
                         case BaseActionType.Delete:
 
@@ -102,7 +104,7 @@ namespace OrganizationModule.Controllers
                             LogService.InsertUserLogs(OperationLog.UserDelete, db, obj.Current.Id, obj.Current.DeleteUserID);
 
                             db.SaveChanges();
-
+                            obj.Success = "Dane usuniete!";
                             break;
                         case BaseActionType.Edit:
 
@@ -112,6 +114,7 @@ namespace OrganizationModule.Controllers
                             LogService.InsertUserLogs(OperationLog.UserEdit, db, obj.Current.Id, obj.Current.ModifiedUserID);
 
                             db.SaveChanges();
+                            obj.Success = "Dane zapisane!";
                             break;
 
                         case BaseActionType.GetSimple:
@@ -121,6 +124,7 @@ namespace OrganizationModule.Controllers
                                           && (p.Profile == ProfileEnum.User || p.Profile == ProfileEnum.Creator || p.Profile == ProfileEnum.Administrator || p.Profile == ProfileEnum.Manager)
                                           orderby p.RegistrationDate
                                           select p).ToList();
+                            obj.Success = "Dane zapisane!";
                             break;
                         default:
                             break;

@@ -93,14 +93,17 @@ namespace OrganizationModule.Controllers.Api
                 switch (obj.ActionType)
                 {
                     case BaseActionType.Get:
+                        obj.Success = "Dane wczytane!";
                         return Request.CreateResponse(HttpStatusCode.Created, obj);
                     case BaseActionType.Edit:
                         db.Entry(obj.CurrentOrganization).State = EntityState.Modified;
                         db.SaveChanges();
+                        obj.Success = "Dane zapisane!";
                         return Request.CreateResponse(HttpStatusCode.Created, obj);
                     case BaseActionType.Add:
                         db.Entry(obj.Setting).State = EntityState.Modified;
                         db.SaveChanges();
+                        obj.Success = "Dane zapisane!";
                         return Request.CreateResponse(HttpStatusCode.Created, obj);
                 }
 

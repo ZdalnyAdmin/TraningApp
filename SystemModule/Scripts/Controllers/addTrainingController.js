@@ -189,6 +189,7 @@
     $scope.save = function () {
         //check conditions
         if (!$scope.viewModel.Current.Name) {
+            $scope.viewModel.Success = "Nalezy podac nazwe";
             return;
         }
 
