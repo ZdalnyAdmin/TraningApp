@@ -11,7 +11,10 @@
             $scope.cancel = function (item) {
                 $scope.currentDetail.ResourceType = -1;
                 $scope.obj.push($scope.currentDetail);
-                $scope.currentDetail = {};
+
+                $scope.currentDetail.InternalResource = '';
+                $scope.currentDetail.ResourceType = undefined;
+                $scope.currentDetail.isEdit = undefined;
             }
 
             $scope.add = function (item) {
@@ -19,11 +22,12 @@
                     return;
                 }
 
-                if ($scope.currentDetail.ExternalResource) {
+                if ($scope.currentDetail.InternalResource) {
                     $scope.currentDetail.isEdit = false;
                     $scope.currentDetail.ResourceType = 4;
                     $scope.obj.push($scope.currentDetail);
-                    $scope.currentDetail = {};
+                    $scope.obj.push(angular.copy($scope.currentDetail));
+                    $scope.cancel();
                     return;
                 }
             }
