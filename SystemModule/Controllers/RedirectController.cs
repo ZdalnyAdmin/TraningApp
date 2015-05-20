@@ -11,6 +11,11 @@ namespace SystemModule.Controllers
     {
         public ActionResult Index(string id, string code)
         {
+            if (id == "signin")
+            {
+                logoff();
+            }
+
             if (string.IsNullOrWhiteSpace(id))
             {
                 return Redirect("/");
