@@ -16,33 +16,6 @@ namespace OrganizationModule.Controllers
         private EFContext _db = new EFContext();
         #endregion
 
-        /// <summary>
-        /// Navigate to create traning template view
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult CreateTemplate()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Navigate to created tranings view
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult EditTemplate()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Navigate to description how to create traning
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult About()
-        {
-            return View();
-        }
-
         public ActionResult TrainingList()
         {
             var loggedPerson = Person.GetLoggedPerson(User);

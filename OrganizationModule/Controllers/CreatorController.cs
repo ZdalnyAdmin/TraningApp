@@ -1,6 +1,10 @@
-﻿using System;
+﻿using AppEngine.Helpers;
+using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,8 +19,20 @@ namespace OrganizationModule.Controllers
         /// Navigate to create traning template view
         /// </summary>
         /// <returns></returns>
+        [Access(ProfileEnum.Creator)]
         public ActionResult CreateTemplate()
         {
+            Person currentUser = Person.GetLoggedPerson(User);
+            if (string.IsNullOrWhiteSpace(currentUser.UserName))
+            {
+                return new HttpNotFoundResult("Użytkownik nie zalogowany");
+            }
+
+            if (!Helpers.CheckAccess(MethodBase.GetCurrentMethod(), currentUser.Profile))
+            {
+                return new HttpNotFoundResult("1"); // Jedynka to chwilowo brak uprawnień do oglądania strony
+            }
+
             return View();
         }
 
@@ -28,8 +44,20 @@ namespace OrganizationModule.Controllers
         /// Navigate to created tranings view
         /// </summary>
         /// <returns></returns>
+        [Access(ProfileEnum.Manager)]
         public ActionResult EditTemplate()
         {
+            Person currentUser = Person.GetLoggedPerson(User);
+            if (string.IsNullOrWhiteSpace(currentUser.UserName))
+            {
+                return new HttpNotFoundResult("Użytkownik nie zalogowany");
+            }
+
+            if (!Helpers.CheckAccess(MethodBase.GetCurrentMethod(), currentUser.Profile))
+            {
+                return new HttpNotFoundResult("1"); // Jedynka to chwilowo brak uprawnień do oglądania strony
+            }
+
             return View();
         }
 
@@ -39,8 +67,20 @@ namespace OrganizationModule.Controllers
         /// Navigate to description how to create traning
         /// </summary>
         /// <returns></returns>
+        [Access(ProfileEnum.Creator)]
         public ActionResult About()
         {
+            Person currentUser = Person.GetLoggedPerson(User);
+            if (string.IsNullOrWhiteSpace(currentUser.UserName))
+            {
+                return new HttpNotFoundResult("Użytkownik nie zalogowany");
+            }
+
+            if (!Helpers.CheckAccess(MethodBase.GetCurrentMethod(), currentUser.Profile))
+            {
+                return new HttpNotFoundResult("1"); // Jedynka to chwilowo brak uprawnień do oglądania strony
+            }
+
             return View();
         }
     }

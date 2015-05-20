@@ -12,6 +12,7 @@ OrganizationModuleApp.controller('trainingController', trainingController);
 OrganizationModuleApp.controller('trainingListController', trainingListController);
 OrganizationModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
 OrganizationModuleApp.controller('ViewWrapperController', ViewWrapperController);
+OrganizationModuleApp.controller('errorController', errorController);
 OrganizationModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 OrganizationModuleApp.factory('UserFactory', UserFactory);
 OrganizationModuleApp.factory('TrainingFactory', TrainingFactory);
@@ -109,6 +110,10 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
                 return '../Training/ActiveTraining/' + param.trainingID;
             },
             controller: trainingController
+        })
+        .when('/Error/:errorId', {
+            templateUrl: '../Templates/error.html',
+            controller: errorController
         })
         .when('/Templates/registerUser', {
             templateUrl: 'viewWrapper.html',

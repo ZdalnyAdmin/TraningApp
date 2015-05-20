@@ -1,4 +1,5 @@
 ﻿using AppEngine;
+using AppEngine.Helpers;
 using AppEngine.Models;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -49,8 +51,20 @@ namespace OrganizationModule.Controllers
         /// Navigate to tranings results view
         /// </summary>
         /// <returns></returns>
+        [Access(ProfileEnum.Manager)]
         public ActionResult Results()
         {
+            Person currentUser = Person.GetLoggedPerson(User);
+            if (string.IsNullOrWhiteSpace(currentUser.UserName))
+            {
+                return new HttpNotFoundResult("Użytkownik nie zalogowany");
+            }
+
+            if (!Helpers.CheckAccess(MethodBase.GetCurrentMethod(), currentUser.Profile))
+            {
+                return new HttpNotFoundResult("1"); // Jedynka to chwilowo brak uprawnień do oglądania strony
+            }
+
             return View();
         }
 
@@ -62,8 +76,20 @@ namespace OrganizationModule.Controllers
         /// Navigate to trainig modifications view
         /// </summary>
         /// <returns></returns>
+        [Access(ProfileEnum.Manager)]
         public ActionResult EditTrainings()
         {
+            Person currentUser = Person.GetLoggedPerson(User);
+            if (string.IsNullOrWhiteSpace(currentUser.UserName))
+            {
+                return new HttpNotFoundResult("Użytkownik nie zalogowany");
+            }
+
+            if (!Helpers.CheckAccess(MethodBase.GetCurrentMethod(), currentUser.Profile))
+            {
+                return new HttpNotFoundResult("1"); // Jedynka to chwilowo brak uprawnień do oglądania strony
+            }
+
             return View();
         }
 
@@ -75,13 +101,18 @@ namespace OrganizationModule.Controllers
         /// Navigate to invitation view
         /// </summary>
         /// <returns></returns>
+        [Access(ProfileEnum.Manager)]
         public ActionResult Invitation()
         {
             Person currentUser = Person.GetLoggedPerson(User);
-
             if (string.IsNullOrWhiteSpace(currentUser.UserName))
             {
                 return new HttpNotFoundResult("Użytkownik nie zalogowany");
+            }
+
+            if (!Helpers.CheckAccess(MethodBase.GetCurrentMethod(), currentUser.Profile))
+            {
+                return new HttpNotFoundResult("1");
             }
 
             ViewBag.User = currentUser;

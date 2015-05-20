@@ -2,31 +2,37 @@
 
     $scope.loadTrainings = function () {
         UtilitiesFactory.showSpinner();
-        $http.get('/api/Training').success(function (data) {
-            $scope.Trainings = data;
+
+        viewModel = {};
+        viewModel.ActionType = 4;
+        $http.post('/api/Training/', viewModel).success(function (data) {
+            $scope.Trainings = data.Trainings;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.error = 'Wystąpił nieoczekiwany błąd podczas pobierania szkolen';
             UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadPeople = function () {
         UtilitiesFactory.showSpinner();
-        $http.get('/api/SimplePerson').success(function (data) {
-            $scope.Users = data;
+
+        viewModel = {};
+        viewModel.ActionType = 0;
+        $http.post('/api/Person/', viewModel).success(function (data) {
+            $scope.viewModel = data.People;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $scope.error = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
             UtilitiesFactory.hideSpinner();
         });
     }
 
     $scope.loadResults = function () {
         UtilitiesFactory.showSpinner();
-        $http.get('/api/TraningsResult').success(function (data) {
+        $http.get('/api/TraningsResult/').success(function (data) {
             $scope.Results = data;
             $scope.DbResult = data;
             UtilitiesFactory.hideSpinner();

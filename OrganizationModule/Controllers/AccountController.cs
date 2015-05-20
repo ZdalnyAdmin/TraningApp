@@ -149,7 +149,7 @@ namespace OrganizationModule.Controllers
                     await UserManager.UpdateSecurityStampAsync(user.Id);
                     await UserManager.SendEmailAsync(user.Id,
                         "Rejestracja Kenpro",
-                        "Zakończyłeś rejestrację. <br/>Twój login to: " + user.DisplayName
+                        "Zakończyłeś rejestrację. <br/>Twój login to: " + user.UserName
                         + "<br/>Twoja nazwa wyświetlana: " + user.DisplayName
                         + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">Zaloguj się</a>");
                 }

@@ -208,6 +208,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Controllers\errorController.js" />
     <Content Include="Scripts\Controllers\adminController.js" />
     <Content Include="Scripts\Controllers\BaseController.js" />
     <Content Include="Scripts\Controllers\addTrainingController.js" />
@@ -274,6 +275,7 @@
     <Content Include="Templates\trainingPresentationEditor.html" />
     <Content Include="Templates\trainingTextEditor.html" />
     <Content Include="Templates\uploadFile.html" />
+    <Content Include="Templates\error.html" />
     <Content Include="Templates\viewWrapper.html" />
     <Content Include="thirdParty\FroalaWysiwygEditor\.gitignore" />
     <Content Include="thirdParty\FroalaWysiwygEditor\css\font-awesome.css" />

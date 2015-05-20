@@ -9,6 +9,10 @@
             $scope.currentDetail = {};
 
             $scope.cancel = function (item) {
+
+                $scope.currentDetail.ResourceType = -1;
+                $scope.obj.push($scope.currentDetail);
+
                 $scope.currentDetail = {};
             }
 

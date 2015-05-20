@@ -8,6 +8,7 @@ SystemModuleApp.controller('ResetPasswordController', ResetPasswordController);
 SystemModuleApp.controller('ResetPasswordConfirmation', ResetPasswordConfirmation);
 SystemModuleApp.controller('loggedUserController', loggedUserController);
 SystemModuleApp.controller('ViewWrapperController', ViewWrapperController);
+SystemModuleApp.controller('errorController', errorController);
 SystemModuleApp.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 SystemModuleApp.factory('UserFactory', UserFactory);
 SystemModuleApp.factory('UtilitiesFactory', UtilitiesFactory);
@@ -78,6 +79,10 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
         .when('/Templates/registerUser', {
             templateUrl: 'viewWrapper.html',
             controller: ViewWrapperController
+        })
+        .when('/Error/:errorId', {
+            templateUrl: '../Templates/error.html',
+            controller: errorController
         })
         .when('/logoff', {
             templateUrl: 'Account/Logoff',
