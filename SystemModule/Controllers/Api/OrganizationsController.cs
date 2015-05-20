@@ -39,11 +39,14 @@ namespace SystemModule.Controllers.Api
                         break;
                     case BaseActionType.Delete:
 
-                        obj.Current.IsDeleted = true;
+                        obj.Current.IsDeleted = false;
                         obj.Current.DeletedUserID = obj.LoggedUser.Id;
-                        obj.Current.DeletedDate = DateTime.Now;
+                        obj.Current.Status = OrganizationEnum.Hidden;
                         db.Entry(obj.Current).State = EntityState.Modified;
                         db.SaveChanges();
+
+                        var deleted = obj.Organizations.FirstOrDefault(x => x.OrganizationID == obj.Current.OrganizationID);
+                        deleted.Status = OrganizationEnum.Hidden;
 
                         break;
                     case BaseActionType.Edit:

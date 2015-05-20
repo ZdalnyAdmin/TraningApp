@@ -96,9 +96,15 @@
         });
 
         modalInstance.result.then(function (selectedReason) {
-            if (!!selectedReason.Text) {
+            if (!!selectedReason) {
+                if (!selectedReason.Text) {
+                    selectedReason.Text = '';
+                }
+
 
                 $scope.viewModel.ActionType = 1;
+
+                UtilitiesFactory.showSpinner();
 
                 $scope.viewModel.Current.DeletedReason = selectedReason.Text;
                 $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
@@ -112,9 +118,12 @@
                         }
                     });
 
+                    UtilitiesFactory.hideSpinner();
+
                 })
                 .error(function () {
                     $scope.viewModel.ErrorMessage = "Wystąpił nieoczekiwany błąd podczas usuniecia organizacji";
+                    UtilitiesFactory.hideSpinner();
                 });
             }
         });
