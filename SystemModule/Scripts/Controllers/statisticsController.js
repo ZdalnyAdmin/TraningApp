@@ -21,6 +21,7 @@
                 $scope.list = data;
             }
             $scope.index = type;
+            $scope.success = "Dane wczytane!";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {

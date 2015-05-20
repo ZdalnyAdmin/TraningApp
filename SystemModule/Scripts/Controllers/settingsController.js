@@ -5,6 +5,7 @@
         UtilitiesFactory.showSpinner();
         $http.post('/api/Settings', $scope.current).success(function (data) {
             $scope.current = data;
+            $scope.success = "Dane wczytane!";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -21,6 +22,7 @@
         }
         UtilitiesFactory.showSpinner();
         $http.put('/api/Settings', obj).success(function (data) {
+            $scope.success = "Dane zapisane!";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {

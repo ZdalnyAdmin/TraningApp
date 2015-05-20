@@ -42,6 +42,8 @@ namespace SystemModule.Controllers.Api
 
                         obj.People = items;
 
+                        obj.Success = "Dane wczytane!";
+
                         break;
                     case PeopleActionType.DeleteProtector:
 
@@ -68,6 +70,8 @@ namespace SystemModule.Controllers.Api
 
                         obj.Current = null;
 
+                        obj.Success = "Usuniecie opiekuna zakonczyla sie sukcesem!";
+
                         break;
                     case PeopleActionType.EditProtector:
 
@@ -89,6 +93,8 @@ namespace SystemModule.Controllers.Api
 
                         obj.Current = null;
 
+                        obj.Success = "Edycja danych opiekuna zakonczyla sie sukcesem!";
+
                         break;
                     case PeopleActionType.AddProtector:
                         break;
@@ -97,6 +103,8 @@ namespace SystemModule.Controllers.Api
 
                         obj.People = db.Users.Where(x => x.Profile == ProfileEnum.Administrator && !x.IsDeleted).OrderByDescending(p => p.RegistrationDate).ToList();
 
+
+                        obj.Success = "Dane wczytane!";
                         break;
                     default:
                         break;

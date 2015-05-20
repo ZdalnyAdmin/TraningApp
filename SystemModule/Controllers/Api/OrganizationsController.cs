@@ -35,6 +35,7 @@ namespace SystemModule.Controllers.Api
                     case BaseActionType.Get:
 
                         obj.Organizations = db.Organizations.OrderByDescending(x => x.CreateDate).ToList();
+                        obj.Success = "Dane wczytane!";
 
                         break;
                     case BaseActionType.Delete:
@@ -48,11 +49,15 @@ namespace SystemModule.Controllers.Api
                         var deleted = obj.Organizations.FirstOrDefault(x => x.OrganizationID == obj.Current.OrganizationID);
                         deleted.Status = OrganizationEnum.Hidden;
 
+                        obj.Success = "Organizacja usunieta!";
+
                         break;
                     case BaseActionType.Edit:
 
                         db.Entry(obj.Current).State = EntityState.Modified;
                         db.SaveChanges();
+
+                        obj.Success = "Dane organizacji zostaly zmienione!";
 
                         break;
                     case BaseActionType.Add:
@@ -90,6 +95,8 @@ namespace SystemModule.Controllers.Api
                         obj.ActionType = BaseActionType.GetExtData;
                         Post(obj);
 
+                        obj.Success = "Organizacja zostala zapisana!";
+
                         break;
                     case BaseActionType.GetSimple:
 
@@ -97,6 +104,8 @@ namespace SystemModule.Controllers.Api
                         obj.Organizations = (from t in db.Organizations
                                              orderby t.CreateDate
                                              select t).ToList();
+
+                        obj.Success = "Dane wczytane!";
 
                         break;
                     case BaseActionType.GetExtData:
@@ -164,6 +173,8 @@ namespace SystemModule.Controllers.Api
                         obj.Detail.UsedSpaceDisk = trainings.Sum(x=>x.FileSize);
                         //todo details
 
+                        obj.Success = "Dane szczegolowe pobrane!";
+
                         break;
                     case BaseActionType.GetSpecial:
                         obj.Protector = new Person();
@@ -186,6 +197,7 @@ namespace SystemModule.Controllers.Api
                                                Name = t.Name
                                            }).ToList();
 
+                        obj.Success = "Dane wczytane!";
                         break;
                     default:
                         break;

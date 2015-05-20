@@ -22,6 +22,8 @@ namespace AppEngine.Services
             {
                 model.ErrorMessage = String.Empty;
 
+                model.Success = String.Empty;
+
                 if (isInternal)
                 {
                     if (model.CurrentOrganization == null)
@@ -62,6 +64,7 @@ namespace AppEngine.Services
 
                         context.SaveChanges();
 
+                        model.Success = "Usuniecie szkolenia zakonczylo sie sukcesem!";
 
                         break;
                     case AppEngine.Models.DataBusiness.BaseActionType.Edit:
@@ -149,6 +152,8 @@ namespace AppEngine.Services
                         {
                             LogService.InsertTrainingLogs(OperationLog.TrainingEdit, context, model.Current.TrainingID, model.LoggedUser.Id);
                         }
+
+                        model.Success = "Edycja szkolenia zakonczylo sie sukcesem!";
 
                         break;
                     case AppEngine.Models.DataBusiness.BaseActionType.Add:
@@ -288,7 +293,7 @@ namespace AppEngine.Services
                                                            select g).ToList();
                         }
 
-                        //delete temp
+                        model.Success = "Dodanie szkolenia zakonczylo sie sukcesem!";
 
                         break;
                     case BaseActionType.GetSimple:
@@ -338,6 +343,7 @@ namespace AppEngine.Services
                             }
                         }
 
+                        model.Success = "Pobranie szkolenia zakonczylo sie sukcesem!";
 
                         break;
                     case BaseActionType.GetExtData:
@@ -356,6 +362,9 @@ namespace AppEngine.Services
                                             where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
                                             select g).ToList();
                         }
+
+                        model.Success = "Pobranie szkolenia zakonczylo sie sukcesem!";
+
                         break;
 
                     case BaseActionType.ById:
@@ -398,6 +407,8 @@ namespace AppEngine.Services
                                                    select extO).ToList();
                             model.Current.Organizations = model.Organizations;
                         }
+
+                        model.Success = "Pobranie szkolenia zakonczylo sie sukcesem!";
 
                         break;
 
@@ -449,6 +460,8 @@ namespace AppEngine.Services
                                 item.CreatorName = context.Users.FirstOrDefault(x => x.Id == item.CreatorID).UserName;
                             }
                         }
+
+                        model.Success = "Pobranie szkolenia zakonczylo sie sukcesem!";
 
                         model.InternalTrainings.AddRange(collection);
 
