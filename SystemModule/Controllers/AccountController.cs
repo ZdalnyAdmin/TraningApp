@@ -1,4 +1,5 @@
 ﻿using AppEngine;
+using AppEngine.Helpers;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -405,11 +407,18 @@ namespace SystemModule.Controllers
 
                 var code = Url.Encode(organization.GenerateToken("CHANGE"));
 
-                await UserManager.SendEmailAsync(model.CreateUserID,
-                    "POTWIERDZENIE ZMIANY NAZWY ORGANIZACJI",
-                           "Nazwa : " + model.Name + " została zmieniona na " + model.NewName
-                           + " Jeśli zmiana ma być zapisana i aktywowana naciśnij link."
-                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/changeOrganizationName?code=" + code + "&id=" + organization.OrganizationID +"\">LINK</a>");
+                MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "(do not reply)"),
+                                   new MailAddress("zmiana@kenpro.pl"))
+                                                    {
+                                                        Subject = "POTWIERDZENIE ZMIANY NAZWY ORGANIZACJI",
+                                                        Body = "Nazwa : " + model.Name + " została zmieniona na " + model.NewName
+                                                               + " Jeśli zmiana ma być zapisana i aktywowana naciśnij link."
+                                                               + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/changeOrganizationName?code=" + code + "&id=" + organization.OrganizationID +"\">LINK</a>",
+                                                        IsBodyHtml = true
+                                                    };
+
+                Mail.Send(mail, MailAccount.EVENT);
+
             }
             catch (Exception ex)
             {
