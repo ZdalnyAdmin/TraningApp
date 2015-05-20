@@ -65,6 +65,10 @@
             return;
         }
 
+        if (item.Status !== 1) {
+            return;
+        }
+
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 6;
         $scope.viewModel.OrganizationID = item.OrganizationID;
@@ -145,6 +149,29 @@
             if (data !== 'True') {
                 $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zmiany nazwy organizacji';
             }
+        });
+    }
+
+    $scope.edit = function (item) {
+        if (item.NewName !== item.Name) {
+            return;
+        }
+
+        $scope.current = item;
+        $scope.viewModel.Current = item;
+
+        UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 2;
+        $scope.viewModel.OrganizationID = item.OrganizationID;
+
+        $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
+            $scope.viewModel.Detail = data.Detail;
+
+            UtilitiesFactory.hideSpinner();
+        })
+        .error(function () {
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas edycji organizacji';
+            UtilitiesFactory.hideSpinner();
         });
     }
 }
