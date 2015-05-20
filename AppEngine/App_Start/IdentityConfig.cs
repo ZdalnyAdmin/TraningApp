@@ -21,7 +21,7 @@ namespace AppEngine
             try
             {
                 var account = getAccount(message.Subject);
-                MailMessage mail = new MailMessage(new MailAddress(getMailFrom(account), "(do not reply)"),
+                MailMessage mail = new MailMessage(new MailAddress(Helpers.Helpers.GetMailFrom(account), "(do not reply)"),
                 new MailAddress(message.Destination))
                 {
                     Subject = message.Subject,
@@ -54,35 +54,6 @@ namespace AppEngine
                     return MailAccount.INVITATION;
                 default:
                     return MailAccount.ADMIN;
-            }
-        }
-
-        private static string getMailFrom(MailAccount account)
-        {
-            switch (account)
-            {
-
-                case MailAccount.REGISTER:
-                    return AppSettings.Setting<string>("registerMail");
-
-                case MailAccount.INVITATION:
-                    return AppSettings.Setting<string>("invitationMail");
-
-                case MailAccount.ACTIVATION:
-                    return AppSettings.Setting<string>("activationMail");
-
-                case MailAccount.EVENT:
-                    return AppSettings.Setting<string>("eventMail");
-
-                case MailAccount.CONFIRMATION:
-                    return AppSettings.Setting<string>("confirmationMail");
-
-                case MailAccount.DELETE:
-                    return AppSettings.Setting<string>("deleteMail");
-
-                case MailAccount.ADMIN:
-                default:
-                    return AppSettings.Setting<string>("adminMail");
             }
         }
     }

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Text;
 using System.Web.Http;
 
 namespace SystemModule.Controllers.Api
@@ -89,6 +90,19 @@ namespace SystemModule.Controllers.Api
                                 db.SaveChanges();
                             }
                         }
+
+                        MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "(do not reply)"),
+                        new MailAddress("admin@kenis.pl"))
+                        {
+                            Subject = "Utworzenie organizacji",
+                            Body = string.Format("W dniu {0} została utworzona nowa organizacja {1} przez {2}", DateTime.Now.ToString("dd/MM/yyyy"), obj.Current.Name, obj.LoggedUser.DisplayName),
+                            IsBodyHtml = true
+                        };
+
+                        mail.BodyEncoding = UTF8Encoding.UTF8;
+                        mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+                        Mail.Send(mail, MailAccount.EVENT);
 
                         LogService.OrganizationLogs(SystemLog.OrganizationCreate, db, obj.Current.Name, obj.LoggedUser.Id);
 
