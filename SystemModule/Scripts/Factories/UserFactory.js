@@ -223,6 +223,9 @@
         return deferredObject.promise;
     };
 
+    var clearUser = function () {
+        currentUser = null;
+    }
 
     return {
         login: login,
@@ -236,7 +239,8 @@
         organizationDeleteMail: organizationDeleteMail,
         organizationNameChangesMail: organizationNameChangesMail,
         resetAdminPassword: resetAdminPassword,
-        getLoggedUser: getLoggedUser
+        getLoggedUser: getLoggedUser,
+        clearUser: clearUser
     }
 }
 
