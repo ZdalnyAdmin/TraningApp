@@ -46,17 +46,11 @@
         if (!training) {
             return;
         }
-
-        if (!$scope.Groups) {
-            return;
-        }
-
+        
         UtilitiesFactory.showSpinner();
 
         $scope.viewModel.Current = training;
-
         $scope.viewModel.Current.Groups = [];
-
         angular.forEach($scope.viewModel.Groups, function (val) {
             if (val.selected) {
                 $scope.viewModel.Current.Groups.push(val);

@@ -38,6 +38,9 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
         .when('/createTraning', {
             templateUrl: 'Main/CreateTraning'
         })
+        .when('/currentTraining', {
+            templateUrl: 'Main/EditTraning'
+        })
         .when('/editTraning', {
             templateUrl: 'Main/Tranings'
         })

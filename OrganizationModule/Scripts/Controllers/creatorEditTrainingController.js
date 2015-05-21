@@ -12,6 +12,7 @@
         .success(function (data) {
             $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
+            $scope.loadTraining();
         })
         .error(function () {
             $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
@@ -30,7 +31,6 @@
         $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
-            $scope.loadGroups();
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -38,7 +38,8 @@
             UtilitiesFactory.hideSpinner();
         });
     }
-    $scope.loadTraining();
+
+    $scope.loadGroups();
 
     $scope.loadImage = function (item) {
         $scope.$apply(function (scope) {

@@ -95,7 +95,7 @@ namespace OrganizationModule.Controllers.Api
                         break;
                     case TrainingManagmentActionType.GetExternal:
 
-                        obj.InternalTrainings = (from t in db.Trainings
+                        obj.ExternalTrainings = (from t in db.Trainings
                                                  where t.TrainingType == TrainingType.Kenpro
                                                  select t).ToList();
 
@@ -131,7 +131,7 @@ namespace OrganizationModule.Controllers.Api
                             {
                                 training.AssignedGroups = (from item in db.TrainingInGroups
                                                            join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
-                                                           where grp.Name != "Wszyscy"
+                                                           where grp.Name != "Wszyscy" && item.TrainingID == training.TrainingID
                                                            select new CommonDto
                                                            {
                                                                Name = grp.Name
