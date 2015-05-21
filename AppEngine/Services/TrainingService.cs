@@ -284,6 +284,7 @@ namespace AppEngine.Services
                         model.Current.PassResult = 80;
                         model.Details = new List<TrainingDetail>();
                         model.Questions = new List<TrainingQuestion>();
+                        model.Organizations = new List<Organization>();
 
                         if (isInternal)
                         {

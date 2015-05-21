@@ -36,6 +36,25 @@ namespace SystemModule.Controllers.Api
                     case BaseActionType.Get:
 
                         obj.Organizations = db.Organizations.OrderByDescending(x => x.CreateDate).ToList();
+
+                        if(obj.Organizations != null)
+                        {
+                            var currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
+                            currentDate = currentDate.AddHours(-72);
+                            foreach (var org in obj.Organizations)
+                            {
+                                if (String.IsNullOrEmpty(org.NewName))
+                                {
+                                    org.NewName = org.Name;
+                                }
+
+                                if (!org.ChangeNameDate.HasValue || org.ChangeNameDate.Value <= currentDate)
+                                {
+                                    org.NewName = org.Name;
+                                }
+                            }
+                        }
+
                         obj.Success = String.Empty;
 
                         break;
@@ -119,6 +138,24 @@ namespace SystemModule.Controllers.Api
                                              orderby t.CreateDate
                                              select t).ToList();
 
+                        if (obj.Organizations != null)
+                        {
+                            var currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
+                            currentDate = currentDate.AddHours(-72);
+                            foreach (var org in obj.Organizations)
+                            {
+                                if (String.IsNullOrEmpty(org.NewName))
+                                {
+                                    org.NewName = org.Name;
+                                }
+
+                                if (!org.ChangeNameDate.HasValue || org.ChangeNameDate.Value <= currentDate)
+                                {
+                                    org.NewName = org.Name;
+                                }
+                            }
+                        }
+
                         obj.Success = String.Empty;
 
                         break;
@@ -160,6 +197,11 @@ namespace SystemModule.Controllers.Api
                         }
 
                         var current = obj.Organizations.FirstOrDefault(x=>x.OrganizationID == obj.OrganizationID);
+
+                        if(String.IsNullOrEmpty(current.NewName))
+                        {
+                            current.NewName = current.Name;
+                        }
 
                         var protector = db.Users.FirstOrDefault(x=>x.Id == current.ProtectorID);
 

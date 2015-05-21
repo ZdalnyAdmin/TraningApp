@@ -59,7 +59,7 @@
 
     $scope.showOrganizationDetails = function (item, show) {
         item.showDetails = show;
-        item.NewName = item.Name;
+        $scope.NewName = item.NewName;
 
         if (!show) {
             return;
@@ -134,28 +134,45 @@
     }
 
     $scope.changeName = function (item) {
-        if (item.NewName === item.Name) {
-            return;
-        }
 
         $scope.current = item;
         $scope.viewModel.Current = item;
+
+        $scope.NewName = item.NewName;
 
         $scope.viewModel.ActionType = 1;
 
         var result = UserFactory.organizationNameChangesMail($scope.viewModel.Current);
 
+
+
         result.then(function (data) {
             if (data !== 'True') {
                 $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zmiany nazwy organizacji';
+            }
+            else {
+                UtilitiesFactory.showSpinner();
+                $scope.viewModel.ActionType = 2;
+                $scope.viewModel.OrganizationID = item.OrganizationID;
+
+                $scope.viewModel.Current.ChangeNameDate = new Date();
+
+                $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
+                    $scope.viewModel.Detail = data.Detail;
+                    $scope.viewModel.Success = "Email z prosba o zmiane nazwy zostal wyslany";
+                    UtilitiesFactory.hideSpinner();
+                })
+                .error(function () {
+                    $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas edycji organizacji';
+                    UtilitiesFactory.hideSpinner();
+                });
             }
         });
     }
 
     $scope.edit = function (item) {
-        if (item.NewName !== item.Name) {
-            return;
-        }
+
+        item.NewName = $scope.NewName;
 
         $scope.current = item;
         $scope.viewModel.Current = item;

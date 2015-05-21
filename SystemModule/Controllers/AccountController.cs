@@ -396,7 +396,7 @@ namespace SystemModule.Controllers
                     organization.UpdateSecurityStamp();
                     _db.SaveChanges();
 
-                    LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, _db, organization.Name, organization.DeletedUserID);
+                    //LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, _db, organization.Name, organization.DeletedUserID);
 
                 }
                 else
