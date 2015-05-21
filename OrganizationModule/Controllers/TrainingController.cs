@@ -118,8 +118,7 @@ namespace OrganizationModule.Controllers
                 trainingDetails.ForEach(x=> {
                     if (x.ResourceType == AppEngine.Models.DataObject.TrainingResource.Presentation)
                     {
-                        //x.InternalResource = string.Format(googleDocViewer, Request.Url.Scheme + "://" + Request.Url.Authority + x.InternalResource);
-                        x.InternalResource = string.Format(googleDocViewer, x.InternalResource);
+                        x.InternalResource = string.Format(googleDocViewer, Request.Url.Scheme + "://" + Request.Url.Authority + "/" + x.InternalResource.Replace("\\", "/"));
                     }
                 });
 
