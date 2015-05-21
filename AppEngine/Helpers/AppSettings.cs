@@ -73,7 +73,7 @@ namespace AppEngine.Helpers
                     size = System.Convert.ToDecimal((s1 / 1024f) / 1024f);
                 }
 
-                return destFile.Replace(domainPath, "");;
+                return destFile.Replace(domainPath, "");
             }
             catch (Exception ex)
             {
