@@ -83,7 +83,7 @@ namespace OrganizationModule.Controllers.Api
 
                             training.AssignedGroups = (from item in db.TrainingInGroups
                                                        join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
-                                                       where grp.Name != "Wszyscy"
+                                                       where grp.Name != "Wszyscy" && item.TrainingID == training.TrainingID
                                                        select new CommonDto
                                                        {
                                                            Name = grp.Name

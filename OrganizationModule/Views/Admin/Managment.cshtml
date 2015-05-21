@@ -30,18 +30,18 @@
                 <div id="mainText" ng-hide="{{ item.IsActive }}">
                     zablokowany
                 </div>
-                <div id="inputButto" ng-click="showLogs(item)" ng-hide="item.showLog">
+                <butto id="inputButto" ng-click="showLogs(item)" ng-hide="item.showLog">
                     POKAZ LOGI EDYCJI
-                </div>
-                <div id="inputButto" ng-click="hideLogs(item)" ng-show="item.showLog">
+                </butto>
+                <butto id="inputButto" ng-click="hideLogs(item)" ng-show="item.showLog">
                     UKRYJ LOGI EDYCJI
-                </div>
-                <div id="inputButto" ng-click="changeStatus(item)" ng-show="{{ item.IsActive }}">
+                </butto>
+                <button id="inputButto" ng-click="changeStatus(item)" ng-show="{{ item.IsActive }}">
                     ZABLOKUJ
-                </div>
-                <div id="inputButto" ng-click="changeStatus(item)" ng-hide="{{ item.IsActive }}">
+                </button>
+                <button id="inputButto" ng-click="changeStatus(item)" ng-hide="{{ item.IsActive }}">
                     ODBLOKUJ
-                </div>
+                </button>
             </div>
             <div id="simpleRow" ng-show="item.showLog">
                 <div ng-repeat="log in item.Logs">
@@ -70,17 +70,17 @@
                     {{group.Name}}, 
                 </div>
             </div>
-            <div id="inputButto" ng-click="showEdit = ! showEdit" ng-show="!showEdit">
+            <button ng-click="showEdit = ! showEdit" ng-show="!showEdit">
                 EDYTUJ
-            </div>
+            </button>
         </div>
         <div id="simpleRow" ng-show="showEdit">
             <div ng-repeat="item in viewModel.Groups">
                 <input type="checkbox" ng-model="item.selected" />{{item.Name}}
             </div>
-            <div id="inputButto" ng-click="edit(item)" ng-show="showEdit">
+            <button ng-click="edit(item)" ng-show="showEdit">
                 ZAPISZ ZMIANY
-            </div>
+            </button>
         </div>
     </div>
 </div>

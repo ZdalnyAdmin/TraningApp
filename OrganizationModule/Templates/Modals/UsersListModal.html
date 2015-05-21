@@ -5,8 +5,7 @@
     <div class="modal-body">
         <div>
             <div ng-repeat="user in viewModel.People" class="user-item">
-                <input type="checkbox" ng-model="user.selected" />
-                {{user.UserName}} ({{user.Email}})
+                <input type="checkbox" ng-model="user.selected" /> {{user.DisplayName}}, ({{user.Email}})
             </div>
         </div>
     </div>

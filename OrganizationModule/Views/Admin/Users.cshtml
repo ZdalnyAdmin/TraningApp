@@ -5,21 +5,21 @@
     <div ng-repeat="person in viewModel.People">
         <div id="simpleRow">
             <div id="mainText" ng-hide="person.isEditable">
-                {{ person.UserName }}
+                {{ person.DisplayName }}
             </div>
-            <input type="text" id="mainInput" name="person.UserName" ng-model="person.UserName" ng-show="person.isEditable">
-            <div id="inputButto" ng-hide="person.isEditable" ng-click="delete(person)">
+            <input type="text" id="mainInput" name="person.DisplayName" ng-model="person.DisplayName" ng-show="person.isEditable">
+            <button ng-hide="person.isEditable" ng-click="delete(person)">
                 USUN
-            </div>
-            <div id="inputButto" ng-hide="person.isEditable" ng-click="showEdit(person)">
+            </button>
+            <button  ng-hide="person.isEditable" ng-click="showEdit(person)">
                 EDYCJA
-            </div>
-            <div id="inputButto" ng-show="person.isEditable" ng-click="save(person)">
+            </button>
+            <button  ng-show="person.isEditable" ng-click="save(person)">
                 ZAPISZ
-            </div>
-            <div id="inputButto" ng-show="person.isEditable" ng-click="cancel(person)">
+            </button>
+            <button ng-show="person.isEditable" ng-click="cancel(person)">
                 ANULUJ ZMIANY
-            </div>
+            </button>
         </div>
         <div id="simpleRow">
             <div id="detailText" ng-hide="person.isEditable">
@@ -48,19 +48,19 @@
                 </div>
             </div>
             <div id="detailText">
-                {{ person.DisplayName }}
+                {{ person.UserName }}
             </div>
         </div>
         <div id="simpleRow">
             <div id="mainText">
                 Kursy ({{ person.TrainingNumber }})
             </div>
-            <div id="inputButto" ng-click="showDetails = ! showDetails" ng-show="!showDetails">
+            <button ng-click="showDetails = ! showDetails" ng-show="!showDetails">
                 POKAZ
-            </div>
-            <div id="inputButto" ng-click="showDetails = ! showDetails" ng-show="showDetails">
+            </button>
+            <button ng-click="showDetails = ! showDetails" ng-show="showDetails">
                 UKRYJ
-            </div>
+            </button>
         </div>
 
         <div id="simpleRow" ng-show="showDetails">
@@ -86,12 +86,12 @@
         </div>
 
     </div>
-    <div id="inputButto" ng-click="showDeleted = ! showDeleted" ng-show="!showDeleted">
+    <button  ng-click="showDeleted = ! showDeleted" ng-show="!showDeleted">
         POKAZ USUNIETE
-    </div>
-    <div id="inputButto" ng-click="showDeleted = ! showDeleted" ng-show="showDeleted">
+    </button>
+    <button  ng-click="showDeleted = ! showDeleted" ng-show="showDeleted">
         UKRYJ USUNIETE
-    </div>
+    </button>
 
     <div id="simpleRow" ng-show="showDeleted">
         <div id="mainText">
@@ -101,7 +101,7 @@
 
             <div id="simpleRow">
                 <div id="mainText">
-                    {{ person.Name }}
+                    {{ person.DisplayName }}
                 </div>
             </div>
             <div id="simpleRow">
