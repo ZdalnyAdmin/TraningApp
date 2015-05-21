@@ -101,8 +101,7 @@ namespace SystemModule.Controllers.Api
                     case PeopleActionType.GetAdministrators:
                         obj.Current = new Person();
 
-                        obj.People = db.Users.Where(x => x.Profile == ProfileEnum.Administrator && !x.IsDeleted).OrderByDescending(p => p.RegistrationDate).ToList();
-
+                        obj.People = db.Users.Where(x => x.Profile == ProfileEnum.Superuser && (x.Status == StatusEnum.Active || x.Status == StatusEnum.Blocked)).OrderByDescending(p => p.RegistrationDate).ToList();
 
                         obj.Success =String.Empty;
                         break;

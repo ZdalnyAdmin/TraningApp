@@ -56,31 +56,30 @@
                 </div>
             </div>
         </div>
-        <div ng-repeat="item in viewModel.ExternalTrainings" ng-show="index  == 2">
-            <div id="simpleRow">
-                <div id="mainText">
-                    {{ item.Name }}
+    </div>
+    <div ng-repeat="item in viewModel.ExternalTrainings" ng-show="index  == 2">
+        <div id="simpleRow">
+            <div id="mainText">
+                {{ item.Name }}
+            </div>
+        </div>
+        <div id="simpleRow">
+            <div id="mainText">
+                Dostepne dla :
+                <div ng-repeat="group in item.AssignedGroups">
+                    {{group.Name}}, 
                 </div>
             </div>
-            <div id="simpleRow">
-                <div id="mainText">
-                    Dostepne dla : 
-                    <div ng-repeat="group in item.AssignedGroups">
-                        <input type="checkbox" ng-model="item.selected" />{{group.Name}}
-                    </div>
-
-                </div>
-                <div id="inputButto" ng-click="showEdit = ! showEdit" ng-show="!showEdit">
-                    EDYTUJ
-                </div>
+            <div id="inputButto" ng-click="showEdit = ! showEdit" ng-show="!showEdit">
+                EDYTUJ
             </div>
-            <div id="simpleRow" ng-show="showEdit">
-                <div ng-repeat="item in Groups">
-                    <input type="checkbox" ng-model="item.selected" />{{item.Name}}
-                </div>
-                <div id="inputButto" ng-click="edit(item)" ng-show="showEdit">
-                    ZAPISZ ZMIANY
-                </div>
+        </div>
+        <div id="simpleRow" ng-show="showEdit">
+            <div ng-repeat="item in viewModel.Groups">
+                <input type="checkbox" ng-model="item.selected" />{{item.Name}}
+            </div>
+            <div id="inputButto" ng-click="edit(item)" ng-show="showEdit">
+                ZAPISZ ZMIANY
             </div>
         </div>
     </div>
