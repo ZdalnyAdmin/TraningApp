@@ -36,6 +36,9 @@ namespace OrganizationModule
                 "~/Content/Trainings/training-list.css",
                 "~/Content/Trainings/active-training.css"));
 
+            bundles.Add(new StyleBundle("~/Results").Include(
+                "~/Content/Trainings/user-result.css"));
+
             bundles.Add(new StyleBundle("~/Login").Include(
                 "~/Content/Login/login.css"));
 

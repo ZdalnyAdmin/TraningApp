@@ -1,0 +1,74 @@
+﻿.course-result{
+    margin-bottom:30px;
+    font-family: 'Archivo Narrow', sans-serif;
+}
+.course-result .row{
+    margin-bottom:30px;
+}
+.course-result .second-row span{
+    padding-bottom:15px;
+}
+.course-result span{
+    display:block;
+    color:#436DAA ;
+}
+.course-result strong{
+    font-size:24px;
+}
+.course-result h2{
+    text-align:left;
+    border-bottom:1px solid #fff;
+    padding-bottom:10px;
+}
+.course-result .points div{
+    font-size:24px;
+}
+.course-result .points div.percent{
+    font-size:60px;
+    color:#ff7878;
+}
+.course-result.passed .points div.percent{
+    color:#6dffaa;
+}
+.course-result .skills div{
+    color:#ff7878;
+}
+.course-result.passed .skills div{
+    color:#fff;
+}
+
+
+#manager-courses-result table{
+    width:100%;
+    margin-top:30px;
+    min-width:450px;
+}
+#manager-courses-result table th, #manager-courses-result table td{
+    padding:5px;
+}
+#manager-courses-result table tr th{
+    color:#436DAA;
+}
+#manager-courses-result table tr div{
+    float:left;
+    width:50%;
+}
+#manager-courses-result .selects label{
+    font-weight:400;
+}
+#manager-courses-result tr .points span{
+    color:#ff7878;
+}
+#manager-courses-result tr.passed .points span{
+    color:#6dffaa;
+}
+@media screen and (max-width: 767px) {
+    #manager-courses-result table tr th div{
+        width:auto;
+        padding-right:10px;
+    }
+    #manager-courses-result table tr td div{
+        width:100%;
+        float:none; 
+    }
+}

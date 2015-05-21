@@ -3,9 +3,10 @@
 }
 #user-settings span{
     display:block;
-    color:#436DAA ;
+    color:#3770dd;
 }
 #user-settings strong{
+    color:#1e2850;
     font-size:24px;
 }
 #user-settings h2{
@@ -18,7 +19,7 @@
     padding-bottom:10px;
 }
 #user-settings .admin-emails a{
-    color:#6dffaa;
+    color:#1e2850;
 }
 #user-settings .account-settings .row div:not(.delete-account) button:not(.cancel-button){
     width:100%;

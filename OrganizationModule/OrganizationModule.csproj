@@ -213,6 +213,7 @@
     <Content Include="Assets\Marks\All\Marlenka.png" />
     <Content Include="Content\Login\login.css" />
     <Content Include="Content\Menu\menu.css" />
+    <Content Include="Content\Results\user-result.css" />
     <Content Include="Content\Settings\user-settings.css" />
     <Content Include="Content\Trainings\active-training.css" />
     <Content Include="Content\Trainings\training-list.css" />

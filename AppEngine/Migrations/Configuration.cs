@@ -25,7 +25,7 @@
                 context.Users.Add(new Person()
                 {
                     Id = "9154c72e-a195-4a70-8de2-61927df9bd9d",
-                    Email = "email@mail.pl",
+                    Email = "admin@kenpro.pl",
                     PasswordHash = "AGE09SnBYFYs5KB409zx1/T5mIf6Z1gef2QD6mMyr8DIYtpyMtT9vMYWP/Mpyj7JgQ==", // Admin1!
                     SecurityStamp = "fd2e32d1-5280-48d4-8963-57f48b35dbd7",
                     TwoFactorEnabled = true,

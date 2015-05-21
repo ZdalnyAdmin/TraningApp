@@ -1,6 +1,5 @@
 ﻿body{
-    background:#283759;
-    color:#fff;
+    background:#f1f1f1;
     font-family: 'PT Sans', sans-serif;
 }
 
@@ -22,7 +21,9 @@
     top:70px;
 }
 .navy-cloud{
-    background-color:#141932;
+    background-color:#283769;
+    color:#fff;
+    opacity:0.8;
     padding:10px;
     
 }
@@ -49,18 +50,22 @@
 h1{
     font-size:48px;
     text-align:center;
+    color:#1e2850;
 }
 h2{
     font-size:30px;
     text-align:center;
+    color:#1e2850;
 }
 h3{
     font-size:24px;
     text-align:center;
+    color:#1e2850;
 }
 h4{
     font-size:21px;
     text-align:center;
+    color:#1e2850;
 }
 /*****************/
 /******TEKSTY*****/
@@ -121,31 +126,38 @@ h4{
 }
 
 .green-button{
-    background:#55ee99;
+    background:#009aaf;
     color:#141932;
 }
 .green-button:hover{
-    background:#83ffbb;
+    background:#00a5bc;
 }
 .blue-button{
-    background:#436DAA;
+    background:#3770dd;
     color:#fff;
 }
 .blue-button:hover{
-    background:#436DAA;
+    background:#3a76ea;
 }
-.empty-button{
-    background:none;
-    border:1px solid #436DAA;
-}
-.empty-button{
-    background:none;
-    border:1px solid #436DAA;
+.purple-button{
+    background:#912A4F;
     color:#fff;
+}
+.purple-button:hover{
+    background:#912a4f;
+}
+.empty-button{
+    background:none;
+    border:1px solid #436DAA;
+}
+.empty-button{
+    background:none;
+    border:1px solid #3770dd;
+    color:#3770dd;
 }
 .empty-button:hover{
-    border:1px solid #4F86C6;
-    color:#fff;
+    border:1px solid #3a76ea;
+    color:#3a76ea;
 }
 
 /*****************/
