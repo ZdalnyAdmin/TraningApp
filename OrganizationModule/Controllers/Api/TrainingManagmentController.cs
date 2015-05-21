@@ -90,7 +90,7 @@ namespace OrganizationModule.Controllers.Api
                                                        }).ToList();
                         }
 
-                        obj.Success = "Dane wczytane!";
+                        obj.Success = String.Empty;
 
                         break;
                     case TrainingManagmentActionType.GetExternal:
@@ -139,7 +139,7 @@ namespace OrganizationModule.Controllers.Api
                             }
                         }
 
-                        obj.Success = "Dane wczytane!";
+                        obj.Success = String.Empty;
 
                         break;
                     case TrainingManagmentActionType.GetSettings:

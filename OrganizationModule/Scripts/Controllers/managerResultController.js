@@ -7,7 +7,7 @@
         viewModel.ActionType = 4;
         $http.post('/api/Training/', viewModel).success(function (data) {
             $scope.Trainings = data.Trainings;
-            $scope.success = "Dane wczytane!";
+            $scope.success = "";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -22,7 +22,7 @@
         viewModel = {};
         viewModel.ActionType = 0;
         $http.post('/api/Person/', viewModel).success(function (data) {
-            $scope.success = "Dane wczytane!";
+            $scope.success = "";
             $scope.viewModel = data.People;
             UtilitiesFactory.hideSpinner();
         })
@@ -35,7 +35,7 @@
     $scope.loadResults = function () {
         UtilitiesFactory.showSpinner();
         $http.get('/api/TraningsResult/').success(function (data) {
-            $scope.success = "Dane wczytane!";
+            $scope.success = "";
             $scope.Results = data;
             $scope.DbResult = data;
             UtilitiesFactory.hideSpinner();

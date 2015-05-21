@@ -7,7 +7,7 @@
         $http.get('/api/OperationLog/').success(function (data) {
 
             $scope.OperationTypes = data;
-            $scope.success = "Dane wczytane!";
+            $scope.success = "";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -24,7 +24,7 @@
         $http.get('/api/Logs').success(function (data) {
             $scope.Logs = data;
             $scope.DbLogs = data;
-            $scope.success = "Dane wczytane!";
+            $scope.success = "";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {

@@ -171,7 +171,7 @@ namespace AppEngine.Services
                         model.Current.CreateUserID = model.LoggedUser.Id;
 
                         model.Current.IsDeleted = false;
-                        model.Current.IsActive = false;
+                        model.Current.IsActive = true;
                         if (String.IsNullOrEmpty(model.Current.TrainingResources))
                         {
                             model.Current.TrainingResources = @"Assets\Image\main_image.png";
@@ -343,7 +343,7 @@ namespace AppEngine.Services
                             }
                         }
 
-                        model.Success = "Pobranie szkolenia zakonczylo sie sukcesem!";
+                        model.Success = String.Empty;
 
                         break;
                     case BaseActionType.GetExtData:
@@ -363,7 +363,7 @@ namespace AppEngine.Services
                                             select g).ToList();
                         }
 
-                        model.Success = "Pobranie szkolenia zakonczylo sie sukcesem!";
+                        model.Success = String.Empty;
 
                         break;
 
@@ -408,7 +408,7 @@ namespace AppEngine.Services
                             model.Current.Organizations = model.Organizations;
                         }
 
-                        model.Success = "Pobranie szkolenia zakonczylo sie sukcesem!";
+                        model.Success = String.Empty;
 
                         break;
 
@@ -461,7 +461,7 @@ namespace AppEngine.Services
                             }
                         }
 
-                        model.Success = "Pobranie szkolenia zakonczylo sie sukcesem!";
+                        model.Success = String.Empty;
 
                         model.InternalTrainings.AddRange(collection);
 

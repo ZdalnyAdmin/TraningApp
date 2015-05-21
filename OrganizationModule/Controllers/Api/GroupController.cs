@@ -82,7 +82,7 @@ namespace OrganizationModule.Controllers
                                                 select p).ToList();
                         }
 
-                        obj.Success = "Dane wczytane!";
+                        obj.Success = String.Empty;
 
                         break;
                     case BaseActionType.Delete:

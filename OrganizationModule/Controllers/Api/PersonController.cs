@@ -94,7 +94,7 @@ namespace OrganizationModule.Controllers
                                                  where t.IsDeleted
                                                  select t).ToList();
 
-                            obj.Success = "Dane wczytane!";
+                            obj.Success = String.Empty;
                             break;
                         case BaseActionType.Delete:
 

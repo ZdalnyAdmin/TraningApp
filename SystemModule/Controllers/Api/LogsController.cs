@@ -53,7 +53,7 @@ namespace SystemModule.Controllers.Api
                 index++;
             }
             //return descs;
-            obj.Success = "Dane wczytane!";
+            obj.Success = String.Empty;
 
             var list = new List<LogsViewModel>();
             list.Add(obj);

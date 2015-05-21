@@ -36,7 +36,7 @@ namespace SystemModule.Controllers.Api
                     case BaseActionType.Get:
 
                         obj.Organizations = db.Organizations.OrderByDescending(x => x.CreateDate).ToList();
-                        obj.Success = "Dane wczytane!";
+                        obj.Success = String.Empty;
 
                         break;
                     case BaseActionType.Delete:
@@ -119,7 +119,7 @@ namespace SystemModule.Controllers.Api
                                              orderby t.CreateDate
                                              select t).ToList();
 
-                        obj.Success = "Dane wczytane!";
+                        obj.Success = String.Empty;
 
                         break;
                     case BaseActionType.GetExtData:
@@ -187,7 +187,7 @@ namespace SystemModule.Controllers.Api
                         obj.Detail.UsedSpaceDisk = trainings.Sum(x=>x.FileSize);
                         //todo details
 
-                        obj.Success = "Dane szczegolowe pobrane!";
+                        obj.Success = String.Empty;
 
                         break;
                     case BaseActionType.GetSpecial:
@@ -211,7 +211,7 @@ namespace SystemModule.Controllers.Api
                                                Name = t.Name
                                            }).ToList();
 
-                        obj.Success = "Dane wczytane!";
+                        obj.Success = String.Empty;
                         break;
                     default:
                         break;

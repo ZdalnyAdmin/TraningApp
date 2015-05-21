@@ -42,7 +42,7 @@ namespace SystemModule.Controllers.Api
 
                         obj.People = items;
 
-                        obj.Success = "Dane wczytane!";
+                        obj.Success = String.Empty;
 
                         break;
                     case PeopleActionType.DeleteProtector:
@@ -104,7 +104,7 @@ namespace SystemModule.Controllers.Api
                         obj.People = db.Users.Where(x => x.Profile == ProfileEnum.Administrator && !x.IsDeleted).OrderByDescending(p => p.RegistrationDate).ToList();
 
 
-                        obj.Success = "Dane wczytane!";
+                        obj.Success =String.Empty;
                         break;
                     default:
                         break;

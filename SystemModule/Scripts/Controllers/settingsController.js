@@ -5,7 +5,7 @@
         UtilitiesFactory.showSpinner();
         $http.post('/api/Settings', $scope.current).success(function (data) {
             $scope.current = data;
-            $scope.success = "Dane wczytane!";
+            $scope.success = "";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {

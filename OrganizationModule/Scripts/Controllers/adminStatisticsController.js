@@ -5,7 +5,7 @@
         //Used to display the data 
         $http.get('/api/Statistics').success(function (data) {
             $scope.Statistic = data;
-            $scope.success = "Dane wczytane!";
+            $scope.success = "";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -19,7 +19,7 @@
         //Used to display the data 
         $http.get('/api/Training').success(function (data) {
             $scope.Trainings = data;
-            $scope.success = "Dane wczytane!";
+            $scope.success = "";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -34,7 +34,7 @@
         //Used to display the data 
         $http.get('/api/Settings').success(function (data) {
             $scope.Trainings = data;
-            $scope.success = "Dane wczytane!";
+            $scope.success = "";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
