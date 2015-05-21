@@ -140,7 +140,7 @@ OrganizationModuleApp.run(['$rootScope', '$location', 'UtilitiesFactory', '$temp
     $rootScope.$on('$routeChangeSuccess', function () {
         //hide loading gif
         UtilitiesFactory.hideSpinner();
-        var currentPageTemplate = $route.current.templateUrl;
+        var currentPageTemplate = $route.current.loadedTemplateUrl;
         $templateCache.remove(currentPageTemplate);
     });
     $rootScope.$on('$routeChangeError', function () {

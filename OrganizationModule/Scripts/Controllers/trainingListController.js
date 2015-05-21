@@ -1,4 +1,4 @@
-﻿function trainingListController($scope, $http, $rootScope, $modal) {
+﻿function trainingListController($scope, $http, $rootScope, $modal, $location) {
     $scope.display = 'All';
 
     var trainings = angular.element.find('.training');
@@ -49,6 +49,7 @@
         success(function (data) {
             if (data.Succeeded) {
                 $rootScope.$broadcast('reloadMenu');
+                $location.path('/ActiveTraining/' + trainingID);
             } else {
                 message = data.Errors.join();
 
@@ -75,4 +76,4 @@
     };
 }
 
-trainingListController.$inject = ['$scope', '$http', '$rootScope', '$modal'];
+trainingListController.$inject = ['$scope', '$http', '$rootScope', '$modal', '$location'];
