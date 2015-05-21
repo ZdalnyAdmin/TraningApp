@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Text;
 using System.Web.Http;
 
 namespace SystemModule.Controllers.Api
@@ -35,21 +36,29 @@ namespace SystemModule.Controllers.Api
                     case BaseActionType.Get:
 
                         obj.Organizations = db.Organizations.OrderByDescending(x => x.CreateDate).ToList();
+                        obj.Success = "Dane wczytane!";
 
                         break;
                     case BaseActionType.Delete:
 
-                        obj.Current.IsDeleted = true;
+                        obj.Current.IsDeleted = false;
                         obj.Current.DeletedUserID = obj.LoggedUser.Id;
-                        obj.Current.DeletedDate = DateTime.Now;
+                        obj.Current.Status = OrganizationEnum.Hidden;
                         db.Entry(obj.Current).State = EntityState.Modified;
                         db.SaveChanges();
+
+                        var deleted = obj.Organizations.FirstOrDefault(x => x.OrganizationID == obj.Current.OrganizationID);
+                        deleted.Status = OrganizationEnum.Hidden;
+
+                        obj.Success = "Organizacja usunieta!";
 
                         break;
                     case BaseActionType.Edit:
 
                         db.Entry(obj.Current).State = EntityState.Modified;
                         db.SaveChanges();
+
+                        obj.Success = "Dane organizacji zostaly zmienione!";
 
                         break;
                     case BaseActionType.Add:
@@ -82,10 +91,25 @@ namespace SystemModule.Controllers.Api
                             }
                         }
 
+                        MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "(do not reply)"),
+                        new MailAddress("admin@kenis.pl"))
+                        {
+                            Subject = "Utworzenie organizacji",
+                            Body = string.Format("W dniu {0} została utworzona nowa organizacja {1} przez {2}", DateTime.Now.ToString("dd/MM/yyyy"), obj.Current.Name, obj.LoggedUser.DisplayName),
+                            IsBodyHtml = true
+                        };
+
+                        mail.BodyEncoding = UTF8Encoding.UTF8;
+                        mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+                        Mail.Send(mail, MailAccount.EVENT);
+
                         LogService.OrganizationLogs(SystemLog.OrganizationCreate, db, obj.Current.Name, obj.LoggedUser.Id);
 
                         obj.ActionType = BaseActionType.GetExtData;
                         Post(obj);
+
+                        obj.Success = "Organizacja zostala zapisana!";
 
                         break;
                     case BaseActionType.GetSimple:
@@ -94,6 +118,8 @@ namespace SystemModule.Controllers.Api
                         obj.Organizations = (from t in db.Organizations
                                              orderby t.CreateDate
                                              select t).ToList();
+
+                        obj.Success = "Dane wczytane!";
 
                         break;
                     case BaseActionType.GetExtData:
@@ -161,6 +187,8 @@ namespace SystemModule.Controllers.Api
                         obj.Detail.UsedSpaceDisk = trainings.Sum(x=>x.FileSize);
                         //todo details
 
+                        obj.Success = "Dane szczegolowe pobrane!";
+
                         break;
                     case BaseActionType.GetSpecial:
                         obj.Protector = new Person();
@@ -183,6 +211,7 @@ namespace SystemModule.Controllers.Api
                                                Name = t.Name
                                            }).ToList();
 
+                        obj.Success = "Dane wczytane!";
                         break;
                     default:
                         break;

@@ -90,6 +90,7 @@ namespace OrganizationModule.Controllers.Api
                                                        }).ToList();
                         }
 
+                        obj.Success = "Dane wczytane!";
 
                         break;
                     case TrainingManagmentActionType.GetExternal:
@@ -137,6 +138,8 @@ namespace OrganizationModule.Controllers.Api
                                                            }).ToList();
                             }
                         }
+
+                        obj.Success = "Dane wczytane!";
 
                         break;
                     case TrainingManagmentActionType.GetSettings:
@@ -193,6 +196,9 @@ namespace OrganizationModule.Controllers.Api
                         obj.ExternalTrainings = obj.ExternalTrainings.OrderBy(x => x.CreateDate).ToList();
 
                         obj.Current = new Training();
+
+                        obj.Success = "Dane zapisane!";
+
                         break;
                     default:
                         break;

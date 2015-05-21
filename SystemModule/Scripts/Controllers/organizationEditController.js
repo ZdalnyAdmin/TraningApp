@@ -65,13 +65,17 @@
             return;
         }
 
+        if (item.Status !== 1) {
+            return;
+        }
+
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 6;
         $scope.viewModel.OrganizationID = item.OrganizationID;
 
         $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
             $scope.viewModel.Detail = data.Detail;
-
+            $scope.viewModel.Success = data.Success;
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -96,9 +100,15 @@
         });
 
         modalInstance.result.then(function (selectedReason) {
-            if (!!selectedReason.Text) {
+            if (!!selectedReason) {
+                if (!selectedReason.Text) {
+                    selectedReason.Text = '';
+                }
+
 
                 $scope.viewModel.ActionType = 1;
+
+                UtilitiesFactory.showSpinner();
 
                 $scope.viewModel.Current.DeletedReason = selectedReason.Text;
                 $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
@@ -112,9 +122,12 @@
                         }
                     });
 
+                    UtilitiesFactory.hideSpinner();
+
                 })
                 .error(function () {
                     $scope.viewModel.ErrorMessage = "Wystąpił nieoczekiwany błąd podczas usuniecia organizacji";
+                    UtilitiesFactory.hideSpinner();
                 });
             }
         });
@@ -136,6 +149,29 @@
             if (data !== 'True') {
                 $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zmiany nazwy organizacji';
             }
+        });
+    }
+
+    $scope.edit = function (item) {
+        if (item.NewName !== item.Name) {
+            return;
+        }
+
+        $scope.current = item;
+        $scope.viewModel.Current = item;
+
+        UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 2;
+        $scope.viewModel.OrganizationID = item.OrganizationID;
+
+        $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
+            $scope.viewModel.Detail = data.Detail;
+            $scope.viewModel.Success = data.Success;
+            UtilitiesFactory.hideSpinner();
+        })
+        .error(function () {
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas edycji organizacji';
+            UtilitiesFactory.hideSpinner();
         });
     }
 }

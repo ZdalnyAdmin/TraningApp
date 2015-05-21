@@ -33,6 +33,7 @@ namespace AppEngine.Helpers
 
             return id;
         }
+
         public static bool CheckAccess(MethodBase method, ProfileEnum profile)
         {
             var attributes = method.GetCustomAttributes(typeof(AccessAttribute), true);
@@ -55,30 +56,54 @@ namespace AppEngine.Helpers
                     return profile == ProfileEnum.Superuser;
 
                 case ProfileEnum.Protector:
-                    return profile == ProfileEnum.Superuser ||
-                           profile == ProfileEnum.Protector;
+                    return profile == ProfileEnum.Protector;
 
                 case ProfileEnum.Administrator:
-                    return profile == ProfileEnum.Superuser ||
-                           profile == ProfileEnum.Administrator ||
+                    return profile == ProfileEnum.Administrator ||
                            profile == ProfileEnum.Protector;
 
                 case ProfileEnum.Manager:
-                    return profile == ProfileEnum.Superuser ||
-                           profile == ProfileEnum.Administrator ||
+                    return profile == ProfileEnum.Administrator ||
                            profile == ProfileEnum.Manager ||
                            profile == ProfileEnum.Protector;
 
                 case ProfileEnum.Creator:
-                    return profile == ProfileEnum.Superuser ||
-                           profile == ProfileEnum.Administrator ||
+                    return profile == ProfileEnum.Administrator ||
                            profile == ProfileEnum.Creator ||
                            profile == ProfileEnum.Manager ||
                            profile == ProfileEnum.Protector;
 
                 case ProfileEnum.User:
                 default:
-                    return true;
+                    return profile != ProfileEnum.Superuser;
+            }
+        }
+
+        public static string GetMailFrom(MailAccount account)
+        {
+            switch (account)
+            {
+                case MailAccount.REGISTER:
+                    return AppSettings.Setting<string>("registerMail");
+
+                case MailAccount.INVITATION:
+                    return AppSettings.Setting<string>("invitationMail");
+
+                case MailAccount.ACTIVATION:
+                    return AppSettings.Setting<string>("activationMail");
+
+                case MailAccount.EVENT:
+                    return AppSettings.Setting<string>("eventMail");
+
+                case MailAccount.CONFIRMATION:
+                    return AppSettings.Setting<string>("confirmationMail");
+
+                case MailAccount.DELETE:
+                    return AppSettings.Setting<string>("deleteMail");
+
+                case MailAccount.ADMIN:
+                default:
+                    return AppSettings.Setting<string>("adminMail");
             }
         }
     }

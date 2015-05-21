@@ -189,6 +189,7 @@
     $scope.save = function () {
         //check conditions
         if (!$scope.viewModel.Current.Name) {
+            $scope.viewModel.ErrorMessage = "Nalezy podac nazwe szkolenia";
             return;
         }
 

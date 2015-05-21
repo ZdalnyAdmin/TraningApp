@@ -1,4 +1,5 @@
 ﻿using AppEngine;
+using AppEngine.Helpers;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
@@ -11,6 +12,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -58,6 +61,16 @@ namespace SystemModule.Controllers
         [AllowAnonymous]
         public async Task<bool> Login(LoginViewModel model)
         {
+            var person = _db.Users.Where(x => x.UserName == model.Email &&
+                                                  !x.IsDeleted &&
+                                                  x.Status == StatusEnum.Active &&
+                                                  x.Profile == ProfileEnum.Superuser).FirstOrDefault();
+
+            if (person == null)
+            {
+                return false;
+            }
+
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
             switch (result)
             {
@@ -143,12 +156,13 @@ namespace SystemModule.Controllers
                         _db.SaveChanges();
 
                         var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                        var organizationModulePath = AppSettings.Setting<string>("organizationModulePath");
 
                         UserManager.SendEmailAsync(user.Id,
                             "Zaproszenie Kenpro",
                            "Zakończyłeś zaproszony do organizacji:" + (organization != null ? organization.Name : string.Empty)
                            + "<br/>Zaproszenie zostało wysłane przez: " + (logged != null ? logged.UserName : string.Empty)
-                           + "<br/><br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/register?id=" + user.Id + "&code=" + code + "\">Link</a>");
+                           + "<br/><br/><a href=\"" + organizationModulePath + "/register?id=" + user.Id + "&code=" + code + "\">Link</a>");
 
                         LogService.ProtectorLogs(SystemLog.ProtectorInvitation, _db, organization.Name, user.InviterID);
                     }
@@ -312,12 +326,21 @@ namespace SystemModule.Controllers
 
                 var code = Url.Encode(organization.GenerateToken("DELETE"));
 
-                await UserManager.SendEmailAsync(model.CreateUserID,
-                    "USUNIECIE ORGANIZACJI POTWIERDZENIE",
-                           "Nazwa : " + model.Name + " została zgłoszona do usunięcia."
+                MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "(do not reply)"),
+                                   new MailAddress("usun@kenpro.pl"))
+                {
+                    Subject = "USUNIECIE ORGANIZACJI POTWIERDZENIE",
+                    Body = "Nazwa : " + model.Name + " została zgłoszona do usunięcia."
                            + "<br/>Powód : " + model.DeletedReason
                            + "<br/>Jeśli chcesz ją usunać wcisnij link" 
-                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/deleteOrganization?code=" + code + "&id=" + organization.OrganizationID + "\">LINK</a>");
+                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/deleteOrganization?code=" + code + "&id=" + organization.OrganizationID + "\">LINK</a>",
+                    IsBodyHtml = true
+                };
+
+                mail.BodyEncoding = UTF8Encoding.UTF8;
+                mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+                Mail.Send(mail, MailAccount.EVENT);
             }
             catch (Exception ex)
             {
@@ -405,11 +428,21 @@ namespace SystemModule.Controllers
 
                 var code = Url.Encode(organization.GenerateToken("CHANGE"));
 
-                await UserManager.SendEmailAsync(model.CreateUserID,
-                    "POTWIERDZENIE ZMIANY NAZWY ORGANIZACJI",
-                           "Nazwa : " + model.Name + " została zmieniona na " + model.NewName
-                           + " Jeśli zmiana ma być zapisana i aktywowana naciśnij link."
-                           + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/changeOrganizationName?code=" + code + "&id=" + organization.OrganizationID +"\">LINK</a>");
+                MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "(do not reply)"),
+                                   new MailAddress("zmiana@kenpro.pl"))
+                                                    {
+                                                        Subject = "POTWIERDZENIE ZMIANY NAZWY ORGANIZACJI",
+                                                        Body = "Nazwa : " + model.Name + " została zmieniona na " + model.NewName
+                                                               + " Jeśli zmiana ma być zapisana i aktywowana naciśnij link."
+                                                               + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/changeOrganizationName?code=" + code + "&id=" + organization.OrganizationID +"\">LINK</a>",
+                                                        IsBodyHtml = true
+                                                    };
+
+                mail.BodyEncoding = UTF8Encoding.UTF8;
+                mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+                Mail.Send(mail, MailAccount.EVENT);
+
             }
             catch (Exception ex)
             {

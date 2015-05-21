@@ -13,5 +13,6 @@ namespace AppEngine.ViewModels
         public List<AppLog> Logs { get; set; }
         public List<AppLog> DisplayLogs { get; set; }
         public List<EnumData> Criteria { get; set; }
+        public string Success { get; set; }
     }
 }

@@ -28,6 +28,7 @@
 
         $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
             $scope.viewModel.Current.CreateUserID = $scope.viewModel.LoggedUser.Id;
+            $scope.viewModel.Success = data.Success;
             var result = UserFactory.organizationCreateMail($scope.viewModel.Current);
 
             $scope.viewModel = data;

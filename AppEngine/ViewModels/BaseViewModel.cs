@@ -8,6 +8,7 @@ namespace AppEngine.ViewModels
         public Person LoggedUser { get; set; }
         public Organization CurrentOrganization { get; set; }
         public string ErrorMessage { get; set; }
+        public string Success { get; set; }
         public BaseActionType ActionType { get; set; }
     }
 }

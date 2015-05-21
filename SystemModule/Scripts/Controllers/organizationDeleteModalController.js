@@ -7,10 +7,7 @@
     };
 
     $scope.save = function () {
-        if ($scope.selectedReason.Text) {
-            $modalInstance.close($scope.selectedReason);
-        }
-        $modalInstance.close();
+        $modalInstance.close($scope.selectedReason);
     };
 };
 

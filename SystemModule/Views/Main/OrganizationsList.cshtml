@@ -1,6 +1,7 @@
 ﻿<div ng-app="" ng-controller="organizationEditController" class="container">
 
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
+    <strong class="error">{{ viewModel.Success }}</strong>
 
 
     <div ng-repeat="item in viewModel.Organizations">
@@ -72,6 +73,7 @@
                     Maksymalna liczba użytkowników
                     <input type="text" name="item.MaxAssignedUser" ng-model="item.MaxAssignedUser" />
                 </div>
+                <button ng-click="edit(item)">Zapisz zamiany</button>
                 <div>
                     Czy chcesz usunąć ?
                     <button ng-click="delete(item)">USUN</button>
