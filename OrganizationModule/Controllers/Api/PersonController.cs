@@ -56,6 +56,10 @@ namespace OrganizationModule.Controllers
                                           select p).ToList();
 
 
+                            var groups = (from gio in db.Groups
+                                          join g in db.GroupsInOrganizations on gio.ProfileGroupID equals g.ProfileGroupID
+                                          select gio).ToList();
+
 
 
                             foreach (var p in people)
@@ -64,25 +68,23 @@ namespace OrganizationModule.Controllers
                                                        where t.PersonID == p.Id
                                                        select new TrainingDto
                                                        {
-                                                          Id= t.TrainingID,
-                                                          StartDate = t.StartDate.Value,
-                                                          EndDate = t.EndDate,
-                                                          Result = t.Rating
+                                                           Id = t.TrainingID,
+                                                           StartDate = t.StartDate.Value,
+                                                           EndDate = t.EndDate,
+                                                           Result = t.Rating
                                                        }).ToList();
 
                                 p.AssignedGroups = (from pg in db.PeopleInGroups
-                                                    join g in db.Groups on pg.ProfileGroupID equals g.ProfileGroupID
                                                     where pg.PersonID == p.Id
-                                                    select new ProfileGroup2Person
-                                                    {
-                                                        ProfileGroupID = pg.ProfileGroupID,
-                                                        PersonID = pg.PersonID,
-                                                        ProfileGroup2PersonID = pg.ProfileGroup2PersonID,
-                                                        GroupName = g.Name,
-                                                        IsDeleted = false
-                                                    }).ToList();
+                                                    select pg).ToList();
 
-
+                                if (p.AssignedGroups != null)
+                                {
+                                    foreach (var grp in p.AssignedGroups)
+                                    {
+                                        grp.GroupName = groups.FirstOrDefault(x => x.ProfileGroupID == grp.ProfileGroupID).Name;
+                                    }
+                                }
                             }
 
 
@@ -94,7 +96,7 @@ namespace OrganizationModule.Controllers
                                                  where t.IsDeleted
                                                  select t).ToList();
 
-                            obj.Success = "Dane wczytane!";
+                            obj.Success = String.Empty;
                             break;
                         case BaseActionType.Delete:
 
@@ -124,7 +126,6 @@ namespace OrganizationModule.Controllers
                                           && (p.Profile == ProfileEnum.User || p.Profile == ProfileEnum.Creator || p.Profile == ProfileEnum.Administrator || p.Profile == ProfileEnum.Manager)
                                           orderby p.RegistrationDate
                                           select p).ToList();
-                            obj.Success = "Dane zapisane!";
                             break;
                         default:
                             break;

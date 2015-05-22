@@ -74,6 +74,11 @@ namespace SystemModule.Controllers
             return View();
         }
 
+        public ActionResult EditTraning()
+        {
+            return View();
+        }
+
         public ActionResult CreateProtectorRole()
         {
             return View();

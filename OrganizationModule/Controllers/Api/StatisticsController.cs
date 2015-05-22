@@ -1,4 +1,5 @@
-﻿using AppEngine.Models.DataBusiness;
+﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,27 @@ namespace OrganizationModule.Controllers.Api
         [HttpGet]
         public Statistic Get()
         {
-            //get from correct profil
             var stats = new Statistic();
-            stats.ActivePeople = db.Users.Count(x => x.Status == StatusEnum.Active && !x.IsDeleted);
-            stats.BlockedPeople = db.Users.Count(x => x.Status == StatusEnum.Deleted && !x.IsDeleted);
-            stats.DeleteAccount = db.Users.Count(x => x.IsDeleted);
+            var loggedUser = Person.GetLoggedPerson(User);
+
+            var currentOrganization = db.Organizations.FirstOrDefault(x => x.OrganizationID == loggedUser.OrganizationID);
+
+            if (currentOrganization == null)
+            {
+                return stats;
+            }
+
+            //get from correct profil
+            var users = db.Users.Where(x => x.OrganizationID == currentOrganization.OrganizationID).ToList();
+
+            if (users == null)
+            {
+                return stats;
+            }
+
+            stats.ActivePeople = users.Count(x => x.Status == StatusEnum.Active && !x.IsDeleted);
+            stats.BlockedPeople = users.Count(x => x.Status == StatusEnum.Deleted  && !x.IsDeleted);
+            stats.DeleteAccount = users.Count(x => x.IsDeleted );
 
             stats.StartedTrainings = db.TrainingResults.Count(x => x.StartDate.HasValue);
             stats.CompletedTrainings = db.TrainingResults.Count(x => x.EndDate.HasValue);
@@ -29,10 +46,10 @@ namespace OrganizationModule.Controllers.Api
             var currentDate = DateTime.Now.Date;
             var endDate = DateTime.Now.Date.AddDays(7);
 
-            stats.WeekActiveUser = db.Users.Count(x => x.LastActivationDate >= currentDate && x.LastActivationDate <= endDate);
+            stats.WeekActiveUser = users.Count(x => x.LastActivationDate >= currentDate && x.LastActivationDate <= endDate);
 
             endDate = DateTime.Now.Date.AddDays(30);
-            stats.MonthActiveUser = db.Users.Count(x => x.LastActivationDate >= currentDate && x.LastActivationDate <= endDate);
+            stats.MonthActiveUser = users.Count(x => x.LastActivationDate >= currentDate && x.LastActivationDate <= endDate);
             return stats;
         }
 

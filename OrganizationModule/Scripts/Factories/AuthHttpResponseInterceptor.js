@@ -1,4 +1,4 @@
-﻿var AuthHttpResponseInterceptor = function ($q, $location) {
+﻿var AuthHttpResponseInterceptor = function ($q, $location, $rootScope) {
     return {
         response: function (response) {
             if (response.status === 401) {
@@ -10,6 +10,7 @@
         responseError: function (rejection) {
             if (rejection.status === 401) {
                 console.log("Response Error 401", rejection);
+                $rootScope.$broadcast('userChanged');
                 var searchPath = $location.path();
                 $location.path('/signin').search('returnUrl', searchPath);
             } else if (rejection.status === 404 && !isNaN(rejection.statusText)) {
@@ -22,4 +23,4 @@
     }
 }
 
-AuthHttpResponseInterceptor.$inject = ['$q', '$location'];
+AuthHttpResponseInterceptor.$inject = ['$q', '$location', '$rootScope'];

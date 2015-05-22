@@ -19,8 +19,7 @@ namespace OrganizationModule.Controllers
         public ActionResult TrainingList()
         {
             var loggedPerson = Person.GetLoggedPerson(User);
-
-            ViewBag.Trainings = _db.Trainings
+            var trainings = _db.Trainings
                             .Join(_db.TrainingsInOrganizations
                                      .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
                                   x => x.TrainingID,
@@ -28,6 +27,18 @@ namespace OrganizationModule.Controllers
                                   (x, y) => x)
                             .OrderByDescending(x => x.CreateDate)
                             .ToList();
+
+            var globalTrainings = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro).ToList();
+
+            globalTrainings.ForEach(x =>
+            {
+                if(trainings.IndexOf(x) == -1)
+                {
+                    trainings.Add(x);
+                }
+            });
+
+            ViewBag.Trainings = trainings;
             return View();
         }
 
@@ -40,7 +51,9 @@ namespace OrganizationModule.Controllers
             var trainingInOrg = _db.TrainingsInOrganizations
                                    .FirstOrDefault(x => x.OrganizationID == loggedPerson.OrganizationID && x.TrainingID == model.TrainingID);
 
-            if (trainingInOrg == null)
+            var training = _db.Trainings.FirstOrDefault(x => x.TrainingID == model.TrainingID);
+
+            if (trainingInOrg == null && (training == null || training.TrainingType != TrainingType.Kenpro))
             {
                 result.Errors.Add("Nie masz uprawnień by uruchomić to szkolenie");
                 return Json(result);
@@ -91,7 +104,9 @@ namespace OrganizationModule.Controllers
                                .Select(x=>x.TrainingID)
                                .ToList();
 
-            if(org2Train.IndexOf(id) == -1)
+            var trn = _db.Trainings.FirstOrDefault(x => x.TrainingID == id);
+
+            if(org2Train.IndexOf(id) == -1 && (trn == null || trn.TrainingType != TrainingType.Kenpro))
             {
                 ViewBag.AccessDenied = true;
             }
@@ -103,7 +118,7 @@ namespace OrganizationModule.Controllers
                 trainingDetails.ForEach(x=> {
                     if (x.ResourceType == AppEngine.Models.DataObject.TrainingResource.Presentation)
                     {
-                        x.InternalResource = string.Format(googleDocViewer, Request.Url.Scheme + "://" + Request.Url.Authority + x.InternalResource);
+                        x.InternalResource = string.Format(googleDocViewer, Request.Url.Scheme + "://" + Request.Url.Authority + "/" + x.InternalResource.Replace("\\", "/"));
                     }
                 });
 

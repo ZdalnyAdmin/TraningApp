@@ -62,10 +62,10 @@ namespace AppEngine.Helpers
 
                 if (toDelete)
                 {
-                    File.Delete(destFile);
+                    File.Delete(sourcePath);
                 }
 
-                FileInfo f = new FileInfo(sourcePath);
+                FileInfo f = new FileInfo(destFile);
                 long s1 = f.Length;
 
                 if (s1 != 0)
@@ -73,7 +73,7 @@ namespace AppEngine.Helpers
                     size = System.Convert.ToDecimal((s1 / 1024f) / 1024f);
                 }
 
-                return destFile;
+                return destFile.Replace(domainPath, "");
             }
             catch (Exception ex)
             {

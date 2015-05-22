@@ -22,7 +22,7 @@
 
         }
         //call view 
-        $location.path('/' + 'createTraning/').search({ trainingID: item.TrainingID });
+        $location.path('/currentTraining/').search({ trainingID: item.TrainingID });
     }
 }
 

@@ -21,7 +21,7 @@
                 $scope.list = data;
             }
             $scope.index = type;
-            $scope.success = "Dane wczytane!";
+            $scope.success = "";
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {

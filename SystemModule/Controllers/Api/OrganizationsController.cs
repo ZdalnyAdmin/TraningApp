@@ -36,7 +36,26 @@ namespace SystemModule.Controllers.Api
                     case BaseActionType.Get:
 
                         obj.Organizations = db.Organizations.OrderByDescending(x => x.CreateDate).ToList();
-                        obj.Success = "Dane wczytane!";
+
+                        if(obj.Organizations != null)
+                        {
+                            var currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
+                            currentDate = currentDate.AddHours(-72);
+                            foreach (var org in obj.Organizations)
+                            {
+                                if (String.IsNullOrEmpty(org.NewName))
+                                {
+                                    org.NewName = org.Name;
+                                }
+
+                                if (!org.ChangeNameDate.HasValue || org.ChangeNameDate.Value <= currentDate)
+                                {
+                                    org.NewName = org.Name;
+                                }
+                            }
+                        }
+
+                        obj.Success = String.Empty;
 
                         break;
                     case BaseActionType.Delete:
@@ -119,7 +138,25 @@ namespace SystemModule.Controllers.Api
                                              orderby t.CreateDate
                                              select t).ToList();
 
-                        obj.Success = "Dane wczytane!";
+                        if (obj.Organizations != null)
+                        {
+                            var currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
+                            currentDate = currentDate.AddHours(-72);
+                            foreach (var org in obj.Organizations)
+                            {
+                                if (String.IsNullOrEmpty(org.NewName))
+                                {
+                                    org.NewName = org.Name;
+                                }
+
+                                if (!org.ChangeNameDate.HasValue || org.ChangeNameDate.Value <= currentDate)
+                                {
+                                    org.NewName = org.Name;
+                                }
+                            }
+                        }
+
+                        obj.Success = String.Empty;
 
                         break;
                     case BaseActionType.GetExtData:
@@ -161,6 +198,11 @@ namespace SystemModule.Controllers.Api
 
                         var current = obj.Organizations.FirstOrDefault(x=>x.OrganizationID == obj.OrganizationID);
 
+                        if(String.IsNullOrEmpty(current.NewName))
+                        {
+                            current.NewName = current.Name;
+                        }
+
                         var protector = db.Users.FirstOrDefault(x=>x.Id == current.ProtectorID);
 
                         var assignedUsers = (from gio in db.GroupsInOrganizations
@@ -187,7 +229,7 @@ namespace SystemModule.Controllers.Api
                         obj.Detail.UsedSpaceDisk = trainings.Sum(x=>x.FileSize);
                         //todo details
 
-                        obj.Success = "Dane szczegolowe pobrane!";
+                        obj.Success = String.Empty;
 
                         break;
                     case BaseActionType.GetSpecial:
@@ -211,7 +253,7 @@ namespace SystemModule.Controllers.Api
                                                Name = t.Name
                                            }).ToList();
 
-                        obj.Success = "Dane wczytane!";
+                        obj.Success = String.Empty;
                         break;
                     default:
                         break;

@@ -137,7 +137,7 @@ namespace OrganizationModule.Controllers
                         Password = model.Password,
                         ConfirmPassword = model.ConfirmPassword,
                         UserName = user.UserName
-                    });
+                    }, false);
 
                     if (!rslt.Succeeded)
                     {
