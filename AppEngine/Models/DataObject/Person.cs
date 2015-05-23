@@ -126,7 +126,7 @@ namespace AppEngine.Models.Common
             return result;
         }
 
-        public async Task<IdentityResult> DeleteUserAsync(UserManager<Person> manager, HttpRequestBase request)
+        public async Task<IdentityResult> DeleteUserAsync(UserManager<Person> manager, HttpRequestBase request, string deleteUser = null)
         {
             var result = await manager.UpdateSecurityStampAsync(this.Id);
 
@@ -146,12 +146,26 @@ namespace AppEngine.Models.Common
             }
 
             var sb = new StringBuilder();
-            sb.AppendFormat("<b>ZOSTAŁA WYSŁANA PROŚBA O USUNIĘCIE UŻYTKOWNIKA </b> {0}", this.DisplayName);
-            sb.AppendLine();
-            sb.AppendLine("JEŚLI CHCESZ GO USUNAĆ POTWIERDZ TO WCISKAJĄC LINK");
-            sb.AppendLine();
+            if (deleteUser != null)
+            {
+                sb.AppendFormat("<b>ZOSTAŁA WYSŁANA PROŚBA O USUNIĘCIE UŻYTKOWNIKA </b> {0}", this.DisplayName);
+                sb.AppendLine();
+                sb.AppendLine("JEŚLI CHCESZ GO USUNAĆ POTWIERDZ TO WCISKAJĄC LINK");
+                sb.AppendLine();
+            }
+            else
+            {
+                sb.AppendFormat("<b>WITAJ </b> {0}", this.DisplayName);
+                sb.AppendLine();
+                sb.AppendFormat("ROZPOCZĄŁEŚ PRÓBĘ USUNIECIA SWOJEGO KONTA W ORGANIZACJI {0}", this.Organization != null ? this.Organization.Name: "Brak Nazwy");
+                sb.AppendLine();
+                sb.AppendLine("JEŚLI CHCESZ USUNĄĆ SWOJE KONTO TO POTWIERDŹ TO KLIKAJĄC W LINK");
+                sb.AppendLine();
+            }
+
             sb.AppendFormat("<br/><a href=\"{0}://{1}/deleteUser?Id={2}&code={3}\">LINK</a>", request.Url.Scheme, request.Url.Authority, this.Id, code);
-            await manager.SendEmailAsync(this.Id,
+
+            await manager.SendEmailAsync(deleteUser != null ? deleteUser : this.Id,
                "POTWIERDZENIE USUNIECIA UZYTKOWNIKA",
                sb.ToString());
 

@@ -277,7 +277,10 @@ namespace OrganizationModule.Controllers
                 try
                 {
                     var user = UserManager.FindById(model.Id);
-                    await user.DeleteUserAsync(UserManager, Request);
+                    user.DeleteUserID = User.Identity.GetUserId();
+                    UserManager.Update(user);
+
+                    await user.DeleteUserAsync(UserManager, Request, user.DeleteUserID);
                 }
                 catch (Exception ex)
                 {
