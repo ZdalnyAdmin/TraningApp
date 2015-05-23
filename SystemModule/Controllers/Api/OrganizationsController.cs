@@ -63,6 +63,7 @@ namespace SystemModule.Controllers.Api
                         obj.Current.IsDeleted = false;
                         obj.Current.DeletedUserID = obj.LoggedUser.Id;
                         obj.Current.Status = OrganizationEnum.Hidden;
+                        obj.Current.DeletedDate = DateTime.Now;
                         db.Entry(obj.Current).State = EntityState.Modified;
                         db.SaveChanges();
 
@@ -193,7 +194,7 @@ namespace SystemModule.Controllers.Api
                         if (obj.OrganizationID == 0)
                         {
                             obj.ErrorMessage = "Problem z pobraniem szczegowych danych organizacji";
-                            return Request.CreateResponse(HttpStatusCode.Created, obj); ;
+                            return Request.CreateResponse(HttpStatusCode.Created, obj);
                         }
 
                         var current = obj.Organizations.FirstOrDefault(x=>x.OrganizationID == obj.OrganizationID);

@@ -65,7 +65,7 @@
             return;
         }
 
-        if (item.Status !== 1) {
+        if (item.Status !== 1 && item.Status !== 2) {
             return;
         }
 
