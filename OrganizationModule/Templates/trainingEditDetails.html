@@ -22,22 +22,24 @@
     </div>
     <div ng-show="item.ResourceType == 1">
         <div id="simpleRow">
-            pole z grafika
+            <div id="simpleRow">
+                <img src="{{item.InternalResource}}" width="300" height="200" />
+            </div>
         </div>
     </div>
     <div ng-show="item.ResourceType == 2">
         <div id="simpleRow">
-            pole z wideo
+            Dodany plik wideo : {{item.Name}}
         </div>
     </div>
     <div ng-show="item.ResourceType == 3">
         <div id="simpleRow">
-            pole z prezentacja
+            Dodany plik prezentacji : {{item.Name}}
         </div>
     </div>
     <div ng-show="item.ResourceType == 4">
         <div id="simpleRow">
-            pole z plikiem
+            Dodany plik : {{item.Name}}
         </div>
     </div>
 

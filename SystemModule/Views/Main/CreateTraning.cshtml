@@ -31,6 +31,8 @@
                name="uploadImages">
     </div>
 
+    <img src="{{viewModel.Current.TrainingResources}}" />
+
     <div id="simpleRow">
         *Nie przejmuj sie, nie misisz dodawac zadnej grafiki! Jesli nie dodasz zadnej grafiki zostanie uzyta grafika domyslna
     </div>
@@ -75,6 +77,10 @@
         <div id="inputButto" ng-click="showIcon()">
             Wybierz z listy
         </div>
+    </div>
+
+    <div id="simpleRow">
+        <img src="{{viewModel.Current.PassResources}}" />
     </div>
 
     <div id="simpleRow">

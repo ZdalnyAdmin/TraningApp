@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 
 namespace AppEngine.Models.DataObject
 {
@@ -19,6 +20,28 @@ namespace AppEngine.Models.DataObject
         public string InternalResource { get; set; }
         public int DisplayNo { get; set; }
         public decimal FileSize { get; set; }
+        [NotMapped]
+        public string Name
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(ExternalResource))
+                {
+                    return ExternalResource;
+                }
+                if (!String.IsNullOrEmpty(InternalResource))
+                {
+                    var path = InternalResource;
+                    if (path.StartsWith("/"))
+                    {
+                        path = path.Substring(1, path.Length - 1);
+                        path = path.Replace("/", "\\");
+                    }
+                    return Path.GetFileName(path);
+                }
+                return String.Empty;
+            }
+        }
     }
 
     public enum TrainingResource
