@@ -11,6 +11,7 @@
         controller: ['$scope', '$element', '$http', function ($scope, $element,$http) {
             $scope.fileName = undefined;
             $scope.fileSrc = undefined;
+            var jqXHR = {};
 
             $scope.upload = function () {
                 $scope.$apply(function(scope) {
@@ -36,10 +37,15 @@
                     $scope.fileName = undefined;
                     $scope.fileSrc = undefined;
                     $scope.file = {};
+
+                    if (jqXHR && jqXHR.abort) {
+                        jqXHR.abort();
+                    }
                 }
             });
 
             function sendFileToServer(formData, status) {
+                $scope.model.isEdit = true;
                 var uploadURL = ""; //Upload URL
 
                 switch ($scope.options) {
@@ -54,7 +60,7 @@
 
                 
                 var extraData = {}; //Extra Data.
-                var jqXHR = $.ajax({
+                jqXHR = $.ajax({
                     xhr: function () {
                         var xhrobj = $.ajaxSettings.xhr();
                         if (xhrobj.upload) {
@@ -80,7 +86,9 @@
                     success: function (data) {
                         if (data.Succeeded) {
                             $scope.model.InternalResource = $scope.fileSrc = data.Message;
-                            $scope.$apply();
+                            if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                                $scope.$apply();
+                            }
                         }
                     }
                 });
@@ -97,7 +105,9 @@
                     var progressBarWidth = progress * this.progressBar.width() / 100;
                     this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "% ");
 
-                    $scope.$apply();
+                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
                 }
             }
 
