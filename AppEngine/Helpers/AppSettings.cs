@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Web.Configuration;
 using System.Linq;
+using AppEngine.Models.DataContext;
 
 namespace AppEngine.Helpers
 {
@@ -81,6 +82,18 @@ namespace AppEngine.Helpers
                 return string.Empty;
             }
 
+        }
+
+        public static decimal GetUsedSpace(EFContext context, int organizationID)
+        {
+
+            var trainings = (from tio in context.TrainingsInOrganizations
+                             join t in context.Trainings on tio.TrainingID equals t.TrainingID
+                             join td in context.TrainingDetails on t.TrainingID equals td.TrainingID
+                             where tio.OrganizationID == organizationID
+                             select td).ToList();
+
+            return trainings.Sum(x => x.FileSize);
         }
     }
 }
