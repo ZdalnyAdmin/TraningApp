@@ -1,4 +1,5 @@
-﻿using AppEngine.Models.DataBusiness;
+﻿using AppEngine.Helpers;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.DTO;
 using AppEngine.Models.ViewModels.Account;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
@@ -117,11 +119,20 @@ namespace AppEngine.Models.Common
                 return result;
             }
 
-            await manager.SendEmailAsync(this.Id, "Zmiana Adresu Email",
-            "Została wysłana prośba o zmianę twojego maila na " + newEmail + ". <br/>"
-            + "Jeżeli chcesz zmienić adres email potwierdź to wciskając link. <br/>"
-            + "<a href=\""
-                + request.Url.Scheme + "://" + request.Url.Authority + "/changeEmail?code=" + code + "&Id=" + this.Id + "\">link</a>");
+            MailMessage mail = new MailMessage(new MailAddress(Helpers.Helpers.GetMailFrom(MailAccount.ADMIN), "(do not reply)"),
+                                   new MailAddress(newEmail))
+            {
+                Subject = "Zmiana Adresu Email",
+                Body = "Została wysłana prośba o zmianę twojego maila na " + newEmail + ". <br/>"
+                + "Jeżeli chcesz zmienić adres email potwierdź to wciskając link. <br/>"
+                + "<a href=\""
+                + request.Url.Scheme + "://" + request.Url.Authority + "/changeEmail?code=" + code + "&Id=" + this.Id + "\">link</a>",
+                IsBodyHtml = true
+            };
+
+            mail.BodyEncoding = UTF8Encoding.UTF8;
+            mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+            Mail.Send(mail, MailAccount.ADMIN);
 
             return result;
         }
