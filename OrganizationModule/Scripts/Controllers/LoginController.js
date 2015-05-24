@@ -2,15 +2,16 @@
     $scope.loginForm = {
         emailAddress: '',
         password: '',
-        returnUrl: $routeParams.returnUrl,
-        loginFailure: false
+        returnUrl: $routeParams.returnUrl
     };
+
+    $scope.errorMessage = '';
 
     $scope.login = function () {
         $scope.processing = true;
         var result = UserFactory.login($scope.loginForm.emailAddress, $scope.loginForm.password);
         result.then(function (result) {
-            if (result.success) {
+            if (result.Succeeded) {
                 $scope.processing = false;
                 $rootScope.$broadcast('userChanged');
                 if ($scope.loginForm.returnUrl !== undefined) {
@@ -22,7 +23,7 @@
                     $location.path('/').search('');
                 }
             } else {
-                $scope.loginForm.loginFailure = true;
+                $scope.errorMessage = result.Errors.join();
                 $scope.processing = false;
             }
         });
