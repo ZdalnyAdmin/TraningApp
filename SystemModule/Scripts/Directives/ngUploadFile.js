@@ -26,6 +26,7 @@
                     }
 
                     $scope.fileName = file.name;
+                    $scope.model.Name = file.name;
                     var fd = new FormData();
                     fd.append('file', file);
                     sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
