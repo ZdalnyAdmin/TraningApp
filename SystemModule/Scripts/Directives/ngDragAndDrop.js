@@ -58,7 +58,7 @@
                     $scope.file = {};
                     var video = $element.find('#' + $scope.videoId);
 
-                    if ($scope.options == 'VIDEO' && video) {
+                    if ($scope.options == 'MOVIE' && video) {
                         video.html('');
                         video.attr('css', '');
                         video.attr('style', '');
@@ -245,7 +245,7 @@
                         if (data.Succeeded) {
                             $scope.model.InternalResource = $scope.fileSrc = data.Message;
 
-                            if ($scope.options == 'VIDEO') {
+                            if ($scope.options == 'MOVIE') {
                                 jwplayer($scope.videoId).setup({
                                     file: $scope.fileSrc
                                 });
