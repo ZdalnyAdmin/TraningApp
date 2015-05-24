@@ -9,7 +9,7 @@ namespace OrganizationModule.Controllers
 {
     public class RedirectController : Controller
     {
-        public ActionResult Index(string id)
+        public ActionResult Index(string id, string trainingID)
         {
             if (id == "signin")
             {
@@ -22,7 +22,14 @@ namespace OrganizationModule.Controllers
             }
             else
             {
-                return Redirect("/?page=" + id);
+                var path = "/?page=" + id;
+
+                if (!string.IsNullOrWhiteSpace(trainingID))
+                {
+                    path += "&trainingID=" + trainingID;
+                }
+
+                return Redirect(path);
             }
         }
 

@@ -44,7 +44,7 @@
             @foreach (var training in ViewBag.MyTrainings)
             {
                 <li>
-                    <a href="/Training/@training.TrainingID">
+                    <a href="/creatorTrainings?trainingID=@training.TrainingID">
                         <img src="/Content/Images/menu-icon.png" /> <span>@training.Name</span>
                     </a>
                 </li>
