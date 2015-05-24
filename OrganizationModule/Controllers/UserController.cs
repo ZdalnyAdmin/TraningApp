@@ -231,10 +231,23 @@ namespace OrganizationModule.Controllers
             {
                 var loggedUser = Person.GetLoggedPerson(User);
                 loggedUser = UserManager.FindById(loggedUser.Id);
+
+                if(!loggedUser.ChangeEmailDate.HasValue || loggedUser.ChangeEmailDate.Value.Date < DateTime.Now.Date)
+                {
+                    loggedUser.ChangeEmailDate = DateTime.Now;
+                    loggedUser.DailyChangeMailCount = 0;
+                } 
+                else if(loggedUser.DailyChangeMailCount > 2)
+                {
+                    var jsonResult = new Result() { Errors = new System.Collections.Generic.List<string>(), Succeeded = false };
+                    jsonResult.Errors.Add("Wykorzystałeś maksymalną dzienną liczbę zmian.");
+                    return Json(jsonResult);
+                }
+
+                loggedUser.DailyChangeMailCount = (loggedUser.DailyChangeMailCount ?? 0) + 1;
                 var result = await loggedUser.ChangeEmailAsync(UserManager, Request, model.Email);
 
                 return Json(result);
-
             }
 
             return getErrorsFromModel();

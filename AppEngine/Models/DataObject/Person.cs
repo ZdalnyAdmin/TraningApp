@@ -40,6 +40,7 @@ namespace AppEngine.Models.Common
         public DateTime? ResetPasswordDate { get; set; }
         public string InviterID { get; set; }
         public Person Inviter { get; set; }
+        public int? DailyChangeMailCount { get; set; }
 
         public string NewUserName { get; set; }
         public DateTime? ChangeUserNameDate { get; set; }
