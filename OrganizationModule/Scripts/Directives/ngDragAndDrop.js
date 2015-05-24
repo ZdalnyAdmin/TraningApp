@@ -8,7 +8,17 @@
         restrict: 'A',
         replace: 'true',
         templateUrl: 'Templates/dragAndDrop.html',
-        controller: ['$scope', '$element', '$http', function ($scope, $element,$http) {
+        controller: ['$scope', '$element', '$http', function ($scope, $element, $http) {
+            function guid() {
+                function _p8(s) {
+                    var p = (Math.random().toString(16) + "000000000").substr(2, 8);
+                    return s ? "-" + p.substr(0, 4) + "-" + p.substr(4, 4) : p;
+                }
+                return _p8() + _p8(true) + _p8(true) + _p8();
+            }
+
+            $scope.videoId = guid();
+
             $scope.fileName = undefined;
             $scope.fileSrc = undefined;
             var jqXHR = {};
@@ -46,6 +56,13 @@
                     $scope.fileName = undefined;
                     $scope.fileSrc = undefined;
                     $scope.file = {};
+                    var video = $element.find('#' + $scope.videoId);
+
+                    if ($scope.options == 'VIDEO' && video) {
+                        video.html('');
+                        video.attr('css', '');
+                        video.attr('style', '');
+                    }
 
                     if (jqXHR && jqXHR.abort) {
                         jqXHR.abort();
@@ -61,7 +78,7 @@
 
             var emptyImage = $element[0].getElementsByClassName('empty-image')[0];
             var filledImage = $element[0].getElementsByClassName('filled-image')[0];
-            var filledMovie = $element[0].getElementsByClassName('filled-movie')[0];
+            //var filledMovie = $element[0].getElementsByClassName('filled-movie')[0];
 
             function dragover(e) {
                 e.dataTransfer.dropEffect = 'move';
@@ -83,11 +100,11 @@
                 false
             );
 
-            filledMovie.addEventListener(
-                'dragover',
-                dragover,
-                false
-            );
+            //filledMovie.addEventListener(
+            //    'dragover',
+            //    dragover,
+            //    false
+            //);
 
             function dragenter (e) {
                 this.classList.add('over');
@@ -106,11 +123,11 @@
                 false
             );
 
-            filledMovie.addEventListener(
-                'dragenter',
-                dragenter,
-                false
-            );
+            //filledMovie.addEventListener(
+            //    'dragenter',
+            //    dragenter,
+            //    false
+            //);
 
             function dragleave (e) {
                 this.classList.remove('over');
@@ -129,11 +146,11 @@
                 false
             );
 
-            filledMovie.addEventListener(
-                'dragleave',
-                dragleave,
-                false
-            );
+            //filledMovie.addEventListener(
+            //    'dragleave',
+            //    dragleave,
+            //    false
+            //);
 
             function drop (e) {
                 // Stops some browsers from redirecting.
@@ -180,11 +197,11 @@
                 false
             );
 
-            filledMovie.addEventListener(
-                'drop',
-                drop,
-                false
-            );
+            //filledMovie.addEventListener(
+            //    'drop',
+            //    drop,
+            //    false
+            //);
 
             function sendFileToServer(formData, status) {
                 var uploadURL = ""; //Upload URL
@@ -227,6 +244,13 @@
                     success: function (data) {
                         if (data.Succeeded) {
                             $scope.model.InternalResource = $scope.fileSrc = data.Message;
+
+                            if ($scope.options == 'VIDEO') {
+                                jwplayer($scope.videoId).setup({
+                                    file: $scope.fileSrc
+                                });
+                            }
+
                             if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
                                 $scope.$apply();
                             }

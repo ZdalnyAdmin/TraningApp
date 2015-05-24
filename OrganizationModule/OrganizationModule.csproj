@@ -368,6 +368,9 @@
     <Content Include="thirdParty\FroalaWysiwygEditor\js\plugins\tables.js" />
     <Content Include="thirdParty\FroalaWysiwygEditor\js\plugins\urls.js" />
     <Content Include="thirdParty\FroalaWysiwygEditor\js\plugins\video.js" />
+    <Content Include="thirdParty\jwplayer\jwplayer.flash.swf" />
+    <Content Include="thirdParty\jwplayer\jwplayer.html5.js" />
+    <Content Include="thirdParty\jwplayer\jwplayer.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

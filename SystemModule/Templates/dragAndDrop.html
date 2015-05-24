@@ -3,10 +3,10 @@
         <div ng-switch-when="IMAGE">Wczytaj grafike lub upusc ja na pole obok lub podaj link</div>
         <div ng-switch-when="MOVIE">Wczytaj film przerzuć i upuść go w polu obok lub podaj link</div>
         <div>
-            <input id="upload-input" 
+            <input id="upload-input"
                    type="file"
                    class="upload-file"
-                   onchange="angular.element(this).scope().upload(this)" 
+                   onchange="angular.element(this).scope().upload(this)"
                    name="uploadFiles">
         </div>
         <div ng-switch-when="IMAGE">
@@ -23,9 +23,8 @@
     <div>
         <img ng-show="!fileSrc" src="{{ '../Assets/Image/empty.png' }}" class="empty-image" width="200px" height="200px" />
         <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
-        <video ng-show="options == 'MOVIE' && !!fileSrc" class="filled-movie" width="200px" height="200px" controls>
-            <source src="{{fileSrc}}">
-            Your browser does not support the video tag.
-        </video>
+        <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}" width="200px" height="200px">
+            Ładuję plik wideo.
+        </div>
     </div>
 </div>
