@@ -24,6 +24,11 @@ namespace AppEngine.Services
 
                 model.Success = String.Empty;
 
+                var serverPath = String.Empty;
+                var path = String.Empty;
+                var fileSize = 0m;
+                var index = 0;
+
                 if (isInternal)
                 {
                     if (model.CurrentOrganization == null)
@@ -69,13 +74,115 @@ namespace AppEngine.Services
                         break;
                     case AppEngine.Models.DataBusiness.BaseActionType.Edit:
 
+                        //walidation
+                        {
+                            model.ErrorMessage = "Nie mozna zapisac szkolenia. Nalezy dodac element do szkolenia";
+                            return false;
+
+                        }
+
+                        var toModified = context.Trainings.FirstOrDefault(x => x.TrainingID == model.Current.TrainingID);
+
+                        //check training resources
+                        var fileName = Path.GetFileName(toModified.TrainingResources);
+
+                        //Assets\34c3cd6d0bbb4001a5570372f4db649f\Resources\U_05_0238035_0115RW.pdf
+                        serverPath = toModified.TrainingResources.Replace("\\" + fileName, "");
+                        path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
+
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                        fileSize = 0m;
+                        if (!model.Current.TrainingResources.EndsWith(fileName))
+                        {
+                            File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toModified.TrainingResources));
+                            model.Current.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
+                        }
+
+                        fileName = String.IsNullOrEmpty(toModified.PassResources) ? string.Empty : Path.GetFileName(toModified.PassResources);
+
+                        if (!String.IsNullOrEmpty(model.Current.PassResources) && model.Current.PassResources.EndsWith(fileName))
+                        {
+                            fileSize = 0m;
+                            if (!String.IsNullOrEmpty(fileName))
+                            {
+                                File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toModified.PassResources));
+                            }
+                            model.Current.PassResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
+                        }
+
+
+                        model.Current.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
+                        index = 0;
+                        //todo add check if exists
+
+
+                        if (model.Details != null && model.Details.Any())
+                        {
+                            var modifiedDetails = context.TrainingDetails.Where(x => x.TrainingID == model.Current.TrainingID).ToList();
+                            //
+                            try
+                            {
+                                foreach (var modif in modifiedDetails)
+                                {
+                                    if(!String.IsNullOrEmpty(modif.InternalResource))
+                                    {
+                                        File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toModified.PassResources));
+                                    }
+                                    context.TrainingDetails.Remove(modif);
+                                }
+                            }
+                            catch
+                            {
+                                model.ErrorMessage = "Blad podczas zapisu szczegolow szkolenia.";
+                                return false;
+                            }
+
+
+                            foreach (var item in model.Details)
+                            {
+                                item.DisplayNo = index;
+                                index++;
+
+                                //move file and save size in MG
+                                if (!String.IsNullOrEmpty(item.InternalResource))
+                                {
+                                    fileSize = 0m;
+                                    item.InternalResource = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, item.InternalResource, out fileSize);
+                                    item.FileSize = fileSize;
+                                }
+                            }
+                            model.Current.Details = model.Details;
+                        }
+
+                        index = 0;
+
+
+                        if (model.Questions != null && model.Questions.Any())
+                        {
+                            var modifiedQuestion = context.TrainingQuestons.Where(x => x.TrainingID == model.Current.TrainingID).ToList();
+                            foreach (var modif in modifiedQuestion)
+                            {
+                                modif.Answers = context.TrainingAnswers.Where(x => x.TrainingQuestionID == modif.TrainingQuestionID).ToList();
+                                context.TrainingQuestons.Remove(modif);
+                            }
+
+                            foreach (var item in model.Questions)
+                            {
+                                item.DisplayNo = index;
+                                index++;
+                            }
+                            model.Current.Questions = model.Questions;
+                        }
+
                         model.Current.ModifieddUserID = model.LoggedUser.Id;
                         model.Current.ModifiedDate = DateTime.Now;
-
                         context.Entry(model.Current).State = EntityState.Modified;
 
                         //todo assigned group
-
                         if (isInternal)
                         {
                             //todo change to only update
@@ -158,9 +265,14 @@ namespace AppEngine.Services
                         break;
                     case AppEngine.Models.DataBusiness.BaseActionType.Add:
 
-                        var serverPath = AppSettings.ServerPath();
-                        var path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
+                        {
+                            model.ErrorMessage = "Nie mozna zapisac szkolenia. Nalezy dodac element do szkolenia";
+                            return false;
 
+                        }
+
+                        serverPath = AppSettings.ServerPath();
+                        path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
                         if (!Directory.Exists(path))
                         {
                             Directory.CreateDirectory(path);
@@ -177,17 +289,17 @@ namespace AppEngine.Services
                             model.Current.TrainingResources = @"Assets\Image\main_image.png";
                         }
 
-                        var size = 0m;
-                        model.Current.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out size);
+                        fileSize = 0m;
+                        model.Current.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
                         if (!String.IsNullOrEmpty(model.Current.PassResources))
                         {
-                            size = 0m;
-                            model.Current.PassResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out size);
+                            fileSize = 0m;
+                            model.Current.PassResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
                         }
 
 
                         model.Current.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
-                        int index = 0;
+                        index = 0;
 
                         if (model.Details != null && model.Details.Any())
                         {
@@ -199,9 +311,9 @@ namespace AppEngine.Services
                                 //move file and save size in MG
                                 if (!String.IsNullOrEmpty(item.InternalResource))
                                 {
-                                    size = 0m;
-                                    item.InternalResource = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, item.InternalResource, out size);
-                                    item.FileSize = size;
+                                    fileSize = 0m;
+                                    item.InternalResource = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, item.InternalResource, out fileSize);
+                                    item.FileSize = fileSize;
                                 }
                             }
                             model.Current.Details = model.Details;
@@ -360,6 +472,7 @@ namespace AppEngine.Services
                         {
                             model.Groups = (from gio in context.GroupsInOrganizations
                                             join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
+                                            where g.Name != "Wszyscy"
                                             where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
                                             select g).ToList();
                         }
@@ -386,7 +499,7 @@ namespace AppEngine.Services
                         model.Current.Details = context.TrainingDetails.Where(x => x.TrainingID == model.trainingID).ToList();
                         model.Current.Questions = context.TrainingQuestons.Where(x => x.TrainingID == model.trainingID).ToList();
 
-                        foreach(var question in model.Current.Questions)
+                        foreach (var question in model.Current.Questions)
                         {
                             question.Answers = context.TrainingAnswers.Where(x => x.TrainingQuestionID == question.TrainingQuestionID).ToList();
                         }
