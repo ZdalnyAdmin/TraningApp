@@ -36,11 +36,11 @@ namespace AppEngine.Models.Common
                         if(x.Answers == null)
                             return;
 
-                        if (x.Type == DataObject.QuestionType.Single)
+                        if (x.Type == DataObject.QuestionType.Multi)
                         {
                             x.Answers.ForEach(y =>
                             {
-                                possibleRate += y.Score;
+                                possibleRate += y.Score > 0 ? y.Score : 0;
                             });
                         }
                         else

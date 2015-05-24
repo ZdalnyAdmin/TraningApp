@@ -172,7 +172,7 @@ namespace OrganizationModule.Controllers
         public ActionResult TrainingResult()
         {
             var loggedPerson = Person.GetLoggedPerson(User);
-            var trainingResults = _db.TrainingResults.Where(x => x.PersonID == loggedPerson.Id && x.EndDate.HasValue).ToList();
+            var trainingResults = _db.TrainingResults.Where(x => x.PersonID == loggedPerson.Id && x.EndDate.HasValue).OrderByDescending(x=>x.EndDate).ToList();
             trainingResults.ForEach(x =>
                                         {
                                             x.Training = _db.Trainings.FirstOrDefault(y => y.TrainingID == x.TrainingID);

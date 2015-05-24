@@ -35,7 +35,7 @@
                 <span>
                     @if (trainingResult.PossibleRate != 0)
                     {
-                        <span>@(trainingResult.Rating * 100 / trainingResult.PossibleRate)</span>
+                        <span>@((trainingResult.Rating * 100 / trainingResult.PossibleRate).ToString("0.00"))</span>
                     }
                 %
             </span>
