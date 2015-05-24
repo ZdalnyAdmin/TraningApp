@@ -227,8 +227,13 @@
             $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
-        .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisu szkolenia';
+        .error(function (data) {
+            if (!data) {
+                $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisu szkolenia';
+            }
+            else {
+                $scope.viewModel.ErrorMessage = data.Message;
+            }
             UtilitiesFactory.hideSpinner();
         });
     }
