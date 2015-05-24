@@ -8,12 +8,13 @@
     if (!!search && !!search.page) {
         var page = search.page;
         var controller = search.controller;
+        var trainingID = undefined;
         delete search.page;
         delete search.controller;
 
         if (page === 'ActiveTraining') {
+            trainingID = search.trainingID;
             delete search.trainingID;
-            var trainingID = search.trainingID;
         }
 
         if (controller) {

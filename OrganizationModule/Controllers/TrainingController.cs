@@ -121,6 +121,11 @@ namespace OrganizationModule.Controllers
                     {
                         x.InternalResource = string.Format(googleDocViewer, Request.Url.Scheme + "://" + Request.Url.Authority + "/" + x.InternalResource.Replace("\\", "/"));
                     }
+
+                    if (x.ResourceType == AppEngine.Models.DataObject.TrainingResource.Video)
+                    {
+                        x.InternalResource = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + x.InternalResource.Replace("\\", "/");
+                    }
                 });
 
 
