@@ -1,0 +1,41 @@
+﻿<div ng-app="" ng-controller="createrTrainingsListController" class="container">
+
+    <strong class="error">{{ viewModel.ErrorMessage }}</strong>
+    <strong class="error">{{ viewModel.Success }}</strong>
+
+
+    <div ng-repeat="item in viewModel.Trainings">
+        <div>
+            Tytul szkolenia {{ item.Name}}
+        </div>
+        <div>
+            {{ item.UserName}}
+        </div>
+        <div>
+            Data utworzenie :
+            {{ item.CreateDate | date: 'dd.MM.yyyy hh.mm' }}
+        </div>
+        <div>
+            Moga uruchomic :
+            <div ng-repeat="grp in item.AssignedGroups">
+                {{grp.Name}} ,
+            </div>
+        </div>
+        <div>
+            <button >ZMIEN</button>
+        </div>
+
+        <div>
+            <img src="{{item.TrainingResources}}" height="300" width="400" />
+        </div>
+
+        <div>
+            {{item.Description}}
+        </div>
+
+        <input type="button" value="Szczegoly"/>
+
+        <input type="button" value="Edytuj szkolenia" ng-click="edit(item)" />
+
+    </div>
+</div>

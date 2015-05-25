@@ -19,7 +19,7 @@
                     $scope.selectedQuestion = 1;
                     $scope.currentQuestion.Type = 0;
                     $scope.currentQuestion.Answers = [];
-                    for (var i = 0; i < 4; i++) {
+                    for (var i = 0; i < 6; i++) {
                         $scope.currentQuestion.Answers.push(createAnswer());
                     }
                     return;
@@ -28,7 +28,7 @@
                     $scope.selectedQuestion = 2;
                     $scope.currentQuestion.Type = 1;
                     $scope.currentQuestion.Answers = [];
-                    for (var i = 0; i < 4; i++) {
+                    for (var i = 0; i < 6; i++) {
                         $scope.currentQuestion.Answers.push(createAnswer());
                     }
                     return;
