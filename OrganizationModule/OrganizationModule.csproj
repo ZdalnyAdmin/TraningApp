@@ -225,6 +225,7 @@
     <Content Include="Scripts\Controllers\loggedUserController.js" />
     <Content Include="Scripts\Controllers\trainingListController.js" />
     <Content Include="Scripts\Controllers\trainingController.js" />
+    <Content Include="Scripts\Directives\ngJwPlayer.js" />
     <Content Include="Scripts\Directives\ngUploadFile.js" />
     <Content Include="Scripts\Directives\ngDragAndDrop.js" />
     <Content Include="Scripts\Factories\TrainingFactory.js" />

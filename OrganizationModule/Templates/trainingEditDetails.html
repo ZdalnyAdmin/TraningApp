@@ -30,6 +30,12 @@
     <div ng-show="item.ResourceType == 2">
         <div id="simpleRow">
             Dodany plik wideo : {{item.Name}}
+            <div ng-if="item.InternalResource">
+                <ng-jw-player setup='{ "file": "{{item.InternalResource}}" }'></ng-jw-player>
+            </div>
+            <div ng-if="!item.InternalResource">
+                
+            </div>
         </div>
     </div>
     <div ng-show="item.ResourceType == 3">
