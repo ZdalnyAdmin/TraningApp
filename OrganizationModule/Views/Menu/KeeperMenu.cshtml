@@ -13,7 +13,7 @@
                 }
             </ul>
         }
-        <hr class="hidden-sm" />
+        <hr/>
         <ul class="nav navbar-nav">
             <li>
                 <a href="/userTranings">
@@ -25,11 +25,11 @@
                     <img src="/Content/Images/menu-icon.png" /> <span>MOJE WYNIKI</span>
                 </a>
             </li>
-            @*<li>
-                <a href="#">
-                    <img src="/Content/Images/menu-icon.png" /> <span>MOJE USTAWIENIA</span>
+            <li>
+                <a href="/userFaq">
+                    <img src="/Content/Images/menu-icon.png" /> <span>FAQ</span>
                 </a>
-            </li>*@
+            </li>
         </ul>
     </div>
     <div class="col-sm-4 col-md-12">
@@ -40,22 +40,14 @@
                     <img src="/Content/Images/menu-icon.png" /> <span>UTWÓRZ SZKOLENIE</span>
                 </a>
             </li>
-@if (ViewBag.MyTrainings.Count > 0)
-{
-    <li>
-        <img src="/Content/Images/menu-icon.png" /> <span>MOJE SZKOLENIA</span>
-        <ul class="nav navbar-nav active-courses-menu">
-            @foreach (var training in ViewBag.MyTrainings)
+            @if (ViewBag.MyTrainings.Count > 0)
             {
                 <li>
-                    <a href="/creatorTrainings?trainingID=@training.TrainingID">
-                        <img src="/Content/Images/menu-icon.png" /> <span>@training.Name</span>
+                    <a href="#">
+                        <img src="/Content/Images/menu-icon.png" /> <span>MOJE SZKOLENIA</span>
                     </a>
                 </li>
             }
-        </ul>
-    </li>
-}
             <li>
                 <a href="/creatorHowTo">
                     <img src="/Content/Images/menu-icon.png" /> <span>JAK TWORZYĆ SZKOLENIA</span>
@@ -141,11 +133,6 @@
     <div class="col-sm-4 col-md-12 additional-menu">
         <hr class="hidden-sm" />
         <ul class="nav navbar-nav">
-            <li>
-                <a href="/userFaq">
-                    <img src="/Content/Images/menu-icon.png" /> <span>FAQ</span>
-                </a>
-            </li>
             <li class="visible-sm visible-xs">
                 <a href="#">
                     <img src="/Content/Images/menu-icon.png" /> <span>MOJE USTAWIENIA</span>

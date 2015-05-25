@@ -200,6 +200,7 @@
     <Content Include="Assets\Marks\All\Kowalski.png" />
     <Content Include="Assets\Marks\All\Król_Julian.png" />
     <Content Include="Assets\Marks\All\Marlenka.png" />
+    <Content Include="Content\Trainings\create-training.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

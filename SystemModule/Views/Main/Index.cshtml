@@ -18,10 +18,15 @@
             </div>
         </div>
     </div>
-    <div id="menu" ng-menu></div>
-    <div class="container mainContent">
-        <div ng-view></div>
+    <div class="container">
+        <div class="row">
+            <div id="menu" ng-menu></div>
+            <div class="container col-md-8 col-lg-9 mainContent">
+                <div ng-view></div>
+            </div>
+        </div>
     </div>
+    
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>    

@@ -1,30 +1,32 @@
-﻿<div>
-    <div ng-switch="options">
-        <div ng-switch-when="IMAGE">Wczytaj grafike lub upusc ja na pole obok lub podaj link</div>
-        <div ng-switch-when="MOVIE">Wczytaj film przerzuć i upuść go w polu obok lub podaj link</div>
-        <div>
-            <input id="upload-input"
-                   type="file"
-                   class="upload-file"
-                   onchange="angular.element(this).scope().upload(this)"
-                   name="uploadFiles">
+﻿<div class="row">
+    <div class="col-md-12">
+        <div ng-switch="options">
+            <label ng-switch-when="IMAGE">Wczytaj grafike lub upusc ja na pole obok lub podaj link</label>
+            <label ng-switch-when="MOVIE">Wczytaj film przerzuć i upuść go w polu obok lub podaj link</label>
+            <div class="col-md-12">
+                <input id="upload-input"
+                       type="file"
+                       class="upload-file"
+                       onchange="angular.element(this).scope().upload(this)"
+                       name="uploadFiles">
+            </div>
+            <div class="col-md-12" ng-switch-when="IMAGE">
+                <label>Podaj link:</label> <input type="text" ng-model="model.ExternalResource" ng-blur="change()">
+            </div>
+            <div class="col-md-12" ng-switch-when="MOVIE">
+                <label>Podaj link YT lub vimeo:</label> <input type="text" ng-model="model.ExternalResource" ng-blur="change()">
+            </div>
+            <div class="col-md-12">
+                {{fileName || 'Nie wybrano pliku'}}
+            </div>
+            <div class='statusBar'><div></div></div>
         </div>
-        <div ng-switch-when="IMAGE">
-            Podaj link: <input type="text" ng-model="model.ExternalResource" ng-blur="change()">
-        </div>
-        <div ng-switch-when="MOVIE">
-            Podaj link YT lub vimeo: <input type="text" ng-model="model.ExternalResource" ng-blur="change()">
-        </div>
-        <div>
-            {{fileName || 'Nie wybrano pliku'}}
-        </div>
-        <div class='statusBar'><div></div></div>
-    </div>
-    <div>
-        <img ng-show="!fileSrc" src="{{ '../Assets/Image/empty.png' }}" class="empty-image" width="200px" height="200px" />
-        <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
-        <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}" width="200px" height="200px">
-            Ładuję plik wideo.
+        <div class="col-md-12">
+            <img ng-show="!fileSrc" src="{{ '../Assets/Image/empty.png' }}" class="empty-image" width="200px" height="200px" />
+            <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
+            <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}" width="200px" height="200px">
+                Ładuję plik wideo.
+            </div>
         </div>
     </div>
 </div>

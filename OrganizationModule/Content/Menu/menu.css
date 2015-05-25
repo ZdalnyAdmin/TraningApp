@@ -7,6 +7,7 @@
 }
 .header .current-user{
     float:right;
+    margin-top:14.5px;
 }
 .header .nav-tabs{
     border:none;
@@ -14,11 +15,31 @@
 .header .nav-tabs li.dropdown a{
     margin:0;
     border:none;
+    background:none;
+    color:#fff;
+    width:280px;
 }
 .header .nav-tabs li.dropdown a:hover{
     background:none!important;
     border:none;
     border-radius:0;
+}
+.header .nav-tabs li.dropdown ul.dropdown-menu {
+    background:#ebebf0;
+    padding:0;
+}
+.header .nav-tabs li.dropdown ul.dropdown-menu li img{
+    border-radius:50%;
+    margin-left:22px;
+    margin-right:22px;
+}
+.header .nav-tabs li.dropdown ul.dropdown-menu li a{
+    color:#1e2850;
+    padding:12px 0!important;
+}
+.header .nav-tabs li.dropdown ul.dropdown-menu li a:hover{
+    background:#1e2850!important;
+    color:#fff;
 }
 nav{
     font-family: 'Archivo Narrow', sans-serif;
@@ -54,12 +75,10 @@ nav li{
     /*height:60px;*/
 }
 nav a{
-    padding-left:0!important;
-    padding-right:0!important;
+    padding:12px 0!important;
     width:100%;
     color:#283769!important;
-    padding-top:12px!important;
-    padding-bottom:12px!important;
+    
 }
 .navbar-nav{
     float:none;
@@ -88,8 +107,7 @@ nav li:hover a{
 .navbar-toggle{
     border:2px solid #fff;
     border-radius:0;
-    position:relative;
-    bottom:69px;
+    
 }
 .navbar-toggle span{
     background:#fff;
@@ -118,25 +136,32 @@ nav li:hover a{
 }
 /*MANAGER MENU*/
 .manager-menu div:nth-child(n+2) ul li a{
-    background:#436DAA;
+    
 }
 .manager-menu div:nth-child(n+2) ul li:hover a{
-    background:#fff!important;
-    color:#436DAA!important;
+    background:#3469d0!important;
+    color:#fff!important;
 }
 .manager-menu div:nth-child(n+3) ul li:nth-child(n+3) a{
-    background:#349B8E;
+    
 }
 .manager-menu div:nth-child(n+3) ul li:nth-child(n+3):hover a{
-    background:#fff!important;
-    color:#349B8E!important;
+    background:#008fa2!important;
+    color:#fff!important;
 }
 .manager-menu div:nth-child(n+4) ul li a{
-    background:none!important;
+    
 }
 .manager-menu div:nth-child(n+4) ul li:hover a{
-    background:#fff;
-    color:#283759!important;
+    background:#008fa2!important;
+    color:#fff!important;
+}
+.manager-menu div:nth-child(n+5) ul li a{
+    
+}
+.manager-menu div:nth-child(n+5) ul li:hover a{
+    background:#283759!important;
+    color:#fff!important;
 }
 
 /*ADMIN MENU*/
@@ -231,12 +256,10 @@ nav li:hover a{
 }
 @media screen and (max-width: 991px) AND (min-width: 768px) {
     .manager-menu .additional-menu ul li{
-        width:50%;
-        float:left!important;
+        
     }
     .manager-menu .additional-menu{
-        position:absolute;
-        top:180px;
+        
     }
     .admin-menu .additional-menu ul li{
         width:50%;
@@ -246,7 +269,7 @@ nav li:hover a{
     .keeper-menu div, .admin-menu div, .manager-menu div{
         position:relative;
     }
-
+    
   
 }
 @media (max-width: 992px) {
@@ -283,6 +306,14 @@ nav li:hover a{
     .collapse.in{
   		display:block !important;
 	}
+    .navbar-header{
+        position:absolute;
+        width:100%;
+        top:-71px;
+    }
+    .current-user{
+        display:none;   
+    }
 }
 @media screen and (max-width: 767px) {
     .navbar-nav{

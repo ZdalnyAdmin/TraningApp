@@ -1,19 +1,30 @@
-﻿<div>
-    <div id="simpleRow" ng-click="showTab(1)">
-        dodaj tekst
+﻿<div class="row">
+    <div class="col-md-2">
+        <button id="simpleRow" ng-click="showTab(1)">
+            TEKST
+        </button>
     </div>
-    <div id="simpleRow" ng-click="showTab(2)">
-        dodaj grafike
+    <div class="col-md-2">
+        <button id="simpleRow" ng-click="showTab(2)">
+            GRAFIKA
+        </button>
     </div>
-    <div id="simpleRow" ng-click="showTab(3)">
-        dodaj wideo
+    <div class="col-md-2">
+        <button id="simpleRow" ng-click="showTab(3)">
+            VIDEO
+        </button>
     </div>
-    <div id="simpleRow" ng-click="showTab(4)">
-        dodaj prezentacje
+    <div class="col-md-2">
+        <button id="simpleRow" ng-click="showTab(4)">
+            PREZENTACJA
+        </button>
     </div>
-    <div id="simpleRow" ng-click="showTab(5)">
-        dodaj plik
+    <div class="col-md-2">
+        <button id="simpleRow" ng-click="showTab(5)">
+            PLIK
+        </button>
     </div>
+
     <div ng-training-text-editor obj="obj" ng-show="index  == 1"></div>
     <div ng-training-image-editor obj="obj" ng-show="index  == 2"></div>
     <div ng-training-media-editor obj="obj" ng-show="index  == 3"></div>

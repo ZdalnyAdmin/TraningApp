@@ -14,7 +14,7 @@
                     </li>
                 }
             </ul>
-    <hr />
+            <hr />
         }
         
         <ul class="nav navbar-nav">
@@ -43,22 +43,14 @@
                     <img src="/Content/Images/menu-icon.png" /> <span>UTWÓRZ SZKOLENIE</span>
                 </a>
             </li>
-@if (ViewBag.MyTrainings.Count > 0)
-{
-    <li>
-        <img src="/Content/Images/menu-icon.png" /> <span>MOJE SZKOLENIA</span>
-        <ul class="nav navbar-nav active-courses-menu">
-            @foreach (var training in ViewBag.MyTrainings)
+            @if (ViewBag.MyTrainings.Count > 0)
             {
                 <li>
-                    <a href="/creatorTrainings?trainingID=@training.TrainingID">
-                        <img src="/Content/Images/menu-icon.png" /> <span>@training.Name</span>
+                    <a href="#">
+                        <img src="/Content/Images/menu-icon.png" /> <span>MOJE SZKOLENIA</span>
                     </a>
                 </li>
-            }
-        </ul>
-    </li>
-}
+            }   
             <li>
                 <a href="/creatorHowTo">
                     <img src="/Content/Images/menu-icon.png" /> <span>JAK TWORZYĆ SZKOLENIA</span>
@@ -125,7 +117,7 @@
                 </a>
             </li>
         </ul>
-        <hr />
+        <hr class="visible-sm visible-xs"/>
     </div>
     <div class="col-sm-8 col-sm-offset-4 col-md-12 col-md-offset-0 additional-menu">
         <ul class="nav navbar-nav">

@@ -10,7 +10,8 @@
 .logo img{
     width:200px;
     height:72px;
-    margin-top:22px;
+    margin-top:9px;
+    margin-bottom:9px;
 }
 .header hr{
     border-top:2px solid #fff;

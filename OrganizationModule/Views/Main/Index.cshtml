@@ -35,17 +35,18 @@
                 <ul class="nav nav-tabs">
                     <li role="presentation" class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                            {{models.Login}} <img src="~/Content/Images/show-more-btn-icon.png" />
+                            <img src="~/Content/Images/user-icon.png" />
+                            <span>{{models.Login}}</span> <img src="~/Content/Images/show-right-menu.png" />
                         </a>
-                        <ul class="dropdown-menu" role="menu">
+                        <ul class="dropdown-menu" role="menu">                       
                             <li>
-                                <a href="/logoff">
-                                    <span>WYLOGUJ</span>
+                                <a href="/userCurrent">
+                                    <img src="/Content/Images/menu-icon.png" /> <span>MOJE USTAWIENIA</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/userCurrent">
-                                    <span>MOJE USTAWIENIA</span>
+                                <a href="/logoff">
+                                    <img src="/Content/Images/menu-icon.png" /> <span>WYLOGUJ</span>
                                 </a>
                             </li>
                         </ul>

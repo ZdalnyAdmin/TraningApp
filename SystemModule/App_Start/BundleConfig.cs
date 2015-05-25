@@ -40,6 +40,8 @@ namespace SystemModule
             bundles.Add(new StyleBundle("~/FroalaStyles").IncludeDirectory(
                 "~/thirdParty/FroalaWysiwygEditor/css", "*.css"));
 
+            bundles.Add(new StyleBundle("~/Trainings").Include(
+                "~/Content/Trainings/create-training.css"));
         }
     }
 }

@@ -1,11 +1,13 @@
-﻿<div class='container'>
-    <div ng-drag-and-drop options="'IMAGE'" model="currentDetail"></div>
-    <div id="simpleRow">
-        <div id="inputButto" ng-click="cancel(currentDetail)">
+﻿<div class="row">
+    <div class="col-md-12">
+        <div ng-drag-and-drop options="'IMAGE'" model="currentDetail"></div>
+    </div>
+    <div class="col-md-2">
+        <button id="inputButto" ng-click="cancel(currentDetail)">
             Anuluj
-        </div>
-        <div id="inputButto" ng-click="add(currentDetail)">
+        </button>
+        <button id="inputButto" ng-click="add(currentDetail)">
             Zapisz
-        </div>
+        </button>
     </div>
 </div>

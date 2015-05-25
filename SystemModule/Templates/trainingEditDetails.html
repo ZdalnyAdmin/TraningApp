@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div ng-show="item.ResourceType == 0">
+    <div class="row" ng-show="item.ResourceType == 0">
         <div id="simpleRow" ng-hide="item.isEdit" ng-bind-html="item.Text"></div>
         <div id="simpleRow" ng-show="item.isEdit">
             <textarea name="item.Text" froala="options" ng-model="item.Text"></textarea>
@@ -43,12 +43,12 @@
         </div>
     </div>
 
-    <div id="simpleRow">
-        <div id="inputButto" ng-click="save(item)" ng-show="item.isEdit">
+    <div class="row" id="simpleRow">
+        <button id="inputButto" ng-click="save(item)" ng-show="item.isEdit">
             ZAPISZ
-        </div>
-        <div id="inputButto" ng-click="cancel(item)" ng-show="item.isEdit">
+        </button>
+        <button id="inputButto" ng-click="cancel(item)" ng-show="item.isEdit">
             ANULUJ
-        </div>
+        </button>
     </div>
 </div>

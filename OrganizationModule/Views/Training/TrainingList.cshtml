@@ -1,4 +1,40 @@
-﻿<div>
+﻿
+<div class="col-md-12 content">
+    <div class="submenu clearfix">
+        <ul class="clearfix">
+            <li><a ng-click="changeDisplayedTrainings('All')">WSZYSTKIE</a></li>
+            <li><a ng-click="changeDisplayedTrainings('Internal')">WEWNĘTRZNE</a></li>
+            <li><a ng-click="changeDisplayedTrainings('Kenpro')">OD KENPRO</a></li>
+        </ul>
+    </div>
+
+    @foreach (var training in ViewBag.Trainings)
+    {
+        <div class="course" ng-show="display == 'All' || ('@training.TrainingType' == display)">
+            <h2>@training.Name</h2>
+            <div class="course-box">
+                <div class="left">
+                    <img src="@training.TrainingResources" />
+                </div>
+                <div class="right">
+                    <div class="description txt-m">
+                        @training.Description
+                    </div>
+                    <div class="buttons clearfix">
+                        <div class="show-less-more btn btn-l">
+                            <img src="~/Content/Images/show-more-btn-icon.png" /><img style="display:none;" src="~/Content/Images/show-less-btn-icon.png" />
+                            <span>WIĘCEJ</span><span style="display:none;">MNIEJ</span>
+                        </div>
+                        <button class="btn btn-l blue-button run" ng-click="startTraining(@training.TrainingID)">URUCHOM SZKOLENIE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+    
+
+@*<div>
     <div>
         <div class="btn" ng-click="changeDisplayedTrainings('All')">Wszystkie</div>
         <div class="btn" ng-click="changeDisplayedTrainings('Internal')">Wewnętrzne</div>
@@ -16,4 +52,6 @@
             </div>
         </div>
     }
-</div>
+</div>*@
+
+@Styles.Render("~/Trainings")
