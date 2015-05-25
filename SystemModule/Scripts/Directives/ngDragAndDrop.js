@@ -51,6 +51,7 @@
                 }
 
                 $element.find('.progressBar').text('');
+                $element.find('.upload-file').parent().html('<input type="file" class="upload-file" onchange="angular.element(this).scope().upload(this)" name="uploadFiles">');
             };
 
             $scope.$watch('model.isEdit', function () {
