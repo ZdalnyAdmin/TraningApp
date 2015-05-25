@@ -1,5 +1,5 @@
-﻿<a href="/userCurrent">{{currentUser.DisplayName}}</a>
-<div class="keeper-menu">
+﻿@*<a href="/userCurrent">{{currentUser.DisplayName}}</a>*@
+<div class="admin-menu">
     <div class="col-sm-4 col-md-12">
         @if (ViewBag.Trainings.Count > 0)
         {
@@ -14,8 +14,9 @@
                     </li>
                 }
             </ul>
+    <hr />
         }
-        <hr class="hidden-sm" />
+        
         <ul class="nav navbar-nav">
             <li>
                 <a href="/userTranings">
@@ -27,7 +28,13 @@
                     <img src="/Content/Images/menu-icon.png" /> <span>MOJE WYNIKI</span>
                 </a>
             </li>
+            <li>
+                <a href="/userFaq">
+                    <img src="/Content/Images/menu-icon.png" /> <span>FAQ</span>
+                </a>
+            </li>
         </ul>
+        <hr />
     </div>
     <div class="col-sm-4 col-md-12">
         <ul class="nav navbar-nav">
@@ -58,6 +65,7 @@
                 </a>
             </li>
         </ul>
+        <hr />
     </div>
     <div class="col-sm-4 col-md-12">
         <ul class="nav navbar-nav">
@@ -77,6 +85,7 @@
                 </a>
             </li>
         </ul>
+        <hr />
     </div>
     <div class="col-sm-4  col-md-12">
         <ul class="nav navbar-nav">
@@ -96,6 +105,7 @@
                 </a>
             </li>
         </ul>
+        <hr />
     </div>
     <div class="col-sm-4 col-md-12">
         <ul class="nav navbar-nav">
@@ -115,12 +125,18 @@
                 </a>
             </li>
         </ul>
+        <hr />
     </div>
-    <div class="col-sm-4 col-md-12 additional-menu">
+    <div class="col-sm-8 col-sm-offset-4 col-md-12 col-md-offset-0 additional-menu">
         <ul class="nav navbar-nav">
-            <li>
-                <a href="/userFaq">
-                    <img src="/Content/Images/menu-icon.png" /> <span>FAQ</span>
+            <li class="visible-sm visible-xs">
+                <a href="#">
+                    <img src="/Content/Images/menu-icon.png" /> <span>MOJE USTAWIENIA</span>
+                </a>
+            </li>
+            <li class="visible-sm visible-xs">
+                <a href="/logoff">
+                    <img src="/Content/Images/menu-icon.png" /> <span>WYLOGUJ</span>
                 </a>
             </li>
         </ul>

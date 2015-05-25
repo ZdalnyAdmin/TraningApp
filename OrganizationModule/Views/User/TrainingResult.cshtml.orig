@@ -1,5 +1,6 @@
 ﻿@if (ViewBag.TrainingResults.Count > 0)
 {
+<<<<<<< HEAD
     <div class="col-md-8 col-md-offset-4 col-lg-9 col-lg-offset-3" id="courses-result">
         @foreach (var trainingResult in ViewBag.TrainingResults)
         {
@@ -72,7 +73,7 @@
                             <div class="percent">
                                 @if (trainingResult.PossibleRate != 0)
                                 {
-                        <span>@((trainingResult.Rating * 100 / trainingResult.PossibleRate).ToString("0.00"))</span>
+                                    <span>@(trainingResult.Rating * 100 / trainingResult.PossibleRate)</span>
                                 }%
                             </div>
                         </div>
@@ -84,6 +85,49 @@
                 </div>
             }
         }
+=======
+    foreach (var trainingResult in ViewBag.TrainingResults)
+    {
+        <div>
+            <div>@trainingResult.Training.Name</div>
+            <div>Data uruchomienia: @trainingResult.StartDate.ToString("dd.MM.yyyy")</div>
+            <div>Data ukończenia: @trainingResult.StartDate.ToString("dd.MM.yyyy")</div>
+        </div>
+
+        <div>
+            <div>
+                <span>Zdobyte umiejętności:</span>
+                @if (trainingResult.IsPassed)
+                {
+                    <span>@trainingResult.Training.PassInfo</span>
+                }
+                else
+                {
+                    <span>Szkolenie nie zostało zaliczone</span>
+                }
+            </div>
+
+            <div>
+                <span>Zdobyta odznaka:</span>
+                @if (trainingResult.IsPassed)
+                {
+                    <img src="@trainingResult.Training.PassResources" />
+                }
+            </div>
+
+            <div>
+                <span>Punkty:</span>
+                <span>@trainingResult.Rating</span>/<span>@trainingResult.PossibleRate</span>
+                <span>
+                    @if (trainingResult.PossibleRate != 0)
+                    {
+                        <span>@((trainingResult.Rating * 100 / trainingResult.PossibleRate).ToString("0.00"))</span>
+                    }
+                %
+            </span>
+        </div>
+
+>>>>>>> 0b510bfd00eb4f5061f26fb1fec613464aeca932
     </div>
 }
 else

@@ -1,18 +1,38 @@
-﻿nav{
+﻿.header{
+    background:#0d223d;
+
+}
+.header .logo{
+    float:left;
+}
+.header .current-user{
+    float:right;
+}
+.header .nav-tabs{
+    border:none;
+}
+.header .nav-tabs li.dropdown a{
+    margin:0;
+    border:none;
+}
+.header .nav-tabs li.dropdown a:hover{
+    background:none!important;
+    border:none;
+    border-radius:0;
+}
+nav{
     font-family: 'Archivo Narrow', sans-serif;
     font-size:14px;
-    font-weight:700;
+    background:#ebebf0;
 }
 nav hr{
-    border:1px solid #436DAA;
+    border:1px solid #1e2850;
     margin-top:10px;
     margin-bottom:10px!important;
 }
 nav h6{
     font-size:14px;
-    color:#436DAA;
-    font-weight:700;
-    font-family: 'Archivo Narrow', sans-serif;
+    color:#283769;
     padding-left:15px;
     padding-right:15px;
 }
@@ -22,8 +42,8 @@ nav h6{
 }
 nav ul li img{
     border-radius:50%;
-    margin-left:7px;
-    margin-right:7px;
+    margin-left:22px;
+    margin-right:22px;
 }
 nav ul{
     width:100%;
@@ -37,7 +57,7 @@ nav a{
     padding-left:0!important;
     padding-right:0!important;
     width:100%;
-    color:#fff!important;
+    color:#283769!important;
     padding-top:12px!important;
     padding-bottom:12px!important;
 }
@@ -46,7 +66,6 @@ nav a{
 }
 .active-courses-menu{
     font-size:14px;
-    font-weight:700;
 }
 .active-courses-menu li{
     height:50px;
@@ -58,12 +77,12 @@ nav a{
 .active-courses-menu img{
     width:24px; 
     height:24px;
-    margin-left:12px;
-    margin-right:12px;
+    margin-left:28px;
+    margin-right:28px;
 }
 nav li:hover a{
-    background:#fff!important;
-    color:#283759!important;
+    background:#283759!important;
+    color:#fff!important;
 }
 
 .navbar-toggle{
@@ -84,11 +103,11 @@ nav li:hover a{
 }
 /*CREATOR MENU*/
 .creator-menu div:nth-child(n+3) ul li a{
-    background:#436DAA;
+    
 }
 .creator-menu div:nth-child(n+3) ul li:hover a{
-    background:#fff!important;
-    color:#436DAA!important;
+    color:#fff;
+    background:#3469d0;
 }
 .creator-menu div:nth-child(n+4) ul li a{
     background:none!important;
@@ -122,61 +141,61 @@ nav li:hover a{
 
 /*ADMIN MENU*/
 .admin-menu div:nth-child(n+2) ul li a{
-    background:#436DAA;
+
 }
 .admin-menu div:nth-child(n+2) ul li:hover a{
-    background:#fff!important;
-    color:#436DAA!important;
+    background:#3469d0!important;
+    color:#fff!important;
 }
 .admin-menu div:nth-child(n+4) ul li a{
-    background:#349B8E;
+    
 }
 .admin-menu div:nth-child(n+4) ul li:hover a{
-    background:#fff!important;
-    color:#349B8E!important;
+    background:#008fa2!important;
+    color:#fff!important;
 }
 .admin-menu div:nth-child(n+5) ul li a{
-    background:#912A4F;
+    
 }
 .admin-menu div:nth-child(n+5) ul li:hover a{
-    background:#fff!important;
-    color:#912A4F!important;
+    background:#842748!important;
+    color:#fff!important;
 }
 .admin-menu div:nth-child(n+6) ul li a{
-    background:none!important;
+    
 }
 .admin-menu div:nth-child(n+6) ul li:hover a{
-    background:#fff;
-    color:#283759!important;
+    background:#283759!important;
+    color:#fff!important;
 }
 /*KEEPER MENU*/
 .keeper-menu div:nth-child(n+2) ul li a{
-    background:#436DAA;
+    
 }
 .keeper-menu div:nth-child(n+2) ul li:hover a{
-    background:#fff!important;
-    color:#436DAA!important;
+    background:#3469d0!important;
+    color:#fff!important;
 }
 .keeper-menu div:nth-child(n+4) ul li a{
-    background:#349B8E;
+    
 }
 .keeper-menu div:nth-child(n+4) ul li:hover a{
-    background:#fff!important;
-    color:#349B8E!important;
+    background:#008fa2!important;
+    color:#fff!important;
 }
 .keeper-menu div:nth-child(n+5) ul li a{
-    background:#912A4F;
+    
 }
 .keeper-menu div:nth-child(n+5) ul li:hover a{
-    background:#fff!important;
-    color:#912A4F!important;
+    background:#842748!important;
+    color:#fff!important;
 }
-.keeper-menu div:nth-child(n+7) ul li a{
-    background:none!important;
+.keeper-menu div:nth-child(n+6) ul li a{
+    
 }
-.keeper-menu div:nth-child(n+7) ul li:hover a{
-    background:#fff;
-    color:#283759!important;
+.keeper-menu div:nth-child(n+6) ul li:hover a{
+    background:#283759!important;
+    color:#fff!important;
 }
 
 
