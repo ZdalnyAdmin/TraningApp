@@ -27,22 +27,24 @@
 
         UtilitiesFactory.showSpinner();
 
-        $scope.errorMessage = '';
+        $scope.viewModel.errorMessage = '';
+        $scope.viewModel.Success = '';
         var result = UserFactory.registerOperator($scope.viewModel.Protector);
 
         result.then(function (data) {
-            if (!data.Succeeded) {
+            if (data.Succeeded) {
                 $scope.viewModel.Protector = {};
                 $scope.viewModel.Protector.Profile = 4;
+                $scope.viewModel.Success = 'Użytkownik został zaproszony';
             }
             else {
                 if (data.Errors) {
-                    $scope.errorMessage = '';
+                    $scope.viewModel.errorMessage = '';
                     angular.forEach(data.Errors, function (val) {
-                        $scope.errorMessage += ' ' + val;
+                        $scope.viewModel.errorMessage += ' ' + val;
                     });
                 } else {
-                    $scope.errorMessage = 'Wystąpił nieoczekiwany błąd podczas rejestracji operatora';
+                    $scope.viewModel.errorMessage = 'Wystąpił nieoczekiwany błąd podczas rejestracji operatora';
                 }
             }
 

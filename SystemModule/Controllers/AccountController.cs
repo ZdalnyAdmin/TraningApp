@@ -158,7 +158,7 @@ namespace SystemModule.Controllers
                         var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                         var organizationModulePath = AppSettings.Setting<string>("organizationModulePath");
 
-                        UserManager.SendEmailAsync(user.Id,
+                        await UserManager.SendEmailAsync(user.Id,
                             "Zaproszenie Kenpro",
                            "Zakończyłeś zaproszony do organizacji:" + (organization != null ? organization.Name : string.Empty)
                            + "<br/>Zaproszenie zostało wysłane przez: " + (logged != null ? logged.UserName : string.Empty)
