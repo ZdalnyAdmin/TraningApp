@@ -6,6 +6,9 @@
     @*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">*@
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Archivo+Narrow:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/FroalaScripts")
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
@@ -27,17 +30,28 @@
                 <img src="~/Content/Images/logo.png" />
             </div>
             <div class="current-user">
-                
-                @*<a href="/userCurrent">{{models.Login}}</a>*@
-                <a href="/logoff">
-                    <span>WYLOGUJ</span>
-                </a>
-                <a href="/userCurrent">
-                    <span>MOJE USTAWIENIA</span>
-                </a>
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            {{models.Login}} <img src="~/Content/Images/show-more-btn-icon.png" />
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="/logoff">
+                                    <span>WYLOGUJ</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/userCurrent">
+                                    <span>MOJE USTAWIENIA</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
-        <hr />
+        
     </div>
 
     <div class="container">
@@ -50,37 +64,6 @@
             </div>
         </div>
     </div>
-    @*<div class="navbar navbar-default navbar-left" role="navigation">
-            <ul class="nav">
-                <li><a href="/userCurrent" >{{models.Login}}</a></li>
-                <li><a href="/userTrainings">Lista szkolen</a></li>
-                <li><a href="/userAvailableTrainings">Aktywne szkolenia</a></li>
-                <li><a href="/userResult">Wyniki</a></li>
-                <li><a href="/userFaq">FAQ</a></li>
-            </ul>
-            <ul class="nav">
-                <li><a href="/creatorTraining">Utworz szkolenie</a></li>
-                <li><a href="/creatorTrainings">Moje szkolenia</a></li>
-                <li><a href="/creatorHowTo">Jak tworzyc szkolenie</a></li>
-            </ul>
-            <ul class="nav">
-                <li><a href="/managerResult">Wyniki szkolen</a></li>
-                <li><a href="/managerEdit">Edycja szkolenia</a></li>
-                <li><a href="/managerInvitation">Zaproszenia</a></li>
-            </ul>
-            <ul class="nav ">
-                <li><a href="/adminUsers">Uzytkownicy </a></li>
-                <li><a href="/adminGroups">Grupy uzytkownikow</a></li>
-                <li><a href="/adminManage">Zarzadzanie szkoleniami</a></li>
-                <li><a href="/adminStats">Statystyki</a></li>
-                <li><a href="/adminSettings">Ustawienia firmowe</a></li>
-                <li><a href="/adminHowTo">Instrukcja obslugi</a></li>
-            </ul>
-            <ul class="nav ">
-                <li><a href="/protectorRoles">Uprawnienia</a></li>
-                <li><a href="/protectorLogs">Logi</a></li>
-            </ul>
-        </div>*@
     @Scripts.Render("~/bundles/OrganizationModuleApp")
     @Scripts.Render("~/bundles/OrganizationModuleAppComponents")
 </body>
