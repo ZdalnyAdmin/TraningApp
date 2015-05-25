@@ -49,6 +49,8 @@
                     deleteFile($scope.model.InternalResource);
                     $scope.model.InternalResource = undefined;
                 }
+
+                $element.find('.progressBar').text('');
             };
 
             $scope.$watch('model.isEdit', function () {

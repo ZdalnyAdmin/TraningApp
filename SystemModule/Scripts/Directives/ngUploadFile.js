@@ -42,6 +42,8 @@
                     if (jqXHR && jqXHR.abort) {
                         jqXHR.abort();
                     }
+
+                    $element.find('.progressBar').text('');
                 }
             });
 
