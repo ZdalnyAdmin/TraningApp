@@ -23,13 +23,20 @@
     <div ng-show="item.ResourceType == 1">
         <div id="simpleRow">
             <div id="simpleRow">
-                <img src="{{item.InternalResource}}" width="300" height="200" />
+                <img src="{{item.InternalResource || item.ExternalResource}}" width="300" height="200" />
             </div>
         </div>
     </div>
     <div ng-show="item.ResourceType == 2">
         <div id="simpleRow">
             Dodany plik wideo : {{item.Name}}
+            <div ng-if="item.InternalResource">
+                <ng-jw-player setup='{ "file": "{{item.InternalResource}}" }'></ng-jw-player>
+            </div>
+            <div ng-if="item.ExternalResource">
+                <iframe ng-if="item.ExternalResource.indexOf('youtu') !=-1" width="560" height="315" src="{{getUrl(item.ExternalResource)}}" frameborder="0" allowfullscreen></iframe>
+                <iframe ng-if="item.ExternalResource.indexOf('player.vimeo.com') !=-1" src="{{getUrl(item.ExternalResource)}}" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </div>
         </div>
     </div>
     <div ng-show="item.ResourceType == 3">
