@@ -82,6 +82,12 @@ namespace OrganizationModule.Controllers
             var loggedPerson = Person.GetLoggedPerson(User);
             var trainings = getTrainings(loggedPerson.Id);
 
+            if(loggedPerson.Profile != AppEngine.Models.DataBusiness.ProfileEnum.User)
+            {
+                var myTrainings = _db.Trainings.Where(x => x.CreateUserID == loggedPerson.Id).ToList();
+                ViewBag.MyTrainings = myTrainings;
+            }
+
             ViewBag.LoggedUser = loggedPerson;
             ViewBag.Trainings = trainings;
         }

@@ -32,7 +32,7 @@ namespace OrganizationModule.Controllers
 
             globalTrainings.ForEach(x =>
             {
-                if(trainings.IndexOf(x) == -1)
+                if (trainings.IndexOf(x) == -1)
                 {
                     trainings.Add(x);
                 }
@@ -59,8 +59,8 @@ namespace OrganizationModule.Controllers
                 return Json(result);
             }
 
-            var rslt = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id && 
-                                                               x.TrainingID == model.TrainingID && 
+            var rslt = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id &&
+                                                               x.TrainingID == model.TrainingID &&
                                                                !x.EndDate.HasValue);
 
             if (rslt != null)
@@ -71,10 +71,10 @@ namespace OrganizationModule.Controllers
 
             var settings = _db.AppSettings.FirstOrDefault(x => x.IsDefault);
 
-            var activeTrainingsCount = _db.TrainingResults.Where(x => x.PersonID == loggedPerson.Id && 
+            var activeTrainingsCount = _db.TrainingResults.Where(x => x.PersonID == loggedPerson.Id &&
                                                                      !x.EndDate.HasValue)
                                                           .Count();
-            if(settings != null &&
+            if (settings != null &&
                 settings.MaxActiveTrainings <= activeTrainingsCount)
             {
                 result.Errors.Add("Masz uruchomioną maksymalną ilość kursów, jeżeli chcesz uruchomić kolejny zakończ wcześniej któryś z aktywowanych kursów");
@@ -100,13 +100,13 @@ namespace OrganizationModule.Controllers
             var loggedPerson = Person.GetLoggedPerson(User);
 
             var org2Train = _db.TrainingsInOrganizations
-                               .Where(x=>x.OrganizationID == loggedPerson.OrganizationID)
-                               .Select(x=>x.TrainingID)
+                               .Where(x => x.OrganizationID == loggedPerson.OrganizationID)
+                               .Select(x => x.TrainingID)
                                .ToList();
 
             var trn = _db.Trainings.FirstOrDefault(x => x.TrainingID == id);
 
-            if(org2Train.IndexOf(id) == -1 && (trn == null || trn.TrainingType != TrainingType.Kenpro))
+            if (org2Train.IndexOf(id) == -1 && (trn == null || trn.TrainingType != TrainingType.Kenpro))
             {
                 ViewBag.AccessDenied = true;
             }
@@ -115,10 +115,16 @@ namespace OrganizationModule.Controllers
                 ViewBag.AccessDenied = false;
                 var training = _db.Trainings.FirstOrDefault(x => x.TrainingID == id);
                 var trainingDetails = _db.TrainingDetails.Where(x => x.TrainingID == training.TrainingID).OrderBy(x => x.DisplayNo).ToList();
-                trainingDetails.ForEach(x=> {
+                trainingDetails.ForEach(x =>
+                {
                     if (x.ResourceType == AppEngine.Models.DataObject.TrainingResource.Presentation)
                     {
                         x.InternalResource = string.Format(googleDocViewer, Request.Url.Scheme + "://" + Request.Url.Authority + "/" + x.InternalResource.Replace("\\", "/"));
+                    }
+
+                    if (x.ResourceType == AppEngine.Models.DataObject.TrainingResource.Video)
+                    {
+                        x.InternalResource = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + x.InternalResource.Replace("\\", "/");
                     }
                 });
 
@@ -159,7 +165,7 @@ namespace OrganizationModule.Controllers
             var answers = s.Deserialize<Dictionary<string, string>>(model.TrainingAnswers);
 
             var loggedPerson = Person.GetLoggedPerson(User);
-            var trainingResult = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id && 
+            var trainingResult = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id &&
                                                                          x.TrainingID == model.TrainingID &&
                                                                          x.EndDate == null);
 
@@ -173,22 +179,41 @@ namespace OrganizationModule.Controllers
             trainingResult.Training = _db.Trainings.FirstOrDefault(x => x.TrainingID == trainingResult.TrainingID);
             trainingResult.TrainingScore = model.TrainingRate;
 
-            foreach(var answer in answers)
+            foreach (var answer in answers)
             {
                 int trainingQuestionID = 0;
                 int.TryParse(answer.Key, out trainingQuestionID);
                 var question = _db.TrainingQuestons.FirstOrDefault(x => x.TrainingQuestionID == trainingQuestionID && x.TrainingID == model.TrainingID);
-                question.Answers = _db.TrainingAnswers.Where(x=> x.TrainingQuestionID == question.TrainingQuestionID).ToList();
+                question.Answers = _db.TrainingAnswers.Where(x => x.TrainingQuestionID == question.TrainingQuestionID).ToList();
 
-                switch(question.Type)
+                switch (question.Type)
                 {
                     case AppEngine.Models.DataObject.QuestionType.Multi:
                         var selectedAnswers = getSelectedAnswers(answer.Value);
+
+                        var wrongAnswer = false;
+                        float value = 0;
+
                         foreach (var selectedAnswer in selectedAnswers)
                         {
                             var multiAns = question.Answers.FirstOrDefault(x => x.TrainingAnswerID == selectedAnswer);
-                            trainingResult.Rating += multiAns != null ? multiAns.Score : 0;
+
+                            if (multiAns == null || wrongAnswer)
+                            {
+                                continue;
+                            }
+
+                            if (multiAns.Score <= 0)
+                            {
+                                wrongAnswer = true;
+                                value = 0;
+                                continue;
+                            }
+
+                            value += multiAns.Score;
                         }
+
+                        trainingResult.Rating += value;
 
                         break;
 
@@ -207,7 +232,12 @@ namespace OrganizationModule.Controllers
             }
 
             trainingResult.PossibleRate = trainingResult.GetPossibleRate();
-            trainingResult.IsPassed = trainingResult.Rating >= trainingResult.Training.PassResult;
+
+            if(trainingResult.PossibleRate != 0)
+            {
+                var percentageResult = trainingResult.Rating / trainingResult.PossibleRate * 100;
+                trainingResult.IsPassed = percentageResult >= trainingResult.Training.PassResult;
+            }
 
             _db.SaveChanges();
             result.Succeeded = true;
@@ -220,7 +250,7 @@ namespace OrganizationModule.Controllers
         {
             Result result = new Result() { Succeeded = false };
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var training = _db.Trainings.FirstOrDefault(x => x.TrainingID == model.TrainingID);
 
@@ -236,7 +266,7 @@ namespace OrganizationModule.Controllers
         #region Private Fields
         private List<int> getSelectedAnswers(string selectedAnswers)
         {
-            var listOfAnswers = selectedAnswers.Split(new string[]{";"}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var listOfAnswers = selectedAnswers.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries).ToList();
             var listOfSelectedAnswers = listOfAnswers.Select(x =>
             {
                 var answer = x.Split(new string[] { "-" }, StringSplitOptions.RemoveEmptyEntries);

@@ -15,6 +15,8 @@
                 $scope.currentDetail.InternalResource = '';
                 $scope.currentDetail.ResourceType = undefined;
                 $scope.currentDetail.isEdit = undefined;
+
+                $scope.currentDetail.Name = '';
             }
 
             $scope.add = function (item) {

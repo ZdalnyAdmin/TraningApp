@@ -1,5 +1,5 @@
 ﻿<div class="login-container" ng-form="loginFrm">
-    <div class="row" ng-show="loginForm.loginFailure">Niepoprawny login lub hasło!</div>
+    <div class="row" ng-show="errorMessage">{{errorMessage}}</div>
     <div class="row">
         <div class="col-md-4 col-md-offset-4 login-input login-form-row">
             <input class=" input-xl form-control" type="text" name="Login" placeholder="Login" ng-model="loginForm.emailAddress" required tooltip-enable="loginFrm.Login.$error.required" tooltip="Wpisz Login!" />

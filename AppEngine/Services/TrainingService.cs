@@ -24,6 +24,12 @@ namespace AppEngine.Services
 
                 model.Success = String.Empty;
 
+                var serverPath = String.Empty;
+                var path = String.Empty;
+                var fileSize = 0m;
+                var index = 0;
+                var availableSpace = 0m;
+
                 if (isInternal)
                 {
                     if (model.CurrentOrganization == null)
@@ -36,6 +42,8 @@ namespace AppEngine.Services
                         model.ErrorMessage = "Brak organizacji do ktorej mozna przypisac grupe!";
                         return true;
                     }
+
+                    availableSpace = model.CurrentOrganization.SpaceDisk * 1024;
                 }
 
                 switch (model.ActionType)
@@ -69,13 +77,178 @@ namespace AppEngine.Services
                         break;
                     case AppEngine.Models.DataBusiness.BaseActionType.Edit:
 
-                        model.Current.ModifieddUserID = model.LoggedUser.Id;
-                        model.Current.ModifiedDate = DateTime.Now;
+                        //walidation
+                        if (model.Current.Details == null || !model.Current.Details.Any())
+                        {
+                            model.ErrorMessage = "Nie mozna zapisac szkolenia. Nalezy dodac element do szkolenia";
+                            return false;
 
-                        context.Entry(model.Current).State = EntityState.Modified;
+                        }
+
+                        var toModified = context.Trainings.FirstOrDefault(x => x.TrainingID == model.Current.TrainingID);
+
+                        //check training resources
+                        var fileName = Path.GetFileName(toModified.TrainingResources);
+
+                        //Assets\34c3cd6d0bbb4001a5570372f4db649f\Resources\U_05_0238035_0115RW.pdf
+                        serverPath = toModified.TrainingResources.Replace("\\" + fileName, "");
+                        path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
+
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                        fileSize = 0m;
+                        if (!model.Current.TrainingResources.EndsWith(fileName))
+                        {
+                            File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toModified.TrainingResources));
+                            toModified.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
+                        }
+
+                        fileName = String.IsNullOrEmpty(toModified.PassResources) ? string.Empty : Path.GetFileName(toModified.PassResources);
+
+                        if (!String.IsNullOrEmpty(model.Current.PassResources) && !model.Current.PassResources.EndsWith(fileName))
+                        {
+                            fileSize = 0m;
+                            if (!String.IsNullOrEmpty(fileName))
+                            {
+                                File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toModified.PassResources));
+                            }
+                            toModified.PassResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
+                        }
+                        toModified.Name = model.Current.Name;
+                        toModified.Description = model.Current.Description;
+                        toModified.PassInfo = model.Current.PassInfo;
+                        toModified.PassResult = model.Current.PassResult;
+                        toModified.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
+                        toModified.ModifieddUserID = model.LoggedUser.Id;
+                        toModified.ModifiedDate = DateTime.Now;
+
+                        context.Entry(toModified).State = EntityState.Modified;
+                        context.SaveChanges();
+
+                        index = 0;
+                        //todo add check if exists
+
+
+                        if (model.Current.Details != null)
+                        {
+                            if (isInternal)
+                            {
+                                availableSpace = availableSpace - AppSettings.GetUsedSpace(context, model.CurrentOrganization.OrganizationID);
+                            }
+
+                            var modifiedDetails = context.TrainingDetails.Where(x => x.TrainingID == model.Current.TrainingID).ToList();
+
+                            try
+                            {
+
+                                foreach (var item in modifiedDetails)
+                                {
+                                    var removed = model.Current.Details.FirstOrDefault(x => x.TrainingDetailID == item.TrainingDetailID);
+
+                                    if (removed == null)
+                                    {
+                                        if (!String.IsNullOrEmpty(item.InternalResource))
+                                        {
+                                            File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, item.InternalResource));
+                                        }
+                                        if (isInternal)
+                                        {
+                                            availableSpace += item.FileSize;
+                                        }
+                                        context.Entry(item).State = EntityState.Deleted;
+                                 
+                                    }
+                                    if(removed != null && !String.IsNullOrEmpty(item.InternalResource) && !item.Name.Equals(removed.Name))
+                                    {
+                                        File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, item.InternalResource));
+                                        if (isInternal)
+                                        {
+                                            availableSpace += item.FileSize;
+                                        }
+                                        context.Entry(item).State = EntityState.Deleted;
+                                    }
+                                }
+
+                                foreach (var item in model.Current.Details)
+                                {
+                                    item.TrainingID = model.Current.TrainingID;
+                                    item.DisplayNo = index;
+
+                                    index++;
+
+                                    var editable = modifiedDetails.FirstOrDefault(x => x.TrainingDetailID == item.TrainingDetailID);
+
+                                    if(editable != null && !String.IsNullOrEmpty(item.InternalResource) && item.Name.Equals(editable.Name))
+                                    {
+                                        if(editable.DisplayNo != item.DisplayNo)
+                                        {
+                                            editable.DisplayNo = item.DisplayNo;
+                                            context.Entry(editable).State = EntityState.Modified;
+                                        }
+                                        continue;
+                                    }
+
+                                    //move file and save size in MG
+                                    if (!String.IsNullOrEmpty(item.InternalResource))
+                                    {
+                                        fileSize = 0m;
+                                        item.InternalResource = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, item.InternalResource, out fileSize);
+                                        item.FileSize = fileSize;
+                                        if (isInternal)
+                                        {
+                                            availableSpace -= fileSize;
+
+                                            if (availableSpace <= 0)
+                                            {
+                                                foreach (var itemToDel in model.Details.Where(x => x.FileSize != 0))
+                                                {
+                                                    File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, itemToDel.InternalResource));
+                                                }
+
+                                                model.ErrorMessage = "Dostepna dla organizacji przestrzen dyskowan zostala zajeta. Nie mozna zapisac szkolenia";
+                                                return false;
+                                            }
+                                        }
+                                        context.Entry(item).State = EntityState.Added;
+                                    }  
+                                }
+
+
+                                context.SaveChanges();
+                            }
+                            catch(Exception ex)
+                            {
+                                model.ErrorMessage = "Problem z zapisaniem zmian w szczegolach szkolenia";
+                                return false;
+                            }
+                        }
+
+                        index = 0;
+
+
+                        if (model.Current.Questions != null)
+                        {
+                            var modifiedQuestion = context.TrainingQuestons.Where(x => x.TrainingID == model.Current.TrainingID).ToList();
+                            foreach (var modif in modifiedQuestion)
+                            {
+                                //modif.Answers = context.TrainingAnswers.Where(x => x.TrainingQuestionID == modif.TrainingQuestionID).ToList();
+                                context.Entry(modif).State = EntityState.Deleted;
+                            }
+
+                            foreach (var item in model.Current.Questions)
+                            {
+                                item.TrainingID = model.Current.TrainingID;
+                                item.DisplayNo = index;
+                                index++;
+                                context.Entry(item).State = EntityState.Added;
+                            } 
+                            context.SaveChanges();
+                        }
 
                         //todo assigned group
-
                         if (isInternal)
                         {
                             //todo change to only update
@@ -158,9 +331,15 @@ namespace AppEngine.Services
                         break;
                     case AppEngine.Models.DataBusiness.BaseActionType.Add:
 
-                        var serverPath = AppSettings.ServerPath();
-                        var path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
+                        if (model.Details == null || !model.Details.Any())
+                        {
+                            model.ErrorMessage = "Nie mozna zapisac szkolenia. Nalezy dodac element do szkolenia";
+                            return false;
 
+                        }
+
+                        serverPath = AppSettings.ServerPath();
+                        path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
                         if (!Directory.Exists(path))
                         {
                             Directory.CreateDirectory(path);
@@ -177,20 +356,25 @@ namespace AppEngine.Services
                             model.Current.TrainingResources = @"Assets\Image\main_image.png";
                         }
 
-                        var size = 0m;
-                        model.Current.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out size);
+                        fileSize = 0m;
+                        model.Current.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
                         if (!String.IsNullOrEmpty(model.Current.PassResources))
                         {
-                            size = 0m;
-                            model.Current.PassResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out size);
+                            fileSize = 0m;
+                            model.Current.PassResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
                         }
 
 
                         model.Current.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
-                        int index = 0;
+                        index = 0;
 
                         if (model.Details != null && model.Details.Any())
                         {
+                            if (isInternal)
+                            {
+                                availableSpace = availableSpace - AppSettings.GetUsedSpace(context, model.CurrentOrganization.OrganizationID);
+                            }
+
                             foreach (var item in model.Details)
                             {
                                 item.DisplayNo = index;
@@ -199,9 +383,25 @@ namespace AppEngine.Services
                                 //move file and save size in MG
                                 if (!String.IsNullOrEmpty(item.InternalResource))
                                 {
-                                    size = 0m;
-                                    item.InternalResource = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, item.InternalResource, out size);
-                                    item.FileSize = size;
+                                    fileSize = 0m;
+                                    item.InternalResource = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, item.InternalResource, out fileSize);
+                                    item.FileSize = fileSize;
+
+                                    if (isInternal)
+                                    {
+                                        availableSpace -= fileSize;
+
+                                        if (availableSpace <= 0)
+                                        {
+                                            foreach (var itemToDel in model.Details.Where(x => x.FileSize != 0))
+                                            {
+                                                File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, itemToDel.InternalResource));
+                                            }
+
+                                            model.ErrorMessage = "Dostepna dla organizacji przestrzen dyskowan zostala zajeta. Nie mozna zapisac szkolenia";
+                                            return false;
+                                        }
+                                    }
                                 }
                             }
                             model.Current.Details = model.Details;
@@ -290,7 +490,7 @@ namespace AppEngine.Services
                         {
                             model.Groups = model.Groups = (from gio in context.GroupsInOrganizations
                                                            join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
-                                                           where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
+                                                           where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted && g.Name != "Wszyscy"
                                                            select g).ToList();
                         }
 
@@ -360,6 +560,7 @@ namespace AppEngine.Services
                         {
                             model.Groups = (from gio in context.GroupsInOrganizations
                                             join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
+                                            where g.Name != "Wszyscy"
                                             where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
                                             select g).ToList();
                         }
@@ -386,7 +587,7 @@ namespace AppEngine.Services
                         model.Current.Details = context.TrainingDetails.Where(x => x.TrainingID == model.trainingID).ToList();
                         model.Current.Questions = context.TrainingQuestons.Where(x => x.TrainingID == model.trainingID).ToList();
 
-                        foreach(var question in model.Current.Questions)
+                        foreach (var question in model.Current.Questions)
                         {
                             question.Answers = context.TrainingAnswers.Where(x => x.TrainingQuestionID == question.TrainingQuestionID).ToList();
                         }
@@ -477,6 +678,7 @@ namespace AppEngine.Services
             }
             catch (Exception ex)
             {
+                model.ErrorMessage = "Wystapil nieokreslony problem przy probie polaczenia z baza";
                 return false;
             }
 

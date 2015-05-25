@@ -29,6 +29,8 @@
                class="upload-image"
                onchange="angular.element(this).scope().loadImage(this)"
                name="uploadImages">
+
+        <img src="{{viewModel.Current.TrainingResources}}"  />
     </div>
 
     <div id="simpleRow">
@@ -78,6 +80,10 @@
     </div>
 
     <div id="simpleRow">
+        <img src="{{viewModel.Current.PassResources}}" />
+    </div>
+
+    <div id="simpleRow">
         ZAWARTOSC SZKOLENIA
     </div>
 
@@ -101,7 +107,7 @@
         <input type="checkbox" ng-model="item.selected" />{{item.Name}}
     </div>
     <div id="simpleRow">
-        <button ng-click="save()" ng-disabled="viewModel.Details && viewModel.Details.length == 0">
+        <button ng-click="save()">
             ZAPISZ SZKOLENIE
         </button>
     </div>

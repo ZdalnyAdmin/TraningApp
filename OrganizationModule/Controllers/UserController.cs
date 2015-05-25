@@ -80,24 +80,38 @@ namespace OrganizationModule.Controllers
 
             if (isTokenValid && (DateTime.Now - user.DeleteUserDate.Value).Days < 3)
             {
-                var loggedPerson = UserManager.FindById(id);
-                loggedPerson.IsDeleted = true;
-                loggedPerson.DeletedDate = DateTime.Now;
-                await UserManager.UpdateAsync(loggedPerson);
+                var deletedPerson = UserManager.FindById(id);
+                deletedPerson.IsDeleted = true;
+                deletedPerson.DeletedDate = DateTime.Now;
+                await UserManager.UpdateAsync(deletedPerson);
 
-                loggedPerson.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+                deletedPerson.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+
+                var deleteUser = UserManager.FindById(deletedPerson.DeleteUserID);
 
                 var ctx = Request.GetOwinContext();
                 var authManager = ctx.Authentication;
                 authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
-                LogService.InsertUserLogs(loggedPerson.DeleteUserID == loggedPerson.Id ? OperationLog.UserDeleteBySelf : OperationLog.UserDelete, _db, loggedPerson.Id, loggedPerson.DeleteUserID);
+                LogService.InsertUserLogs(deletedPerson.DeleteUserID == deletedPerson.Id ? OperationLog.UserDeleteBySelf : OperationLog.UserDelete, _db, deletedPerson.Id, deletedPerson.DeleteUserID);
 
-                UserManager.SendEmail(loggedPerson.InviterID,
-                       "Usunięcie Użytkownika",
-                       "W dniu " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "Użytkownik o Id " + loggedPerson.Id
-                       + "i nazwie wyświetlanej: " + loggedPerson.DisplayName
-                       + " usunął swoje konto z organizacji " + (loggedPerson.Organization != null ? loggedPerson.Organization.Name : "Brak nazwy organizacji"));
+                if (deletedPerson.Id == user.Id)
+                {
+                    UserManager.SendEmail(deletedPerson.Organization.ProtectorID,
+                           "Usunięcie Użytkownika",
+                           "W dniu " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "Użytkownik o Id " + deletedPerson.Id
+                           + "i nazwie wyświetlanej: " + deletedPerson.DisplayName
+                           + " usunął swoje konto z organizacji " + (deletedPerson.Organization != null ? deletedPerson.Organization.Name : "Brak nazwy organizacji"));
+                }
+                else
+                {
+                    UserManager.SendEmail(deletedPerson.Organization.ProtectorID,
+                           "Usunięcie Użytkownika",
+                           "W dniu " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "Użytkownik o Id " + deletedPerson.Id
+                           + "i nazwie wyświetlanej: " + deletedPerson.DisplayName
+                           + " usunął swoje konto z organizacji " + (deletedPerson.Organization != null ? deletedPerson.Organization.Name : "Brak nazwy organizacji")
+                           + " przez użytkownika o Id " + deleteUser.Id + "oraz nazwie wyświetlanej: " + deleteUser.DisplayName);
+                }
 
                 usereDeleted = true;
             }
@@ -117,6 +131,8 @@ namespace OrganizationModule.Controllers
             var loggedUser = UserManager.FindById(User.Identity.GetUserId());
             loggedUser.DeleteUserID = loggedUser.Id;
             await UserManager.UpdateAsync(loggedUser);
+
+            loggedUser.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == loggedUser.OrganizationID);
 
             var result = await loggedUser.DeleteUserAsync(UserManager, Request);
 
@@ -156,7 +172,7 @@ namespace OrganizationModule.Controllers
         public ActionResult TrainingResult()
         {
             var loggedPerson = Person.GetLoggedPerson(User);
-            var trainingResults = _db.TrainingResults.Where(x => x.PersonID == loggedPerson.Id && x.EndDate.HasValue).ToList();
+            var trainingResults = _db.TrainingResults.Where(x => x.PersonID == loggedPerson.Id && x.EndDate.HasValue).OrderByDescending(x=>x.EndDate).ToList();
             trainingResults.ForEach(x =>
                                         {
                                             x.Training = _db.Trainings.FirstOrDefault(y => y.TrainingID == x.TrainingID);
@@ -215,10 +231,23 @@ namespace OrganizationModule.Controllers
             {
                 var loggedUser = Person.GetLoggedPerson(User);
                 loggedUser = UserManager.FindById(loggedUser.Id);
+
+                if(!loggedUser.ChangeEmailDate.HasValue || loggedUser.ChangeEmailDate.Value.Date < DateTime.Now.Date)
+                {
+                    loggedUser.ChangeEmailDate = DateTime.Now;
+                    loggedUser.DailyChangeMailCount = 0;
+                } 
+                else if(loggedUser.DailyChangeMailCount > 2)
+                {
+                    var jsonResult = new Result() { Errors = new System.Collections.Generic.List<string>(), Succeeded = false };
+                    jsonResult.Errors.Add("Wykorzystałeś maksymalną dzienną liczbę zmian.");
+                    return Json(jsonResult);
+                }
+
+                loggedUser.DailyChangeMailCount = (loggedUser.DailyChangeMailCount ?? 0) + 1;
                 var result = await loggedUser.ChangeEmailAsync(UserManager, Request, model.Email);
 
                 return Json(result);
-
             }
 
             return getErrorsFromModel();

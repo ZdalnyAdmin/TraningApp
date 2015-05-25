@@ -1,0 +1,137 @@
+﻿@if (ViewBag.TrainingResults.Count > 0)
+{
+<<<<<<< HEAD
+    <div class="col-md-8 col-md-offset-4 col-lg-9 col-lg-offset-3" id="courses-result">
+        @foreach (var trainingResult in ViewBag.TrainingResults)
+        {
+            if (trainingResult.IsPassed)
+            {
+                <div class="course-result passed">
+                    <h2>@trainingResult.Training.Name</h2>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span>AUTOR</span>
+                            <strong>KENPRO</strong>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <span>URUCHOMIONE</span>
+                                    <strong>@trainingResult.StartDate.ToString("dd.MM.yyyy")</strong>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span>ZAKOŃCZONE</span>
+                                    <strong>@trainingResult.StartDate.ToString("dd.MM.yyyy")</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row second-row">
+                        <div class="col-sm-6 points">
+                            <span>UZYSKANE PUNKTY</span>
+                            <div>@trainingResult.Rating/@trainingResult.PossibleRate</div>
+                            <div class="percent">
+                                @if (trainingResult.PossibleRate != 0)
+                                {
+                                    <span>@(trainingResult.Rating * 100 / trainingResult.PossibleRate)</span>
+                                }%
+                            </div>
+                        </div>
+                        <div class="col-sm-6 skills">
+                            <span>ZDOBYTE UMIEJĘTNOŚCI</span>
+                            <div class="txt-l">@trainingResult.Training.PassInfo</div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="course-result">
+                    <h2>@trainingResult.Training.Name</h2>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span>AUTOR</span>
+                            <strong>KENPRO</strong>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <span>URUCHOMIONE</span>
+                                    <strong>@trainingResult.StartDate.ToString("dd.MM.yyyy")</strong>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span>ZAKOŃCZONE</span>
+                                    <strong>@trainingResult.StartDate.ToString("dd.MM.yyyy")</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row second-row">
+                        <div class="col-sm-6 points">
+                            <span>UZYSKANE PUNKTY</span>
+                            <div>@trainingResult.Rating/@trainingResult.PossibleRate</div>
+                            <div class="percent">
+                                @if (trainingResult.PossibleRate != 0)
+                                {
+                                    <span>@(trainingResult.Rating * 100 / trainingResult.PossibleRate)</span>
+                                }%
+                            </div>
+                        </div>
+                        <div class="col-sm-6 skills">
+                            <span>ZDOBYTE UMIEJĘTNOŚCI</span>
+                            <div class="txt-l">Szkolenie nie zostało ukończone</div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+=======
+    foreach (var trainingResult in ViewBag.TrainingResults)
+    {
+        <div>
+            <div>@trainingResult.Training.Name</div>
+            <div>Data uruchomienia: @trainingResult.StartDate.ToString("dd.MM.yyyy")</div>
+            <div>Data ukończenia: @trainingResult.StartDate.ToString("dd.MM.yyyy")</div>
+        </div>
+
+        <div>
+            <div>
+                <span>Zdobyte umiejętności:</span>
+                @if (trainingResult.IsPassed)
+                {
+                    <span>@trainingResult.Training.PassInfo</span>
+                }
+                else
+                {
+                    <span>Szkolenie nie zostało zaliczone</span>
+                }
+            </div>
+
+            <div>
+                <span>Zdobyta odznaka:</span>
+                @if (trainingResult.IsPassed)
+                {
+                    <img src="@trainingResult.Training.PassResources" />
+                }
+            </div>
+
+            <div>
+                <span>Punkty:</span>
+                <span>@trainingResult.Rating</span>/<span>@trainingResult.PossibleRate</span>
+                <span>
+                    @if (trainingResult.PossibleRate != 0)
+                    {
+                        <span>@((trainingResult.Rating * 100 / trainingResult.PossibleRate).ToString("0.00"))</span>
+                    }
+                %
+            </span>
+        </div>
+
+>>>>>>> 0b510bfd00eb4f5061f26fb1fec613464aeca932
+    </div>
+}
+else
+{
+    <div>Brak ukończonych szkoleń.</div>
+}
+@Styles.Render("~/Results")

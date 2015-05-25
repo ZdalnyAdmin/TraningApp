@@ -8,10 +8,14 @@
     if (!!search && !!search.page) {
         var page = search.page;
         var controller = search.controller;
-        var trainingID = search.trainingID;
+        var trainingID = undefined;
         delete search.page;
         delete search.controller;
-        delete search.trainingID;
+
+        if (page === 'ActiveTraining') {
+            trainingID = search.trainingID;
+            delete search.trainingID;
+        }
 
         if (controller) {
             $location.path('/' + controller + '/' + page).search(search);

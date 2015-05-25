@@ -57,31 +57,51 @@ namespace OrganizationModule.Controllers
         #region Login
         [HttpPost]
         [AllowAnonymous]
-        public async Task<bool> Login(LoginViewModel model)
+        public async Task<JsonResult> Login(LoginViewModel model)
         {
+            var jsonResult = new Result() { Errors = new List<string>(), Succeeded = false };
             try
             {
                 var person = _db.Users.Where(x => x.UserName == model.Email &&
                                                   !x.IsDeleted &&
-                                                  x.Status == StatusEnum.Active &&
+                                                  (x.Status == StatusEnum.Blocked || 
+                                                  x.Status == StatusEnum.Active) &&
                                                   x.Profile != ProfileEnum.Superuser).FirstOrDefault();
                 if (person == null)
                 {
-                    return false;
+                    jsonResult.Errors.Add("Niepoprawny login lub hasło!");
+                    return Json(jsonResult);
+                }
+
+                if (person.Status == StatusEnum.Blocked)
+                {
+                    jsonResult.Errors.Add("Konto jest obecnie zablokowane!");
+                    return Json(jsonResult);
+                }
+
+                person.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == person.OrganizationID);
+
+                if (person.Organization == null || person.Organization.Status != OrganizationEnum.Active)
+                {
+                    jsonResult.Errors.Add("Dostęp do organizacji jest niemożliwy!");
+                    return Json(jsonResult);
                 }
 
                 var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        return true;
+                        jsonResult.Succeeded = true;
+                        return Json(jsonResult);
                     default:
-                        return false;
+                        jsonResult.Errors.Add("Niepoprawny login lub hasło!");
+                        return Json(jsonResult);
                 }
             }
             catch(Exception ex)
             {
-                return false;
+                jsonResult.Errors.Add("Wystąpił nieoczekiwany błąd.");
+                return Json(jsonResult);
             }
         }
 
@@ -277,7 +297,12 @@ namespace OrganizationModule.Controllers
                 try
                 {
                     var user = UserManager.FindById(model.Id);
-                    await user.DeleteUserAsync(UserManager, Request);
+                    user.DeleteUserID = User.Identity.GetUserId();
+                    UserManager.Update(user);
+
+                    user.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+
+                    await user.DeleteUserAsync(UserManager, Request, user.DeleteUserID);
                 }
                 catch (Exception ex)
                 {

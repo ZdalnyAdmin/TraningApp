@@ -70,7 +70,7 @@ namespace OrganizationModule
             routes.MapRoute(
                 name: "Redirect",
                 url: "{id}",
-                defaults: new { controller = "Redirect", action = "Index" }
+                defaults: new { controller = "Redirect", action = "Index", trainingID = UrlParameter.Optional }
             );
             routes.MapRoute(
                 name: "Default",

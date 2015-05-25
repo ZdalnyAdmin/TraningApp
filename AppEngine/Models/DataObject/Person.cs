@@ -1,4 +1,5 @@
-﻿using AppEngine.Models.DataBusiness;
+﻿using AppEngine.Helpers;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.DTO;
 using AppEngine.Models.ViewModels.Account;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
@@ -38,6 +40,7 @@ namespace AppEngine.Models.Common
         public DateTime? ResetPasswordDate { get; set; }
         public string InviterID { get; set; }
         public Person Inviter { get; set; }
+        public int? DailyChangeMailCount { get; set; }
 
         public string NewUserName { get; set; }
         public DateTime? ChangeUserNameDate { get; set; }
@@ -117,16 +120,25 @@ namespace AppEngine.Models.Common
                 return result;
             }
 
-            await manager.SendEmailAsync(this.Id, "Zmiana Adresu Email",
-            "Została wysłana prośba o zmianę twojego maila na " + newEmail + ". <br/>"
-            + "Jeżeli chcesz zmienić adres email potwierdź to wciskając link. <br/>"
-            + "<a href=\""
-                + request.Url.Scheme + "://" + request.Url.Authority + "/changeEmail?code=" + code + "&Id=" + this.Id + "\">link</a>");
+            MailMessage mail = new MailMessage(new MailAddress(Helpers.Helpers.GetMailFrom(MailAccount.ADMIN), "(do not reply)"),
+                                   new MailAddress(newEmail))
+            {
+                Subject = "Zmiana Adresu Email",
+                Body = "Została wysłana prośba o zmianę twojego maila na " + newEmail + ". <br/>"
+                + "Jeżeli chcesz zmienić adres email potwierdź to wciskając link. <br/>"
+                + "<a href=\""
+                + request.Url.Scheme + "://" + request.Url.Authority + "/changeEmail?code=" + code + "&Id=" + this.Id + "\">link</a>",
+                IsBodyHtml = true
+            };
+
+            mail.BodyEncoding = UTF8Encoding.UTF8;
+            mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+            Mail.Send(mail, MailAccount.ADMIN);
 
             return result;
         }
 
-        public async Task<IdentityResult> DeleteUserAsync(UserManager<Person> manager, HttpRequestBase request)
+        public async Task<IdentityResult> DeleteUserAsync(UserManager<Person> manager, HttpRequestBase request, string deleteUser = null)
         {
             var result = await manager.UpdateSecurityStampAsync(this.Id);
 
@@ -146,12 +158,26 @@ namespace AppEngine.Models.Common
             }
 
             var sb = new StringBuilder();
-            sb.AppendFormat("<b>ZOSTAŁA WYSŁANA PROŚBA O USUNIĘCIE UŻYTKOWNIKA </b> {0}", this.DisplayName);
-            sb.AppendLine();
-            sb.AppendLine("JEŚLI CHCESZ GO USUNAĆ POTWIERDZ TO WCISKAJĄC LINK");
-            sb.AppendLine();
+            if (deleteUser != null)
+            {
+                sb.AppendFormat("<b>ZOSTAŁA WYSŁANA PROŚBA O USUNIĘCIE UŻYTKOWNIKA </b> {0}", this.DisplayName);
+                sb.AppendLine();
+                sb.AppendLine("JEŚLI CHCESZ GO USUNAĆ POTWIERDZ TO WCISKAJĄC LINK");
+                sb.AppendLine();
+            }
+            else
+            {
+                sb.AppendFormat("<b>WITAJ </b> {0}", this.DisplayName);
+                sb.AppendLine();
+                sb.AppendFormat("ROZPOCZĄŁEŚ PRÓBĘ USUNIECIA SWOJEGO KONTA W ORGANIZACJI {0}", this.Organization != null ? this.Organization.Name: "Brak Nazwy");
+                sb.AppendLine();
+                sb.AppendLine("JEŚLI CHCESZ USUNĄĆ SWOJE KONTO TO POTWIERDŹ TO KLIKAJĄC W LINK");
+                sb.AppendLine();
+            }
+
             sb.AppendFormat("<br/><a href=\"{0}://{1}/deleteUser?Id={2}&code={3}\">LINK</a>", request.Url.Scheme, request.Url.Authority, this.Id, code);
-            await manager.SendEmailAsync(this.Id,
+
+            await manager.SendEmailAsync(deleteUser != null ? deleteUser : this.Id,
                "POTWIERDZENIE USUNIECIA UZYTKOWNIKA",
                sb.ToString());
 

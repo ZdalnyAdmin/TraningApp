@@ -20,6 +20,8 @@
                 $scope.currentDetail.InternalResource = '';
                 $scope.currentDetail.ResourceType = undefined;
                 $scope.currentDetail.isEdit = undefined;
+
+                $scope.currentDetail.Name = '';
             }
 
             $scope.add = function (item) {
@@ -29,7 +31,7 @@
 
                 if ($scope.currentDetail.ExternalResource || $scope.currentDetail.InternalResource) {
                     $scope.currentDetail.isEdit = false;
-                    $scope.currentDetail.ResourceType = $scope.currentDetail.ExternalResource ? 1 : 0;
+                    $scope.currentDetail.ResourceType = 2;
                     $scope.obj.push(angular.copy($scope.currentDetail));
                     $scope.cancel();
                     return;

@@ -363,6 +363,8 @@ namespace SystemModule.Controllers
                     ViewBag.Token = true;
                     organization.Status = OrganizationEnum.Deleted;
                     organization.UpdateSecurityStamp();
+                    organization.IsDeleted = true;
+                    organization.DeletedDate = DateTime.Now;
                     _db.SaveChanges();
 
                     LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, _db, organization.Name, organization.DeletedUserID);
