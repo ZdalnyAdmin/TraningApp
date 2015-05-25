@@ -23,7 +23,7 @@
     <div ng-show="item.ResourceType == 1">
         <div id="simpleRow">
             <div id="simpleRow">
-                <img src="{{item.InternalResource}}" width="300" height="200" />
+                <img src="{{item.InternalResource || item.ExternalResource}}" width="300" height="200" />
             </div>
         </div>
     </div>
