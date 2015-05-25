@@ -83,5 +83,30 @@ namespace OrganizationModule.Controllers
 
             return View();
         }
+
+        #region Training list
+
+        /// <summary>
+        /// Navigate to create traning template view
+        /// </summary>
+        /// <returns></returns>
+        [Access(ProfileEnum.Creator)]
+        public ActionResult TemplateList()
+        {
+            Person currentUser = Person.GetLoggedPerson(User);
+            if (string.IsNullOrWhiteSpace(currentUser.UserName))
+            {
+                return new HttpNotFoundResult("Użytkownik nie zalogowany");
+            }
+
+            if (!Helpers.CheckAccess(MethodBase.GetCurrentMethod(), currentUser.Profile))
+            {
+                return new HttpNotFoundResult("1"); // Jedynka to chwilowo brak uprawnień do oglądania strony
+            }
+
+            return View();
+        }
+
+        #endregion Training list
     }
 }

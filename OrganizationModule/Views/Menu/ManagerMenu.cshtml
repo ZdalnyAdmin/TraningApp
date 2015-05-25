@@ -15,7 +15,7 @@
             </ul>
             <hr />
         }
-        
+
         <ul class="nav navbar-nav">
             <li>
                 <a href="/userTranings">
@@ -33,7 +33,7 @@
                 </a>
             </li>
         </ul>
-        <hr class="hidden-sm"/>
+        <hr class="hidden-sm" />
     </div>
     <div class="col-sm-4 col-md-12">
         <ul class="nav navbar-nav">
@@ -42,14 +42,13 @@
                     <img src="/Content/Images/menu-icon.png" /> <span>UTWÓRZ SZKOLENIE</span>
                 </a>
             </li>
-            @if (ViewBag.MyTrainings.Count > 0)
-            {
-                <li>
-                    <a href="#">
-                        <img src="/Content/Images/menu-icon.png" /> <span>MOJE SZKOLENIA</span>
-                    </a>
-                </li>
-            }
+
+            <li>
+                <a href="/creatorTrainingList">
+                    <img src="/Content/Images/menu-icon.png" /> <span>MOJE SZKOLENIA</span>
+                </a>
+            </li>
+
             <li>
                 <a href="/creatorHowTo">
                     <img src="/Content/Images/menu-icon.png" /> <span>JAK TWORZYĆ SZKOLENIA</span>

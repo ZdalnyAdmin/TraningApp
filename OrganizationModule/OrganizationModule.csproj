@@ -221,6 +221,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Controllers\createrTrainingsListController.js" />
     <Content Include="Scripts\Controllers\errorController.js" />
     <Content Include="Scripts\Controllers\loggedUserController.js" />
     <Content Include="Scripts\Controllers\trainingListController.js" />
@@ -426,6 +427,7 @@
     <Content Include="Views\Training\TrainingList.cshtml" />
     <Content Include="Views\User\ChangeEmail.cshtml" />
     <Content Include="Views\User\DeleteUser.cshtml" />
+    <Content Include="Views\Creator\TemplateList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
