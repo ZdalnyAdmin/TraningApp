@@ -5,8 +5,12 @@
         restrict: 'A',
         replace: 'true',
         templateUrl: 'Templates/trainingEditDetails.html',
-        controller: ['$scope', function ($scope) {
+        controller: ['$scope', '$sce', function ($scope, $sce) {
             $scope.editableDetail = {};
+
+            $scope.getUrl = function (url) {
+                return $sce.trustAsResourceUrl(url);
+            };
 
             $scope.up = function (item) {
                 $scope.collection = changePosition($scope.collection, item, false);
