@@ -49,24 +49,33 @@
 /******NAGŁÓWKI*****/
 /****************/
 h1{
+    font-family: 'Archivo Narrow', sans-serif;
     font-size:48px;
     text-align:center;
     color:#1e2850;
 }
 h2{
+    font-family: 'Archivo Narrow', sans-serif;
     font-size:30px;
     text-align:center;
     color:#1e2850;
 }
 h3{
+    font-family: 'Archivo Narrow', sans-serif;
     font-size:24px;
     text-align:center;
     color:#1e2850;
 }
 h4{
+    font-family: 'Archivo Narrow', sans-serif;
     font-size:21px;
     text-align:center;
     color:#1e2850;
+}
+h5{
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size:20px;
+    color:#283769;
 }
 /*****************/
 /******TEKSTY*****/
@@ -100,7 +109,7 @@ h4{
 .btn-l{
     height:50px!important;
     font-size:21px!important;
-    padding:6px 20px!important;
+    padding:10px 20px!important;
 }
 .btn-xl{
     height:60px!important;
@@ -160,12 +169,42 @@ h4{
     border:1px solid #3a76ea;
     color:#3a76ea;
 }
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
 
 /*****************/
 /******INPUTY*****/
 /****************/
 input{
     border-radius:0!important;
+    border:1px solid #fff!important;
+    box-shadow: none!important;
+    -webkit-box-shadow: none!important;
+    transition:none!important;
+    -webkit-trasition:none!important;  
+}
+input.form-control:focus{
+    border:1px solid #dcdce6!important;
+    outline: 0;
+    box-shadow: none;
+    -webkit-box-shadow: none;
 }
 input-s{
     height:24px!important;
@@ -183,10 +222,74 @@ input-m{
     height:48px!important;
     font-size:18px!important;
 }
-
+textarea{
+    border-radius:0!important;
+    border:1px solid #fff!important;
+    box-shadow: none!important;
+    -webkit-box-shadow: none!important;
+    transition:none!important;
+    -webkit-trasition:none!important; 
+}
+textarea.form-control:focus{
+    border:1px solid #dcdce6!important;
+    outline: 0;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
 .validation-field-error{
     color:#ff7878;
 }
+
+input[type="checkbox"] {
+    display:none;
+}
+input[type="checkbox"] + label span:not(.format) {
+    display:inline-block;
+    width:24px;
+    height:24px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url('/Content/Images/blue-input.png') left top no-repeat;
+    cursor:pointer;
+    background-position:0 0;
+}
+input[type="checkbox"]:checked + label span:not(.format) {
+    background-position:-48px 0px;
+}
+.input-hover{
+    background-position:-144px 0px!important;
+}
+
+input[type="radio"] {
+    display:none;
+}
+input[type="radio"] + label span:not(.format) {
+    display:inline-block;
+    width:24px;
+    height:24px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url('/Content/Images/blue-input.png') left top no-repeat;
+    cursor:pointer;
+    background-position:-144px 0;
+}
+input[type="radio"]:checked + label span:not(.format) {
+    background-position:-168px 0px;
+}
+input[type="radio"].big + label span:not(.format) {
+    display:inline-block;
+    width:32px;
+    height:32px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url('/Content/Images/big-blue-input.png') left top no-repeat;
+    cursor:pointer;
+    background-position:-192px 0;
+}
+input[type="radio"].big:checked + label span:not(.format) {
+    background-position:-224px 0px;
+}
+
 
 @media screen and (max-width: 1199px) {
     .btn-s{

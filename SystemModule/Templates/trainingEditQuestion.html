@@ -1,36 +1,17 @@
 ﻿<div ng-repeat="item in questions">
-    <div id="simpleRow">
-        Pytanie {{questions.length}}
+    <div class="row">
+        <label>Pytanie {{questions.length}}</label>
     </div>
-    <div id="simpleRow">
-        <div id="inputButto" ng-click="up(item)">
-            UP
-        </div>
-        <div id="inputButto" ng-click="down(item)">
-            DOWN
-        </div>
-        <div id="inputButto" ng-click="edit(item)">
-            EDIT
-        </div>
-        <div id="inputButto" ng-click="delete(item)">
-            REMOVE
-        </div>
-        <div id="inputButto" ng-click="save(item)" ng-show="item.isEdit">
-            ZAPISZ
-        </div>
-        <div id="inputButto" ng-click="cancel(item)" ng-show="item.isEdit">
-            ANULUJ
-        </div>
-    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div id="simpleRow" ng-show="item.Type == 0">
 
-    <div id="simpleRow" ng-show="item.Type == 0">
-
-        <div id="simpleRow" ng-hide="item.isEdit">
-            {{item.Text}}
-        </div>
-        <div id="simpleRow" ng-show="item.isEdit">
-            <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
-        </div>
+                <div id="simpleRow" ng-hide="item.isEdit">
+                    {{item.Text}}
+                </div>
+                <div id="simpleRow" ng-show="item.isEdit">
+                    <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
+                </div>
         <div ng-repeat="answer in item.Answers">
             <div id="simpleRow">
                 <input type="radio" name="answer" value=true ng-disabled="!item.isEdit" ng-model="answer.IsSelected" />
@@ -39,16 +20,16 @@
                 Punkty
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="answer.Score">
             </div>
-        </div>
-    </div>
+                </div>
+            </div>
 
-    <div id="simpleRow" ng-show="item.Type == 1">
-        <div id="simpleRow" ng-hide="item.isEdit">
-            {{item.Text}}
-        </div>
-        <div id="simpleRow" ng-show="item.isEdit">
-            <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
-        </div>
+            <div id="simpleRow" ng-show="item.Type == 1">
+                <div id="simpleRow" ng-hide="item.isEdit">
+                    {{item.Text}}
+                </div>
+                <div id="simpleRow" ng-show="item.isEdit">
+                    <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
+                </div>
         <div ng-repeat="answer in item.Answers">
             <div id="simpleRow">
                 <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="answer.IsSelected" />
@@ -57,20 +38,45 @@
                 Punkty
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="answer.Score">
             </div>
+                </div>
+            </div>
+
+            <div id="simpleRow" ng-show="item.Type == 2">
+                <div id="simpleRow" ng-hide="item.isEdit">
+                    {{item.Text}}
+                </div>
+                <div id="simpleRow" ng-show="item.isEdit">
+                    <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
+                </div>
+                <div id="simpleRow">
+                    <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Text">
+                    Punkty
+                    <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Score">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div id="inputButto" ng-click="up(item)">
+                <span class="glyphicon glyphicon-arrow-up"></span>
+            </div>
+            <div id="inputButto" ng-click="down(item)">
+                <span class="glyphicon glyphicon-arrow-down"></span>
+            </div>
+            <div id="inputButto" ng-click="edit(item)">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </div>
+            <div id="inputButto" ng-click="delete(item)">
+                <span class="glyphicon glyphicon-remove"></span>
+            </div>
+            <button id="inputButto" ng-click="save(item)" ng-show="item.isEdit">
+                ZAPISZ
+            </button>
+            <button id="inputButto" ng-click="cancel(item)" ng-show="item.isEdit">
+                ANULUJ
+            </button>
         </div>
     </div>
 
-    <div id="simpleRow" ng-show="item.Type == 2">
-        <div id="simpleRow" ng-hide="item.isEdit">
-            {{item.Text}}
-        </div>
-        <div id="simpleRow" ng-show="item.isEdit">
-            <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
-        </div>
-        <div id="simpleRow">
-            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Text">
-            Punkty
-            <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Score">
-        </div>
-    </div>
+
+    
 </div>

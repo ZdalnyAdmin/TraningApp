@@ -1,87 +1,158 @@
-﻿<div ng-app="" ng-controller="creatorAddTrainingController" class="container">
+﻿<div id="create-training" ng-app="" ng-controller="creatorAddTrainingController" class="container">
 
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
 
-    <div id="simpleRow">
-        INFORMACJE O SZKOLENIU
-    </div>
+    
 
-    <div id="simpleRow">
-        *Utworzenie szkolenia nie jest trudne, ale jesli robisz to pierwszy raz lub chcesz przypomniec sobie caly proces skorzystaj z przewodnika z zakladce jak stworzyc szkolenia
-    </div>
-
-    <div id="simpleRow">
-        NAZWA SZKOLENIA
-        <input type="text" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" maxlength="140" />
-    </div>
-
-    <div id="simpleRow">
-        OPIS SZKOLENIA
-        <input type="text" name="viewModel.Current.Description" ng-model="viewModel.Current.Description" maxlength="1500" />
-    </div>
-
-    <div id="simpleRow">
-        Grafika obrazujaca szkolenie [400 x 300px i nie wieksza niz 350kb]
-        
-        <input id="upload-input"
-               type="file"
-               class="upload-image"
-               onchange="angular.element(this).scope().loadImage(this)"
-               name="uploadImages">
-
-        <img src="{{viewModel.Current.TrainingResources}}"  />
-    </div>
-
-    <div id="simpleRow">
-        *Nie przejmuj sie, nie misisz dodawac zadnej grafiki! Jesli nie dodasz zadnej grafiki zostanie uzyta grafika domyslna
-    </div>
-
-    <div id="simpleRow">
-        Ile procent punktow jest niezbednych do zaliczenia Twojego szkolenia?
-    </div>
-
-    <div id="simpleRow">
-        *Domyslnie ustalilismy 80% ale mozesz zmienic wartosc wybierajac inna możliwosc
-    </div>
-
-    <div id="simpleRow">
-        <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="100" />100%
-        <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="80" checked="checked" />80%
-        <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="65" />65%
-        <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="50" />50%
-    </div>
-
-    <div id="simpleRow">
-        Komunikat, ktory zobacza uzytkownicy ktorzy zalicza kurs (osiagna wymagana liczbe punktow) Przykladowy komunikat "W wyniku szkolenia zdobyles wiedze na temat procedury/produktu"
-    </div>
-
-    <div id="simpleRow">
-        <input type="text" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" maxlength="500" />
-    </div>
-
-    <div id="simpleRow">
-        I na koniec wybierz oznake ktora otrzyma uzytkownik, ktory ukonczy z powodzeniem to szkolenie
-    </div>
-
-    <div id="simpleRow">
-        Wczytaj wlasna [musi byc 100px na 100px i nie wiekszy niz 150kb] lub wybierz ktoras z przygotowanych przez nas!
-    </div>
-
-    <div id="simpleRow">
-        <input id="upload-input"
-               type="file"
-               class="upload-mark"
-               onchange="angular.element(this).scope().loadIcon(this)"
-               name="uploadMarks">
-        <div id="inputButto" ng-click="showIcon()">
-            Wybierz z listy
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="circle-pointer italics">i</div>
+            <h5>Utworzenie szkolenia nie jest trudne, ale jesli robisz to pierwszy raz lub chcesz przypomniec sobie caly proces skorzystaj z przewodnika w zakladce jak tworzyć szkolenia</h5>
         </div>
     </div>
 
-    <div id="simpleRow">
-        <img src="{{viewModel.Current.PassResources}}" />
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>INFORMACJE O SZKOLENIU</h3>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="circle-pointer">1</div>
+            <h4><span>NAZWA SZKOLENIA</span></h4>
+            <input class="input-l form-control" type="text" placeholder="Podaj nazwę" name="viewModel.Current.Name" ng-model="viewModel.Current.Name"  />
+            <div class="letter-counter">0 / 80 znaków</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="circle-pointer">2</div>
+            <h4><span>OPIS SZKOLENIA</span></h4>
+            <textarea class="form-control" placeholder="Dodaj opis na maksymalnie 800 znaków" name="viewModel.Current.Description" ng-model="viewModel.Current.Description" maxlength="800" rows="6"></textarea>
+            <div class="letter-counter">0 / 800 znaków</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="circle-pointer">3</div>
+            <h4><span>GRAFIKA OBRAZUJĄCA SZKOLENIE</span></h4>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-5">
+            <img src="{{viewModel.Current.TrainingResources}}" />
+            @*usuwa wgrane przez użytkownika zdjęcie*@
+            <button>Usuń</button>
+        </div>
+        <div class=" col-lg-4 col-md-5 col-sm-7">
+            <h5>Wybierz własny obrazek z dysku</h5>
+            <div>
+                <span class="btn blue-button btn-l btn-file">
+                    WCZYTAJ PLIK
+                    <input id="upload-input"
+                           type="file"
+                           class="upload-image"
+                           onchange="angular.element(this).scope().loadImage(this)"
+                           name="uploadImages">
+                </span>
+            </div>
+            <h5>
+                Nie przejmuj się, nie musisz
+                dodawac żadnej grafiki! Jesli nie
+                wczytasz własnej, zostanie użyta
+                grafika domyślna widoczna obok.
+            </h5>
+        </div>
+        <div class="col-lg-4 visible-lg">
+            <div class="navy-cloud">
+                Wczytana grafika musi mieć wymiary
+                250x250 px , może być w formacie
+                JPG, JPEG, PNG, GIF lub BMP.
+                Wielkość pliku nie może przekraczać
+                Nie przejmuj sie, nie musisz 350 kB.
+            </div>
+        </div>
+    </div>
+
+    <div class="row pass-training">
+        <div class="col-xs-12">
+            <div class="circle-pointer">4</div>
+            <h4><span>ZALICZENIE SZKOLENIA</span></h4>
+        </div>
+        <div class="col-lg-8">
+            <h5>Ile procent punktów musi uzyskac uczestnik, by zaliczyc Twoje szkolenie?</h5>
+            <input id="i1" class="big" type="radio" ng-model="viewModel.Current.PassResult" value="100" name="passResult" />
+            <label for="i1"><span></span>100%</label>
+            <input id="i2" class="big" type="radio" ng-model="viewModel.Current.PassResult" value="80" name="passResult" checked="checked" />
+            <label for="i2"><span></span>80%</label>
+            <input id="i3" class="big" type="radio" ng-model="viewModel.Current.PassResult" value="65" name="passResult" />
+            <label for="i3"><span></span>65%</label>
+            <input id="i4" class="big" type="radio" ng-model="viewModel.Current.PassResult" value="50" name="passResult" />
+            <label for="i4"><span></span>50%</label>
+        </div>
+        <div class="col-lg-4 visible-lg">
+            <div class="navy-cloud">
+                Domyślnie ustawiliśmy 80%, ale
+                możesz podwyższyć albo obniżyć
+                poprzeczkę, wybierając inną wartość
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="circle-pointer">5</div>
+            <h4><span>KOMUNIKAT PO ZALICZENIU SZKOLENIA</span></h4>
+        </div>
+        <div class="col-lg-8">
+            <textarea class="form-control" placeholder="Wpisz komunikat o długości do 500 znaków" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" maxlength="500" rows="6"></textarea>
+            <div class="letter-counter">0 / 500 znaków</div>
+        </div>
+        <div class="col-lg-4 visible-lg">
+            <div class="navy-cloud">
+                Przykładowy komunikat: „Gratulacje!
+                W wyniku szkolenia zdobyłeś wiedzą
+                na temat procedury / produktu X."
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="circle-pointer">6</div>
+            <h4><span>ODZNAKA ZA ZALICZENIE SZKOLENIA</span></h4>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <img src="{{viewModel.Current.PassResources}}" />
+            @*usuwa wgrane przez użytkownika zdjęcie*@
+            <button>Usuń</button>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <span class="btn blue-button btn-l btn-file">
+                WCZYTAJ PLIK
+                <input id="upload-input"
+                       type="file"
+                       class="upload-mark btn btn-l"
+                       onchange="angular.element(this).scope().loadIcon(this)"
+                       name="uploadMarks">
+            </span>
+            <button class="btn blue-button btn-l" id="inputButto" ng-click="showIcon()">
+                WYBIERZ Z LISTY
+            </button>
+
+        </div>
+        <div class="col-lg-4 visible-lg">
+            <div class="navy-cloud">
+                Wczytana grafika musi mieć wymiary
+                150x150 px, może być w formacie
+                JPG, JPEG, PNG, GIF lub BMP.
+                Wielkość pliku nie może przekraczać
+                150 kB.
+            </div>
+        </div>
+    </div>
+
 
     <div id="simpleRow">
         ZAWARTOSC SZKOLENIA
@@ -112,3 +183,4 @@
         </button>
     </div>
 </div>
+@Styles.Render("~/Trainings")

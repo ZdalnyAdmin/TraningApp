@@ -5,3 +5,7 @@
 .row{
     margin-bottom:15px;
 }
+.glyphicon{
+    font-size:20px;
+    cursor:pointer;
+}
