@@ -1,6 +1,6 @@
 ﻿<div>
-    <div id="simpleRow">
-        Pytanie {{questions.length + 1}}
+    <div class="row">
+        <label>Pytanie {{questions.length + 1}}</label>
     </div>
     
     <div id="simpleRow" ng-show="selectedQuestion == 1">
@@ -83,9 +83,9 @@
     </div>
 
     <div id="simpleRow">
-        <div id="inputButto" ng-click="nextQuestion()">
+        <button id="inputButto" ng-click="nextQuestion()">
             Dodaj kolejne pytanie
-        </div>
+        </button>
         <select ng-model="selected" ng-options="c for c in questionType" ng-show="showQuestionType" ng-change="changeQuestion(selected)">
             <option value="">Wybierz</option>
         </select>

@@ -1,56 +1,60 @@
 ﻿<div ng-repeat="item in collection">
-    <div id="simpleRow">
-        <div id="inputButto" ng-click="up(item)">
-            UP
+    <div class="row">
+        <div class="col-md-10">
+            <div ng-show="item.ResourceType == 0">
+                <div id="simpleRow" ng-hide="item.isEdit" ng-bind-html="item.Text"></div>
+                <div id="simpleRow" ng-show="item.isEdit">
+                    <textarea name="item.Text" froala="options" ng-model="item.Text"></textarea>
+                </div>
+            </div>
+            <div ng-show="item.ResourceType == 1">
+                <div id="simpleRow">
+                    <div id="simpleRow">
+                        <img src="{{item.InternalResource || item.ExternalResource}}" width="300" height="200" />
+                    </div>
+                </div>
+            </div>
+            <div ng-show="item.ResourceType == 2">
+                <div id="simpleRow">
+                    Dodany plik wideo : {{item.Name}}
+                    <div ng-if="item.InternalResource">
+                        <ng-jw-player setup='{ "file": "{{item.InternalResource}}" }'></ng-jw-player>
+                    </div>
+                    <div ng-if="item.ExternalResource">
+                        <iframe ng-if="item.ExternalResource.indexOf('youtu') !=-1" width="560" height="315" src="{{getUrl(item.ExternalResource)}}" frameborder="0" allowfullscreen></iframe>
+                        <iframe ng-if="item.ExternalResource.indexOf('player.vimeo.com') !=-1" src="{{getUrl(item.ExternalResource)}}" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="item.ResourceType == 3">
+                <div id="simpleRow">
+                    Dodany plik prezentacji : {{item.Name}}
+                </div>
+            </div>
+            <div ng-show="item.ResourceType == 4">
+                <div id="simpleRow">
+                    Dodany plik : {{item.Name}}
+                </div>
+            </div>
         </div>
-        <div id="inputButto" ng-click="down(item)">
-            DOWN
-        </div>
-        <div id="inputButto" ng-click="edit(item)">
-            EDIT
-        </div>
-        <div id="inputButto" ng-click="delete(item)">
-            REMOVE
+        <div class="col-md-2">
+            <div id="inputButto" ng-click="up(item)">
+                <span class="glyphicon glyphicon-arrow-up"></span>
+            </div>
+            <div id="inputButto" ng-click="down(item)">
+                <span class="glyphicon glyphicon-arrow-down"></span>
+            </div>
+            <div id="inputButto" ng-click="edit(item)">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </div>
+            <div id="inputButto" ng-click="delete(item)">
+                <span class="glyphicon glyphicon-remove"></span>
+            </div>
         </div>
     </div>
+    
 
-    <div class="row" ng-show="item.ResourceType == 0">
-        <div id="simpleRow" ng-hide="item.isEdit" ng-bind-html="item.Text"></div>
-        <div id="simpleRow" ng-show="item.isEdit">
-            <textarea name="item.Text" froala="options" ng-model="item.Text"></textarea>
-        </div>
-    </div>
-    <div ng-show="item.ResourceType == 1">
-        <div id="simpleRow">
-            <div id="simpleRow">
-                <img src="{{item.InternalResource || item.ExternalResource}}" width="300" height="200" />
-            </div>
-        </div>
-    </div>
-    <div ng-show="item.ResourceType == 2">
-        <div id="simpleRow">
-            Dodany plik wideo : {{item.Name}}
-            <div ng-if="item.InternalResource">
-                <ng-jw-player setup='{ "file": "{{item.InternalResource}}" }'></ng-jw-player>
-            </div>
-            <div ng-if="item.ExternalResource">
-                <iframe ng-if="item.ExternalResource.indexOf('youtu') !=-1" width="560" height="315" src="{{getUrl(item.ExternalResource)}}" frameborder="0" allowfullscreen></iframe>
-                <iframe ng-if="item.ExternalResource.indexOf('player.vimeo.com') !=-1" src="{{getUrl(item.ExternalResource)}}" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-            </div>
-        </div>
-    </div>
-    <div ng-show="item.ResourceType == 3">
-        <div id="simpleRow">
-            Dodany plik prezentacji : {{item.Name}}
-        </div>
-    </div>
-    <div ng-show="item.ResourceType == 4">
-        <div id="simpleRow">
-            Dodany plik : {{item.Name}}
-        </div>
-    </div>
-
-    <div class="row" id="simpleRow">
+    <div class="row">
         <button id="inputButto" ng-click="save(item)" ng-show="item.isEdit">
             ZAPISZ
         </button>

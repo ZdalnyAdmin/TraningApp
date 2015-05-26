@@ -108,10 +108,10 @@
                 <div class="col-md-6">
                     <img src="{{viewModel.Current.PassResources}}" />
                 </div>
-                </div>
             </div>
         </div>
     </div>
+ 
 
 
 
@@ -124,23 +124,23 @@
     <div class="row" ng-training-details-tab obj="viewModel.Details"></div>
     <div class="row" ng-training-edit-details collection="viewModel.Details"></div>
 
-    <div id="simpleRow">
-        PYTANIE W SZKOLENIU
+    <div class="row">
+        <h2>PYTANIA W SZKOLENIU</h2>
     </div>
 
     <div ng-training-edit-question questions="viewModel.Questions"></div>
     <div ng-training-add-question questions="viewModel.Questions"></div>
 
-    <div id="simpleRow">
-        DOSTEPNOSC SZKOLENIA
+    <div class="row">
+        <h2>DOSTEPNOSC SZKOLENIA</h2>
     </div>
     <div id="simpleRow">
         <input type="checkbox" ng-model="viewModel.AvailableForAll" ng-disabled="viewModel.Organizations.length > 0" />Wszystkie firmy
     </div>
     <div> lub wybierz z list</div>
     <button ng-click="showOrganization()">WYBIERZ</button>
-    <div>
-        Wybrane firmy:
+    <div class="row">
+        <label>Wybrane firmy:</label>
     </div>
     <div ng-repeat="item in viewModel.Organizations">
         {{item.Name}}  ,
