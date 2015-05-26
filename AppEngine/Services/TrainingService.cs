@@ -668,6 +668,58 @@ namespace AppEngine.Services
                         model.InternalTrainings.AddRange(collection);
 
                         break;
+                    case BaseActionType.GetByCreateUser:
+
+                        if (isInternal)
+                        {
+                            model.Trainings = (from t in context.Trainings
+                                               join to in context.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
+                                               where to.OrganizationID == model.CurrentOrganization.OrganizationID && 
+                                               t.TrainingType == TrainingType.Internal && 
+                                               t.CreateUserID == model.LoggedUser.Id
+                                               orderby t.CreateDate
+                                               select t).ToList();
+
+                            foreach (var item in model.Trainings)
+                            {
+                                item.AssignedGroups = (from git1 in context.TrainingInGroups
+                                                       join g1 in context.Groups on git1.ProfileGroupID equals g1.ProfileGroupID
+                                                       where git1.TrainingID == item.TrainingID
+                                                       select new CommonDto
+                                                       {
+                                                           Name = g1.Name,
+                                                           Id = g1.ProfileGroupID
+                                                       }).ToList();
+
+                                if (!String.IsNullOrEmpty(item.CreateUserID))
+                                {
+                                    item.UserName = context.Users.FirstOrDefault(x => x.Id == item.CreateUserID).UserName;
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            model.Trainings = (from ext in context.Trainings
+                                               where ext.TrainingType == TrainingType.Kenpro
+                                               orderby ext.CreateDate
+                                               select ext).ToList();
+
+
+
+                            foreach (var item in model.Trainings)
+                            {
+                                if (!String.IsNullOrEmpty(item.CreateUserID))
+                                {
+                                    item.UserName = context.Users.FirstOrDefault(x => x.Id == item.CreateUserID).UserName;
+                                }
+
+                            }
+                        }
+
+                        model.Success = String.Empty;
+
+                        break;
                     default:
                         break;
                 }

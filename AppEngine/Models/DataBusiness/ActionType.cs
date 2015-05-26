@@ -25,6 +25,7 @@ namespace AppEngine.Models.DataBusiness
         ById = 6,
         GetSpecial = 7,
         SaveProtector = 8,
+        GetByCreateUser = 9,
     }
 
     public enum PeopleActionType

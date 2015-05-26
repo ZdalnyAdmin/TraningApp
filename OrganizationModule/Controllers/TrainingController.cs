@@ -117,12 +117,12 @@ namespace OrganizationModule.Controllers
                 var trainingDetails = _db.TrainingDetails.Where(x => x.TrainingID == training.TrainingID).OrderBy(x => x.DisplayNo).ToList();
                 trainingDetails.ForEach(x =>
                 {
-                    if (x.ResourceType == AppEngine.Models.DataObject.TrainingResource.Presentation)
+                    if (x.ResourceType == AppEngine.Models.DataObject.TrainingResource.Presentation && !string.IsNullOrWhiteSpace(x.InternalResource))
                     {
                         x.InternalResource = string.Format(googleDocViewer, Request.Url.Scheme + "://" + Request.Url.Authority + "/" + x.InternalResource.Replace("\\", "/"));
                     }
 
-                    if (x.ResourceType == AppEngine.Models.DataObject.TrainingResource.Video)
+                    if (x.ResourceType == AppEngine.Models.DataObject.TrainingResource.Video && !string.IsNullOrWhiteSpace(x.InternalResource))
                     {
                         x.InternalResource = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + x.InternalResource.Replace("\\", "/");
                     }

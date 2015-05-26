@@ -36,14 +36,13 @@
                     <img src="/Content/Images/menu-icon.png" /> <span>UTWÓRZ SZKOLENIE</span>
                 </a>
             </li>
-            @if (ViewBag.MyTrainings.Count > 0)
-            {
-                <li>
-                    <a href="#">
-                        <img src="/Content/Images/menu-icon.png" /> <span>MOJE SZKOLENIA</span>
-                    </a>
-                </li>
-            }
+
+            <li>
+                <a href="/creatorTrainingList">
+                    <img src="/Content/Images/menu-icon.png" /> <span>MOJE SZKOLENIA</span>
+                </a>
+            </li>
+
             <li>
                 <a href="/creatorHowTo">
                     <img src="/Content/Images/menu-icon.png" /> <span>JAK TWORZYĆ SZKOLENIA</span>

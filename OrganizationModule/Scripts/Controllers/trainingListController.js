@@ -1,7 +1,7 @@
 ﻿function trainingListController($scope, $http, $rootScope, $modal, $location) {
     $scope.display = 'All';
 
-    var trainings = angular.element.find('.training');
+    var trainings = angular.element.find('.course');
 
     angular.forEach(trainings, function (t) {
         var training = $(t);
@@ -11,25 +11,24 @@
 
         if (content.length > 600) {
             var shortDesc = content.substring(0, 599) + '...';
-            training.find('.hide-details').hide();
+            training.find('.less').hide();
             desc.html(shortDesc);
 
-            training.find('.details').click(function () {
-                training.find('.hide-details').show();
-                training.find('.details').hide();
+            training.find('.show-less-more').click(function () {
+                if (training.find('.less').is(':visible')) {
+                    training.find('.less').hide();
+                    training.find('.more').show();
 
-                desc.html(content);
-            });
+                    desc.html(shortDesc);
+                } else {
+                    training.find('.less').show();
+                    training.find('.more').hide();
 
-            training.find('.hide-details').click(function () {
-                training.find('.hide-details').hide();
-                training.find('.details').show();
-
-                desc.html(shortDesc);
+                    desc.html(content);
+                }   
             });
         } else {
-            training.find('.details').hide();
-            training.find('.hide-details').hide();
+            training.find('.show-less-more').hide();
         }
     });
 
