@@ -90,42 +90,7 @@
 }
 
 
-input[type="checkbox"] {
-    display:none;
-}
-input[type="checkbox"] + label span:not(.format) {
-    display:inline-block;
-    width:24px;
-    height:24px;
-    margin:-1px 4px 0 0;
-    vertical-align:middle;
-    background:url('/Content/Images/blue-input.png') left top no-repeat;
-    cursor:pointer;
-    background-position:0 0;
-}
-input[type="checkbox"]:checked + label span:not(.format) {
-    background-position:-48px 0px;
-}
-.input-hover{
-    background-position:-144px 0px!important;
-}
 
-input[type="radio"] {
-    display:none;
-}
-input[type="radio"] + label span:not(.format) {
-    display:inline-block;
-    width:24px;
-    height:24px;
-    margin:-1px 4px 0 0;
-    vertical-align:middle;
-    background:url('/Content/Images/blue-input.png') left top no-repeat;
-    cursor:pointer;
-    background-position:-144px 0;
-}
-input[type="radio"]:checked + label span:not(.format) {
-    background-position:-168px 0px;
-}
 @media screen and (max-width: 991px) AND (min-width: 768px) {
     #active-course{
         border:none;

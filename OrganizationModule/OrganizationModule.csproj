@@ -216,6 +216,7 @@
     <Content Include="Content\Results\user-result.css" />
     <Content Include="Content\Settings\user-settings.css" />
     <Content Include="Content\Trainings\active-training.css" />
+    <Content Include="Content\Trainings\create-training.css" />
     <Content Include="Content\Trainings\training-list.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
