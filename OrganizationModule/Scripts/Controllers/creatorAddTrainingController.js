@@ -31,7 +31,7 @@
                 deleteFile($scope.viewModel.Current.TrainingResources);
             }
 
-            checkImageArtibutesAndUpload(file, 350, 400, 300, false);
+            checkImageArtibutesAndUpload(file, 350, 250, 250, false);
         });
     }
 
@@ -49,7 +49,7 @@
                 deleteFile($scope.viewModel.Current.PassResources);
             }
 
-            checkImageArtibutesAndUpload(file, 150, 100, 100, true);
+            checkImageArtibutesAndUpload(file, 150, 150, 150, true);
         });
     }
 

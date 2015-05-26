@@ -552,6 +552,7 @@ namespace AppEngine.Services
 
                         model.Current = new Training();
                         model.Current.PassResult = 80;
+                        model.Current.TrainingResources = @"Assets\Image\main_image.png";
                         model.Details = new List<TrainingDetail>();
                         model.Questions = new List<TrainingQuestion>();
                         model.AvailableForAll = true;
