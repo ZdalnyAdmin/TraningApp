@@ -43,9 +43,11 @@
                    class="upload-image"
                    onchange="angular.element(this).scope().loadImage(this)"
                    name="uploadImages">
+            <div class='statusBar'><div></div></div>
         </div>
         <div class="col-md-8">
             <img src="{{viewModel.Current.TrainingResources}}" />
+            <button ng-click="remove(viewModel.Current.TrainingResources, true)">Usuń</button>
         </div>
         @*<div class="col-md-4">
             *Nie przejmuj sie, nie misisz dodawac zadnej grafiki! Jesli nie dodasz zadnej grafiki zostanie uzyta grafika domyslna
@@ -96,6 +98,7 @@
                 <div class="col-md-6">
                      [musi byc 100px na 100px i nie wiekszy niz 150kb] lub wybierz ktoras z przygotowanych przez nas!
                 </div>
+                <div class='statusBarMark'><div></div></div>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -107,6 +110,7 @@
 
                 <div class="col-md-6">
                     <img src="{{viewModel.Current.PassResources}}" />
+                    <button ng-click="remove(viewModel.Current.PassResources, false)">Usuń</button>
                 </div>
             </div>
         </div>

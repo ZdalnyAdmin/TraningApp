@@ -26,9 +26,13 @@
                class="upload-image"
                onchange="angular.element(this).scope().loadImage(this)"
                name="uploadFiles">
+
+        <div class='statusBar'><div></div></div>
     </div>
     <div id="simpleRow">
         <img src="{{viewModel.Current.TrainingResources}}" />
+
+        <button ng-click="remove(viewModel.Current.TrainingResources, true)">Usuń</button>
     </div>
 
     <div id="simpleRow">
@@ -56,6 +60,7 @@
 
     <div id="simpleRow">
         <img src="{{viewModel.Current.PassResources}}" />
+        <button ng-click="remove(viewModel.Current.PassResources, false)">Usuń</button>
     </div>
 
     <div id="simpleRow">
@@ -71,6 +76,7 @@
         <div id="inputButto" ng-click="showIcon()">
             Wybierz z listy
         </div>
+        <div class='statusBarMark'><div></div></div>
     </div>
 
     <div id="simpleRow">

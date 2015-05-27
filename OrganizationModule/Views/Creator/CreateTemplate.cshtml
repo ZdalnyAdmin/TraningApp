@@ -43,7 +43,8 @@
         <div class="col-lg-4 col-md-6 col-sm-5">
             <img src="{{viewModel.Current.TrainingResources}}" />
             @*usuwa wgrane przez użytkownika zdjęcie*@
-            <button>Usuń</button>
+            <button ng-click="remove(viewModel.Current.TrainingResources, true)">Usuń</button>
+            <div class='statusBar'><div></div></div>
         </div>
         <div class=" col-lg-4 col-md-5 col-sm-7">
             <h5>Wybierz własny obrazek z dysku</h5>
@@ -126,7 +127,7 @@
         <div class="col-lg-4 col-md-6">
             <img src="{{viewModel.Current.PassResources}}" />
             @*usuwa wgrane przez użytkownika zdjęcie*@
-            <button>Usuń</button>
+            <button ng-click="remove(viewModel.Current.PassResources, false)">Usuń</button>
         </div>
         <div class="col-lg-4 col-md-6">
             <span class="btn blue-button btn-l btn-file">
@@ -140,7 +141,7 @@
             <button class="btn blue-button btn-l" id="inputButto" ng-click="showIcon()">
                 WYBIERZ Z LISTY
             </button>
-
+            <div class='statusBarMark'><div></div></div>
         </div>
         <div class="col-lg-4 visible-lg">
             <div class="navy-cloud">

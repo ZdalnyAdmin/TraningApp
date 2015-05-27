@@ -75,7 +75,11 @@
             if (width == maxWidth && height == maxHeight) {
                 var fd = new FormData();
                 fd.append('file', file);
-                sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), marks);
+                if (marks) {
+                    sendFileToServer(fd, new createMarkStatusbar($element[0].getElementsByClassName('statusBarMark')), marks);
+                } else {
+                    sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), marks); 
+                }
             }
             else {
                 $scope.viewModel.ErrorMessage = 'Nieprawidłowa rozdzielczość obrazka. Musi być ' + maxWidth + 'px na ' + maxHeight + 'px.';
@@ -173,6 +177,21 @@
         }
     }
 
+    function createMarkStatusbar(obj) {
+
+        this.statusbar = $("<div class='statusBarMark'></div>");
+        this.progressBar = $("<div class='progressBarMark'><div></div></div>").appendTo(this.statusbar);
+        $(obj).html('');
+        $(obj).append(this.statusbar);
+
+        this.setProgress = function (progress) {
+            var progressBarWidth = progress * this.progressBar.width() / 100;
+            this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "% ");
+
+            $scope.$apply();
+        }
+    }
+
     function deleteFile(fileName) {
         var deleteURL = ""; //Upload URL
         deleteURL = "./Upload/DeleteImage";
@@ -217,6 +236,26 @@
             }
             UtilitiesFactory.hideSpinner();
         });
+    }
+
+    $scope.remove = function (resources, isMainResources) {
+        if (!resources) {
+            return;
+        }
+        if (isMainResources) {
+            if (resources.indexOf("Assets\\Image") == -1) {
+                deleteFile(resources);
+                $scope.viewModel.Current.TrainingResources = "Assets\\Image\\main_image.png";
+                resources = "Assets\\Image\\main_image.png";
+            }
+        }
+        else {
+            if (resources.indexOf("Assets\\Marks") == -1) {
+                deleteFile(resources);
+            }
+            $scope.viewModel.Current.PassResources = "";
+            resources = "";
+        }
     }
 }
 
