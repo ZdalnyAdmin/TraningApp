@@ -106,14 +106,14 @@ namespace SystemModule.Controllers
                 try
                 {
                     var jsonResult = new Result() { Succeeded = false, Errors = new List<string>() };
-                    var previousInvitedUsers = _db.Users.Where(x => x.Email.Equals(model.Email) && x.OrganizationID == model.OrganizationID).ToList();
+                    var previousInvitedUsers = _db.Users.Where(x => x.Profile == ProfileEnum.Protector && x.OrganizationID == model.OrganizationID).ToList();
 
                     if (previousInvitedUsers != null &&
                         previousInvitedUsers.Exists(x => x.Status != StatusEnum.Rejected &&
                         x.Status != StatusEnum.Reinvited &&
                         x.Status != StatusEnum.Invited))
                     {
-                        jsonResult.Errors.Add("Użytkownik o podanym mailu został już dodany do organizacji");
+                        jsonResult.Errors.Add("Opiekun tej organizacji został już utworzony");
                         return Json(jsonResult);
                     }
                     else
@@ -123,6 +123,7 @@ namespace SystemModule.Controllers
                             if (x.Status == StatusEnum.Invited)
                             {
                                 x.Status = StatusEnum.Reinvited;
+                                x.SecurityStamp = Guid.NewGuid().ToString();
                             }
                         });
 
