@@ -7,6 +7,7 @@ using AppEngine.Models.DTO;
 using AppEngine.Services;
 using AppEngine.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -37,7 +38,7 @@ namespace SystemModule.Controllers.Api
 
                         obj.Organizations = db.Organizations.OrderByDescending(x => x.CreateDate).ToList();
 
-                        if(obj.Organizations != null)
+                        if (obj.Organizations != null)
                         {
                             var currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
                             currentDate = currentDate.AddHours(-72);
@@ -173,8 +174,8 @@ namespace SystemModule.Controllers.Api
                             obj.Setting.IsGlobalAvailable = true;
                             obj.Setting.IsTrainingAvailableForAll = true;
                             obj.Setting.MaxActiveTrainings = 5;
-                            obj.Setting.DefaultEmail = string.Empty;
-                            obj.Setting.DefaultName = string.Empty;
+                            obj.Setting.DefaultEmail = "support@kenpro.pl";
+                            obj.Setting.DefaultName = "Kenpro";
                             obj.Setting.IsDefault = true;
                             db.AppSettings.Add(obj.Setting);
                             db.SaveChanges();
@@ -197,14 +198,14 @@ namespace SystemModule.Controllers.Api
                             return Request.CreateResponse(HttpStatusCode.Created, obj);
                         }
 
-                        var current = obj.Organizations.FirstOrDefault(x=>x.OrganizationID == obj.OrganizationID);
+                        var current = obj.Organizations.FirstOrDefault(x => x.OrganizationID == obj.OrganizationID);
 
-                        if(String.IsNullOrEmpty(current.NewName))
+                        if (String.IsNullOrEmpty(current.NewName))
                         {
                             current.NewName = current.Name;
                         }
 
-                        var protector = db.Users.FirstOrDefault(x=>x.Id == current.ProtectorID);
+                        var protector = db.Users.FirstOrDefault(x => x.Id == current.ProtectorID);
 
                         var assignedUsers = (from gio in db.GroupsInOrganizations
                                              join pig in db.PeopleInGroups on gio.ProfileGroupID equals pig.ProfileGroupID
@@ -219,15 +220,15 @@ namespace SystemModule.Controllers.Api
 
                         obj.Detail.Email = protector != null ? protector.Email : String.Empty;
 
-                        
+
 
                         var trainings = (from tio in db.TrainingsInOrganizations
-                                             join t in db.Trainings on tio.TrainingID equals t.TrainingID
-                                             join td in db.TrainingDetails on t.TrainingID equals td.TrainingID
-                                             where tio.OrganizationID == obj.OrganizationID
-                                             select td).ToList();
+                                         join t in db.Trainings on tio.TrainingID equals t.TrainingID
+                                         join td in db.TrainingDetails on t.TrainingID equals td.TrainingID
+                                         where tio.OrganizationID == obj.OrganizationID
+                                         select td).ToList();
 
-                        obj.Detail.UsedSpaceDisk = trainings.Sum(x=>x.FileSize);
+                        obj.Detail.UsedSpaceDisk = trainings.Sum(x => x.FileSize);
                         //todo details
 
                         obj.Current = current;
@@ -241,7 +242,7 @@ namespace SystemModule.Controllers.Api
 
                         var setting = db.AppSettings.FirstOrDefault(x => x.IsDefault);
 
-                        if(setting  != null)
+                        if (setting != null)
                         {
                             obj.Protector.UserName = setting.DefaultName;
                             obj.Protector.Email = setting.DefaultEmail;
@@ -254,6 +255,28 @@ namespace SystemModule.Controllers.Api
                                                Id = t.OrganizationID,
                                                Name = t.Name
                                            }).ToList();
+
+                        if(obj.NotAssigned == null)
+                        {
+                            obj.NotAssigned = new List<OrganizationDto>();
+                        }
+
+                        var invited = (from t in db.Organizations
+                                   join o in db.Users on t.ProtectorID equals o.Id
+                                   where t.ProtectorID != null && o.Status == StatusEnum.Invited
+                                   select new OrganizationDto
+                                   {
+                                       Id = t.OrganizationID,
+                                       Name = t.Name
+                                   }).ToList();
+
+
+                        if(invited != null && invited.Any())
+                        {
+                            obj.NotAssigned.AddRange(invited);
+                        }
+
+                        obj.NotAssigned = obj.NotAssigned.OrderBy(x => x.Name).ToList();
 
                         obj.Success = String.Empty;
                         break;
