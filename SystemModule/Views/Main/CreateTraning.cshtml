@@ -46,7 +46,7 @@
         </div>
         <div class="col-md-8">
             <img src="{{viewModel.Current.TrainingResources}}" />
-            <button ng-click="remove(viewModel.Current.TrainingResources, true)">Usuń</button>
+            <button ng-click="remove(viewModel.Current.TrainingResources, true)" ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0">Usuń</button>
         </div>
         @*<div class="col-md-4">
             *Nie przejmuj sie, nie misisz dodawac zadnej grafiki! Jesli nie dodasz zadnej grafiki zostanie uzyta grafika domyslna
@@ -108,7 +108,7 @@
 
                 <div class="col-md-6">
                     <img src="{{viewModel.Current.PassResources}}" />
-                    <button ng-click="remove(viewModel.Current.PassResources, false)">Usuń</button>
+                    <button ng-click="remove(viewModel.Current.PassResources, false)" ng-show="!!viewModel.Current.PassResources && viewModel.Current.PassResources.length > 0">Usuń</button>
                 </div>
             </div>
         </div>

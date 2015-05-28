@@ -230,6 +230,7 @@ namespace SystemModule.Controllers.Api
                         obj.Detail.UsedSpaceDisk = trainings.Sum(x=>x.FileSize);
                         //todo details
 
+                        obj.Current = current;
                         obj.Success = String.Empty;
 
                         break;

@@ -38,6 +38,8 @@
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 2;
 
+        $scope.viewModel.Current = item;
+
         if (item.selectedStatus == 'Aktywny') {
             $scope.viewModel.Current.Status = 1;
         } else if (item.selectedStatus == 'Usuniety') {
@@ -48,6 +50,17 @@
 
         $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+
+            angular.forEach($scope.viewModel.Organizations, function (item) {
+                if (item.Status == 1) {
+                    item.selectedStatus = 'Aktywny';
+                } else if (item.Status == 3) {
+                    item.selectedStatus = 'Usuniety';
+                } else if (item.Status == 2) {
+                    item.selectedStatus = 'Ukryty';
+                }
+            });
+
             UtilitiesFactory.hideSpinner();
 
         })

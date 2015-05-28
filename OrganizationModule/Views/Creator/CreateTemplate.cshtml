@@ -43,7 +43,7 @@
         <div class="col-lg-4 col-md-6 col-sm-5">
             <img class="img-responsive" src="{{viewModel.Current.TrainingResources}}" />
             @*usuwa wgrane przez użytkownika zdjęcie*@
-            <button ng-click="remove(viewModel.Current.TrainingResources, true)">Usuń</button>
+            <button ng-click="remove(viewModel.Current.TrainingResources, true)" ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0">Usuń</button>
             <div class='statusBar'><div></div></div>
         </div>
         <div class=" col-lg-4 col-md-5 col-sm-7">
@@ -126,7 +126,7 @@
         <div class="col-lg-4 col-md-6">
             <img class="img-responsive" src="{{viewModel.Current.PassResources}}" />
             @*usuwa wgrane przez użytkownika zdjęcie*@
-            <button ng-click="remove(viewModel.Current.PassResources, false)">Usuń</button>
+            <button ng-click="remove(viewModel.Current.PassResources, false)" ng-show="!!viewModel.Current.PassResources && viewModel.Current.PassResources.length > 0">Usuń</button>
         </div>
         <div class="col-lg-4 col-md-6">
             <span class="btn blue-button btn-l btn-file">
