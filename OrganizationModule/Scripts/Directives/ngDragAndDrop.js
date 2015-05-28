@@ -8,7 +8,7 @@
         restrict: 'A',
         replace: 'true',
         templateUrl: 'Templates/dragAndDrop.html',
-        controller: ['$scope', '$element', '$http', function ($scope, $element, $http) {
+        controller: ['$scope', '$element', '$http', '$sce', function ($scope, $element, $http, $sce) {
             function guid() {
                 function _p8(s) {
                     var p = (Math.random().toString(16) + "000000000").substr(2, 8);
@@ -23,8 +23,12 @@
             $scope.fileSrc = undefined;
             var jqXHR = {};
 
+            $scope.getUrl = function (url) {
+                return $sce.trustAsResourceUrl(url);
+            };
+
             $scope.upload = function () {
-                $scope.$apply(function(scope) {
+                $scope.$apply(function (scope) {
                     var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
 
                     if (!checkExtension(file)) {
@@ -48,6 +52,33 @@
                 if ($scope.model.InternalResource) {
                     deleteFile($scope.model.InternalResource);
                     $scope.model.InternalResource = undefined;
+                }
+
+                if ($scope.options == 'MOVIE' && $scope.model.ExternalResource) {
+                    var url = new URL($scope.model.ExternalResource);
+                    var search = url.search;
+                    var path = url.pathname;
+
+                    if ($scope.model.ExternalResource.indexOf('youtube') !== -1) {
+                        if (search) {
+                            var searchSplit = search.replace('?', '').split('&');
+                            for (var i = 0; i < searchSplit.length; i++) {
+                                if (searchSplit[i].indexOf('v=') === 0) {
+                                    $scope.model.ExternalResource = 'https://www.youtube.com/embed/' + searchSplit[i].replace('v=', '')
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if ($scope.model.ExternalResource.indexOf('vimeo') !== -1) {
+                        if (path) {
+                            var pathSplit = path.split('/');
+                            if (pathSplit.length > 0 && !isNaN(pathSplit[pathSplit.length - 1])) {
+                                $scope.model.ExternalResource = 'https://player.vimeo.com/video/' + pathSplit[pathSplit.length - 1];
+                            }
+                        }
+                    }
                 }
             };
 
@@ -109,7 +140,7 @@
             //    false
             //);
 
-            function dragenter (e) {
+            function dragenter(e) {
                 this.classList.add('over');
                 return false;
             }
@@ -132,7 +163,7 @@
             //    false
             //);
 
-            function dragleave (e) {
+            function dragleave(e) {
                 this.classList.remove('over');
                 return false;
             }
@@ -155,7 +186,7 @@
             //    false
             //);
 
-            function drop (e) {
+            function drop(e) {
                 // Stops some browsers from redirecting.
                 if (e.stopPropagation) e.stopPropagation();
                 if (e.preventDefault) e.preventDefault();
@@ -219,7 +250,7 @@
                         break;
                 }
 
-                
+
                 var extraData = {}; //Extra Data.
                 jqXHR = $.ajax({
                     xhr: function () {
