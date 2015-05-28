@@ -44,7 +44,6 @@
             <img class="img-responsive" src="{{viewModel.Current.TrainingResources}}" />
             @*usuwa wgrane przez użytkownika zdjęcie*@
             <button ng-click="remove(viewModel.Current.TrainingResources, true)" ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0">Usuń</button>
-            <div class='statusBar'><div></div></div>
         </div>
         <div class=" col-lg-4 col-md-5 col-sm-7">
             <h5>Wybierz własny obrazek z dysku</h5>
@@ -56,6 +55,7 @@
                            onchange="angular.element(this).scope().loadImage(this)"
                            name="uploadImages">
                 </span>
+                <div class='statusBar'><div></div></div>
             </div>
             <h5>
                 Nie przejmuj się, nie musisz
@@ -136,10 +136,10 @@
                        onchange="angular.element(this).scope().loadIcon(this)"
                        name="uploadMarks">
             </span>
+            <div class='statusBarMark'><div></div></div>
             <button class="btn blue-button btn-l" id="inputButto" ng-click="showIcon()">
                 WYBIERZ Z LISTY
             </button>
-            <div class='statusBarMark'><div></div></div>
         </div>
         <div class="col-lg-4 visible-lg">
             <div class="navy-cloud">
