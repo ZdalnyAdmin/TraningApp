@@ -8,10 +8,17 @@
         restrict: 'A',
         replace: 'true',
         templateUrl: 'Templates/uploadFile.html',
-        controller: ['$scope', '$element', '$http', function ($scope, $element,$http) {
+        controller: ['$scope', '$element', '$http', '$sce', function ($scope, $element, $http, $sce) {
             $scope.fileName = undefined;
             $scope.fileSrc = undefined;
             var jqXHR = {};
+
+            $scope.getUrl = function (url) {
+                if (url) {
+                    url = location.origin + url;
+                    return $sce.trustAsResourceUrl('http://docs.google.com/gview?url=' + url + '&embedded=true');
+                }
+            };
 
             $scope.upload = function () {
                 $scope.$apply(function(scope) {
