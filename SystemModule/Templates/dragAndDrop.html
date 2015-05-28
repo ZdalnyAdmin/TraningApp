@@ -4,9 +4,8 @@
             <label ng-switch-when="IMAGE">Wczytaj grafike lub upusc ja na pole obok lub podaj link</label>
             <label ng-switch-when="MOVIE">Wczytaj film przerzuć i upuść go w polu obok lub podaj link</label>
             <div class="col-md-12">
-                <input id="upload-input"
-                       type="file"
-                       class="upload-file"
+                <input type="file"
+                       class="upload-input upload-file"
                        onchange="angular.element(this).scope().upload(this)"
                        name="uploadFiles">
             </div>

@@ -3,19 +3,19 @@
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
 
-    <div class="row" id="simpleRow">
+    <div class="row" class="row">
         <div class="col-md-12">
             <h2>INFORMACJE O SZKOLENIU</h2>
         </div>
     </div>
 
-    <div class="row" id="simpleRow">
+    <div class="row" class="row">
         <div class="col-md-12">
             *Utworzenie szkolenia nie jest trudne, ale jesli robisz to pierwszy raz lub chcesz przypomniec sobie caly proces skorzystaj z przewodnika z zakladce jak stworzyc szkolenia
         </div>
     </div>
 
-    <div class="row" id="simpleRow">
+    <div class="row" class="row">
         
         <div class="col-md-12">
             <label>NAZWA SZKOLENIA</label>
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="row" id="simpleRow">
+    <div class="row" class="row">
         <div class="col-md-12">
             <label>
                 OPIS SZKOLENIA
@@ -33,14 +33,13 @@
         
     </div>
 
-    <div class="row" id="simpleRow">
+    <div class="row" class="row">
         <div class="col-md-4">
             <label>
                 Grafika obrazujaca szkolenie [400 x 300px i nie wieksza niz 350kb]
             </label>
-            <input id="upload-input"
-                   type="file"
-                   class="upload-image"
+            <input type="file"
+                   class="upload-input upload-image"
                    onchange="angular.element(this).scope().loadImage(this)"
                    name="uploadImages">
             <div class='statusBar'><div></div></div>
@@ -54,7 +53,7 @@
         </div>*@
     </div>
 
-    <div class="row" id="simpleRow">
+    <div class="row" class="row">
         <div class="col-md-6">
             <label>
                 Ile procent punktow jest niezbednych do zaliczenia Twojego szkolenia?
@@ -69,7 +68,7 @@
         </div>
     </div>
 
-    <div class="row" id="simpleRow">
+    <div class="row" class="row">
         <div class="col-md-6">
             <label>Komunikat po zaliczeniu szkolenia</label>
             <input type="text" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" maxlength="500" />
@@ -81,7 +80,7 @@
 
   
 
-    <div class="row" id="simpleRow">
+    <div class="row" class="row">
         <div class="col-md-12">
             <label>
                 Odznaka zakończenia
@@ -89,9 +88,8 @@
             <div class="row">
                 <div class="col-md-6">
                     wczytaj własną
-                    <input id="upload-input"
-                           type="file"
-                           class="upload-mark"
+                    <input type="file"
+                           class="upload-input upload-mark"
                            onchange="angular.element(this).scope().loadIcon(this)"
                            name="uploadMarks">
                 </div>
@@ -138,7 +136,7 @@
     <div class="row">
         <h2>DOSTEPNOSC SZKOLENIA</h2>
     </div>
-    <div id="simpleRow">
+    <div class="row">
         <input type="checkbox" ng-model="viewModel.AvailableForAll" ng-disabled="viewModel.Organizations.length > 0" />Wszystkie firmy
     </div>
     <div> lub wybierz z list</div>
@@ -149,7 +147,7 @@
     <div ng-repeat="item in viewModel.Organizations">
         {{item.Name}}  ,
     </div>
-    <div id="simpleRow">
+    <div class="row">
         <button ng-click="save()">
             ZAPISZ SZKOLENIE
         </button>

@@ -3,7 +3,7 @@
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
 
-    <div id="simpleRow">
+    <div class="row">
         WYBIERZ FIRME
         <select ng-model="selected" ng-options="c as c.Name for c in viewModel.NotAssigned" ng-change="changeOrganization(selected)">
             <option value="">Wybierz</option>

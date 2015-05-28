@@ -4,73 +4,71 @@
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
 
-    <div id="simpleRow">
+    <div class="row">
         INFORMACJE O SZKOLENIU
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         NAZWA SZKOLENIA
         <input type="text" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" maxlength="140" />
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         OPIS SZKOLENIA
         <input type="text" name="viewModel.Current.Description" ng-model="viewModel.Current.Description" maxlength="1500" />
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         Grafika obrazujaca szkolenie [400 x 300px i nie wieksza niz 350kb]: 
 
-        <input id="upload-input"
-               type="file"
-               class="upload-image"
+        <input type="file"
+               class="upload-input upload-image"
                onchange="angular.element(this).scope().loadImage(this)"
                name="uploadFiles">
 
         <div class='statusBar'><div></div></div>
     </div>
-    <div id="simpleRow">
+    <div class="row">
         <img src="{{viewModel.Current.TrainingResources}}" />
 
         <button ng-click="remove(viewModel.Current.TrainingResources, true)">Usuń</button>
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         Ile procent punktow jest niezbednych do zaliczenia Twojego szkolenia?
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="100" />100%
         <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="80" />80%
         <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="65" />65%
         <input type="radio" name="passResult" ng-model="viewModel.Current.PassResult" value="50" />50%
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         Komunikat, ktory zobacza uzytkownicy ktorzy zalicza kurs (osiagna wymagana liczbe punktow)
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         <input type="text" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" maxlength="500" />
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         Odznaka za pozytywne zakonczenie kursu
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         <img src="{{viewModel.Current.PassResources}}" />
         <button ng-click="remove(viewModel.Current.PassResources, false)">Usuń</button>
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         Jesli chcesz je zmienic wczytaj wlasna [musi byc 100px na 100px i nie wieksza niz 150kb] lub wybierz ktoras z przygotowanych przez nas!
     </div>
 
-    <div id="simpleRow">
-        <input id="upload-input"
-               type="file"
-               class="upload-mark"
+    <div class="row">
+        <input type="file"
+               class="upload-input upload-mark"
                onchange="angular.element(this).scope().loadIcon(this)"
                name="uploadFiles">
         <div id="inputButto" ng-click="showIcon()">
@@ -79,31 +77,31 @@
         <div class='statusBarMark'><div></div></div>
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         OKRESL DLA KOGO MA BYC WIDOCZNE SZKOLENIE
     </div>
     <div ng-repeat="item in viewModel.Current.Groups">
         <input type="checkbox" ng-model="item.selected" />{{item.Name}}
     </div>
-    <div id="simpleRow">
+    <div class="row">
         Jesli nie zaznaczysz zadnej grupy, kurs będzie widoczny tylko dla Ciebie
     </div>
 
-    <div id="simpleRow">
+    <div class="row">
         ZAWARTOSC SZKOLENIA
     </div>
 
     <div ng-training-details-tab obj="viewModel.Current.Details"></div>
     <div ng-training-edit-details collection="viewModel.Current.Details"></div>
 
-    <div id="simpleRow">
+    <div class="row">
         PYTANIE W SZKOLENIU
     </div>
 
     <div ng-training-edit-question questions="viewModel.Current.Questions"></div>
     <div ng-training-add-question questions="viewModel.Current.Questions"></div>
 
-    <div id="simpleRow">
+    <div class="row">
         <button ng-click="save()">
             ZAPISZ SZKOLENIE
         </button>

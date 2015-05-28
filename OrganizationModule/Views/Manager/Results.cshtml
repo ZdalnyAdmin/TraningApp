@@ -3,7 +3,7 @@
     <strong class="error">{{ error }}</strong>
     <strong class="error">{{ success }}</strong>
 
-    <div id="simpleRow">
+    <div class="row">
         POKAZ UZYTKOWNIKOW
         <select ng-model="selected" ng-options="c as c.Name for c in Users" ng-change="changePerson(selected)">
             <option value="">Wszystkie</option>

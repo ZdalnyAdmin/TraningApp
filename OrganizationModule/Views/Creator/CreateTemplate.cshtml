@@ -35,13 +35,13 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row training-image">
         <div class="col-xs-12">
             <div class="circle-pointer">3</div>
             <h4><span>GRAFIKA OBRAZUJĄCA SZKOLENIE</span></h4>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-5">
-            <img src="{{viewModel.Current.TrainingResources}}" />
+            <img class="img-responsive" src="{{viewModel.Current.TrainingResources}}" />
             @*usuwa wgrane przez użytkownika zdjęcie*@
             <button ng-click="remove(viewModel.Current.TrainingResources, true)">Usuń</button>
             <div class='statusBar'><div></div></div>
@@ -51,9 +51,8 @@
             <div>
                 <span class="btn blue-button btn-l btn-file">
                     WCZYTAJ PLIK
-                    <input id="upload-input"
-                           type="file"
-                           class="upload-image"
+                    <input type="file"
+                           class="upload-input upload-image"
                            onchange="angular.element(this).scope().loadImage(this)"
                            name="uploadImages">
                 </span>
@@ -119,22 +118,21 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row ">
         <div class="col-xs-12">
             <div class="circle-pointer">6</div>
             <h4><span>ODZNAKA ZA ZALICZENIE SZKOLENIA</span></h4>
         </div>
         <div class="col-lg-4 col-md-6">
-            <img src="{{viewModel.Current.PassResources}}" />
+            <img class="img-responsive" src="{{viewModel.Current.PassResources}}" />
             @*usuwa wgrane przez użytkownika zdjęcie*@
             <button ng-click="remove(viewModel.Current.PassResources, false)">Usuń</button>
         </div>
         <div class="col-lg-4 col-md-6">
             <span class="btn blue-button btn-l btn-file">
                 WCZYTAJ PLIK
-                <input id="upload-input"
-                       type="file"
-                       class="upload-mark btn btn-l"
+                <input type="file"
+                       class="upload-input upload-mark btn btn-l"
                        onchange="angular.element(this).scope().loadIcon(this)"
                        name="uploadMarks">
             </span>
@@ -155,30 +153,30 @@
     </div>
 
 
-    <div id="simpleRow">
+    <div class="row">
         ZAWARTOSC SZKOLENIA
     </div>
 
     <div ng-training-details-tab obj="viewModel.Details"></div>
     <div ng-training-edit-details collection="viewModel.Details"></div>
 
-    <div id="simpleRow">
+    <div class="row">
         PYTANIE W SZKOLENIU
     </div>
 
     <div ng-training-edit-question questions="viewModel.Questions"></div>
     <div ng-training-add-question questions="viewModel.Questions"></div>
 
-    <div id="simpleRow">
+    <div class="row">
         OKRESL DLA KOGO MA BYC WIDOCZNE SZKOLENIE
     </div>
-    <div id="simpleRow">
+    <div class="row">
         Na ta chwile polecamy Ci nie zaznaczac zadnej grupy. W takiej sytuacji kurs bedzie widoczny tylko dla Ciebie. Polecamy Ci go uruchomić i przetestowac a dopiero pozniej przyznac uprawnienia dla innych uzytkownikow (Mozesz to zrobic w zakladce moje szkolenia)
     </div>
     <div ng-repeat="item in viewModel.Groups">
         <input type="checkbox" ng-model="item.selected" />{{item.Name}}
     </div>
-    <div id="simpleRow">
+    <div class="row">
         <button ng-click="save()">
             ZAPISZ SZKOLENIE
         </button>

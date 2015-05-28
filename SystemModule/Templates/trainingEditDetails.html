@@ -2,20 +2,20 @@
     <div class="row">
         <div class="col-md-10">
             <div ng-show="item.ResourceType == 0">
-                <div id="simpleRow" ng-hide="item.isEdit" ng-bind-html="item.Text"></div>
-                <div id="simpleRow" ng-show="item.isEdit">
+                <div class="row" ng-hide="item.isEdit" ng-bind-html="item.Text"></div>
+                <div class="row" ng-show="item.isEdit">
                     <textarea name="item.Text" froala="options" ng-model="item.Text"></textarea>
                 </div>
             </div>
             <div ng-show="item.ResourceType == 1">
-                <div id="simpleRow">
-                    <div id="simpleRow">
+                <div class="row">
+                    <div class="row">
                         <img src="{{item.InternalResource || item.ExternalResource}}" width="300" height="200" />
                     </div>
                 </div>
             </div>
             <div ng-show="item.ResourceType == 2">
-                <div id="simpleRow">
+                <div class="row">
                     Dodany plik wideo : {{item.Name}}
                     <div ng-if="item.InternalResource">
                         <ng-jw-player setup='{ "file": "{{item.InternalResource}}" }'></ng-jw-player>
@@ -27,12 +27,12 @@
                 </div>
             </div>
             <div ng-show="item.ResourceType == 3">
-                <div id="simpleRow">
+                <div class="row">
                     Dodany plik prezentacji : {{item.Name}}
                 </div>
             </div>
             <div ng-show="item.ResourceType == 4">
-                <div id="simpleRow">
+                <div class="row">
                     Dodany plik : {{item.Name}}
                 </div>
             </div>

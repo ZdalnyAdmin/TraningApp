@@ -15,13 +15,13 @@
         Utworz grupe
     </div>
     <div ng-show="isCreated">
-        <div id="simpleRow">
+        <div class="row">
             <div id="mainText">
                 Nazwa grupy
             </div>
             <input type="text" id="mainInput" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" maxlength=40>
         </div>
-        <div id="simpleRow">
+        <div class="row">
             <div id="mainText">
                 Czlonkowie grupy :
                 <div ng-repeat="user in viewModel.Current.AssignedPeople">
@@ -33,14 +33,14 @@
                 Wybierz z listy
             </button>
         </div>
-        <div id="simpleRow">
+        <div class="row">
             <button ng-click="add(viewModel.Current)">
                 Zapisz
             </button>
         </div>
     </div>
     <div ng-repeat="group in viewModel.Groups">
-        <div id="simpleRow">
+        <div class="row">
             <div id="mainText">
                 Grupa :
             </div>
@@ -55,7 +55,7 @@
                 USUN GRUPE
             </button>
         </div>
-        <div id="simpleRow">
+        <div class="row">
             <div id="mainText">
                 Czlonkowie grupy : 
                 <div ng-repeat="user in viewModel.Current.AssignedPeople">
@@ -66,7 +66,7 @@
                 Wybierz z listy
             </button>
         </div>
-        <div id="simpleRow">
+        <div class="row">
             <button  ng-show="group.isEditable" ng-click="edit(group)">
                 ZAPISZ
             </button>

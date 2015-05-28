@@ -4,9 +4,8 @@
             <label ng-switch-when="FILE">Wgraj plik:</label>
             <label ng-switch-when="PRESENTATION">Wgraj prezentacje (ppt, pptx, pdf):</label>
             <div>
-                <input id="upload-input"
-                       type="file"
-                       class="upload-file"
+                <input type="file"
+                       class="upload-input upload-file"
                        onchange="angular.element(this).scope().upload(this)"
                        name="uploadFiles">
             </div>

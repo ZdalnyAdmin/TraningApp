@@ -4,14 +4,14 @@
     <strong class="error">{{ success }}</strong>
 
 
-    <div id="simpleRow">
+    <div class="row">
         WYBIERZ TYP ZDARZENIA
         <select ng-model="selected" ng-options="c as c for c in OperationTypes" ng-change="change(selected)">
             <option value="">Wszystkie</option>
         </select>
     </div>
     <div ng-repeat="item in Logs">
-        <div id="simpleRow">
+        <div class="row">
             <div>
                 {{ item.OperationDesc}}
             </div>

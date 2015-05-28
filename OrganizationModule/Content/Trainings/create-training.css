@@ -36,3 +36,19 @@
 #create-training .pass-training label{
     margin-right:50px;
 }
+#create-training .training-image img{
+    max-width:250px;
+    float:right;
+}
+
+@media screen and (max-width: 768px) {
+    #create-training .training-image >div:nth-child(2){
+        float:left;
+    }
+    #create-training .training-image >div:nth-child(3){
+        min-width:500px;
+    }
+    #create-training .training-image img{
+        float:none;
+    }
+}

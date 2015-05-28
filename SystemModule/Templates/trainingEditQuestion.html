@@ -4,16 +4,16 @@
     </div>
     <div class="row">
         <div class="col-md-10">
-            <div id="simpleRow" ng-show="item.Type == 0">
+            <div class="row" ng-show="item.Type == 0">
 
-                <div id="simpleRow" ng-hide="item.isEdit">
+                <div class="row" ng-hide="item.isEdit">
                     {{item.Text}}
                 </div>
-                <div id="simpleRow" ng-show="item.isEdit">
+                <div class="row" ng-show="item.isEdit">
                     <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
                 </div>
         <div ng-repeat="answer in item.Answers">
-            <div id="simpleRow">
+            <div class="row">
                 <input type="radio" name="answer" value=true ng-disabled="!item.isEdit" ng-model="answer.IsSelected" />
 
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="answer.Text">
@@ -23,15 +23,15 @@
                 </div>
             </div>
 
-            <div id="simpleRow" ng-show="item.Type == 1">
-                <div id="simpleRow" ng-hide="item.isEdit">
+            <div class="row" ng-show="item.Type == 1">
+                <div class="row" ng-hide="item.isEdit">
                     {{item.Text}}
                 </div>
-                <div id="simpleRow" ng-show="item.isEdit">
+                <div class="row" ng-show="item.isEdit">
                     <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
                 </div>
         <div ng-repeat="answer in item.Answers">
-            <div id="simpleRow">
+            <div class="row">
                 <input type="checkbox" name="answer" ng-disabled="!item.isEdit" ng-model="answer.IsSelected" />
 
                 <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="answer.Text">
@@ -41,14 +41,14 @@
                 </div>
             </div>
 
-            <div id="simpleRow" ng-show="item.Type == 2">
-                <div id="simpleRow" ng-hide="item.isEdit">
+            <div class="row" ng-show="item.Type == 2">
+                <div class="row" ng-hide="item.isEdit">
                     {{item.Text}}
                 </div>
-                <div id="simpleRow" ng-show="item.isEdit">
+                <div class="row" ng-show="item.isEdit">
                     <input type="text" id="mainInput" name="item.Text" ng-model="item.Text">
                 </div>
-                <div id="simpleRow">
+                <div class="row">
                     <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Text">
                     Punkty
                     <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="item.Answers[0].Score">

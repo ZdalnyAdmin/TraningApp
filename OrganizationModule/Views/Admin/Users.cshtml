@@ -3,7 +3,7 @@
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
     <div ng-repeat="person in viewModel.People">
-        <div id="simpleRow">
+        <div class="row">
             <div id="mainText" ng-hide="person.isEditable">
                 {{ person.DisplayName }}
             </div>
@@ -21,7 +21,7 @@
                 ANULUJ ZMIANY
             </button>
         </div>
-        <div id="simpleRow">
+        <div class="row">
             <div id="detailText" ng-hide="person.isEditable">
                 {{ person.Email }}
             </div>
@@ -51,7 +51,7 @@
                 {{ person.UserName }}
             </div>
         </div>
-        <div id="simpleRow">
+        <div class="row">
             <div id="mainText">
                 Kursy ({{ person.TrainingNumber }})
             </div>
@@ -63,9 +63,9 @@
             </button>
         </div>
 
-        <div id="simpleRow" ng-show="showDetails">
+        <div class="row" ng-show="showDetails">
             <div ng-repeat="item in person.AssignedTrainings">
-                <div id="simpleRow">
+                <div class="row">
                     <div id="detailText">
                         {{ item.Id }}
                     </div>
@@ -93,18 +93,18 @@
         UKRYJ USUNIETE
     </button>
 
-    <div id="simpleRow" ng-show="showDeleted">
+    <div class="row" ng-show="showDeleted">
         <div id="mainText">
             Uzytkowanicy usunieci
         </div>
         <div ng-repeat="person in viewModel.DeletedPeople">
 
-            <div id="simpleRow">
+            <div class="row">
                 <div id="mainText">
                     {{ person.DisplayName }}
                 </div>
             </div>
-            <div id="simpleRow">
+            <div class="row">
                 <div id="detailText">
                     {{ person.RegistrationDate | date: 'dd.MM.yyyy hh.mm' }}
                 </div>
