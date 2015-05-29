@@ -1,6 +1,6 @@
-﻿<div>
-    <div class="col-md-12">
-        <div ng-switch="options">
+<<<<<<< HEAD
+﻿<div class="drag-and-drop">
+    <div ng-switch="options">
         <div ng-switch-when="IMAGE">
             <h4>DODAJ GRAFIKĘ</h4>
             <h4>Wczytaj obraz z dysku, klikajac przycisk i wybierajac plik LUB przeciagajac go i upuszczajac w polu obok.</h4>
@@ -15,7 +15,7 @@
                 <span class="btn navy-button btn-l btn-file">
                     WYBIERZ PLIK Z DYSKU
                     <input type="file"
-                           class="upload-input upload-file"
+                           class="upload-file"
                            onchange="angular.element(this).scope().upload(this)"
                            name="uploadFiles">
                 </span>
@@ -39,8 +39,8 @@
                     Plik wideo może być w formacie MP4, OGG lub WEBM. Wielkość pliku nie może przekraczać 500 MB. Wideo w innym formacie może zostać dołączone do szkolenia poprzez jego dodanie na YouTube bądź Vimeo i podanie linka do niego później.
                 </div>
             </div>
-            </div>
-            <div class="col-md-12" ng-switch-when="MOVIE">
+        </div>
+        <div ng-switch-when="MOVIE">
             <h4>ALBO</h4>
             <div class="circle-pointer">B</div>
             <h4><span>Skopiuj i wklej ścieżkę do wideo umieszczonego na YouTube bądź Vimeo.</span></h4>
@@ -57,9 +57,31 @@
                     </div>
                 </div>
             </div>
+=======
+﻿<div class="row">
+    <div class="col-md-12">
+        <div ng-switch="options">
+            <label ng-switch-when="IMAGE">Wczytaj grafike lub upusc ja na pole obok lub podaj link</label>
+            <label ng-switch-when="MOVIE">Wczytaj film przerzuć i upuść go w polu obok lub podaj link</label>
+            <div class="col-md-12">
+                <input type="file"
+                       class="upload-input upload-file"
+                       onchange="angular.element(this).scope().upload(this)"
+                       name="uploadFiles">
+            </div>
+            <div class="col-md-12" ng-switch-when="IMAGE">
+                <label>Podaj link:</label> <input type="text" ng-model="model.ExternalResource" ng-blur="change()">
+            </div>
+            <div class="col-md-12" ng-switch-when="MOVIE">
+                <label>Podaj link YT lub vimeo:</label> <input type="text" ng-model="model.ExternalResource" ng-blur="change()">
+            </div>
+            <div class="col-md-12">
+                {{fileName || 'Nie wybrano pliku'}}
+            </div>
+            <div class='statusBar'><div></div></div>
         </div>
-        <!--<div>
-            <img ng-show="!fileSrc" src="{{ '../Assets/Image/empty.png' }}" class="empty-image" width="200px" height="200px" />
+        <div class="col-md-12">
+            <img ng-show="!fileSrc && !model.ExternalResource" src="{{ '../Assets/Image/empty.png' }}" class="empty-image" width="200px" height="200px" />
             <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
             <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}" width="200px" height="200px">
                 Ładuję plik wideo.
@@ -69,6 +91,14 @@
                 <iframe ng-if="model.ExternalResource.indexOf('player.vimeo.com') !=-1" src="{{getUrl(model.ExternalResource)}}" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
             </div>
             <img ng-show="options == 'IMAGE' && !fileSrc && model.ExternalResource" src="{{model.ExternalResource || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
+>>>>>>> cd42f2281bee539594b0dceedc25d1b3e3bd6291
         </div>
+        <!--<div>
+            <img ng-show="!fileSrc" src="{{ '../Assets/Image/empty.png' }}" class="empty-image" width="200px" height="200px" />
+            <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
+            <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}" width="200px" height="200px">
+                Ładuję plik wideo.
+            </div>
+        </div>-->
     </div>
 </div>

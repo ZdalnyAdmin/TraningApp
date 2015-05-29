@@ -31,7 +31,7 @@
     <div class="row">
         <img src="{{viewModel.Current.TrainingResources}}" />
 
-        <button ng-click="remove(viewModel.Current.TrainingResources, true)">Usuń</button>
+        <button ng-click="remove(viewModel.Current.TrainingResources, true)" ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0">Usuń</button>
     </div>
 
     <div class="row">
@@ -59,7 +59,7 @@
 
     <div class="row">
         <img src="{{viewModel.Current.PassResources}}" />
-        <button ng-click="remove(viewModel.Current.PassResources, false)">Usuń</button>
+        <button ng-click="remove(viewModel.Current.PassResources, false)" ng-show="!!viewModel.Current.PassResources && viewModel.Current.PassResources.length > 0">Usuń</button>
     </div>
 
     <div class="row">
@@ -71,10 +71,10 @@
                class="upload-input upload-mark"
                onchange="angular.element(this).scope().loadIcon(this)"
                name="uploadFiles">
+        <div class='statusBarMark'><div></div></div>
         <div id="inputButto" ng-click="showIcon()">
             Wybierz z listy
         </div>
-        <div class='statusBarMark'><div></div></div>
     </div>
 
     <div class="row">

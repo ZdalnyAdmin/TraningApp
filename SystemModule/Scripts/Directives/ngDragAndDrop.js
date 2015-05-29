@@ -8,7 +8,7 @@
         restrict: 'A',
         replace: 'true',
         templateUrl: 'Templates/dragAndDrop.html',
-        controller: ['$scope', '$element', '$http', function ($scope, $element, $http) {
+        controller: ['$scope', '$element', '$http', '$sce', function ($scope, $element, $http, $sce) {
             function guid() {
                 function _p8(s) {
                     var p = (Math.random().toString(16) + "000000000").substr(2, 8);
@@ -22,6 +22,10 @@
             $scope.fileName = undefined;
             $scope.fileSrc = undefined;
             var jqXHR = {};
+
+            $scope.getUrl = function (url) {
+                return $sce.trustAsResourceUrl(url);
+            };
 
             $scope.upload = function () {
                 $scope.$apply(function (scope) {
@@ -50,8 +54,33 @@
                     $scope.model.InternalResource = undefined;
                 }
 
-                $element.find('.progressBar').text('');
-                $element.find('.upload-file').parent().html('<input type="file" class="upload-file" onchange="angular.element(this).scope().upload(this)" name="uploadFiles">');
+                if ($scope.options == 'MOVIE' && $scope.model.ExternalResource) {
+                    var url = new URL($scope.model.ExternalResource);
+                    var search = url.search;
+                    var path = url.pathname;
+
+                    if ($scope.model.ExternalResource.indexOf('youtube') !== -1) {
+                        if (search) {
+                            var searchSplit = search.replace('?', '').split('&');
+                            for (var i = 0; i < searchSplit.length; i++) {
+                                if (searchSplit[i].indexOf('v=') === 0) {
+                                    $scope.model.ExternalResource = 'https://www.youtube.com/embed/' + searchSplit[i].replace('v=', '')
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if ($scope.model.ExternalResource.indexOf('vimeo') !== -1) {
+                        if (path) {
+                            var pathSplit = path.split('/');
+                            if (pathSplit.length > 0 && !isNaN(pathSplit[pathSplit.length-1]))
+                            {
+                                $scope.model.ExternalResource = 'https://player.vimeo.com/video/' + pathSplit[pathSplit.length - 1];
+                            }
+                        }
+                    }
+                }
             };
 
             $scope.$watch('model.isEdit', function () {
@@ -70,6 +99,9 @@
                     if (jqXHR && jqXHR.abort) {
                         jqXHR.abort();
                     }
+
+                    $element.find('.progressBar').text('');
+                    $element.find('.upload-file').parent().html('<input type="file" class="upload-file" onchange="angular.element(this).scope().upload(this)" name="uploadFiles">');
                 }
             });
 

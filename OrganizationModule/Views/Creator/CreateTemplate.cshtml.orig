@@ -43,8 +43,12 @@
         <div class="col-lg-4 col-md-6 col-sm-5">
             <img class="img-responsive" src="{{viewModel.Current.TrainingResources}}" />
             @*usuwa wgrane przez użytkownika zdjęcie*@
-            <button ng-click="remove(viewModel.Current.TrainingResources, true)" ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0">Usuń</button>
+<<<<<<< HEAD
+            <button ng-click="remove(viewModel.Current.TrainingResources, true)">Usuń</button>
             
+=======
+            <button ng-click="remove(viewModel.Current.TrainingResources, true)" ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0">Usuń</button>
+>>>>>>> cd42f2281bee539594b0dceedc25d1b3e3bd6291
         </div>
         <div class=" col-lg-4 col-md-5 col-sm-7">
             <h5>Wybierz własny obrazek z dysku</h5>
@@ -153,10 +157,18 @@
                        onchange="angular.element(this).scope().loadIcon(this)"
                        name="uploadMarks">
             </span>
-            <div class='statusBarMark'><div></div></div>
+<<<<<<< HEAD
+            <div class='statusBarMark'></div>
             <button class="btn blue-button btn-l" ng-click="showIcon()">
                 WYBIERZ Z LISTY
             </button>
+            
+=======
+            <div class='statusBarMark'><div></div></div>
+            <button class="btn blue-button btn-l" id="inputButto" ng-click="showIcon()">
+                WYBIERZ Z LISTY
+            </button>
+>>>>>>> cd42f2281bee539594b0dceedc25d1b3e3bd6291
         </div>
         <div class="col-md-1 visible-md">
             <div class="circle-pointer italics prompt">i</div>

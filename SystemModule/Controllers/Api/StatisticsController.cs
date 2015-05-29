@@ -60,8 +60,13 @@ namespace SystemModule.Controllers.Api
                     case StatisticEnum.General:
                         statistics = new List<Statistic>();
                         var obj = new Statistic();
-                        obj.PeopleNo = db.Users.Count(x => x.OrganizationID != null && !x.IsDeleted);
-                        obj.OrganizationNo = db.Trainings.Count(x => !x.IsDeleted);
+                        obj.PeopleNo = db.Users.Count(x => x.OrganizationID != null && (x.Status == StatusEnum.Active || x.Status == StatusEnum.Blocked));
+
+                        var activeUsersNo = db.Users.Count(x => x.OrganizationID != null && x.Status == StatusEnum.Active);
+                        var organizationsNo = db.Organizations.Count(x => x.Status == OrganizationEnum.Active);
+
+                        obj.OrganizationNo = organizationsNo != 0 ? activeUsersNo / organizationsNo : 0;
+
                         obj.InternalTrainings = db.Trainings.Count(x => !x.IsDeleted && x.TrainingType == TrainingType.Internal);
                         obj.StartedTrainings = (from t in db.TrainingResults
                                                 where t.StartDate.HasValue

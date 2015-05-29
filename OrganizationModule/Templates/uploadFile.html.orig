@@ -14,7 +14,6 @@
             </div>
             <div class="col-lg-4">
                 {{ fileName || 'Nie wybrano pliku' }}
-        <iframe ng-show="!!fileName && options === 'PRESENTATION' " src="{{getUrl(model.InternalResource)}}" style="width:600px; height:500px;" frameborder="0"></iframe>
                 <div class='statusBar'><div></div></div>
             </div>
             <div class="col-lg-4">
@@ -31,5 +30,13 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
+=======
+        <div>
+            {{ fileName || 'Nie wybrano pliku' }}
+        </div>
+        <iframe ng-show="!!fileName && options === 'PRESENTATION' " src="{{getUrl(model.InternalResource)}}" style="width:600px; height:500px;" frameborder="0"></iframe>
+        <div class='statusBar'><div></div></div>
+>>>>>>> cd42f2281bee539594b0dceedc25d1b3e3bd6291
     </div>
 </div>
