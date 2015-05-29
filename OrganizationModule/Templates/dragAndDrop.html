@@ -1,29 +1,68 @@
-﻿<div>
+﻿<div class="drag-and-drop">
     <div ng-switch="options">
-        <div ng-switch-when="IMAGE">Wczytaj grafike lub upusc ja na pole obok lub podaj link</div>
-        <div ng-switch-when="MOVIE">Wczytaj film przerzuć i upuść go w polu obok lub podaj link</div>
-        <div>
-            <input type="file"
-                   class="upload-file"
-                   onchange="angular.element(this).scope().upload(this)" 
-                   name="uploadFiles">
-        </div>
         <div ng-switch-when="IMAGE">
-            Podaj link: <input type="text" ng-model="model.ExternalResource" ng-blur="change()">
+            <h4>DODAJ GRAFIKĘ</h4>
+            <h4>Wczytaj obraz z dysku, klikajac przycisk i wybierajac plik LUB przeciagajac go i upuszczajac w polu obok.</h4>
         </div>
         <div ng-switch-when="MOVIE">
-            Podaj link YT lub vimeo: <input type="text" ng-model="model.ExternalResource" ng-blur="change()">
+            <h4>DODAJ WIDEO</h4>
+            <div class="circle-pointer">A</div>
+            <h4><span>Wczytaj wideo z dysku, klikajac przycisk i wybierajac plik LUB przeciagajac go i upuszczajac w polu obok.</span></h4>
         </div>
-        <div>
-            {{fileName || 'Nie wybrano pliku'}}
+        <div class="row">
+            <div class="col-lg-4">
+                <span class="btn navy-button btn-l btn-file">
+                    WYBIERZ PLIK Z DYSKU
+                    <input type="file"
+                           class="upload-file"
+                           onchange="angular.element(this).scope().upload(this)"
+                           name="uploadFiles">
+                </span>
+                <h6>
+                    {{fileName || 'Nie wybrano pliku'}}
+                </h6>
+                <div class='statusBar'><div></div></div>
+            </div>
+            <div class="col-lg-4">
+                <img ng-show="!fileSrc" src="{{ '../Assets/Image/drag-drop-image.png' }}" class="empty-image"/>
+                <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/drag-drop-image.png' }}" class="filled-image"/>
+                <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}">
+                    Ładuję plik wideo.
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div ng-switch-when="IMAGE" class="navy-cloud">
+                    Plik wideo może być w formacie MP4, OGG lub WEBM. Wielkość pliku nie może przekraczać 500 MB. Wideo w innym formacie może zostać dołączone do szkolenia poprzez jego dodanie na YouTube bądź Vimeo i podanie linka do niego później.
+                </div>
+                <div ng-switch-when="MOVIE" class="navy-cloud">
+                    Plik wideo może być w formacie MP4, OGG lub WEBM. Wielkość pliku nie może przekraczać 500 MB. Wideo w innym formacie może zostać dołączone do szkolenia poprzez jego dodanie na YouTube bądź Vimeo i podanie linka do niego później.
+                </div>
+            </div>
         </div>
-        <div class='statusBar'><div></div></div>
-    </div>
-    <div>
-        <img ng-show="!fileSrc" src="{{ '../Assets/Image/empty.png' }}" class="empty-image" width="200px" height="200px" />
-        <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
-        <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}" width="200px" height="200px">
-            Ładuję plik wideo.
+        <div ng-switch-when="MOVIE">
+            <h4>ALBO</h4>
+            <div class="circle-pointer">B</div>
+            <h4><span>Skopiuj i wklej ścieżkę do wideo umieszczonego na YouTube bądź Vimeo.</span></h4>
+            <div class="row">
+                <div class="col-lg-8">
+                    <input class="form-control" placeholder="Podaj link do wideo" type="text" ng-model="model.ExternalResource" ng-blur="change()">
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="navy-cloud visible-lg">
+                        Nie wiem jakie tu są potrzebne
+                        wytyczne, jaki może być link z YT, czy
+                        skrócony przyjmie
+                    </div>
+                </div>
+            </div>
         </div>
+        <!--<div>
+            <img ng-show="!fileSrc" src="{{ '../Assets/Image/empty.png' }}" class="empty-image" width="200px" height="200px" />
+            <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
+            <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}" width="200px" height="200px">
+                Ładuję plik wideo.
+            </div>
+        </div>-->
     </div>
 </div>

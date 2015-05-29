@@ -206,6 +206,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Image\ajax-loader.gif" />
+    <Content Include="Assets\Image\drag-drop-image.png" />
+    <Content Include="Assets\Image\drag-drop-video.png" />
     <Content Include="Assets\Image\empty.png" />
     <Content Include="Assets\Image\main_image.png" />
     <Content Include="Assets\Marks\All\Kowalski.png" />

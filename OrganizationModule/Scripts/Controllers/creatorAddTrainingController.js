@@ -186,7 +186,7 @@
 
         this.setProgress = function (progress) {
             var progressBarWidth = progress * this.progressBar.width() / 100;
-            this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "% ");
+            this.progressBar.find('div').animate({ width: progressBarWidth }, 10);
 
             $scope.$apply();
         }

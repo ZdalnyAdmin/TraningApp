@@ -3,19 +3,19 @@
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
 
-    <div class="row" class="row">
+    <div class="row">
         <div class="col-md-12">
             <h2>INFORMACJE O SZKOLENIU</h2>
         </div>
     </div>
 
-    <div class="row" class="row">
+    <div class="row">
         <div class="col-md-12">
             *Utworzenie szkolenia nie jest trudne, ale jesli robisz to pierwszy raz lub chcesz przypomniec sobie caly proces skorzystaj z przewodnika z zakladce jak stworzyc szkolenia
         </div>
     </div>
 
-    <div class="row" class="row">
+    <div class="row">
         
         <div class="col-md-12">
             <label>NAZWA SZKOLENIA</label>
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="row" class="row">
+    <div class="row">
         <div class="col-md-12">
             <label>
                 OPIS SZKOLENIA
@@ -33,7 +33,7 @@
         
     </div>
 
-    <div class="row" class="row">
+    <div class="row">
         <div class="col-md-4">
             <label>
                 Grafika obrazujaca szkolenie [400 x 300px i nie wieksza niz 350kb]
@@ -53,7 +53,7 @@
         </div>*@
     </div>
 
-    <div class="row" class="row">
+    <div class="row">
         <div class="col-md-6">
             <label>
                 Ile procent punktow jest niezbednych do zaliczenia Twojego szkolenia?
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <div class="row" class="row">
+    <div class="row">
         <div class="col-md-6">
             <label>Komunikat po zaliczeniu szkolenia</label>
             <input type="text" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" maxlength="500" />
@@ -80,7 +80,7 @@
 
   
 
-    <div class="row" class="row">
+    <div class="row">
         <div class="col-md-12">
             <label>
                 Odznaka zakończenia
@@ -92,11 +92,12 @@
                            class="upload-input upload-mark"
                            onchange="angular.element(this).scope().loadIcon(this)"
                            name="uploadMarks">
+                    <div class='statusBarMark'><div></div></div>
                 </div>
                 <div class="col-md-6">
                      [musi byc 100px na 100px i nie wiekszy niz 150kb] lub wybierz ktoras z przygotowanych przez nas!
                 </div>
-                <div class='statusBarMark'><div></div></div>
+                
             </div>
             <div class="row">
                 <div class="col-md-6">

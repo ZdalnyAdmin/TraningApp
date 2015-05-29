@@ -1,13 +1,12 @@
-﻿<div class='container'>
-    <div class="row">
-        <textarea name="currentDetail.Text" froala="options" ng-model="currentDetail.Text"></textarea>
-    </div>
-    <div class="row">
-        <div id="inputButto" ng-click="cancel(currentDetail)">
-            Anuluj
+﻿<div class="container text-editor">
+    <h4>DODAJ TEKST</h4>
+    <textarea name="currentDetail.Text" froala="options" ng-model="currentDetail.Text"></textarea>
+    <div class="buttons">
+        <div class="btn btn-l blue-button" ng-click="add(currentDetail)">
+            DODAJ DO SZKOLENIA
         </div>
-        <div id="inputButto" ng-click="add(currentDetail)">
-            Zapisz
+        <div class="btn btn-m empty-button" ng-click="cancel(currentDetail)">
+            ANULUJ
         </div>
     </div>
 </div>
