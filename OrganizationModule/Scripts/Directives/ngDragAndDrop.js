@@ -334,7 +334,7 @@
             }
 
             function checkExtension(file) {
-                var availableMovieExtension = ['avi', 'mkv', 'mpeg', 'mp4', ];
+                var availableMovieExtension = ['avi', 'mkv', 'mpeg', 'mp4', 'ogg', 'webm', 'ogv'];
                 var fileNameParts = file.name.split('.');
                 var extension = fileNameParts[fileNameParts.length - 1];
 
