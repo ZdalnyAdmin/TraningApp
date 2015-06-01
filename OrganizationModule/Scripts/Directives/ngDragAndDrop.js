@@ -97,10 +97,19 @@
                         }
                     }
 
+                    if ($scope.model.ExternalResource.indexOf('youtu.be') !== -1) {
+                        if (path) {
+                            var pathSplit = path.split('/');
+                            if (pathSplit.length > 0) {
+                                $scope.model.ExternalResource = 'https://www.youtube.com/embed/' + pathSplit[pathSplit.length - 1];
+                            }
+                        }
+                    }
+
                     if ($scope.model.ExternalResource.indexOf('vimeo') !== -1) {
                         if (path) {
                             var pathSplit = path.split('/');
-                            if (pathSplit.length > 0 && !isNaN(pathSplit[pathSplit.length - 1])) {
+                            if (pathSplit.length > 0) {
                                 $scope.model.ExternalResource = 'https://player.vimeo.com/video/' + pathSplit[pathSplit.length - 1];
                             }
                         }
