@@ -561,7 +561,6 @@ namespace AppEngine.Services
                         {
                             model.Groups = (from gio in context.GroupsInOrganizations
                                             join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
-                                            where g.Name != "Wszyscy"
                                             where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
                                             select g).ToList();
                         }
