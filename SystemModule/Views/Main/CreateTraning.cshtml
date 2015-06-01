@@ -19,7 +19,11 @@
         
         <div class="col-md-12">
             <label>NAZWA SZKOLENIA</label>
-            <input type="text" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" maxlength="140" />
+            <input type="text" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" maxlength="80" ng-blur="nameValidation = true" />
+        </div>
+        <div ng-show="nameValidation">
+            <div ng-show="!!viewModel.Current.Name && viewModel.Current.Name.length < 5"> Nazwa szkolenia musi zawierać miniumum 5 znaków!          </div>
+            <div ng-show="!!viewModel.Current.Name && viewModel.Current.Name.length > 80"> Nazwa szkolenia może zawierać maksymalnie 80 znaków!         </div>
         </div>
     </div>
 
@@ -28,9 +32,12 @@
             <label>
                 OPIS SZKOLENIA
             </label>
-            <input type="text" name="viewModel.Current.Description" ng-model="viewModel.Current.Description" maxlength="1500" />
+            <input type="text" name="viewModel.Current.Description" ng-model="viewModel.Current.Description" maxlength="1500" ng-blur="descriptionValidation = true" />
         </div>
-        
+        <div ng-show="descriptionValidation">
+            <div ng-show="!!viewModel.Current.Description && viewModel.Current.Description.length < 5"> Opis szkolenia musi zawierać miniumum 5 znaków!         </div>
+            <div ng-show="!!viewModel.Current.Description && viewModel.Current.Description.length > 1500"> Opis szkolenia jest zbyt długi!         </div>
+        </div>
     </div>
 
     <div class="row">
@@ -46,11 +53,15 @@
         </div>
         <div class="col-md-8">
             <img src="{{viewModel.Current.TrainingResources}}" />
-            <button ng-click="remove(viewModel.Current.TrainingResources, true)" ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0">Usuń</button>
+            <button ng-click="remove(viewModel.Current.TrainingResources, true)" ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0 && viewModel.Current.TrainingResources !== 'Assets\\Image\\main_image.png'">Usuń</button>
         </div>
         @*<div class="col-md-4">
             *Nie przejmuj sie, nie misisz dodawac zadnej grafiki! Jesli nie dodasz zadnej grafiki zostanie uzyta grafika domyslna
         </div>*@
+
+        <div ng-show="!!imageMessage && imageMessage.length > 0">
+            {{imageMessage}}
+        </div>
     </div>
 
     <div class="row">
@@ -71,10 +82,15 @@
     <div class="row">
         <div class="col-md-6">
             <label>Komunikat po zaliczeniu szkolenia</label>
-            <input type="text" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" maxlength="500" />
+            <input type="text" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" maxlength="500" ng-blur="passInfoValidation = true" />
         </div>
         <div class="col-md-6">
             Przykladowy komunikat "W wyniku szkolenia zdobyles wiedze na temat procedury/produktu"
+        </div>
+
+        <div ng-show="passInfoValidation">
+            <div ng-show="!!viewModel.Current.PassInfo && viewModel.Current.PassInfo.length < 5"> Komunikat po zaliczeniu szkolenia musi zawierać miniumum 5 znaków!          </div>
+            <div ng-show="!!viewModel.Current.PassInfo && viewModel.Current.PassInfo.length > 500"> Komunikat po zaliczeniu szkolenia może zawierać maksymalnie 500 znaków!         </div>
         </div>
     </div>
 
@@ -112,6 +128,9 @@
                     <button ng-click="remove(viewModel.Current.PassResources, false)" ng-show="!!viewModel.Current.PassResources && viewModel.Current.PassResources.length > 0">Usuń</button>
                 </div>
             </div>
+        </div>
+        <div ng-show="!!markMessage && markMessage.length > 0">
+            {{markMessage}}
         </div>
     </div>
  
