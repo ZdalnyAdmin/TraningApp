@@ -1,5 +1,7 @@
 ﻿function creatorAddTrainingController($scope, $http, $element, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
+    $scope.imageMessage = '';
+    $scope.markMessage = '';
 
     //Used to display the data 
     $scope.loadData = function () {
@@ -24,6 +26,7 @@
             var file = $element[0].getElementsByClassName('upload-image')[0].files[0];
 
             if (!checkExtension(file)) {
+                $scope.imageMessage = 'Plik może być w formacie JPG, JPEG, PNG, GIF lub BMP.';
                 return;
             }
 
@@ -42,6 +45,7 @@
 
 
             if (!checkExtension(file)) {
+                $scope.markMessage = 'Plik może być w formacie JPG, JPEG, PNG, GIF lub BMP.';
                 return;
             }
 
@@ -58,7 +62,13 @@
         var size = ~~(file.size / 1024);
 
         if (size > maxSize) {
-            $scope.viewModel.ErrorMessage = 'Nieprawidłowa wielkość obrazka. Musi być mniejsze niz ' + maxSize + 'kb';
+            if (marks) {
+                $scope.markMessage = 'Wielkość pliku nie może przekraczać ' + maxSize + 'KB';
+            }
+            else {
+                $scope.imageMessage = 'Wielkość pliku nie może przekraczać ' + maxSize + 'KB';
+            }
+
             return;
         }
 
@@ -78,11 +88,17 @@
                 if (marks) {
                     sendFileToServer(fd, new createMarkStatusbar($element[0].getElementsByClassName('statusBarMark')), marks);
                 } else {
-                    sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), marks); 
+                    sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), marks);
                 }
             }
             else {
-                $scope.viewModel.ErrorMessage = 'Nieprawidłowa rozdzielczość obrazka. Musi być ' + maxWidth + 'px na ' + maxHeight + 'px.';
+
+                if (marks) {
+                    $scope.markMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + 'x ' + maxHeight + 'px';
+                }
+                else {
+                    $scope.imageMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + 'x ' + maxHeight + 'px';
+                }
                 $scope.fileName = '';
                 return;
             }
@@ -112,9 +128,12 @@
         if (!file) {
             return;
         }
+
+        var availableExtension = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+
         var fileNameParts = file.name.split('.');
         var extension = fileNameParts[fileNameParts.length - 1];
-        return file.type.indexOf('image') !== -1;
+        return availableExtension.indexOf(extension) !== -1;
     }
 
     function sendFileToServer(formData, status, marks) {
@@ -150,14 +169,25 @@
                 if (data.Succeeded) {
 
                     if (marks) {
+                        $scope.markMessage = 'Plik został pomyślnie wczytany.';
                         $scope.viewModel.Current.PassResources = $scope.fileSrc = data.Message;
                     }
                     else {
+                        $scope.imageMessage = 'Plik został pomyślnie wczytany.';
                         $scope.viewModel.Current.TrainingResources = $scope.fileSrc = data.Message;
                     }
-
                     $scope.$apply();
                 }
+                else {
+
+                    if (marks) {
+                        $scope.markMessage = 'Plik nie mógł zostać wczytany - spróbuj ponownie później.';
+                    }
+                    else {
+                        $scope.imageMessage = 'Plik nie mógł zostać wczytany - spróbuj ponownie później.';
+                    }
+                }
+
             }
         });
     }
@@ -208,8 +238,40 @@
 
     $scope.save = function () {
         //check conditions
-        if (!$scope.viewModel.Current.Name) {
-            $scope.viewModel.ErrorMessage = "Nalezy podac nazwe szkolenia";
+        var isValid = true;
+        $scope.viewModel.ErrorMessage = '';
+
+        if (!$scope.viewModel.Current.Name || $scope.viewModel.Current.Name.length < 5) {
+            $scope.viewModel.ErrorMessage += "Nazwa szkolenia musi zawierać miniumum 5 znaków! <br> ";
+            isValid = false;
+        }
+
+        if (!$scope.viewModel.Current.Description || $scope.viewModel.Current.Description.length < 5) {
+            $scope.viewModel.ErrorMessage += "Opis szkolenia musi zawierać miniumum 5 znaków! <br> ";
+            isValid = false;
+        }
+
+        if (!$scope.viewModel.Current.PassInfo || $scope.viewModel.Current.PassInfo.length < 5) {
+            $scope.viewModel.ErrorMessage += "Komunikat po zaliczeniu szkolenia musi zawierać miniumum 5 znaków! <br> ";
+            isValid = false;
+        }
+
+        if (!$scope.viewModel.Current.PassResources) {
+            $scope.viewModel.ErrorMessage += "Brakuje odznaki za zaliczenie szkolenia! Wczytaj własna lub wybierz jedną z listy domyślnych w sekcjii informacji o szkoleniu <br> ";
+            isValid = false;
+        }
+
+        if (!$scope.viewModel.Details || $scope.viewModel.Details.length === 0) {
+            $scope.viewModel.ErrorMessage += "Szkolenie jest puste! Dodaj przynajmniej jeden element w sekcji Zawartość szkolenia <br> ";
+            isValid = false;
+        }
+
+        if ($scope.viewModel.Details.length > 20) {
+            $scope.viewModel.ErrorMessage += "Szkolenie zawiera zbyt wiele elementów! Usuń nadmiar, by zostało ich 20. <br> ";
+            isValid = false;
+        }
+
+        if (!isValid) {
             return;
         }
 
@@ -242,6 +304,10 @@
         if (!resources) {
             return;
         }
+
+        $scope.markMessage = '';
+        $scope.imageMessage = '';
+
         if (isMainResources) {
             if (resources.indexOf("Assets\\Image") == -1) {
                 deleteFile(resources);
