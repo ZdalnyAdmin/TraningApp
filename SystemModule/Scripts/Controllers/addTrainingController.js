@@ -95,10 +95,10 @@
             }
             else {
                 if (marks) {
-                    $scope.markMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + 'x ' + maxHeight + 'px';
+                    $scope.markMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + ' x ' + maxHeight + 'px';
                 }
                 else {
-                    $scope.imageMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + 'x ' + maxHeight + 'px';
+                    $scope.imageMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + ' x ' + maxHeight + 'px';
                 }
                 $scope.fileName = '';
                 return;

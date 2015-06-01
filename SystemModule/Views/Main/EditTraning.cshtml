@@ -11,6 +11,7 @@
     <div class="row">
         NAZWA SZKOLENIA
         <input type="text" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" maxlength="80" ng-blur="nameValidation = true" />
+        <div class="letter-counter">{{ (viewModel.Current.Name || '').length }} / 80 znaków</div>
         <div ng-show="nameValidation">
             <div ng-show="!!viewModel.Current.Name && viewModel.Current.Name.length < 5"> Nazwa szkolenia musi zawierać miniumum 5 znaków!          </div>
             <div ng-show="!!viewModel.Current.Name && viewModel.Current.Name.length > 80"> Nazwa szkolenia może zawierać maksymalnie 80 znaków!         </div>
@@ -20,6 +21,7 @@
     <div class="row">
         OPIS SZKOLENIA
         <input type="text" name="viewModel.Current.Description" ng-model="viewModel.Current.Description" maxlength="1500" ng-blur="descriptionValidation = true" />
+        <div class="letter-counter">{{ (viewModel.Current.Description || '').length }} / 1500 znaków</div>
         <div ng-show="descriptionValidation">
             <div ng-show="!!viewModel.Current.Description && viewModel.Current.Description.length < 5"> Opis szkolenia musi zawierać miniumum 5 znaków!         </div>
             <div ng-show="!!viewModel.Current.Description && viewModel.Current.Description.length > 1500"> Opis szkolenia jest zbyt długi!         </div>
@@ -60,6 +62,7 @@
 
     <div class="row">
         <input type="text" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" maxlength="500" ng-blur="passInfoValidation = true" />
+        <div class="letter-counter">{{ (viewModel.Current.PassInfo || '').length }} / 500 znaków</div>
         <div ng-show="passInfoValidation">
             <div ng-show="!!viewModel.Current.PassInfo && viewModel.Current.PassInfo.length < 5"> Komunikat po zaliczeniu szkolenia musi zawierać miniumum 5 znaków!          </div>
             <div ng-show="!!viewModel.Current.PassInfo && viewModel.Current.PassInfo.length > 500"> Komunikat po zaliczeniu szkolenia może zawierać maksymalnie 500 znaków!         </div>
