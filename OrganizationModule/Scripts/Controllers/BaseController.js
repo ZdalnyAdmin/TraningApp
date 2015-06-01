@@ -1,8 +1,26 @@
-﻿var BaseController = function ($scope, $location) {
+﻿var BaseController = function ($scope, $location, UserFactory, $rootScope) {
     $scope.models = {
-        Title: 'e-learning',
-        Login: 'Nasz czlowiek'
+        Title: 'e-learning'
     };
+
+    $scope.currentUser = undefined;
+    $rootScope.$on('userChanged', reload);
+
+    function reload() {
+        $scope.menuUrl = '';
+        $scope.currentUser = undefined;
+        $scope.visible = false;
+
+        var result = UserFactory.getLoggedUser();
+
+        result.then(function (user) {
+            if (user && user.Id) {
+                $scope.currentUser = user;
+            } else {
+                $scope.currentUser = undefined;
+            }
+        });
+    }
 
     var search = $location.search();
     if (!!search && !!search.page) {
@@ -25,6 +43,8 @@
             $location.path('/' + page).search(search);
         }
     }
+
+    reload();
 }
 
-BaseController.$inject = ['$scope', '$location'];
+BaseController.$inject = ['$scope', '$location', 'UserFactory', '$rootScope'];

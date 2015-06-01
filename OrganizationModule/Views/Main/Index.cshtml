@@ -31,14 +31,14 @@
             <div class="logo">
                 <img src="~/Content/Images/logo.png" />
             </div>
-            <div class="current-user">
+            <div class="current-user" ng-if="currentUser">
                 <ul class="nav nav-tabs">
                     <li role="presentation" class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
                             <img src="~/Content/Images/user-icon.png" />
-                            <span>{{models.Login}}</span> <img src="~/Content/Images/show-right-menu.png" />
+                            <span>{{currentUser.UserName}}</span> <img src="~/Content/Images/show-right-menu.png" />
                         </a>
-                        <ul class="dropdown-menu" role="menu">                       
+                        <ul class="dropdown-menu" role="menu">
                             <li>
                                 <a href="/userCurrent">
                                     <img src="/Content/Images/menu-icon.png" /> <span>MOJE USTAWIENIA</span>
