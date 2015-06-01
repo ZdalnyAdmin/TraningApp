@@ -43,7 +43,7 @@
                     }
 
                     if (!checkExtension(file)) {
-                        
+
                         switch ($scope.options) {
                             case 'IMAGE':
                                 $scope.errorMessage = 'Plik być w formacie JPG, JPEG, PNG, GIF lub BMP!';
@@ -81,38 +81,49 @@
                 }
 
                 if ($scope.options == 'MOVIE' && $scope.model.ExternalResource) {
-                    var url = new URL($scope.model.ExternalResource);
-                    var search = url.search;
-                    var path = url.pathname;
+                    try {
+                        var url = new URL($scope.model.ExternalResource);
+                        var search = url.search;
+                        var path = url.pathname;
 
-                    if ($scope.model.ExternalResource.indexOf('youtube') !== -1) {
-                        if (search) {
-                            var searchSplit = search.replace('?', '').split('&');
-                            for (var i = 0; i < searchSplit.length; i++) {
-                                if (searchSplit[i].indexOf('v=') === 0) {
-                                    $scope.model.ExternalResource = 'https://www.youtube.com/embed/' + searchSplit[i].replace('v=', '')
-                                    break;
+                        if ($scope.model.ExternalResource.indexOf('youtube') !== -1) {
+                            if (search) {
+                                var searchSplit = search.replace('?', '').split('&');
+                                for (var i = 0; i < searchSplit.length; i++) {
+                                    if (searchSplit[i].indexOf('v=') === 0) {
+                                        $scope.model.ExternalResource = 'https://www.youtube.com/embed/' + searchSplit[i].replace('v=', '')
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    if ($scope.model.ExternalResource.indexOf('youtu.be') !== -1) {
-                        if (path) {
-                            var pathSplit = path.split('/');
-                            if (pathSplit.length > 0) {
-                                $scope.model.ExternalResource = 'https://www.youtube.com/embed/' + pathSplit[pathSplit.length - 1];
+                        if ($scope.model.ExternalResource.indexOf('youtu.be') !== -1) {
+                            if (path) {
+                                var pathSplit = path.split('/');
+                                if (pathSplit.length > 0) {
+                                    $scope.model.ExternalResource = 'https://www.youtube.com/embed/' + pathSplit[pathSplit.length - 1];
+                                }
                             }
                         }
-                    }
 
-                    if ($scope.model.ExternalResource.indexOf('vimeo') !== -1) {
-                        if (path) {
-                            var pathSplit = path.split('/');
-                            if (pathSplit.length > 0) {
-                                $scope.model.ExternalResource = 'https://player.vimeo.com/video/' + pathSplit[pathSplit.length - 1];
+                        if ($scope.model.ExternalResource.indexOf('vimeo') !== -1) {
+                            if (path) {
+                                var pathSplit = path.split('/');
+                                if (pathSplit.length > 0) {
+                                    $scope.model.ExternalResource = 'https://player.vimeo.com/video/' + pathSplit[pathSplit.length - 1];
+                                }
                             }
                         }
+
+                        if ($scope.model.ExternalResource.indexOf('https://player.vimeo.com/video/') === -1 &&
+                            $scope.model.ExternalResource.indexOf('https://www.youtube.com/embed/') === -1) {
+                            $scope.errorMessage = 'Link jest niepoprawny!';
+                        } else {
+                            $scope.errorMessage = '';
+                        }
+                    } catch (exception) {
+                        $scope.errorMessage = 'Link jest niepoprawny!';
                     }
                 }
             };
@@ -423,8 +434,7 @@
 
                 switch ($scope.options) {
                     case 'IMAGE':
-                        if (size > 5)
-                        {
+                        if (size > 5) {
                             return 'Plik jest zbyt duży ­ wskaż plik o wielkości do 5 MB!';
                         }
 

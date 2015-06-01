@@ -34,8 +34,7 @@
                     var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
 
                     $scope.errorMessage = checkFileSize(file);
-                    if ($scope.errorMessage)
-                    {
+                    if ($scope.errorMessage) {
                         if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
                             $scope.$apply();
                         }
@@ -82,40 +81,49 @@
                 }
 
                 if ($scope.options == 'MOVIE' && $scope.model.ExternalResource) {
-                    var url = new URL($scope.model.ExternalResource);
-                    var search = url.search;
-                    var path = url.pathname;
+                    try {
+                        var url = new URL($scope.model.ExternalResource);
+                        var search = url.search;
+                        var path = url.pathname;
 
-                    if ($scope.model.ExternalResource.indexOf('youtube') !== -1) {
-                        if (search) {
-                            var searchSplit = search.replace('?', '').split('&');
-                            for (var i = 0; i < searchSplit.length; i++) {
-                                if (searchSplit[i].indexOf('v=') === 0) {
-                                    $scope.model.ExternalResource = 'https://www.youtube.com/embed/' + searchSplit[i].replace('v=', '');
-                                    break;
+                        if ($scope.model.ExternalResource.indexOf('youtube') !== -1) {
+                            if (search) {
+                                var searchSplit = search.replace('?', '').split('&');
+                                for (var i = 0; i < searchSplit.length; i++) {
+                                    if (searchSplit[i].indexOf('v=') === 0) {
+                                        $scope.model.ExternalResource = 'https://www.youtube.com/embed/' + searchSplit[i].replace('v=', '');
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    if ($scope.model.ExternalResource.indexOf('youtu.be') !== -1) {
-                        if (path) {
-                            var pathSplit = path.split('/');
-                            if (pathSplit.length > 0)
-                            {
-                                $scope.model.ExternalResource = 'https://www.youtube.com/embed/' + pathSplit[pathSplit.length - 1];
+                        if ($scope.model.ExternalResource.indexOf('youtu.be') !== -1) {
+                            if (path) {
+                                var pathSplit = path.split('/');
+                                if (pathSplit.length > 0) {
+                                    $scope.model.ExternalResource = 'https://www.youtube.com/embed/' + pathSplit[pathSplit.length - 1];
+                                }
                             }
                         }
-                    }
 
-                    if ($scope.model.ExternalResource.indexOf('vimeo') !== -1) {
-                        if (path) {
-                            var pathSplit = path.split('/');
-                            if (pathSplit.length > 0)
-                            {
-                                $scope.model.ExternalResource = 'https://player.vimeo.com/video/' + pathSplit[pathSplit.length - 1];
+                        if ($scope.model.ExternalResource.indexOf('vimeo') !== -1) {
+                            if (path) {
+                                var pathSplit = path.split('/');
+                                if (pathSplit.length > 0) {
+                                    $scope.model.ExternalResource = 'https://player.vimeo.com/video/' + pathSplit[pathSplit.length - 1];
+                                }
                             }
                         }
+
+                        if ($scope.model.ExternalResource.indexOf('https://player.vimeo.com/video/') === -1 &&
+                            $scope.model.ExternalResource.indexOf('https://www.youtube.com/embed/') === -1) {
+                            $scope.errorMessage = 'Link jest niepoprawny!';
+                        } else {
+                            $scope.errorMessage = '';
+                        }
+                    } catch (exception) {
+                        $scope.errorMessage = 'Link jest niepoprawny!';
                     }
                 }
             };
