@@ -13,7 +13,7 @@
                 </span>
             </div>
             <div class="col-lg-4">
-                {{ fileName || 'Nie wybrano pliku' }}
+                {{ fileName || '' }}
         <iframe ng-show="!!fileName && options === 'PRESENTATION' " src="{{getUrl(model.InternalResource)}}" style="width:600px; height:500px;" frameborder="0"></iframe>
                 <div class='statusBar'><div></div></div>
             </div>

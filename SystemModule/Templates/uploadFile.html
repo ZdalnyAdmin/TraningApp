@@ -10,7 +10,7 @@
                        name="uploadFiles">
             </div>
             <div>
-                {{ fileName || 'Nie wybrano pliku' }}
+                {{ fileName || '' }}
             </div>
             <iframe ng-show="!!fileName && options === 'PRESENTATION' " src="{{getUrl(model.InternalResource)}}" style="width:600px; height:500px;" frameborder="0"></iframe>
             <div class='statusBar'><div></div></div>

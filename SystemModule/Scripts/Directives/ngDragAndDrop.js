@@ -18,6 +18,7 @@
             }
 
             $scope.videoId = guid();
+            $scope.errorMessage = '';
 
             $scope.fileName = undefined;
             $scope.fileSrc = undefined;
@@ -29,9 +30,35 @@
 
             $scope.upload = function () {
                 $scope.$apply(function (scope) {
+                    $scope.errorMessage = '';
                     var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
 
+                    $scope.errorMessage = checkFileSize(file);
+                    if ($scope.errorMessage)
+                    {
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
+
+                        return;
+                    }
+
                     if (!checkExtension(file)) {
+
+                        switch ($scope.options) {
+                            case 'IMAGE':
+                                $scope.errorMessage = 'Plik być w formacie JPG, JPEG, PNG, GIF lub BMP!';
+                                break;
+
+                            case 'MOVIE':
+                                $scope.errorMessage = 'Plik może być w formacie MP4 lub WEBM!';
+                                break;
+                        }
+
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
+
                         return;
                     }
 
@@ -88,6 +115,8 @@
                     $scope.fileName = undefined;
                     $scope.fileSrc = undefined;
                     $scope.file = {};
+                    $scope.errorMessage = '';
+
                     var video = $element.find('#' + $scope.videoId);
 
                     if ($scope.options == 'MOVIE' && video) {
@@ -191,6 +220,7 @@
                 // Stops some browsers from redirecting.
                 if (e.stopPropagation) e.stopPropagation();
                 if (e.preventDefault) e.preventDefault();
+                $scope.errorMessage = '';
 
                 this.classList.remove('over');
 
@@ -199,7 +229,31 @@
 
                 var file = e.dataTransfer.files[0];
 
+                $scope.errorMessage = checkFileSize(file);
+                if ($scope.errorMessage) {
+                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
+
+                    return;
+                }
+
                 if (!checkExtension(file)) {
+
+                    switch ($scope.options) {
+                        case 'IMAGE':
+                            $scope.errorMessage = 'Plik być w formacie JPG, JPEG, PNG, GIF lub BMP!';
+                            break;
+
+                        case 'MOVIE':
+                            $scope.errorMessage = 'Plik może być w formacie MP4 lub WEBM!';
+                            break;
+                    }
+
+                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
+
                     return;
                 }
 
@@ -279,6 +333,7 @@
                     success: function (data) {
                         if (data.Succeeded) {
                             $scope.model.InternalResource = $scope.fileSrc = data.Message;
+                            $scope.errorMessage = 'Plik został pomyślnie wczytany.';
 
                             if ($scope.options == 'MOVIE') {
                                 jwplayer($scope.videoId).setup({
@@ -289,6 +344,13 @@
                             if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
                                 $scope.$apply();
                             }
+                        }
+                    },
+                    error: function () {
+                        $scope.errorMessage = 'Plik nie mógł zostać wczytany ­ spróbuj ponownie później.';
+
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
                         }
                     }
                 });
@@ -335,19 +397,42 @@
             }
 
             function checkExtension(file) {
-                var availableMovieExtension = ['avi', 'mkv', 'mpeg', 'mp4', 'ogg', 'webm', 'ogv' ];
+                var availableMovieExtension = ['MP4', 'WEBM'];
+                var availableImageExtension = ['JPG', 'JPEG', 'PNG', 'GIF', 'BMP'];
                 var fileNameParts = file.name.split('.');
                 var extension = fileNameParts[fileNameParts.length - 1];
 
                 switch ($scope.options) {
                     case 'IMAGE':
-                        return file.type.indexOf('image') !== -1;
+                        return availableImageExtension.indexOf(extension.toUpperCase()) !== -1;
 
                     case 'MOVIE':
-                        return availableMovieExtension.indexOf(extension) !== -1;
+                        return availableMovieExtension.indexOf(extension.toUpperCase()) !== -1;
                 }
 
                 return false;
+            }
+
+            function checkFileSize(file) {
+                var size = file.size / (1024 * 1024)
+
+                switch ($scope.options) {
+                    case 'IMAGE':
+                        if (size > 5) {
+                            return 'Plik jest zbyt duży ­ wskaż plik o wielkości do 5 MB!';
+                        }
+
+                        break;
+
+                    case 'MOVIE':
+                        if (size > 500) {
+                            return 'Plik jest zbyt duży ­ wskaż plik o wielkości do 500 MB!';
+                        }
+
+                        break;
+                }
+
+                return '';
             }
         }]
     }

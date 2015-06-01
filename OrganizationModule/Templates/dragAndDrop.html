@@ -1,5 +1,6 @@
 ﻿<div>
     <div class="col-md-12">
+        <div ng-show="!!errorMessage">{{ errorMessage }}</div>
         <div ng-switch="options">
         <div ng-switch-when="IMAGE">
             <h4>DODAJ GRAFIKĘ</h4>
@@ -20,7 +21,7 @@
                            name="uploadFiles">
                 </span>
                 <h6>
-                    {{fileName || 'Nie wybrano pliku'}}
+                    {{fileName || ''}}
                 </h6>
                 <div class='statusBar'><div></div></div>
             </div>
