@@ -15,7 +15,7 @@
         <div ng-show="nameValidation">
             <div ng-show="!!viewModel.Current.Name && viewModel.Current.Name.length < 5"> Nazwa szkolenia musi zawierać miniumum 5 znaków!          </div>
             <div ng-show="!!viewModel.Current.Name && viewModel.Current.Name.length > 80"> Nazwa szkolenia może zawierać maksymalnie 80 znaków!         </div>
-        </div>
+    </div>
     </div>
 
     <div class="row">
@@ -25,7 +25,7 @@
         <div ng-show="descriptionValidation">
             <div ng-show="!!viewModel.Current.Description && viewModel.Current.Description.length < 5"> Opis szkolenia musi zawierać miniumum 5 znaków!         </div>
             <div ng-show="!!viewModel.Current.Description && viewModel.Current.Description.length > 1500"> Opis szkolenia jest zbyt długi!         </div>
-        </div>
+    </div>
     </div>
 
     <div class="row">
@@ -90,10 +90,11 @@
                class="upload-input upload-mark"
                onchange="angular.element(this).scope().loadIcon(this)"
                name="uploadFiles">
+        <div class='statusBarMark'><div></div></div>
         <div id="inputButto" ng-click="showIcon()">
             Wybierz z listy
         </div>
-        <div class='statusBarMark'><div></div></div>
+
 
         <div ng-show="!!markMessage && markMessage.length > 0">
             {{markMessage}}
