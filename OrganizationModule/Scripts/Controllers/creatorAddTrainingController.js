@@ -97,10 +97,10 @@
             else {
 
                 if (marks) {
-                    $scope.markMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + 'x ' + maxHeight + 'px';
+                    $scope.markMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + ' x ' + maxHeight + ' px';
                 }
                 else {
-                    $scope.imageMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + 'x ' + maxHeight + 'px';
+                    $scope.imageMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + ' x ' + maxHeight + ' px';
                 }
                 $scope.fileName = '';
                 return;
@@ -185,7 +185,7 @@
 
                     if (marks) {
                         $scope.markMessage = 'Plik nie mógł zostać wczytany - spróbuj ponownie później.';
-            }
+                    }
                     else {
                         $scope.imageMessage = 'Plik nie mógł zostać wczytany - spróbuj ponownie później.';
                     }
