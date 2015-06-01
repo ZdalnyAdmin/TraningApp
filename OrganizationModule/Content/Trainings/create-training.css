@@ -40,7 +40,98 @@
     max-width:250px;
     float:right;
 }
+#create-training .statusBarMark, #create-training .statusBar{
+    height:20px;
+    margin-top:10px;
+    display:none;
+}
+#create-training .statusBarMark progressBarMark, #create-training .statusBar .progressBar{
+    height:20px;
+    margin-top:10px;
+    border:1px solid #0d223d;
+}
+#create-training .statusBarMark progressBarMark div, #create-training .statusBar .progressBar div{
+    background:#0d223d;
+}
+#create-training .badge-row .btn{
+    width:100%;
+}
+#create-training .badge-row button.btn{
+    margin-top:50px;
+}
+/*#create-training .add-content{
+    width:145px;
+    height:145px;
+    position:relative;
+    float:left;
+    background:#3770dd;
+    color:#fff;
+}
+#create-training .add-content:hover{
+    background:#3a76ea;
+}
+#create-training .add-content:not(:last-child){
+    margin-right:23px;
+}
+#create-training .add-content:before{
+    content: "";
+	display: block;
+	padding-top: 100%;
+}
+#create-training .add-content div{
+    position:  absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+    text-align:center;
+    padding:20px;
+}
+#create-training .add-content div img{
+    margin:auto;
+    display:block;
+}
+#create-training .add-content div span{
+    display:block;
+    margin-top:15px;
+}*/
 
+#create-training .add-content{
+    float:left;
+    padding:7.5px;
+    cursor:pointer;
+    width:20%;
+}
+
+#create-training .content .buttons{
+    text-align:center
+}
+#create-training .content .buttons div{
+    margin-top:15px;
+}
+#create-training .content .buttons div:last-child{
+    position:absolute;
+    right:30px;  
+}
+#create-training .drag-and-drop .empty-image{
+    width:100%;
+}
+@media screen and (max-width: 1199px) AND (min-width: 992px) {
+    /*#create-training .add-content{
+        width:110px;
+        height:110px;
+    }
+    #create-training .add-content:not(:last-child){
+        margin-right:9px;
+    }
+    #create-training .add-content div{
+        padding:15px;
+    }
+    #create-training .add-content div img{
+        width:46px;
+        height:46px;
+    }*/
+}
 @media screen and (max-width: 768px) {
     #create-training .training-image >div:nth-child(2){
         float:left;

@@ -256,7 +256,7 @@ namespace OrganizationModule.Controllers
 
                 if (training != null)
                 {
-                    result.Succeeded = !(training.ModifiedDate < model.GenereateDate);
+                    result.Succeeded = !training.ModifiedDate.HasValue || training.ModifiedDate < model.GenereateDate;
                 }
             }
 

@@ -1,18 +1,30 @@
-﻿<div>
-    <div class="row" ng-click="showTab(1)">
-        dodaj tekst
-    </div>
-    <div class="row" ng-click="showTab(2)">
-        dodaj grafike
-    </div>
-    <div class="row" ng-click="showTab(3)">
-        dodaj wideo
-    </div>
-    <div class="row" ng-click="showTab(4)">
-        dodaj prezentacje
-    </div>
-    <div class="row" ng-click="showTab(5)">
-        dodaj plik
+﻿<div class="row content">
+    <div class="col-xs-12">
+        <div class="add-content" ng-click="showTab(1)">
+            <div>
+                <img class="img-responsive" src="/Content/Images/add-text.png" />
+            </div>
+        </div>
+        <div class="add-content" ng-click="showTab(2)">
+            <div>
+                <img class="img-responsive" src="/Content/Images/add-image.png" />
+            </div>
+        </div>
+        <div class="add-content" ng-click="showTab(3)">
+            <div>
+                <img class="img-responsive" src="/Content/Images/add-video.png" />
+            </div>
+        </div>
+        <div class="add-content" ng-click="showTab(4)">
+            <div>
+                <img class="img-responsive" src="/Content/Images/add-presentation.png" />
+            </div>
+        </div>
+        <div class="add-content" ng-click="showTab(5)">
+            <div>
+                <img class="img-responsive" src="/Content/Images/add-file.png" />
+            </div>
+        </div>
     </div>
     <div ng-training-text-editor obj="obj" ng-show="index  == 1"></div>
     <div ng-training-image-editor obj="obj" ng-show="index  == 2"></div>

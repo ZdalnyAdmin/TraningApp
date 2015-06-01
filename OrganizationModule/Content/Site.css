@@ -77,6 +77,11 @@ h5{
     font-size:20px;
     color:#283769;
 }
+h6{
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size:16px;
+    color:#283769;
+}
 /*****************/
 /******TEKSTY*****/
 /****************/
@@ -105,6 +110,7 @@ h5{
 .btn-m{
     height:44px!important;
     font-size:18px!important;
+    padding:10px 12px;
 }
 .btn-l{
     height:50px!important;
@@ -156,9 +162,12 @@ h5{
 .purple-button:hover{
     background:#912a4f;
 }
-.empty-button{
-    background:none;
-    border:1px solid #436DAA;
+.navy-button{
+    background:#0d223d;
+    color:#fff;
+}
+.navy-button:hover{
+    background:#1e2850;
 }
 .empty-button{
     background:none;
@@ -292,6 +301,9 @@ input[type="radio"].big:checked + label span:not(.format) {
 
 
 @media screen and (max-width: 1199px) {
+    /*****************/
+    /******BUTTONY*****/
+    /****************/
     .btn-s{
         height:28px!important;
         font-size:12px!important;
@@ -320,6 +332,29 @@ input[type="radio"].big:checked + label span:not(.format) {
     .btn-input-xl{
         font-size:24px!important;
     }
+
+    /*****************/
+    /******NAGŁÓWKI*****/
+    /****************/
+    h1{
+        font-size:36px;
+    }
+    h2{
+        font-size:30px;
+    }
+    h3{
+        font-size:24px;
+    }
+    h4{
+        font-size:21px;
+    }
+    h5{
+        font-size:18px;
+    }
+    h6{
+        font-size:15px;
+    }
+
 }
 
 #spinner {

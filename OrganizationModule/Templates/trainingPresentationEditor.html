@@ -1,11 +1,11 @@
-﻿<div class='container'>
+﻿<div class="container presentation-editor">
     <div ng-upload-file options="'PRESENTATION'" model="currentDetail"></div>
-    <div class="row">
-        <div id="inputButto" ng-click="cancel(currentDetail)">
-            Anuluj
+    <div class="buttons">
+        <div class="btn btn-l blue-button" ng-click="add(currentDetail)">
+            DODAJ DO SZKOLENIA
         </div>
-        <div id="inputButto" ng-click="add(currentDetail)">
-            Zapisz
+        <div class="btn btn-m empty-button" ng-click="cancel(currentDetail)">
+            ANULUJ
         </div>
     </div>
 </div>

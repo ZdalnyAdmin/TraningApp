@@ -34,7 +34,9 @@
                 deleteFile($scope.viewModel.Current.TrainingResources);
             }
 
-            checkImageArtibutesAndUpload(file, 350, 250, 250, false);
+            var statusBar = $('.statusBar').eq(0);
+
+            checkImageArtibutesAndUpload(file, 350, 250, 250, false, statusBar);
         });
     }
 
@@ -51,11 +53,13 @@
                 deleteFile($scope.viewModel.Current.PassResources);
             }
 
-            checkImageArtibutesAndUpload(file, 150, 150, 150, true);
+            var statusBar = $('.statusBarMark').eq(0);
+
+            checkImageArtibutesAndUpload(file, 150, 150, 150, true, statusBar);
         });
     }
 
-    function checkImageArtibutesAndUpload(file, maxSize, maxWidth, maxHeight, marks)
+    function checkImageArtibutesAndUpload(file, maxSize, maxWidth, maxHeight, marks, statusBar)
     {
         $scope.fileName = file.name;
         var size = ~~(file.size / 1024);
@@ -78,14 +82,15 @@
                 height = img.naturalHeight;
 
             window.URL.revokeObjectURL(img.src);
+            
 
             if (width == maxWidth && height == maxHeight) {
                 var fd = new FormData();
                 fd.append('file', file);
                 if (marks) {
-                    sendFileToServer(fd, new createMarkStatusbar($element[0].getElementsByClassName('statusBarMark')), marks);
+                    sendFileToServer(fd, new createMarkStatusbar(statusBar || $element[0].getElementsByClassName('statusBarMark')), marks);
                 } else {
-                    sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), marks);
+                    sendFileToServer(fd, new createStatusbar(statusBar || $element[0].getElementsByClassName('statusBar')), marks);
                 }
             }
             else {

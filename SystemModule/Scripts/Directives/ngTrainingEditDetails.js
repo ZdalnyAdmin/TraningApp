@@ -12,6 +12,13 @@
                 return $sce.trustAsResourceUrl(url);
             };
 
+            $scope.getPresentationUrl = function (url) {
+                if (url) {
+                    url = location.origin + url;
+                    return $sce.trustAsResourceUrl('http://docs.google.com/gview?url=' + url + '&embedded=true');
+                }
+            };
+
             $scope.up = function (item) {
                 $scope.collection = changePosition($scope.collection, item, false);
             }
