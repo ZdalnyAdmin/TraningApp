@@ -42,19 +42,49 @@
                     }
                     return;
                 }
-                type = "Wybierz";
                 $scope.selectedQuestion = 0;
             }
 
             $scope.nextQuestion = function () {
+
+                if (!$scope.currentQuestion) {
+                    return;
+                }
+                $scope.ErrorMessage = "";
+                var isValid = true;
+
+                if (!$scope.currentQuestion.Text || $scope.currentQuestion.Text.length < 10) {
+                    $scope.ErrorMessage += "Wpisz pytanie na przynajmniej 10 znaków!";
+                    isValid = false;
+                }
+
+                //if (!$scope.currentQuestion.Type === 0) {
+
+
+                //    $scope.ErrorMessage += "Wpisz pytanie na przynajmniej 10 znaków!";
+                //    isValid = false;
+                //}
+
+                //if (!$scope.currentQuestion.Type === 1) {
+                //    $scope.ErrorMessage += "Wpisz pytanie na przynajmniej 10 znaków!";
+                //    isValid = false;
+                //}
+
+                //if (!$scope.currentQuestion.Type === 2) {
+                //    $scope.ErrorMessage += "Wpisz pytanie na przynajmniej 10 znaków!";
+                //    isValid = false;
+                //}
+
+
                 $scope.showQuestionType = true;
                 if ($scope.currentQuestion && $scope.currentQuestion.Text) {
 
                     $scope.currentQuestion.isEdit = false;
                     $scope.questions.push($scope.currentQuestion);
+                    $scope.changeQuestion("");
+                    $scope.selected = "Wybierz";
                 }
-                $scope.currentQuestion = {};
-                $scope.selectedQuestion = 0;
+                
             }
 
             createAnswer = function () {

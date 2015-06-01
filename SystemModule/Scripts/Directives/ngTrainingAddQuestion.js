@@ -52,9 +52,9 @@
 
                     $scope.currentQuestion.isEdit = false;
                     $scope.questions.push($scope.currentQuestion);
+                    $scope.changeQuestion("");
+                    $scope.selected = "Wybierz";
                 }
-                $scope.currentQuestion = {};
-                $scope.selectedQuestion = 0;
             }
 
             createAnswer = function () {
