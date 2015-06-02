@@ -478,21 +478,9 @@ namespace AppEngine.Services
                             }
                         }
 
+                        model.ActionType = BaseActionType.GetExtData;
 
-
-                        model.Current = new Training();
-                        model.Current.PassResult = 80;
-                        model.Details = new List<TrainingDetail>();
-                        model.Questions = new List<TrainingQuestion>();
-                        model.Organizations = new List<Organization>();
-
-                        if (isInternal)
-                        {
-                            model.Groups = model.Groups = (from gio in context.GroupsInOrganizations
-                                                           join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
-                                                           where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
-                                                           select g).ToList();
-                        }
+                        ManageTrainings(context, model, isInternal);
 
                         model.Success = "Dodanie szkolenia zakonczylo sie sukcesem!";
 
