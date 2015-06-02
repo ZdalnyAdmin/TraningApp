@@ -168,7 +168,6 @@
 
                 $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
                     $scope.viewModel.Detail = data.Detail;
-                    $scope.viewModel.Success = data.Success;
                     UtilitiesFactory.hideSpinner();
                 })
                 .error(function () {
