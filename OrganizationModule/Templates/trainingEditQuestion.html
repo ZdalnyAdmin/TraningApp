@@ -80,6 +80,12 @@
                 <div ng-show="!!item.Answers[0].Score && (item.Answers[0].Score < 0 || item.Answers[0].Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
             </div>
         </div>
+
+
+    </div>
+
+    <div ng-show="!!ErrorMessage && ErrorMessage.length > 0">
+        {{ErrorMessage}}
     </div>
 
     <div class="col-md-2">
@@ -101,8 +107,6 @@
         <button id="inputButto" ng-click="cancel(item)" ng-show="item.isEdit">
             ANULUJ
         </button>
-        <div ng-show="!!ErrorMessage && ErrorMessage.length > 0">
-            {{ErrorMessage}}
-        </div>
+
     </div>
 </div>

@@ -278,6 +278,9 @@
 
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 3;
+
+        $scope.viewModel.Current.Groups = [];
+
         angular.forEach($scope.viewModel.Groups, function (val) {
             if (val.selected) {
                 $scope.viewModel.Current.Groups.push(val);

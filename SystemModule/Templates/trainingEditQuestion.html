@@ -82,6 +82,11 @@
                 </div>
             </div>
         </div>
+
+        <div ng-show="!!ErrorMessage && ErrorMessage.length > 0">
+            {{ErrorMessage}}
+        </div>
+
         <div class="col-md-2">
             <div id="inputButto" ng-click="up(item)">
                 <span class="glyphicon glyphicon-arrow-up"></span>
@@ -101,9 +106,7 @@
             <button id="inputButto" ng-click="cancel(item)" ng-show="item.isEdit">
                 ANULUJ
             </button>
-            <div ng-show="!!ErrorMessage && ErrorMessage.length > 0">
-                {{ErrorMessage}}
-            </div>
+
         </div>
     </div>
 

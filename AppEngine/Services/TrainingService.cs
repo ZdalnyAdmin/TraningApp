@@ -490,7 +490,7 @@ namespace AppEngine.Services
                         {
                             model.Groups = model.Groups = (from gio in context.GroupsInOrganizations
                                                            join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
-                                                           where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted && g.Name != "Wszyscy"
+                                                           where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
                                                            select g).ToList();
                         }
 
