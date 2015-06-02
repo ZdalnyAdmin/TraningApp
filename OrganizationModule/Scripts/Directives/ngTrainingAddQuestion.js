@@ -103,7 +103,7 @@
                         isValid = false;
                     }
 
-                    if (!!val.Score && val.Score > 0 && val.Score < 100) {
+                    if (!!$scope.currentQuestion.Answers[0].Score && $scope.currentQuestion.Answers[0].Score > 0 && $scope.currentQuestion.Answers[0].Score < 100) {
                         $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br>";
                         isValid = false;
                     }
