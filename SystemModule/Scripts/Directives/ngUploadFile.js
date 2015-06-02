@@ -128,6 +128,8 @@
                                 $scope.$apply();
                             }
                         }
+
+                        status.hide();
                     },
                     error: function () {
                         $scope.errorMessage = 'Plik nie mógł zostać wczytany ­ spróbuj ponownie później.';
@@ -135,16 +137,19 @@
                         if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
                             $scope.$apply();
                         }
+
+                        status.hide();
                     }
                 });
             }
 
             function createStatusbar(obj) {
-
-                this.statusbar = $("<div class='statusBar'></div>");
-                this.progressBar = $("<div class='progressBar'><div></div></div>").appendTo(this.statusbar);
                 $(obj).html('');
-                $(obj).append(this.statusbar);
+                $(obj).show();
+
+                this.progressBar = $("<div class='progressBar'><div></div></div>");
+
+                $(obj).append(this.progressBar);
 
                 this.setProgress = function (progress) {
                     var progressBarWidth = progress * this.progressBar.width() / 100;
@@ -153,6 +158,10 @@
                     if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
                         $scope.$apply();
                     }
+                }
+
+                this.hide = function () {
+                    $(obj).hide();
                 }
             }
 
