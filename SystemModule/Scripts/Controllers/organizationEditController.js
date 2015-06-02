@@ -147,7 +147,7 @@
     }
 
     $scope.changeName = function (item) {
-
+        UtilitiesFactory.showSpinner();
         $scope.current = item;
         $scope.viewModel.Current = item;
 
@@ -157,26 +157,22 @@
 
         var result = UserFactory.organizationNameChangesMail($scope.viewModel.Current);
 
-
-
         result.then(function (data) {
             if (data !== 'True') {
                 $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zmiany nazwy organizacji';
             }
             else {
-                UtilitiesFactory.showSpinner();
-                $scope.viewModel.ActionType = 2;
+                $scope.viewModel.Success = "Email z prosba o zmiane nazwy zostal wyslany";
+                $scope.viewModel.ActionType = 6;
                 $scope.viewModel.OrganizationID = item.OrganizationID;
-
-                $scope.viewModel.Current.ChangeNameDate = new Date();
 
                 $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
                     $scope.viewModel.Detail = data.Detail;
-                    $scope.viewModel.Success = "Email z prosba o zmiane nazwy zostal wyslany";
+                    $scope.viewModel.Success = data.Success;
                     UtilitiesFactory.hideSpinner();
                 })
                 .error(function () {
-                    $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas edycji organizacji';
+                    $scope.viewModel.ErrorMessage = "Wystąpił błąd podczas odświeżania danych!";
                     UtilitiesFactory.hideSpinner();
                 });
             }
