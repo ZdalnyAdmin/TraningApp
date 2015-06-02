@@ -208,7 +208,7 @@ namespace AppEngine.Services
                                                     File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, itemToDel.InternalResource));
                                                 }
 
-                                                model.ErrorMessage = "Dostepna dla organizacji przestrzen dyskowan zostala zajeta. Nie mozna zapisac szkolenia";
+                                                model.ErrorMessage = "Przestrzeń dyskowa organizacji została wykorzystana i nie ma miejsca na Twoje szkolenie - skontaktuj się z administratorem.";
                                                 return false;
                                             }
                                         }
@@ -398,7 +398,7 @@ namespace AppEngine.Services
                                                 File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, itemToDel.InternalResource));
                                             }
 
-                                            model.ErrorMessage = "Dostepna dla organizacji przestrzen dyskowan zostala zajeta. Nie mozna zapisac szkolenia";
+                                            model.ErrorMessage = "Przestrzeń dyskowa organizacji została wykorzystana i nie ma miejsca na Twoje szkolenie - skontaktuj się z administratorem.";
                                             return false;
                                         }
                                     }
