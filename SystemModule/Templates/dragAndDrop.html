@@ -1,5 +1,6 @@
 ﻿<div class="row">
     <div class="col-md-12">
+        <div ng-show="!!errorMessage">{{ errorMessage }}</div>
         <div ng-switch="options">
             <label ng-switch-when="IMAGE">Wczytaj grafike lub upusc ja na pole obok lub podaj link</label>
             <label ng-switch-when="MOVIE">Wczytaj film przerzuć i upuść go w polu obok lub podaj link</label>
@@ -16,7 +17,7 @@
                 <label>Podaj link YT lub vimeo:</label> <input type="text" ng-model="model.ExternalResource" ng-blur="change()">
             </div>
             <div class="col-md-12">
-                {{fileName || 'Nie wybrano pliku'}}
+                {{fileName || ''}}
             </div>
             <div class='statusBar'><div></div></div>
         </div>

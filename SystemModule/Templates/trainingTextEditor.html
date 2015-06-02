@@ -1,8 +1,12 @@
-﻿<div class="row">
-    <div class="col-md-12" class="row">
-        <textarea name="currentDetail.Text" froala="options" ng-model="currentDetail.Text"></textarea>
+﻿<div class="row" ng-init="textValidation = false">
+    <div class="col-md-12 row">
+        <textarea name="currentDetail.Text" froala="options" ng-model="currentDetail.Text" froala-event-blur="blur" froala-event-content-changed="changed"></textarea>
+        <div ng-if="textValidation">
+            <div ng-show="textLength < 5">Wpisz minimum 5 znaków!</div>
+            <div ng-show="textLength > 2000">Jeden wpis może zawierać maksymalnie 2000 znaków!</div>
+        </div>
     </div>
-    <div class="col-md-2" class="row">
+    <div class="col-md-2 row">
         <button id="inputButto" ng-click="cancel(currentDetail)">
             Anuluj
         </button>

@@ -1,4 +1,5 @@
 ﻿<div>
+    <div ng-show="!!errorMessage">{{ errorMessage }}</div>
     <div ng-switch="options">
         <h4 ng-switch-when="PRESENTATION">DODAJ PREZENTACJĘ</h4>
         <h4 ng-switch-when="FILE">DODAJ PLIK</h4>
@@ -13,7 +14,7 @@
                 </span>
             </div>
             <div class="col-lg-4">
-                {{ fileName || 'Nie wybrano pliku' }}
+                {{ fileName || '' }}
         <iframe ng-show="!!fileName && options === 'PRESENTATION' " src="{{getUrl(model.InternalResource)}}" style="width:600px; height:500px;" frameborder="0"></iframe>
                 <div class='statusBar'><div></div></div>
             </div>

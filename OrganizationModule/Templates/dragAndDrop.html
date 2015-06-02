@@ -1,4 +1,5 @@
 ﻿<div class="col-md-12">
+        <div ng-show="!!errorMessage">{{ errorMessage }}</div>
     <div ng-switch="options">
         <div ng-switch-when="IMAGE">
             <h4>DODAJ GRAFIKĘ</h4>
@@ -19,7 +20,7 @@
                            name="uploadFiles">
                 </span>
                 <h6>
-                    {{fileName || 'Nie wybrano pliku'}}
+                    {{fileName || ''}}
                 </h6>
                 <div class='statusBar'><div></div></div>
             </div>
@@ -28,6 +29,10 @@
                 <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/drag-drop-image.png' }}" class="filled-image" />
                 <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}">
                     Ładuję plik wideo.
+                </div>
+                <div ng-if="options == 'MOVIE' && model.ExternalResource">
+                    <iframe ng-if="model.ExternalResource.indexOf('youtu') !=-1" width="560" height="315" src="{{getUrl(model.ExternalResource)}}" frameborder="0" allowfullscreen></iframe>
+                    <iframe ng-if="model.ExternalResource.indexOf('player.vimeo.com') !=-1" src="{{getUrl(model.ExternalResource)}}" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                 </div>
             </div>
             <div class="col-lg-4">

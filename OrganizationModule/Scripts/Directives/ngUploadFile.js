@@ -20,12 +20,37 @@
 
             $scope.fileName = undefined;
             $scope.fileSrc = undefined;
+            $scope.errorMessage = '';
 
             $scope.upload = function () {
                 $scope.$apply(function (scope) {
                     var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
 
+                    $scope.errorMessage = checkFileSize(file);
+                    if ($scope.errorMessage) {
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
+
+                        return;
+                    }
+
                     if (!checkExtension(file)) {
+
+                        switch ($scope.options) {
+                            case 'FILE':
+                                $scope.errorMessage = 'Plik jest w niewłaściwym formacie.';
+                                break;
+
+                            case 'PRESENTATION':
+                                $scope.errorMessage = 'Prezentacja jest w niewłaściwym formacie ­ wybierz plik PPT, PPTX lub PDF!';
+                                break;
+                        }
+
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
+
                         return;
                     }
 
@@ -46,6 +71,7 @@
                     $scope.fileName = undefined;
                     $scope.fileSrc = undefined;
                     $scope.file = {};
+                    $scope.errorMessage = '';
 
                     if (jqXHR && jqXHR.abort) {
                         jqXHR.abort();
@@ -97,21 +123,34 @@
                     data: formData,
                     success: function (data) {
                         if (data.Succeeded) {
+                            $scope.errorMessage = 'Plik został pomyślnie wczytany.';
                             $scope.model.InternalResource = $scope.fileSrc = data.Message;
                             if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
                                 $scope.$apply();
                             }
                         }
+
+                        status.hide();
+                    },
+                    error: function () {
+                        $scope.errorMessage = 'Plik nie mógł zostać wczytany ­ spróbuj ponownie później.';
+
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
+
+                        status.hide();
                     }
                 });
             }
 
             function createStatusbar(obj) {
-
-                this.statusbar = $("<div class='statusBar'></div>");
-                this.progressBar = $("<div class='progressBar'><div></div></div>").appendTo(this.statusbar);
                 $(obj).html('');
-                $(obj).append(this.statusbar);
+                $(obj).show();
+
+                this.progressBar = $("<div class='progressBar'><div></div></div>");
+
+                $(obj).append(this.progressBar);
 
                 this.setProgress = function (progress) {
                     var progressBarWidth = progress * this.progressBar.width() / 100;
@@ -120,6 +159,10 @@
                     if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
                         $scope.$apply();
                     }
+                }
+
+                this.hide = function () {
+                    $(obj).hide();
                 }
             }
 
@@ -147,19 +190,36 @@
             }
 
             function checkExtension(file) {
-                var availablePresentationExtension = ['ppt', 'pptx', 'pdf'];
+                var availablePresentationExtension = ['PPT', 'PPTX', 'PDF'];
+                var unavailableExtensions = ['INK', 'DLL', 'TMP', 'BAT']
                 var fileNameParts = file.name.split('.');
                 var extension = fileNameParts[fileNameParts.length - 1];
 
                 switch ($scope.options) {
                     case 'FILE':
-                        return true
+                        return unavailableExtensions.indexOf(extension.toUpperCase()) === -1;
 
                     case 'PRESENTATION':
-                        return availablePresentationExtension.indexOf(extension) !== -1;
+                        return availablePresentationExtension.indexOf(extension.toUpperCase()) !== -1;
                 }
 
                 return false;
+            }
+
+            function checkFileSize(file) {
+                var size = file.size / (1024 * 1024)
+
+                switch ($scope.options) {
+                    case 'FILE':
+                    case 'PRESENTATION':
+                        if (size > 30) {
+                            return 'Plik jest zbyt duży ­ jego wielkość nie może przekraczać 30 MB!';
+                        }
+
+                        break;
+                }
+
+                return '';
             }
         }]
     }

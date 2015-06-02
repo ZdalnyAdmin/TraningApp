@@ -1,5 +1,6 @@
 ﻿<div class="row">
     <div class="col-md-12">
+        <div ng-show="!!errorMessage">{{ errorMessage }}</div>
         <div ng-switch="options">
             <label ng-switch-when="FILE">Wgraj plik:</label>
             <label ng-switch-when="PRESENTATION">Wgraj prezentacje (ppt, pptx, pdf):</label>
@@ -10,7 +11,7 @@
                        name="uploadFiles">
             </div>
             <div>
-                {{ fileName || 'Nie wybrano pliku' }}
+                {{ fileName || '' }}
             </div>
             <iframe ng-show="!!fileName && options === 'PRESENTATION' " src="{{getUrl(model.InternalResource)}}" style="width:600px; height:500px;" frameborder="0"></iframe>
             <div class='statusBar'><div></div></div>

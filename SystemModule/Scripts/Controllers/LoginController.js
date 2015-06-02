@@ -14,6 +14,9 @@
             UtilitiesFactory.hideSpinner();
             $scope.processing = false;
             $rootScope.$broadcast('userChanged');
+            angular.element('#content')
+                   .removeClass('col-md-12')
+                   .addClass('col-md-8 col-lg-9');
 
             if (result.success) {
                 if ($scope.loginForm.returnUrl !== undefined) {

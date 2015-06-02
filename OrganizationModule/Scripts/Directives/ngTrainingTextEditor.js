@@ -7,6 +7,11 @@
         templateUrl: 'Templates/trainingTextEditor.html',
         controller: ['$scope', function ($scope) {
             $scope.currentDetail = {};
+            $scope.textLength = 0;
+
+            $scope.options = {
+                maxCharacters: 2000
+            };
 
             $scope.cancel = function (item) {
 
@@ -14,7 +19,16 @@
                 $scope.obj.push($scope.currentDetail);
 
                 $scope.currentDetail = {};
-            }
+            };
+
+            $scope.blur = function (e, editor) {
+                $scope.textValidation = true;
+                $scope.textLength = editor.getText().length;
+            };
+
+            $scope.changed = function (e, editor) {
+                $scope.textLength = editor.getText().length;
+            };
 
             $scope.add = function (item) {
                 if (!$scope.currentDetail) {
@@ -28,7 +42,7 @@
                     $scope.currentDetail = {};
                     return;
                 }
-            }
+            };
         }]
     };
 }]);

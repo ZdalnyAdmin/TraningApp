@@ -1,6 +1,12 @@
 <<<<<<< HEAD
-﻿<div class="drag-and-drop">
+﻿<div class="col-md-12">
     <div ng-switch="options">
+=======
+﻿<div>
+    <div class="col-md-12">
+        <div ng-show="!!errorMessage">{{ errorMessage }}</div>
+        <div ng-switch="options">
+>>>>>>> 8035ed2909dd494eb24ed20b34c2bee14707c637
         <div ng-switch-when="IMAGE">
             <h4>DODAJ GRAFIKĘ</h4>
             <h4>Wczytaj obraz z dysku, klikajac przycisk i wybierajac plik LUB przeciagajac go i upuszczajac w polu obok.</h4>
@@ -15,20 +21,24 @@
                 <span class="btn navy-button btn-l btn-file">
                     WYBIERZ PLIK Z DYSKU
                     <input type="file"
-                           class="upload-file"
+                           class="upload-input upload-file"
                            onchange="angular.element(this).scope().upload(this)"
                            name="uploadFiles">
                 </span>
                 <h6>
-                    {{fileName || 'Nie wybrano pliku'}}
+                    {{fileName || ''}}
                 </h6>
                 <div class='statusBar'><div></div></div>
             </div>
             <div class="col-lg-4">
-                <img ng-show="!fileSrc" src="{{ '../Assets/Image/drag-drop-image.png' }}" class="empty-image"/>
-                <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/drag-drop-image.png' }}" class="filled-image"/>
+                <img ng-show="!fileSrc" src="{{ '../Assets/Image/drag-drop-image.png' }}" class="empty-image" />
+                <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/drag-drop-image.png' }}" class="filled-image" />
                 <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}">
                     Ładuję plik wideo.
+                </div>
+                <div ng-if="options == 'MOVIE' && model.ExternalResource">
+                    <iframe ng-if="model.ExternalResource.indexOf('youtu') !=-1" width="560" height="315" src="{{getUrl(model.ExternalResource)}}" frameborder="0" allowfullscreen></iframe>
+                    <iframe ng-if="model.ExternalResource.indexOf('player.vimeo.com') !=-1" src="{{getUrl(model.ExternalResource)}}" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -40,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div ng-switch-when="MOVIE">
+        <div class="col-md-12" ng-switch-when="MOVIE">
             <h4>ALBO</h4>
             <div class="circle-pointer">B</div>
             <h4><span>Skopiuj i wklej ścieżkę do wideo umieszczonego na YouTube bądź Vimeo.</span></h4>
@@ -57,31 +67,9 @@
                     </div>
                 </div>
             </div>
-=======
-﻿<div class="row">
-    <div class="col-md-12">
-        <div ng-switch="options">
-            <label ng-switch-when="IMAGE">Wczytaj grafike lub upusc ja na pole obok lub podaj link</label>
-            <label ng-switch-when="MOVIE">Wczytaj film przerzuć i upuść go w polu obok lub podaj link</label>
-            <div class="col-md-12">
-                <input type="file"
-                       class="upload-input upload-file"
-                       onchange="angular.element(this).scope().upload(this)"
-                       name="uploadFiles">
-            </div>
-            <div class="col-md-12" ng-switch-when="IMAGE">
-                <label>Podaj link:</label> <input type="text" ng-model="model.ExternalResource" ng-blur="change()">
-            </div>
-            <div class="col-md-12" ng-switch-when="MOVIE">
-                <label>Podaj link YT lub vimeo:</label> <input type="text" ng-model="model.ExternalResource" ng-blur="change()">
-            </div>
-            <div class="col-md-12">
-                {{fileName || 'Nie wybrano pliku'}}
-            </div>
-            <div class='statusBar'><div></div></div>
         </div>
-        <div class="col-md-12">
-            <img ng-show="!fileSrc && !model.ExternalResource" src="{{ '../Assets/Image/empty.png' }}" class="empty-image" width="200px" height="200px" />
+        <!--<div>
+            <img ng-show="!fileSrc" src="{{ '../Assets/Image/empty.png' }}" class="empty-image" width="200px" height="200px" />
             <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
             <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}" width="200px" height="200px">
                 Ładuję plik wideo.
@@ -91,14 +79,6 @@
                 <iframe ng-if="model.ExternalResource.indexOf('player.vimeo.com') !=-1" src="{{getUrl(model.ExternalResource)}}" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
             </div>
             <img ng-show="options == 'IMAGE' && !fileSrc && model.ExternalResource" src="{{model.ExternalResource || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
->>>>>>> cd42f2281bee539594b0dceedc25d1b3e3bd6291
-        </div>
-        <!--<div>
-            <img ng-show="!fileSrc" src="{{ '../Assets/Image/empty.png' }}" class="empty-image" width="200px" height="200px" />
-            <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
-            <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}" width="200px" height="200px">
-                Ładuję plik wideo.
-            </div>
         </div>-->
     </div>
 </div>

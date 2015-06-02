@@ -3,7 +3,7 @@
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
 
-    
+
 
     <div class="row">
         <div class="col-xs-12">
@@ -21,8 +21,12 @@
         <div class="col-xs-12">
             <div class="circle-pointer">1</div>
             <h4><span>NAZWA SZKOLENIA</span></h4>
-            <input class="input-l form-control" type="text" placeholder="Podaj nazwę" name="viewModel.Current.Name" ng-model="viewModel.Current.Name"  />
-            <div class="letter-counter">0 / 80 znaków</div>
+            <input class="input-l form-control" type="text" placeholder="Podaj nazwę" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" maxlength="80" ng-blur="nameValidation = true" />
+            <div class="letter-counter">{{ (viewModel.Current.Name || '').length }} / 80 znaków</div>
+        </div>
+        <div ng-show="nameValidation">
+            <div ng-show="!!viewModel.Current.Name && viewModel.Current.Name.length < 5"> Nazwa szkolenia musi zawierać miniumum 5 znaków!          </div>
+            <div ng-show="!!viewModel.Current.Name && viewModel.Current.Name.length > 80"> Nazwa szkolenia może zawierać maksymalnie 80 znaków!         </div>
         </div>
     </div>
 
@@ -30,8 +34,12 @@
         <div class="col-xs-12">
             <div class="circle-pointer">2</div>
             <h4><span>OPIS SZKOLENIA</span></h4>
-            <textarea class="form-control" placeholder="Dodaj opis na maksymalnie 800 znaków" name="viewModel.Current.Description" ng-model="viewModel.Current.Description" maxlength="800" rows="6"></textarea>
-            <div class="letter-counter">0 / 800 znaków</div>
+            <textarea class="form-control" placeholder="Dodaj opis na maksymalnie 1500 znaków" name="viewModel.Current.Description" ng-model="viewModel.Current.Description" maxlength="1500" rows="6" ng-blur="descriptionValidation = true"></textarea>
+            <div class="letter-counter">{{ (viewModel.Current.Description || '').length }} / 800 znaków</div>
+        </div>
+        <div ng-show="descriptionValidation">
+            <div ng-show="!!viewModel.Current.Description && viewModel.Current.Description.length < 5"> Opis szkolenia musi zawierać miniumum 5 znaków!         </div>
+            <div ng-show="!!viewModel.Current.Description && viewModel.Current.Description.length > 1500"> Opis szkolenia jest zbyt długi!         </div>
         </div>
     </div>
 
@@ -43,8 +51,11 @@
         <div class="col-lg-4 col-md-6 col-sm-5">
             <img class="img-responsive" src="{{viewModel.Current.TrainingResources}}" />
             @*usuwa wgrane przez użytkownika zdjęcie*@
-            <button ng-click="remove(viewModel.Current.TrainingResources, true)" ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0">Usuń</button>
-            
+            <button ng-click="remove(viewModel.Current.TrainingResources, true)"
+                    ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0 && viewModel.Current.TrainingResources !== 'Assets\\Image\\main_image.png'">
+                Usuń
+            </button>
+
         </div>
         <div class=" col-lg-4 col-md-5 col-sm-7">
             <h5>Wybierz własny obrazek z dysku</h5>
@@ -77,6 +88,9 @@
                 Wielkość pliku nie może przekraczać
                 Nie przejmuj sie, nie musisz 350 kB.
             </div>
+        </div>
+        <div ng-show="!!imageMessage && imageMessage.length > 0">
+            {{imageMessage}}
         </div>
     </div>
 
@@ -114,7 +128,7 @@
         <div class="col-xs-12">
             <div class="circle-pointer">5</div>
             <h4><span>KOMUNIKAT PO ZALICZENIU SZKOLENIA</span></h4>
-            
+
         </div>
         <div class="col-md-11 col-lg-12">
             <h5>Jaką informację zobaczą osoby, które osiągną wymaganą liczbę punktów?</h5>
@@ -123,15 +137,22 @@
             <div class="circle-pointer italics prompt">i</div>
         </div>
         <div class="col-lg-8">
-            <textarea class="form-control" placeholder="Wpisz komunikat o długości do 500 znaków" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" maxlength="500" rows="6"></textarea>
-            <div class="letter-counter">0 / 500 znaków</div>
+            <textarea class="form-control" placeholder="Wpisz komunikat o długości do 500 znaków" name="viewModel.Current.PassInfo" ng-model="viewModel.Current.PassInfo" maxlength="500" rows="6" ng-blur="passInfoValidation = true"></textarea>
+            <div class="letter-counter">{{ (viewModel.Current.PassInfo || '').length }} / 500 znaków</div>
         </div>
+
+
         <div class="col-lg-4 visible-lg">
             <div class="navy-cloud">
                 Przykładowy komunikat: „Gratulacje!
                 W wyniku szkolenia zdobyłeś wiedzą
                 na temat procedury / produktu X."
             </div>
+        </div>
+
+        <div ng-show="passInfoValidation">
+            <div ng-show="!!viewModel.Current.PassInfo && viewModel.Current.PassInfo.length < 5"> Komunikat po zaliczeniu szkolenia musi zawierać miniumum 5 znaków!          </div>
+            <div ng-show="!!viewModel.Current.PassInfo && viewModel.Current.PassInfo.length > 500"> Komunikat po zaliczeniu szkolenia może zawierać maksymalnie 500 znaków!         </div>
         </div>
     </div>
 
@@ -169,6 +190,9 @@
                 Wielkość pliku nie może przekraczać
                 150 kB.
             </div>
+        </div>
+        <div ng-show="!!markMessage && markMessage.length > 0">
+            {{markMessage}}
         </div>
     </div>
 
