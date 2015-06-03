@@ -1,4 +1,5 @@
 ﻿using AppEngine.Models;
+using AppEngine.Models.Common;
 using AppEngine.Models.DataContext;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,20 @@ namespace OrganizationModule.Controllers.Api
         public IEnumerable<AppLog> Get()
         {
             //get from correct profil
+            //get current organization
+            var protecter = Person.GetLoggedPerson(User);
+            if(protecter == null || !protecter.OrganizationID.HasValue)
+            {
+                return new List<AppLog>();
+            }
+
+            //get all users assigned to organization and show logs only for that users
+
+
+
             var logs = db.Logs.Where(x=>!x.IsSystem).ToList();
+
+
 
             foreach (var item in logs)
             {

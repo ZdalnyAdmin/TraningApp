@@ -36,7 +36,7 @@ namespace SystemModule.Controllers.Api
                 {
                     case BaseActionType.Get:
 
-                        obj.Organizations = db.Organizations.OrderByDescending(x => x.CreateDate).ToList();
+                        obj.Organizations = db.Organizations.OrderBy(x => x.CreateDate).ToList();
 
                         if (obj.Organizations != null)
                         {
@@ -138,7 +138,7 @@ namespace SystemModule.Controllers.Api
 
                         obj.Organizations = (from t in db.Organizations
                                              where t.Status != OrganizationEnum.Deleted
-                                             orderby t.CreateDate
+                                             orderby t.CreateDate descending
                                              select t).ToList();
 
                         if (obj.Organizations != null)
