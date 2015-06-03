@@ -113,7 +113,7 @@
                              $scope.user = undefined;
                          }
 
-                         $scope.changeEmailModel.Email = '';
+                         $scope.changeNameModel.UserName = '';
                          $rootScope.$broadcast('userChanged', { preventReloadMenu: true });
 
                          angular.element('.user-name.cancel-button').click();
