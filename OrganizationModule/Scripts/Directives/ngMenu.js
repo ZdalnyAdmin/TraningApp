@@ -39,7 +39,7 @@
             }
 
             $rootScope.$on('userChanged', function (e, args) {
-                if (args.preventReloadMenu) {
+                if (!!args && args.preventReloadMenu) {
                     return;
                 }
 
