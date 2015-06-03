@@ -213,7 +213,7 @@
                     case 'FILE':
                     case 'PRESENTATION':
                         if (size > 30) {
-                            return 'Plik jest zbyt duży ­ jego wielkość nie może przekraczać 30 MB!';
+                            return 'Plik jest zbyt duży ­jego wielkość nie może przekraczać 30 MB!';
                         }
 
                         break;

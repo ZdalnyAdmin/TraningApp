@@ -47,14 +47,71 @@
             }
 
             $scope.nextQuestion = function () {
-                $scope.showQuestionType = true;
-                if ($scope.currentQuestion && $scope.currentQuestion.Text) {
 
-                    $scope.currentQuestion.isEdit = false;
-                    $scope.questions.push($scope.currentQuestion);
-                    $scope.changeQuestion("");
-                    $scope.selected = "Wybierz";
+                if (!$scope.showQuestionType && !$scope.currentQuestion.Text) {
+                    $scope.showQuestionType = true;
+                    return;
                 }
+
+                var isValid = true;
+
+                if (!$scope.currentQuestion.Text || $scope.currentQuestion.Text.length < 10) {
+                    isValid = false;
+                }
+
+                var checkScore = false;
+                var checkAnswerCount = 0;
+
+                if ($scope.currentQuestion.Type === 0 || $scope.currentQuestion.Type === 1) {
+                    angular.forEach($scope.currentQuestion.Answers, function (val) {
+                        if (!!val.Text && val.Text.length > 1) {
+                            checkAnswerCount++;
+                            if (!!val.Score && val.Score > 0 && val.Score < 100) {
+                                checkScore = true;
+                            }
+                        }
+
+                        if (!!val.Text && val.Text.length > 0 && val.Text.length < 2) {
+                            isValid = false;
+                        }
+
+                        if (!!val.Score && val.Score < 0 || val.Score > 100) {
+                            isValid = false;
+                        }
+
+                    });
+
+                    if (!checkScore) {
+                        $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br>";
+                        isValid = false;
+                    }
+
+                    if (checkAnswerCount < 2) {
+                        $scope.ErrorMessage += "Wpisz przy najmniej 2 odpowiedzi na pytanie! <br>";
+                        isValid = false;
+                    }
+                }
+
+                if ($scope.currentQuestion.Type === 2) {
+                    if (!$scope.currentQuestion.Answers[0].Text || $scope.currentQuestion.Answers[0].Text.length < 1) {
+                        $scope.ErrorMessage += "Wpisz chodź jedną odpowiedź na pytanie <br>";
+                        isValid = false;
+                    }
+
+                    if (!!$scope.currentQuestion.Answers[0].Score && $scope.currentQuestion.Answers[0].Score > 0 && $scope.currentQuestion.Answers[0].Score < 100) {
+                        $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br>";
+                        isValid = false;
+                    }
+                }
+
+                if (!isValid) {
+                    return;
+                }
+
+                $scope.currentQuestion.isEdit = false;
+                $scope.questions.push($scope.currentQuestion);
+                $scope.changeQuestion("");
+                $scope.selected = "Wybierz";
             }
 
             createAnswer = function () {

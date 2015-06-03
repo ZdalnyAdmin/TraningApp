@@ -137,6 +137,7 @@ namespace SystemModule.Controllers.Api
 
 
                         obj.Organizations = (from t in db.Organizations
+                                             where t.Status != OrganizationEnum.Deleted
                                              orderby t.CreateDate
                                              select t).ToList();
 

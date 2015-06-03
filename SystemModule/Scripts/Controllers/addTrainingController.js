@@ -189,37 +189,64 @@
                         $scope.imageMessage = 'Plik nie mógł zostać wczytany - spróbuj ponownie później.';
                     }
                 }
+
+                status.hide();
+            },
+            error: function () {
+                $scope.imageMessage = 'Plik nie mógł zostać wczytany ­ spróbuj ponownie później.';
+
+                if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                    $scope.$apply();
+                }
+
+                status.hide();
             }
         });
     }
 
     function createStatusbar(obj) {
 
-        this.statusbar = $("<div class='statusBar'></div>");
-        this.progressBar = $("<div class='progressBar'><div></div></div>").appendTo(this.statusbar);
         $(obj).html('');
-        $(obj).append(this.statusbar);
+        $(obj).show();
+
+        this.progressBar = $("<div class='progressBar'><div></div></div>");
+
+        $(obj).append(this.progressBar);
 
         this.setProgress = function (progress) {
             var progressBarWidth = progress * this.progressBar.width() / 100;
             this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "% ");
 
-            $scope.$apply();
+            if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                $scope.$apply();
+            }
+        }
+
+        this.hide = function () {
+            $(obj).hide();
         }
     }
 
     function createMarkStatusbar(obj) {
 
-        this.statusbar = $("<div class='statusBarMark'></div>");
-        this.progressBar = $("<div class='progressBarMark'><div></div></div>").appendTo(this.statusbar);
         $(obj).html('');
-        $(obj).append(this.statusbar);
+        $(obj).show();
+
+        this.progressBar = $("<div class='progressBarMark'><div></div></div>");
+
+        $(obj).append(this.progressBar);
 
         this.setProgress = function (progress) {
             var progressBarWidth = progress * this.progressBar.width() / 100;
             this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "% ");
 
-            $scope.$apply();
+            if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                $scope.$apply();
+            }
+        }
+
+        this.hide = function () {
+            $(obj).hide();
         }
     }
 
@@ -278,6 +305,9 @@
 
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 3;
+
+        $scope.viewModel.Current.Groups = [];
+
         angular.forEach($scope.viewModel.Groups, function (val) {
             if (val.selected) {
                 $scope.viewModel.Current.Groups.push(val);

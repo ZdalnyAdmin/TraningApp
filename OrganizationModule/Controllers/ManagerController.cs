@@ -153,6 +153,7 @@ namespace OrganizationModule.Controllers
                         {
                             if (x.Status == StatusEnum.Invited)
                             {
+                                x.SecurityStamp = Guid.NewGuid().ToString();
                                 x.Status = StatusEnum.Reinvited;
                             }
                         });

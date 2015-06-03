@@ -45,12 +45,12 @@
     margin-top:10px;
     display:none;
 }
-#create-training .statusBarMark progressBarMark, #create-training .statusBar .progressBar{
+#create-training .statusBarMark .progressBarMark, #create-training .statusBar .progressBar{
     height:20px;
     margin-top:10px;
     border:1px solid #0d223d;
 }
-#create-training .statusBarMark progressBarMark div, #create-training .statusBar .progressBar div{
+#create-training .statusBarMark .progressBarMark div, #create-training .statusBar .progressBar div{
     background:#0d223d;
 }
 #create-training .badge-row .btn{

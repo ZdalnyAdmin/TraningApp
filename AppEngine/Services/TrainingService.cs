@@ -208,7 +208,7 @@ namespace AppEngine.Services
                                                     File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, itemToDel.InternalResource));
                                                 }
 
-                                                model.ErrorMessage = "Dostepna dla organizacji przestrzen dyskowan zostala zajeta. Nie mozna zapisac szkolenia";
+                                                model.ErrorMessage = "Przestrzeń dyskowa organizacji została wykorzystana i nie ma miejsca na Twoje szkolenie - skontaktuj się z administratorem.";
                                                 return false;
                                             }
                                         }
@@ -398,7 +398,7 @@ namespace AppEngine.Services
                                                 File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, itemToDel.InternalResource));
                                             }
 
-                                            model.ErrorMessage = "Dostepna dla organizacji przestrzen dyskowan zostala zajeta. Nie mozna zapisac szkolenia";
+                                            model.ErrorMessage = "Przestrzeń dyskowa organizacji została wykorzystana i nie ma miejsca na Twoje szkolenie - skontaktuj się z administratorem.";
                                             return false;
                                         }
                                     }
@@ -478,21 +478,9 @@ namespace AppEngine.Services
                             }
                         }
 
+                        model.ActionType = BaseActionType.GetExtData;
 
-
-                        model.Current = new Training();
-                        model.Current.PassResult = 80;
-                        model.Details = new List<TrainingDetail>();
-                        model.Questions = new List<TrainingQuestion>();
-                        model.Organizations = new List<Organization>();
-
-                        if (isInternal)
-                        {
-                            model.Groups = model.Groups = (from gio in context.GroupsInOrganizations
-                                                           join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
-                                                           where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted && g.Name != "Wszyscy"
-                                                           select g).ToList();
-                        }
+                        ManageTrainings(context, model, isInternal);
 
                         model.Success = "Dodanie szkolenia zakonczylo sie sukcesem!";
 
