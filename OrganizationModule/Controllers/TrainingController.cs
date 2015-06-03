@@ -238,6 +238,10 @@ namespace OrganizationModule.Controllers
                 var percentageResult = trainingResult.Rating / trainingResult.PossibleRate * 100;
                 trainingResult.IsPassed = percentageResult >= trainingResult.Training.PassResult;
             }
+            else
+            {
+                trainingResult.IsPassed = true;
+            }
 
             _db.SaveChanges();
             result.Succeeded = true;
