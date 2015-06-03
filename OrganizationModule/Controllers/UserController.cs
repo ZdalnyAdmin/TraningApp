@@ -63,7 +63,7 @@ namespace OrganizationModule.Controllers
                 }
             }
 
-            ViewBag.AdminEmails = _db.Users.Where(x => x.Profile == ProfileEnum.Administrator)
+            ViewBag.AdminEmails = _db.Users.Where(x => x.Profile == ProfileEnum.Administrator && x.OrganizationID == currentUser.OrganizationID)
                                            .Select(x => x.Email)
                                            .ToList();
 
