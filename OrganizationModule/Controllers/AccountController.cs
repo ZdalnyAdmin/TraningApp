@@ -220,9 +220,10 @@ namespace OrganizationModule.Controllers
             if (ModelState.IsValid)
             {
                 var userByUserName = await UserManager.FindByNameAsync(model.UserName);
-                var userByMail = await UserManager.FindByEmailAsync(model.Email);
+                var usersByMail = _db.Users.Where(x => x.Email.Equals(model.Email)).ToList();
+                var userByMail = usersByMail.FirstOrDefault(x => x.UserName.Equals(userByUserName.UserName));
 
-                if (userByMail == null || !userByMail.Equals(userByUserName))
+                if (userByMail == null)
                 {
                     return Json(new
                     {
