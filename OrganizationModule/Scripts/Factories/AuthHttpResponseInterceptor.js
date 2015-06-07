@@ -12,7 +12,7 @@
                 console.log("Response Error 401", rejection);
                 $rootScope.$broadcast('userChanged');
                 var searchPath = $location.path();
-                $location.path('/signin').search('returnUrl', searchPath);
+                $location.path('/signin');
             } else if (rejection.status === 404 && !isNaN(rejection.statusText)) {
                 console.log("Response Error 404", rejection);
                 $location.path('/Error/' + rejection.statusText + '/').search('');

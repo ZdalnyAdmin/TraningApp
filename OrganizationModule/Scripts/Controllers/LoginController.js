@@ -1,8 +1,7 @@
 ﻿var LoginController = function ($scope, $routeParams, $location, UserFactory, $rootScope) {
     $scope.loginForm = {
         emailAddress: '',
-        password: '',
-        returnUrl: $routeParams.returnUrl
+        password: ''
     };
 
     $scope.errorMessage = '';
@@ -18,14 +17,7 @@
                        .removeClass('col-md-12')
                        .addClass('col-md-8 col-lg-9');
 
-                if ($scope.loginForm.returnUrl !== undefined) {
-                    var search = $location.search();
-                    delete search.returnUrl;
-
-                    $location.path($scope.loginForm.returnUrl).search(search);
-                } else {
-                    $location.path('/').search('');
-                }
+                 $location.path('/').search('');
             } else {
                 $scope.errorMessage = result.Errors.join();
                 $scope.processing = false;
