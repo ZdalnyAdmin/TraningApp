@@ -29,7 +29,7 @@ namespace OrganizationModule.Controllers.Api
 
 
 
-            var logs = db.Logs.Where(x=>!x.IsSystem).ToList();
+            var logs = db.Logs.Where(x=>!x.IsSystem && x.OrganizationID == protecter.OrganizationID).OrderByDescending(p=>p.ModifiedDate).ToList();
 
 
 

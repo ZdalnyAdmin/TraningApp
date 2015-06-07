@@ -2,6 +2,7 @@
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using System;
+using System.Linq;
 
 namespace AppEngine.Services
 {
@@ -18,6 +19,7 @@ namespace AppEngine.Services
             else
             {
                 log.OperationType = operationType;
+
             }
             var currentDate = DateTime.Now;
             log.ModifiedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, 0);
@@ -39,6 +41,23 @@ namespace AppEngine.Services
             {
                 var log = InitLogs(false, type, 0, modifiedUserID);
                 log.PersonID = userID;
+
+
+                var user = db.Users.FirstOrDefault(x => x.Id == modifiedUserID);
+
+                if (user.Profile == ProfileEnum.Protector)
+                {
+                    var organization = db.Organizations.FirstOrDefault(x => x.ProtectorID == user.Id);
+                    if (organization != null)
+                    {
+                        log.OrganizationID = organization.OrganizationID;
+                    }
+                }
+                else
+                {
+                    log.OrganizationID = user.OrganizationID.HasValue ? user.OrganizationID.Value : 0;
+                }
+
 
                 bool canSave = false;
                 switch (type)
@@ -81,6 +100,21 @@ namespace AppEngine.Services
         {
             var log = InitLogs(false, type, 0, modifiedUserID);
             log.TrainingID = trainingID;
+
+            var user = db.Users.FirstOrDefault(x => x.Id == modifiedUserID);
+
+            if (user.Profile == ProfileEnum.Protector)
+            {
+                var organization = db.Organizations.FirstOrDefault(x => x.ProtectorID == user.Id);
+                if (organization != null)
+                {
+                    log.OrganizationID = organization.OrganizationID;
+                }
+            }
+            else
+            {
+                log.OrganizationID = user.OrganizationID.HasValue ? user.OrganizationID.Value : 0;
+            }
 
             bool canSave = false;
             switch (type)

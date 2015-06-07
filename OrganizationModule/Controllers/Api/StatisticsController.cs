@@ -40,9 +40,16 @@ namespace OrganizationModule.Controllers.Api
             stats.BlockedPeople = users.Count(x => x.Status == StatusEnum.Deleted  && !x.IsDeleted);
             stats.DeleteAccount = users.Count(x => x.IsDeleted );
 
-            stats.StartedTrainings = db.TrainingResults.Count(x => x.StartDate.HasValue);
-            stats.CompletedTrainings = db.TrainingResults.Count(x => x.EndDate.HasValue);
+            var trainings = (from t in db.TrainingsInOrganizations
+                            where t.OrganizationID == currentOrganization.OrganizationID
+                            select t.TrainingID).ToList();
 
+            if (trainings != null && trainings.Any())
+            {
+
+                stats.StartedTrainings = db.TrainingResults.Count(x => x.StartDate.HasValue && trainings.Contains(x.TrainingID));
+                stats.CompletedTrainings = db.TrainingResults.Count(x => x.EndDate.HasValue && trainings.Contains(x.TrainingID));
+            }
             var currentDate = DateTime.Now.Date;
             var endDate = DateTime.Now.Date.AddDays(7);
 

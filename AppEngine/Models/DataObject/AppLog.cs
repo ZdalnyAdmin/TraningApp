@@ -43,6 +43,7 @@ namespace AppEngine.Models
         [NotMapped]
         public Person Person { get; set; }
         public string OrganizationName { get; set; }
+        public int OrganizationID { get; set; }
     }
 
 

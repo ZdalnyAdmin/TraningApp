@@ -32,6 +32,7 @@ namespace SystemModule.Controllers.Api
 
                         statistics = (from t in db.Trainings
                                       where !t.IsDeleted
+                                      orderby t.ModifiedDate descending
                                       select new Statistic
                                       {
                                           Name = t.Name,
