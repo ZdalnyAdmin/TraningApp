@@ -120,7 +120,7 @@ namespace AppEngine.Models.Common
                 return result;
             }
 
-            MailMessage mail = new MailMessage(new MailAddress(Helpers.Helpers.GetMailFrom(MailAccount.ADMIN), "(do not reply)"),
+            MailMessage mail = new MailMessage(new MailAddress(Helpers.Helpers.GetMailFrom(MailAccount.ADMIN), "Kenpro"),
                                    new MailAddress(newEmail))
             {
                 Subject = "Zmiana Adresu Email",

@@ -112,7 +112,7 @@ namespace SystemModule.Controllers.Api
                             }
                         }
 
-                        MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "(do not reply)"),
+                        MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "Kenpro"),
                         new MailAddress("admin@kenis.pl"))
                         {
                             Subject = "Utworzenie organizacji",

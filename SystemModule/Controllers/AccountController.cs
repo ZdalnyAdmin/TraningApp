@@ -327,7 +327,7 @@ namespace SystemModule.Controllers
 
                 var code = Url.Encode(organization.GenerateToken("DELETE"));
 
-                MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "(do not reply)"),
+                MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "Kenpro"),
                                    new MailAddress("usun@kenpro.pl"))
                 {
                     Subject = "USUNIECIE ORGANIZACJI POTWIERDZENIE",
@@ -431,7 +431,7 @@ namespace SystemModule.Controllers
 
                 var code = Url.Encode(organization.GenerateToken("CHANGE"));
 
-                MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "(do not reply)"),
+                MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "Kenpro"),
                                    new MailAddress("zmiana@kenpro.pl"))
                                                     {
                                                         Subject = "POTWIERDZENIE ZMIANY NAZWY ORGANIZACJI",
