@@ -31,12 +31,12 @@
             <div class="logo">
                 <img src="~/Content/Images/logo.png" />
             </div>
-            <div class="current-user" ng-if="currentUser">
+            <div class="current-user" ng-cloak ng-show="currentUser">
                 <ul class="nav nav-tabs">
                     <li role="presentation" class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
                             <img src="~/Content/Images/user-icon.png" />
-                            <span>{{currentUser.UserName}}</span> <img src="~/Content/Images/show-right-menu.png" />
+                            <span>{{currentUser.DisplayName}}</span> <img src="~/Content/Images/show-right-menu.png" />
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li>

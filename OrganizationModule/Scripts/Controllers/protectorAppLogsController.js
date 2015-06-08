@@ -46,6 +46,7 @@
 
         if (!obj) {
             $scope.Logs = $scope.DbLogs
+            UtilitiesFactory.hideSpinner();
             return;
         }
 

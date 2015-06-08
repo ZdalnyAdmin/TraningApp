@@ -21,7 +21,7 @@ namespace AppEngine
             try
             {
                 var account = getAccount(message.Subject);
-                MailMessage mail = new MailMessage(new MailAddress(Helpers.Helpers.GetMailFrom(account), "(do not reply)"),
+                MailMessage mail = new MailMessage(new MailAddress(Helpers.Helpers.GetMailFrom(account), "Kenpro"),
                 new MailAddress(message.Destination))
                 {
                     Subject = message.Subject,
@@ -89,7 +89,7 @@ namespace AppEngine
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 8,
-                RequireNonLetterOrDigit = true,
+                RequireNonLetterOrDigit = false,
                 RequireDigit = true,
                 RequireLowercase = true,
                 RequireUppercase = true,

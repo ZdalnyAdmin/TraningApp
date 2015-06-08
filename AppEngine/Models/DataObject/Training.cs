@@ -18,7 +18,6 @@ namespace AppEngine.Models.Common
         public string Name { get; set; }
         [MinLength(5)]
         [MaxLength(1500)]
-        [Required]
         public string Description { get; set; }
         public bool IsActive { get; set; }
         public TrainingType TrainingType { get; set; }
@@ -47,7 +46,6 @@ namespace AppEngine.Models.Common
         //tekst jak zaliczone szkolenie
         [MinLength(5)]
         [MaxLength(500)]
-        [Required]
         public string PassInfo { get; set; }
         //odznaka - sciezka do pliku
         public string PassResources { get; set; }

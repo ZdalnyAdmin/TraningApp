@@ -1,5 +1,15 @@
-﻿function loggedUserController($rootScope, $scope, $http, $modal, $window, UtilitiesFactory, $location)
+﻿function loggedUserController($rootScope, $scope, $http, $modal, $window, UtilitiesFactory, $location, UserFactory)
 {
+    var result = UserFactory.getLoggedUser();
+
+    result.then(function (user) {
+        if (user && user.Id) {
+            $scope.user = user;
+        } else {
+            $scope.user = undefined;
+        }
+    });
+
     $scope.deleteUser = function () {
         var modalInstance = $modal.open({
             templateUrl: '/Templates/Modals/deleteUserModal.html',
@@ -40,9 +50,13 @@
                  } else {
                      $scope.changeEmailModel.Errors = 'Email został wysłany';
                  }
+
+                 $scope.changeEmailModel.Email = '';
+                 angular.element('.email.cancel-button').click();
              })
              .error(function () {
                  $scope.changeEmailModel.Errors = 'Wystąpił nieoczekiwany błąd';
+                 angular.element('.email.cancel-button').click();
                  UtilitiesFactory.hideSpinner();
              });
     };
@@ -59,10 +73,18 @@
 
                  if (!data.Succeeded) {
                      $scope.changePasswordModel.Errors = data.Errors.join();
+                 } else {
+                     $scope.changeEmailModel.Errors = 'Email z potwierdzeniam zmiany hasła został wysłany';
                  }
+
+                 $scope.changePasswordModel.UserName = '';
+                 $scope.changePasswordModel.Password = '';
+                 $scope.changePasswordModel.ConfirmPassword = '';
+                 angular.element('.password.cancel-button').click();
              })
              .error(function () {
                  $scope.changePasswordModel.Errors = 'Wystąpił nieoczekiwany błąd';
+                 angular.element('.password.cancel-button').click();
                  UtilitiesFactory.hideSpinner();
              });
     };
@@ -81,14 +103,29 @@
                      $scope.changeNameModel.Errors = data.Errors.join();
                  } else {
                      $scope.changeNameModel.Errors = 'Nazwa wyświetlania została zmieniona';
-                     $rootScope.$broadcast('userChanged');
+                     UserFactory.clearUser();
+                     var result = UserFactory.getLoggedUser();
+
+                     result.then(function (user) {
+                         if (user && user.Id) {
+                             $scope.user = user;
+                         } else {
+                             $scope.user = undefined;
+                         }
+
+                         $scope.changeNameModel.UserName = '';
+                         $rootScope.$broadcast('userChanged', { preventReloadMenu: true });
+
+                         angular.element('.user-name.cancel-button').click();
+                     });
                  }
              })
              .error(function () {
                  $scope.changeNameModel.Errors = 'Wystąpił nieoczekiwany błąd';
+                 angular.element('.user-name.cancel-button').click();
                  UtilitiesFactory.hideSpinner();
              });
     };
 }
 
-loggedUserController.$inject = ['$rootScope','$scope', '$http', '$modal', '$window', 'UtilitiesFactory', '$location'];
+loggedUserController.$inject = ['$rootScope','$scope', '$http', '$modal', '$window', 'UtilitiesFactory', '$location', 'UserFactory'];

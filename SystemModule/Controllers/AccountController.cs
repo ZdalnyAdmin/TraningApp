@@ -327,7 +327,7 @@ namespace SystemModule.Controllers
 
                 var code = Url.Encode(organization.GenerateToken("DELETE"));
 
-                MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "(do not reply)"),
+                MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "Kenpro"),
                                    new MailAddress("usun@kenpro.pl"))
                 {
                     Subject = "USUNIECIE ORGANIZACJI POTWIERDZENIE",
@@ -431,7 +431,7 @@ namespace SystemModule.Controllers
 
                 var code = Url.Encode(organization.GenerateToken("CHANGE"));
 
-                MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "(do not reply)"),
+                MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.EVENT), "Kenpro"),
                                    new MailAddress("zmiana@kenpro.pl"))
                                                     {
                                                         Subject = "POTWIERDZENIE ZMIANY NAZWY ORGANIZACJI",
@@ -470,9 +470,10 @@ namespace SystemModule.Controllers
             if (ModelState.IsValid)
             {
                 var userByUserName = await UserManager.FindByNameAsync(model.UserName);
-                var userByMail = await UserManager.FindByEmailAsync(model.Email);
+                var usersByMail = _db.Users.Where(x => x.Email.Equals(model.Email)).ToList();
+                var userByMail = usersByMail.FirstOrDefault(x => x.UserName.Equals(userByUserName.UserName));
 
-                if (userByMail == null || !userByMail.Equals(userByUserName))
+                if (userByMail == null)
                 {
                     return Json(new
                     {

@@ -33,7 +33,10 @@
                                 @if (trainingResult.PossibleRate != 0)
                                 {
                                     <span>@(trainingResult.Rating * 100 / trainingResult.PossibleRate)</span>
-                                }%
+                                } else {
+                                    <span>100.00</span>
+                                }
+                                %
                             </div>
                         </div>
                         <div class="col-sm-6 skills">

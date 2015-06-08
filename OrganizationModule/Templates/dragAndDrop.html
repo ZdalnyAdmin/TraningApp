@@ -25,7 +25,7 @@
                 <div class='statusBar'><div></div></div>
             </div>
             <div class="col-lg-4">
-                <img ng-show="!fileSrc" src="{{ '../Assets/Image/drag-drop-image.png' }}" class="empty-image" />
+                <img ng-show="!fileSrc && !model.ExternalResource" src="{{ '../Assets/Image/drag-drop-image.png' }}" class="empty-image" />
                 <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/drag-drop-image.png' }}" class="filled-image" />
                 <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}">
                     Ładuję plik wideo.

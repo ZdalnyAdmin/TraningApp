@@ -30,6 +30,7 @@
 
             $scope.upload = function () {
                 $scope.$apply(function (scope) {
+                    $scope.model.isEdit = true;
                     $scope.errorMessage = '';
                     var file = $element[0].getElementsByClassName('upload-file')[0].files[0];
 

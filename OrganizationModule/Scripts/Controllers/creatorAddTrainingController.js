@@ -11,6 +11,13 @@
         $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            angular.forEach($scope.viewModel.Groups, function (val) {
+                if (val.Name == "Wszyscy") {
+                    val.selected = true;
+                }
+            });
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -319,6 +326,12 @@
         $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            angular.forEach($scope.viewModel.Groups, function (val) {
+                if (val.Name == "Wszyscy") {
+                    val.selected = true;
+                }
+            });
             UtilitiesFactory.hideSpinner();
         })
         .error(function (data) {

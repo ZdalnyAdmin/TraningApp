@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 ﻿<div class="col-md-12">
-    <div ng-switch="options">
-=======
-﻿<div>
-    <div class="col-md-12">
         <div ng-show="!!errorMessage">{{ errorMessage }}</div>
-        <div ng-switch="options">
->>>>>>> 8035ed2909dd494eb24ed20b34c2bee14707c637
+    <div ng-switch="options">
         <div ng-switch-when="IMAGE">
             <h4>DODAJ GRAFIKĘ</h4>
             <h4>Wczytaj obraz z dysku, klikajac przycisk i wybierajac plik LUB przeciagajac go i upuszczajac w polu obok.</h4>
@@ -31,8 +25,13 @@
                 <div class='statusBar'><div></div></div>
             </div>
             <div class="col-lg-4">
+<<<<<<< HEAD
                 <img ng-show="!fileSrc" src="{{ '../Assets/Image/drag-drop-image.png' }}" class="empty-image" />
                 <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/drag-drop-image.png' }}" class="filled-image" />
+=======
+                <img ng-show="!fileSrc && !model.ExternalResource" src="{{ '../Assets/Image/drag-drop-image.png' }}" class="empty-image" />
+                <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/drag-drop-image.png' }}" class="filled-image"/>
+>>>>>>> e7d490ee04cb3a5a03f182c5694343169fdddbce
                 <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}">
                     Ładuję plik wideo.
                 </div>

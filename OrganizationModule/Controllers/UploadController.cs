@@ -99,6 +99,11 @@ namespace OrganizationModule.Controllers
             string url = string.Empty;
             var loggedPerson = Person.GetLoggedPerson(User);
 
+            if (!Directory.Exists(Path.Combine(Server.MapPath("~" + basePath))))
+            {
+                Directory.CreateDirectory(Path.Combine(Server.MapPath("~" + basePath)));
+            }
+
             if (Request.Files.Count > 0)
             {
                 var file = Request.Files[0];

@@ -6,30 +6,31 @@
     <div class="row">
         Maksymalna ilosc aktywnych kursow dla uzytkownika
         <input type="text" name="viewModel.Setting.MaxActiveTrainings" ng-model="viewModel.Setting.MaxActiveTrainings" />
-        <div id="inputButto" ng-click="edit()">
-            EDYCJA
-        </div>
+
     </div>
     <div class="row">
         Przestrzen dyskowa (w GB)
         <input type="text" name="viewModel.Setting.SpaceDisk" ng-model="viewModel.Setting.SpaceDisk" />
-        <div id="inputButto" ng-click="edit()">
-            EDYCJA
-        </div>
+
     </div>
     <div class="row">
         Maksymalna liczba uzytkownikow w organizacji
         <input type="text" name="viewModel.Setting.MaxAssignedUser" ng-model="viewModel.Setting.MaxAssignedUser" />
-        <div id="inputButto" ng-click="edit()">
-            EDYCJA
-        </div>
+
     </div>
     <div class="row">
         Czy dostepne kursy globelne dla tej organizacji?
-        <input type="checkbox" ng-model="viewModel.Setting.IsGlobalAvailable" ng-change="edit()" /> Tak
+        <input type="checkbox" ng-model="viewModel.Setting.IsGlobalAvailable" /> Tak
     </div>
     <div class="row">
         Czy nowe kursy globalne dla firmy automatycznie dostepne dla wszystkich w organizacji
-        <input type="checkbox" ng-model="viewModel.Setting.IsTrainingAvailableForAll" ng-change="edit()" /> Tak
+        <input type="checkbox" ng-model="viewModel.Setting.IsTrainingAvailableForAll" /> Tak
     </div>
+
+    <div class="row">
+        <button ng-click="edit()">
+            Zapisz
+        </button>
+    </div>
+
 </div>

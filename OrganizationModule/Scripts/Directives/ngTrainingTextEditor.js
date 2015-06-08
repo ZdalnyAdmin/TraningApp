@@ -17,8 +17,8 @@
 
                 $scope.currentDetail.ResourceType = -1;
                 $scope.obj.push($scope.currentDetail);
-
-                $scope.currentDetail = {};
+                $scope.textValidation = false;
+                $scope.currentDetail.Text = undefined;
             };
 
             $scope.blur = function (e, editor) {
@@ -38,8 +38,8 @@
                 if ($scope.currentDetail.Text) {
                     $scope.currentDetail.isEdit = false;
                     $scope.currentDetail.ResourceType = 0;
-                    $scope.obj.push($scope.currentDetail);
-                    $scope.currentDetail = {};
+                    $scope.obj.push(angular.copy($scope.currentDetail));
+                    $scope.cancel();
                     return;
                 }
             };

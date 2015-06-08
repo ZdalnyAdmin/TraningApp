@@ -2,7 +2,6 @@
     $scope.loginForm = {
         emailAddress: '',
         password: '',
-        returnUrl: $routeParams.returnUrl,
         loginFailure: false
     };
 
@@ -19,15 +18,7 @@
                    .addClass('col-md-8 col-lg-9');
 
             if (result.success) {
-                if ($scope.loginForm.returnUrl !== undefined) {
-                    var search = $location.search();
-                    delete search.returnUrl;
-
-                    $location.path($scope.loginForm.returnUrl).search(search);
-                } else {
                     $location.path('/').search('');
-                }
-
             } else {
                 $scope.loginForm.loginFailure = true;
                 $scope.processing = false;
