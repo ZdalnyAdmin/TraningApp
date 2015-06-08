@@ -69,17 +69,13 @@
 
                 if ($scope.currentQuestion.Type === 0 || $scope.currentQuestion.Type === 1) {
                     angular.forEach($scope.currentQuestion.Answers, function (val) {
-                        if (!!val.Text && val.Text.length > 1) {
+                        if (!!val.Text && val.Text.length > 0) {
                             checkAnswerCount++;
                             if (!!val.Score && val.Score > 0 && val.Score < 100) {
                                 checkScore = true;
                             }
                         }
-
-                        if (!!val.Text && val.Text.length > 0 && val.Text.length < 2) {
-                            isValid = false;
-                        }
-
+                        
                         if (!!val.Score && val.Score < 0 || val.Score > 100) {
                             isValid = false;
                         }
