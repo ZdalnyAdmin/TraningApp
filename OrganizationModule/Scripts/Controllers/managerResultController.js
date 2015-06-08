@@ -46,18 +46,16 @@
         });
     }
 
-    $scope.loadResults();
+
     $scope.loadTrainings();
     $scope.loadPeople();
+    $scope.loadResults();
 
-
-    $scope.changeTraning = function(obj)
-    {
+    $scope.changeTraning = function (obj) {
         UtilitiesFactory.showSpinner();
         $scope.Results = [];
 
-        if (!obj)
-        {
+        if (!obj) {
             $scope.Results = $scope.DbResult;
             UtilitiesFactory.hideSpinner();
             return;
@@ -71,8 +69,7 @@
         UtilitiesFactory.hideSpinner();
     }
 
-    $scope.changePerson = function (obj)
-    {
+    $scope.changePerson = function (obj) {
         UtilitiesFactory.showSpinner();
         $scope.Results = [];
 

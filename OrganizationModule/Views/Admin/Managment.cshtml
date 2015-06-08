@@ -4,13 +4,13 @@
 <strong class="error">{{ viewModel.Success }}</strong>
 
 <div>
-    <div class="row" ng-click="showTab(1)">
+    <button class="row" ng-click="showTab(1)">
         WEWNETRZNE
-    </div>
+    </button>
 
-    <div class="row" ng-click="showTab(2)" ng-show="viewModel.ShowExternal">
+    <button class="row" ng-click="showTab(2)" ng-show="viewModel.ShowExternal">
         OD KENPRO
-    </div>
+    </button>
 
     <div ng-repeat="item in viewModel.InternalTrainings" ng-show="index  == 1">
         <div class="row">
@@ -18,7 +18,7 @@
                 {{ item.Name }}
             </div>
             <div id="mainText">
-                {{ item.CreateUserName }}
+                {{ item.UserName }}
             </div>
             <div id="mainText">
                 <div ng-repeat="group in item.AssignedGroups">
@@ -30,16 +30,16 @@
                 <div id="mainText" ng-hide="{{ item.IsActive }}">
                     zablokowany
                 </div>
-                <butto id="inputButto" ng-click="showLogs(item)" ng-hide="item.showLog">
+                <butto ng-click="showLogs(item)" ng-hide="item.showLog">
                     POKAZ LOGI EDYCJI
                 </butto>
-                <butto id="inputButto" ng-click="hideLogs(item)" ng-show="item.showLog">
+                <butto  ng-click="hideLogs(item)" ng-show="item.showLog">
                     UKRYJ LOGI EDYCJI
                 </butto>
-                <button id="inputButto" ng-click="changeStatus(item)" ng-show="{{ item.IsActive }}">
+                <button  ng-click="changeStatus(item)" ng-show="{{ item.IsActive }}">
                     ZABLOKUJ
                 </button>
-                <button id="inputButto" ng-click="changeStatus(item)" ng-hide="{{ item.IsActive }}">
+                <button ng-click="changeStatus(item)" ng-hide="{{ item.IsActive }}">
                     ODBLOKUJ
                 </button>
             </div>
