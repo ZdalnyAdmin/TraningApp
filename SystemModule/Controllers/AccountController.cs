@@ -305,7 +305,7 @@ namespace SystemModule.Controllers
             {
                 await UserManager.SendEmailAsync(model.CreateUserID,
                     "UTWORZENIE ORGANIZACJI",
-                    "W dniu " + DateTime.Now.ToString("dd.MM.yyyy hh.mm") + " utworzyles nowa organizacje " + model.Name);
+                    "W dniu " + DateTime.Now.ToString("dd.MM.yyyy HH.mm") + " utworzyles nowa organizacje " + model.Name);
             }
             catch (Exception ex)
             {

@@ -103,7 +103,23 @@ namespace SystemModule.Controllers.Api
 
                         obj.People = db.Users.Where(x => x.Profile == ProfileEnum.Superuser && (x.Status == StatusEnum.Active || x.Status == StatusEnum.Blocked)).OrderByDescending(p => p.RegistrationDate).ToList();
 
-                        obj.Success =String.Empty;
+                        if (obj.People != null && obj.People.Any())
+                        {
+                            foreach (var person in obj.People)
+                            {
+                                var lastActivation = (from t in db.Logs
+                                                      where t.ModifiedUserID == person.Id
+                                                      orderby t.ModifiedDate descending
+                                                      select t).FirstOrDefault();
+                                if(lastActivation != null)
+                                {
+                                    person.LastActivationDate = lastActivation.ModifiedDate;
+                                }
+
+                            }
+                        }
+
+                        obj.Success = String.Empty;
                         break;
                     default:
                         break;

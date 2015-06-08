@@ -39,10 +39,10 @@
             {{ item.Training.Name}}
         </div>
         <div>
-           {{ item.StartDate | date: 'dd.MM.yyyy hh.mm' }}
+           {{ item.StartDate | date: 'dd.MM.yyyy HH.mm' }}
         </div>
         <div>
-            {{ item.EndDate | date: 'dd.MM.yyyy hh.mm' }}
+            {{ item.EndDate | date: 'dd.MM.yyyy HH.mm' }}
         </div>
         <div>
             <span ng-show="item.EndDate">{{ item.Rating }} / {{ item.PossibleRate }} - {{ (item.Rating * 100 / item.PossibleRate) | number : 0 }} %</span>

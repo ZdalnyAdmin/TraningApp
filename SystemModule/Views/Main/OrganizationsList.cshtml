@@ -6,10 +6,10 @@
 
     <div ng-repeat="item in viewModel.Organizations">
         <div>
-            {{ item.NewName}}
+            {{ item.Name}}
         </div>
         <div>
-            {{ item.CreateDate | date: 'dd.MM.yyyy hh.mm' }}
+            {{ item.CreateDate | date: 'dd.MM.yyyy HH.mm' }}
         </div>
         <div>
             {{ item.selectedStatus}}
@@ -40,7 +40,7 @@
                     Zaproszenie oczekujaca : {{viewModel.Detail.InvationUser }}
                 </div>
                 <div>
-                    Opiekun : {{ viewModel.Detail.Protector.Email}}
+                    Opiekun : {{ viewModel.Detail.Email}}
                 </div>
                 <div>
                     Wykorzystana przestrzen dyskowa : {{ viewModel.Detail.UsedSpaceDisk}}
@@ -87,7 +87,7 @@
                 </div>
                 <div>
                     Data usunięcia
-                    {{ item.DeletedDate | date: 'dd.MM.yyyy hh.mm' }}
+                    {{ item.DeletedDate | date: 'dd.MM.yyyy HH.mm' }}
                 </div>
                 <div>
                     Powód usunięcia :

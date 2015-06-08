@@ -14,7 +14,7 @@ namespace AppEngine.Models.DataObject
         public int TrainingDetailID { get; set; }
         public int TrainingID { get; set; }
         public TrainingResource ResourceType { get; set; }
-        [MaxLength(-1)]
+        //[MaxLength(100)]
         public string Text { get; set; }
         public string ExternalResource { get; set; }
         public string InternalResource { get; set; }

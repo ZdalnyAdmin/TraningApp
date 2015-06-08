@@ -25,9 +25,30 @@
             return;
         }
 
+        if ($scope.viewModel.Protector.UserName.length < 3 || $scope.viewModel.Protector.UserName.length > 30)
+        {
+            $scope.viewModel.ErrorMessage = "Nazwa opiekuna musi zawierac miedzy 3 a 30 znakow";
+            return;
+        }
+
+        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        if (!re.test($scope.viewModel.Protector.Email))
+        {
+            $scope.viewModel.ErrorMessage = "Bledny format adresu email";
+            return;
+        }
+
+        if (!$scope.viewModel.Protector.OrganizationID || $scope.viewModel.Protector.OrganizationID == 0)
+        {
+            $scope.viewModel.ErrorMessage = "Nalezy wybrac organizacje";
+            return;
+        }
+
+
+
         UtilitiesFactory.showSpinner();
 
-        $scope.viewModel.errorMessage = '';
+        $scope.viewModel.ErrorMessage = '';
         $scope.viewModel.Success = '';
         var result = UserFactory.registerOperator($scope.viewModel.Protector);
 

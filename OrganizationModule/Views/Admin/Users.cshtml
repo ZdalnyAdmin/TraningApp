@@ -33,10 +33,10 @@
                 @*<option value="">{{ person.Status.Name }}</option>*@
             </select>
             <div id="detailText">
-                {{ person.RegistrationDate | date: 'dd.MM.yyyy hh.mm' }}
+                {{ person.RegistrationDate | date: 'dd.MM.yyyy HH.mm' }}
             </div>
             <div id="detailText">
-                {{ person.LastActivationDate | date: 'dd.MM.yyyy hh.mm' }}
+                {{ person.LastActivationDate | date: 'dd.MM.yyyy HH.mm' }}
             </div>
             <div id="detailText">
                 {{ person.Profile }}
@@ -70,13 +70,13 @@
                         {{ item.Id }}
                     </div>
                     <div id="detailText">
-                        {{ item.StartDate | date: 'dd.MM.yyyy hh.mm' }}
+                        {{ item.StartDate | date: 'dd.MM.yyyy HH.mm' }}
                     </div>
                     <div id="detailText" ng-hide="{{item.IsCompleted}}">
                         W trakcie
                     </div>
                     <div id="detailText">
-                        {{ item.EndDate | date: 'dd.MM.yyyy hh.mm'}}
+                        {{ item.EndDate | date: 'dd.MM.yyyy HH.mm'}}
                     </div>
                     <div ng-show="{{item.IsCompleted}}">
                         {{item.Result}}
@@ -106,10 +106,10 @@
             </div>
             <div class="row">
                 <div id="detailText">
-                    {{ person.RegistrationDate | date: 'dd.MM.yyyy hh.mm' }}
+                    {{ person.RegistrationDate | date: 'dd.MM.yyyy HH.mm' }}
                 </div>
                 <div id="detailText">
-                    {{ person.DeletedDate | date: 'dd.MM.yyyy hh.mm' }}
+                    {{ person.DeletedDate | date: 'dd.MM.yyyy HH.mm' }}
                 </div>
                 <div id="detailText">
                     {{ person.DeletedUserID }}
