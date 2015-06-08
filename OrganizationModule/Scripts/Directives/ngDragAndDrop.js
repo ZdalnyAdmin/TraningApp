@@ -422,7 +422,7 @@
             }
 
             function checkExtension(file) {
-                var availableMovieExtension = ['MP4', 'WEBM'];
+                var availableMovieExtension = ['MP4', 'WEBM', 'AVI', 'WMV'];
                 var availableImageExtension = ['JPG', 'JPEG', 'PNG', 'GIF', 'BMP'];
                 var fileNameParts = file.name.split('.');
                 var extension = fileNameParts[fileNameParts.length - 1];
