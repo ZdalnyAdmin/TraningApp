@@ -35,7 +35,7 @@ namespace AppEngine.Services
         /// <param name="db"></param>
         /// <param name="user"></param>
         /// <param name="modifiedUser"></param>
-        public static void InsertUserLogs(OperationLog type, EFContext db, string userID, string modifiedUserID)
+        public static void InsertUserLogs(OperationLog type, EFContext db, string userID, string modifiedUserID, int organizationID)
         {
             try
             {
@@ -45,18 +45,8 @@ namespace AppEngine.Services
 
                 var user = db.Users.FirstOrDefault(x => x.Id == modifiedUserID);
 
-                if (user.Profile == ProfileEnum.Protector)
-                {
-                    var organization = db.Organizations.FirstOrDefault(x => x.ProtectorID == user.Id);
-                    if (organization != null)
-                    {
-                        log.OrganizationID = organization.OrganizationID;
-                    }
-                }
-                else
-                {
-                    log.OrganizationID = user.OrganizationID.HasValue ? user.OrganizationID.Value : 0;
-                }
+
+                log.OrganizationID = organizationID;
 
 
                 bool canSave = false;
@@ -96,25 +86,14 @@ namespace AppEngine.Services
         /// <param name="db"></param>
         /// <param name="training"></param>
         /// <param name="modifiedUser"></param>
-        public static void InsertTrainingLogs(OperationLog type, EFContext db, int trainingID, string modifiedUserID)
+        public static void InsertTrainingLogs(OperationLog type, EFContext db, int trainingID, string modifiedUserID, int organizationID)
         {
             var log = InitLogs(false, type, 0, modifiedUserID);
             log.TrainingID = trainingID;
 
             var user = db.Users.FirstOrDefault(x => x.Id == modifiedUserID);
 
-            if (user.Profile == ProfileEnum.Protector)
-            {
-                var organization = db.Organizations.FirstOrDefault(x => x.ProtectorID == user.Id);
-                if (organization != null)
-                {
-                    log.OrganizationID = organization.OrganizationID;
-                }
-            }
-            else
-            {
-                log.OrganizationID = user.OrganizationID.HasValue ? user.OrganizationID.Value : 0;
-            }
+            log.OrganizationID = organizationID;
 
             bool canSave = false;
             switch (type)

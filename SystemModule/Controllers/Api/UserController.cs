@@ -97,7 +97,7 @@ namespace SystemModule.Controllers.Api
                         editable.UserName = obj.Current.UserName;
                         editable.Email = obj.Current.Email;
 
-                        LogService.InsertUserLogs(OperationLog.UserEdit, db, user.Id, user.ModifiedUserID);
+                        //LogService.InsertUserLogs(OperationLog.UserEdit, db, user.Id, user.ModifiedUserID, 0);
 
                         obj.Current = null;
 

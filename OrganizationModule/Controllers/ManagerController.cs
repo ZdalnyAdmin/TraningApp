@@ -196,7 +196,7 @@ namespace OrganizationModule.Controllers
                     }
                     else
                     {
-                        LogService.InsertUserLogs(OperationLog.UserInvitation, _db, user.Id, user.InviterID);
+                        LogService.InsertUserLogs(OperationLog.UserInvitation, _db, user.Id, user.InviterID, currentUser.OrganizationID.HasValue ? currentUser.OrganizationID.Value : 0);
 
                         var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                         await UserManager.SendEmailAsync(user.Id,
@@ -248,7 +248,7 @@ namespace OrganizationModule.Controllers
                     return Json(new Result() { Succeeded = result.Succeeded, Errors = new List<string>(result.Errors) });
                 }
 
-                LogService.InsertUserLogs(OperationLog.InvitationRemove, _db, user.Id, user.ModifiedUserID);
+                LogService.InsertUserLogs(OperationLog.InvitationRemove, _db, user.Id, user.ModifiedUserID, currentPerson.OrganizationID.HasValue ? currentPerson.OrganizationID.Value : 0);
 
                 result = await UserManager.UpdateAsync(user);
 
