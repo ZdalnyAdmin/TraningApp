@@ -253,7 +253,7 @@ namespace SystemModule.Controllers
                         return this.Json(rslt);
                     }
 
-                    LogService.InsertUserLogs(OperationLog.UserRegistration, _db, user.Id, user.Id);
+                    LogService.ProtectorLogs(SystemLog.ProtectorCreate, _db, user.Id, user.Id);
 
                     await UserManager.UpdateSecurityStampAsync(user.Id);
                     await UserManager.SendEmailAsync(user.Id,

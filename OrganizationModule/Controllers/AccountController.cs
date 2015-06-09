@@ -164,7 +164,7 @@ namespace OrganizationModule.Controllers
                         return this.Json(rslt);
                     }
 
-                    LogService.InsertUserLogs(OperationLog.UserRegistration, _db, user.Id, user.Id);
+                    LogService.InsertUserLogs(OperationLog.UserRegistration, _db, user.Id, user.Id, user.OrganizationID.HasValue ? user.OrganizationID.Value : 0);
 
                     await UserManager.UpdateSecurityStampAsync(user.Id);
                     await UserManager.SendEmailAsync(user.Id,

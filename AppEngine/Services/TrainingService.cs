@@ -256,11 +256,11 @@ namespace AppEngine.Services
                             {
                                 foreach (var item in model.Current.Groups)
                                 {
-                                    var grp = new ProfileGroup2Trainings();
-                                    grp.IsDeleted = false;
-                                    grp.ProfileGroupID = item.ProfileGroupID;
-                                    grp.TrainingID = model.Current.TrainingID;
-                                    context.TrainingInGroups.Remove(grp);
+                                    var grp = context.TrainingInGroups.FirstOrDefault(x => x.ProfileGroupID == item.ProfileGroupID && x.TrainingID == model.Current.TrainingID);
+                                    if(grp != null)
+                                    {
+                                        context.TrainingInGroups.Remove(grp);
+                                    }
                                 }
                             }
 
@@ -281,13 +281,11 @@ namespace AppEngine.Services
                         {
                             foreach (var item in model.Current.Organizations)
                             {
-                                var trainingInOrganization = new Trainings2Organizations();
-                                trainingInOrganization.Organization = item;
-                                trainingInOrganization.OrganizationID = item.OrganizationID;
-                                trainingInOrganization.Training = model.Current;
-                                trainingInOrganization.TrainingID = model.Current.TrainingID;
-                                trainingInOrganization.IsDeleted = false;
-                                context.TrainingsInOrganizations.Remove(trainingInOrganization);
+                                var trainingInOrganization = context.TrainingsInOrganizations.FirstOrDefault(x => x.OrganizationID == item.OrganizationID && x.TrainingID == item.OrganizationID);
+                                if (trainingInOrganization != null)
+                                {
+                                    context.TrainingsInOrganizations.Remove(trainingInOrganization);
+                                }
                             }
 
 
@@ -323,7 +321,7 @@ namespace AppEngine.Services
 
                         if (isInternal)
                         {
-                            LogService.InsertTrainingLogs(OperationLog.TrainingEdit, context, model.Current.TrainingID, model.LoggedUser.Id);
+                            LogService.InsertTrainingLogs(OperationLog.TrainingEdit, context, model.Current.TrainingID, model.LoggedUser.Id, model.CurrentOrganization.OrganizationID);
                         }
 
                         model.Success = "Edycja szkolenia zakonczylo sie sukcesem!";
@@ -424,7 +422,7 @@ namespace AppEngine.Services
 
                         if (isInternal)
                         {
-                            LogService.InsertTrainingLogs(OperationLog.TrainingCreate, context, model.Current.TrainingID, model.LoggedUser.Id);
+                            LogService.InsertTrainingLogs(OperationLog.TrainingCreate, context, model.Current.TrainingID, model.LoggedUser.Id, model.CurrentOrganization.OrganizationID);
                             if (model.Current.Groups != null && model.Current.Groups.Any())
                             {
                                 foreach (var item in model.Current.Groups)

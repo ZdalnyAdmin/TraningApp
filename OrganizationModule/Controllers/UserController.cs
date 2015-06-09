@@ -93,7 +93,8 @@ namespace OrganizationModule.Controllers
                 var authManager = ctx.Authentication;
                 authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
-                LogService.InsertUserLogs(deletedPerson.DeleteUserID == deletedPerson.Id ? OperationLog.UserDeleteBySelf : OperationLog.UserDelete, _db, deletedPerson.Id, deletedPerson.DeleteUserID);
+                LogService.InsertUserLogs(deletedPerson.DeleteUserID == deletedPerson.Id ? OperationLog.UserDeleteBySelf : OperationLog.UserDelete, _db, deletedPerson.Id, deletedPerson.DeleteUserID, 
+                    organization != null ? organization.OrganizationID : 0);
 
                 if (deletedPerson.Id == user.Id)
                 {

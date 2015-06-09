@@ -103,7 +103,7 @@ namespace OrganizationModule.Controllers
                         obj.Current.DeleteUserID = obj.LoggedUser.Id;
                         obj.Current.DeletedDate = DateTime.Now;
                         db.Entry(obj.Current).State = EntityState.Modified;
-                        LogService.InsertUserLogs(OperationLog.UserDelete, db, obj.Current.Id, obj.Current.DeleteUserID);
+                        LogService.InsertUserLogs(OperationLog.UserDelete, db, obj.Current.Id, obj.Current.DeleteUserID, obj.CurrentOrganization.OrganizationID);
 
                         db.SaveChanges();
                         obj.Success = "Dane usuniete!";
@@ -113,7 +113,7 @@ namespace OrganizationModule.Controllers
 
                         obj.Current.ModifiedUserID = obj.LoggedUser.Id;
                         db.Entry(obj.Current).State = EntityState.Modified;
-                        LogService.InsertUserLogs(OperationLog.UserEdit, db, obj.Current.Id, obj.Current.ModifiedUserID);
+                        LogService.InsertUserLogs(OperationLog.UserEdit, db, obj.Current.Id, obj.Current.ModifiedUserID, obj.CurrentOrganization.OrganizationID);
 
                         db.SaveChanges();
                         obj.Success = "Dane zapisane!";

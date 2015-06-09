@@ -246,7 +246,7 @@ namespace OrganizationModule.Controllers.Api
 
                 db.SaveChanges();
 
-                LogService.InsertTrainingLogs(OperationLog.TrainingEdit, db, obj.Current.TrainingID, obj.LoggedUser.Id);
+                LogService.InsertTrainingLogs(OperationLog.TrainingEdit, db, obj.Current.TrainingID, obj.LoggedUser.Id, obj.CurrentOrganization != null ? obj.CurrentOrganization.OrganizationID : 0);
             }
             catch (DbUpdateConcurrencyException ex)
             {
