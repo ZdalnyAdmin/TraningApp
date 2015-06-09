@@ -110,7 +110,7 @@ namespace OrganizationModule.Controllers
 
                 if (file != null && file.ContentLength > 0)
                 {
-                    var fileName = loggedPerson.Id + "_" + Path.GetFileName(file.FileName);
+                    var fileName = loggedPerson.Id + "_" + Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
                     var path = Path.Combine(Server.MapPath("~"+ basePath), fileName);
                     url = basePath + fileName;
                     file.SaveAs(path);
