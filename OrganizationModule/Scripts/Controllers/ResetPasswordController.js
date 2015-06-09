@@ -12,7 +12,7 @@
 
         result.then(function (data) {
             if (data.Succeeded) {
-                $location.path('/').search('');
+                $scope.errorMessage = 'Wiadomość z linkiem aktywacyjnym została wysłana pod Twój adres e­mail.';
             } else {
                 if (data.Errors) {
                     $scope.errorMessage = '';
@@ -20,7 +20,7 @@
                         $scope.errorMessage += ' ' + val;
                     });
                 } else {
-                    $scope.errorMessage = 'Wystąpił nieoczekiwany błąd podczas resetowania hasła';
+                    $scope.errorMessage = 'Coś poszło nie tak... spróbuj ponownie później';
                 }
             }
         });
