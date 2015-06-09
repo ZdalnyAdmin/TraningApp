@@ -199,7 +199,7 @@ namespace SystemModule.Controllers
             return true;
         }
 
-        #endregion 
+        #endregion
 
         #region Register
         [HttpPost]
@@ -322,8 +322,12 @@ namespace SystemModule.Controllers
             try
             {
                 var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == model.OrganizationID);
+
+
                 organization.UpdateSecurityStamp();
                 _db.SaveChanges();
+
+                LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, _db, organization.Name, organization.DeletedUserID);
 
                 var code = Url.Encode(organization.GenerateToken("DELETE"));
 
@@ -333,10 +337,12 @@ namespace SystemModule.Controllers
                     Subject = "USUNIECIE ORGANIZACJI POTWIERDZENIE",
                     Body = "Nazwa : " + model.Name + " została zgłoszona do usunięcia."
                            + "<br/>Powód : " + model.DeletedReason
-                           + "<br/>Jeśli chcesz ją usunać wcisnij link" 
+                           + "<br/>Jeśli chcesz ją usunać wcisnij link"
                            + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/deleteOrganization?code=" + code + "&id=" + organization.OrganizationID + "\">LINK</a>",
                     IsBodyHtml = true
                 };
+
+
 
                 mail.BodyEncoding = UTF8Encoding.UTF8;
                 mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
@@ -368,9 +374,46 @@ namespace SystemModule.Controllers
                     organization.DeletedDate = DateTime.Now;
                     _db.SaveChanges();
 
-                    LogService.OrganizationLogs(SystemLog.OrganizationRequestToRemove, _db, organization.Name, organization.DeletedUserID);
+                    try
+                    {
+                        var loggedUser = Person.GetLoggedPerson(User);
 
-                } else {
+                        //get user in organization 
+
+                        var users = _db.Users.Where(x => x.OrganizationID == organization.OrganizationID).ToList();
+                        if (users != null)
+                        {
+                            foreach (var item in users)
+                            {
+                                item.DeletedDate = DateTime.Now;
+                                item.Status = StatusEnum.Deleted;
+                                item.DeleteUserID = loggedUser.Id;
+                                item.IsDeleted = true;
+                                _db.Entry<Person>(item).State = EntityState.Modified;
+                            }
+                        }
+                        
+                        //training
+                        var trainings = _db.TrainingsInOrganizations.Where(x => x.OrganizationID == organization.OrganizationID).ToList();
+                        if(trainings != null && trainings.Any())
+                        {
+                            _db.TrainingsInOrganizations.RemoveRange(trainings);
+                        }
+
+                        _db.SaveChanges();
+                    }
+                    catch
+                    {
+
+                    }
+
+                    //get trainings in organization
+
+                    LogService.OrganizationLogs(SystemLog.OrganizationDelete, _db, organization.Name, organization.DeletedUserID);
+
+                }
+                else
+                {
                     ViewBag.Token = false;
                 }
 
@@ -437,7 +480,7 @@ namespace SystemModule.Controllers
                                                         Subject = "POTWIERDZENIE ZMIANY NAZWY ORGANIZACJI",
                                                         Body = "Nazwa : " + model.Name + " została zmieniona na " + model.NewName
                                                                + " Jeśli zmiana ma być zapisana i aktywowana naciśnij link."
-                                                               + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/changeOrganizationName?code=" + code + "&id=" + organization.OrganizationID +"\">LINK</a>",
+                                                               + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/changeOrganizationName?code=" + code + "&id=" + organization.OrganizationID + "\">LINK</a>",
                                                         IsBodyHtml = true
                                                     };
 
@@ -490,7 +533,7 @@ namespace SystemModule.Controllers
             return getErrorsFromModel();
         }
 
-       [HttpPost]
+        [HttpPost]
         public async Task<ActionResult> ResetAdminPassword(Person model)
         {
             if (ModelState.IsValid)
@@ -512,13 +555,13 @@ namespace SystemModule.Controllers
                 var result = await userByUserName.ResetPasswordAsync(UserManager, Request);
 
 
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     await UserManager.SendEmailAsync(model.Id,
                         "ZADANIE RESETU HASŁA",
                         "Zostało wysłane zadanie zmiany hasła, aby kontynuować, klinknij link"
                         + "<br/><a href=\"" + Request.Url.Scheme + "://" + Request.Url.Authority + "/signin\">LINK</a>");
-               
+
                 }
 
                 return Json(result);
