@@ -8,6 +8,7 @@
 
     function reload() {
         $scope.menuUrl = '';
+        UserFactory.clearUser();
         $scope.currentUser = undefined;
         $scope.visible = false;
 
