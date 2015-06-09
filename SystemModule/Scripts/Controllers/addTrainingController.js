@@ -77,6 +77,13 @@
 
         img.src = window.URL.createObjectURL(file);
 
+        if (marks) {
+            $scope.markMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + ' x ' + maxHeight + ' px';
+        }
+        else {
+            $scope.imageMessage = 'Wczytana grafika musi mieć wymiary ' + maxWidth + ' x ' + maxHeight + ' px';
+        }
+
         img.onload = function () {
             var width = img.naturalWidth,
                 height = img.naturalHeight;
