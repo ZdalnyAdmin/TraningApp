@@ -228,7 +228,7 @@ namespace OrganizationModule.Controllers
                     return Json(new
                     {
                         Succeeded = false,
-                        Errors = new string[] { "Nie ma użytkownika o takim adresie email" }
+                        Errors = new string[] { "Niepoprawny login lub e­mail!" }
                     });
                 }
 
