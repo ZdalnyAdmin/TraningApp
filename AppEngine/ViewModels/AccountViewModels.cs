@@ -57,12 +57,12 @@ namespace AppEngine.Models.ViewModels.Account
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Podaj Login!")]
         [Display(Name = "Login")]
         [StringLength(12, ErrorMessage = "{0} musi mieć długość pomiędzy {2} - {1}.", MinimumLength = 8)]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Podaj Hasło!")]
         [StringLength(12, ErrorMessage = "{0} musi mieć długość pomiędzy {2} - {1}.", MinimumLength = 8)]
         [DataType(DataType.Password)]
         [Display(Name = "Hasło")]
@@ -70,7 +70,7 @@ namespace AppEngine.Models.ViewModels.Account
 
         [DataType(DataType.Password)]
         [Display(Name = "ConfirmPassword")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Hasła się nie zgadzają.")]
         public string ConfirmPassword { get; set; }
 
         public string Token { get; set; }
