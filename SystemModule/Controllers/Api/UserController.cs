@@ -85,7 +85,7 @@ namespace SystemModule.Controllers.Api
 
                         var editable = obj.People.FirstOrDefault(x => x.Id == obj.Current.Id);
                         var user = db.Users.FirstOrDefault(x => x.Id == obj.Current.Id);
-                        user.UserName = obj.Current.UserName;
+                        user.DisplayName = obj.Current.DisplayName;
                         user.Email = obj.Current.Email;
 
                         user.ModifiedUserID = Person.GetLoggedPerson(User).Id;

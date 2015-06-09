@@ -5,7 +5,7 @@
 
     <div ng-repeat="item in viewModel.People">
         <div>
-            {{ item.UserName}}
+            {{ item.DisplayName}}
         </div>
         <div>
             {{ item.Organization.Name}}
@@ -19,7 +19,7 @@
         <div ng-hide="item.showDetails">
             <div>
                 nazwa opiekuna :
-                <input type="text" ng-model="item.UserName" name="item.UserName">
+                <input type="text" ng-model="item.DisplayName" name="item.DisplayName">
             </div>
             <div>
                 Ostatnia aktywnosc : {{ item.LastActivationDate | date: 'dd.MM.yyyy HH.mm' }}
