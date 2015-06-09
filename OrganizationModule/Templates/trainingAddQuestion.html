@@ -25,7 +25,7 @@
                 <input type="number" id="mainInput" ng-model="answer.Score" maxlength="3" ng-blur="answerValidation = true">
             </div>
             <div ng-show="answerValidation">
-                <div ng-show="!!answer.Text && answer.Text.length < 1"> Odpowiedź musi zawierać miniumum 1 znaków!          </div>
+                <div ng-show="!!answer.Text && answer.Text.length < 1"> Odpowiedź musi zawierać miniumum 1 znak!          </div>
                 <div ng-show="!!answer.Text && answer.Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
                 <div ng-show="!!answer.Score && (answer.Score < 0 || answer.Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
             </div>
@@ -48,7 +48,7 @@
                 Punkty
                 <input type="number" id="mainInput" ng-model="answer.Score" maxlength="3" ng-blur="answerValidation = true">
                 <div ng-show="answerValidation">
-                    <div ng-show="!!answer.Text && answer.Text.length < 1"> Odpowiedź musi zawierać miniumum 10 znaków!          </div>
+                    <div ng-show="!!answer.Text && answer.Text.length < 1"> Odpowiedź musi zawierać miniumum 1 znak!          </div>
                     <div ng-show="!!answer.Text && answer.Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
                     <div ng-show="!!answer.Score && (answer.Score < 0 || answer.Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
                 </div>
@@ -69,7 +69,7 @@
             Punkty
             <input type="number" id="mainInput" ng-model="currentQuestion.Answers[0].Score" maxlength="3" ng-blur="answerValidation = true">
             <div ng-show="answerValidation">
-                <div ng-show="!!currentQuestion.Answers[0].Text && currentQuestion.Answers[0].Text.length < 1"> Odpowiedź musi zawierać miniumum 10 znaków!          </div>
+                <div ng-show="!!currentQuestion.Answers[0].Text && currentQuestion.Answers[0].Text.length < 1"> Odpowiedź musi zawierać miniumum 1 znak!          </div>
                 <div ng-show="!!currentQuestion.Answers[0].Text && currentQuestion.Answers[0].Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
                 <div ng-show="!!currentQuestion.Answers[0].Score && (currentQuestion.Answers[0].Score < 0 || currentQuestion.Answers[0].Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
             </div>

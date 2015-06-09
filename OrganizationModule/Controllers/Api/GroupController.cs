@@ -125,6 +125,7 @@ namespace OrganizationModule.Controllers
                         if (toRemove != null && toRemove.Any())
                         {
                             db.PeopleInGroups.RemoveRange(toRemove);
+                            db.SaveChanges();
                         }
 
                         if (obj.Current.AssignedPeople != null && obj.Current.AssignedPeople.Any())
@@ -137,9 +138,10 @@ namespace OrganizationModule.Controllers
                                 pg.ProfileGroupID = obj.Current.ProfileGroupID;
                                 db.PeopleInGroups.Add(pg);
                             }
+                            db.SaveChanges();
                         }
 
-                        db.Entry(obj.Current).State = EntityState.Modified;
+                        db.Entry(group).State = EntityState.Modified;
 
                         db.SaveChanges();
 
@@ -178,7 +180,6 @@ namespace OrganizationModule.Controllers
                             db.SaveChanges();
                         }
 
-                        obj.Groups.Add(obj.Current);
                         obj.Current = new ProfileGroup();
 
                         obj.Success = "Dane zapisane!";

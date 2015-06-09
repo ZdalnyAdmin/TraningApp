@@ -25,7 +25,7 @@
             <div id="mainText">
                 Czlonkowie grupy :
                 <div ng-repeat="user in viewModel.Current.AssignedPeople">
-                    {{user.Name}} ,
+                    {{user.DisplayName}} ,
                 </div>
                
             </div>
@@ -58,8 +58,8 @@
         <div class="row">
             <div id="mainText">
                 Czlonkowie grupy : 
-                <div ng-repeat="user in viewModel.Current.AssignedPeople">
-                    {{user.Name}} ,
+                <div ng-repeat="user in group.AssignedPeople">
+                    {{user.DisplayName}} ,
                 </div>
             </div>
             <button ng-show="group.isEditable" ng-click="chooseUsers(group)">

@@ -12,7 +12,7 @@
             $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         })
-        .error(function () {
+        .error(function (data) {
             $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
             $scope.loading = false;
             UtilitiesFactory.hideSpinner();

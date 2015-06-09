@@ -56,6 +56,7 @@
         }
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 2;
+        $scope.viewModel.Current = group;
         $http.post('/api/Group/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
             $scope.editableGroup = {};
@@ -65,7 +66,6 @@
             UtilitiesFactory.hideSpinner();
         });
 
-        $scope.assignedPeopleToGroup(group, false)
     };
 
     $scope.showEdit = function (group) {
@@ -93,6 +93,7 @@
         }
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 1;
+        $scope.viewModel.Current = group;
 
         $http.post('/api/Group/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
