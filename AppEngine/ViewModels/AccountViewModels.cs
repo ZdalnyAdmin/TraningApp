@@ -80,18 +80,18 @@ namespace AppEngine.Models.ViewModels.Account
 
     public class ResetPasswordViewModel
     {
-        [Display(Name = "Userame")]
+        [Display(Name = "Nazwa Użytkownika")]
         public string UserName { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} musi posiadać długość większą niż {2}.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Hasło")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Hasła się nie zgadzają.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -108,6 +108,7 @@ namespace AppEngine.Models.ViewModels.Account
     public class ChangeUserNameViewModel
     {
         [Display(Name = "Nazwa użytkownika")]
+        [StringLength(30, ErrorMessage = "{0} musi mieć długość pomiędzy {2} - {1}.", MinimumLength = 3)]
         [Required]
         public string UserName { get; set; }
     }

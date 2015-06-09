@@ -246,7 +246,14 @@ namespace OrganizationModule.Controllers
         {
             if (ModelState.IsValid)
             {
-                Result result = new Result();
+                Result result = new Result() {Errors = new List<string>()};
+
+                if (string.IsNullOrWhiteSpace(model.UserName))
+                {
+                    result.Succeeded = false;
+                    result.Errors.Add("Proszę podać Login!");
+                    return Json(result);
+                }
 
                 result = await Person.ChangePasswordAsync(UserManager, model);
                 return Json(result);
