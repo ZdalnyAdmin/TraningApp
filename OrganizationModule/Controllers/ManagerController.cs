@@ -138,6 +138,21 @@ namespace OrganizationModule.Controllers
                         return Json(jsonResult);
                     }
 
+                    //check count 
+                    var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == currentUser.OrganizationID);
+                    if(organization == null)
+                    {
+                        jsonResult.Errors.Add("Użytkowanik nie jest przypisany do organizacji");
+                        return Json(jsonResult);
+                    }
+
+                    var actualUsersNo = _db.Users.Count(x => x.OrganizationID == organization.OrganizationID);
+                    if (actualUsersNo >= organization.MaxAssignedUser)
+                    {
+                        jsonResult.Errors.Add("Maksymalna ilość użytkowników przypisanych do organizacji została przekroczona. Skontakuj się z administratorem.");
+                        return Json(jsonResult);
+                    }
+
                     var previousInvitedUsers = _db.Users.Where(x => x.Email.Equals(model.Email) && x.OrganizationID ==currentUser.OrganizationID).ToList();
                     if (previousInvitedUsers != null && 
                         previousInvitedUsers.Exists(x => x.Status != StatusEnum.Rejected && 
@@ -208,6 +223,7 @@ namespace OrganizationModule.Controllers
             if(ModelState.IsValid)
             {
                 var user = UserManager.FindById(model.Id);
+
                 if(user == null)
                 {
                     var errors = new List<string>();
@@ -216,7 +232,11 @@ namespace OrganizationModule.Controllers
                     return Json(new Result() { Succeeded = false, Errors = errors });
                 }
 
+
+                user.Organization = null;
+
                 var currentPerson = Person.GetLoggedPerson(User);
+                currentPerson.Organization = null;
 
                 user.Status = StatusEnum.Rejected;
                 user.ModifiedUserID = currentPerson.Id;

@@ -47,8 +47,16 @@ namespace SystemModule.Controllers.Api
                         break;
                     case PeopleActionType.DeleteProtector:
 
+                        //check if user is assigned to organization
                         var deleted = obj.People.FirstOrDefault(x => x.Id == obj.Current.Id);
                         var deletedUsr = db.Users.FirstOrDefault(x => x.Id == obj.Current.Id);
+
+
+                        if(deleted.OrganizationID.HasValue && deleted.OrganizationID.Value != 0)
+                        {
+                            obj.ErrorMessage = "Nie można usuną opiekuna przypisanego do organizacji. Proszę skontaktować się z administratorem.";
+                            return Request.CreateResponse(HttpStatusCode.Created, obj);
+                        }
 
                         deletedUsr.IsDeleted = true;
 

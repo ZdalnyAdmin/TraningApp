@@ -301,7 +301,7 @@ namespace OrganizationModule.Controllers
                     user.DeleteUserID = User.Identity.GetUserId();
                     UserManager.Update(user);
 
-                    user.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+                    //user.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
 
                     await user.DeleteUserAsync(UserManager, Request, user.DeleteUserID);
                 }
