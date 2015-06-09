@@ -1,6 +1,4 @@
-﻿using AppEngine.Helpers;
-using AppEngine.Models;
-using AppEngine.Models.Common;
+﻿using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Models.DTO;
@@ -9,7 +7,6 @@ using AppEngine.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,9 +24,11 @@ namespace OrganizationModule.Controllers
         {
             try
             {
-                if (obj.LoggedUser == null)
+                obj.LoggedUser = Person.GetLoggedPerson(User);
+                if (obj.LoggedUser.Status == StatusEnum.Deleted)
                 {
-                    obj.LoggedUser = Person.GetLoggedPerson(User);
+                    obj.ErrorMessage = "Uprawnienia uzytkownika wygasly!";
+                    return Request.CreateResponse(HttpStatusCode.Created, obj);
                 }
 
                 if (obj.CurrentOrganization == null)
@@ -74,15 +73,20 @@ namespace OrganizationModule.Controllers
                                                        Result = t.Rating
                                                    }).ToList();
 
-                            p.AssignedGroups = (from pg in db.PeopleInGroups
-                                                where pg.PersonID == p.Id
-                                                select pg).ToList();
+                            var assignedGroups = (from pg in db.PeopleInGroups
+                                                  where pg.PersonID == p.Id
+                                                  select pg).ToList();
 
-                            if (p.AssignedGroups != null)
+                            if (assignedGroups != null)
                             {
-                                foreach (var grp in p.AssignedGroups)
+                                p.AssignedGroups = new List<ProfileGroup2Person>();
+                                foreach (var grp in assignedGroups)
                                 {
-                                    grp.GroupName = groups.FirstOrDefault(x => x.ProfileGroupID == grp.ProfileGroupID).Name;
+                                    p.AssignedGroups.Add(new ProfileGroup2Person()
+                                    {
+                                        ProfileGroupID = grp.ProfileGroupID,
+                                        GroupName = groups.FirstOrDefault(x => x.ProfileGroupID == grp.ProfileGroupID).Name
+                                    });
                                 }
                             }
                         }
@@ -102,10 +106,22 @@ namespace OrganizationModule.Controllers
 
                         obj.Current.DeleteUserID = obj.LoggedUser.Id;
                         obj.Current.DeletedDate = DateTime.Now;
+                        obj.Current.Status = StatusEnum.Deleted;
+
                         db.Entry(obj.Current).State = EntityState.Modified;
                         LogService.InsertUserLogs(OperationLog.UserDelete, db, obj.Current.Id, obj.Current.DeleteUserID, obj.CurrentOrganization.OrganizationID);
 
                         db.SaveChanges();
+
+                        var current = obj.People.FirstOrDefault(x => x.Id == obj.Current.Id);
+                        if(current != null)
+                        {
+                            obj.People.Remove(current);
+                            obj.DeletedPeople.Add(obj.Current);
+                        }
+
+                        obj.Current = new Person();
+
                         obj.Success = "Dane usuniete!";
                         break;
                     case BaseActionType.Edit:
@@ -113,6 +129,7 @@ namespace OrganizationModule.Controllers
 
                         obj.Current.ModifiedUserID = obj.LoggedUser.Id;
                         db.Entry(obj.Current).State = EntityState.Modified;
+
                         LogService.InsertUserLogs(OperationLog.UserEdit, db, obj.Current.Id, obj.Current.ModifiedUserID, obj.CurrentOrganization.OrganizationID);
 
                         db.SaveChanges();

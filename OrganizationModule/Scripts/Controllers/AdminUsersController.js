@@ -10,6 +10,21 @@
         $scope.viewModel.ActionType = 0;
         $http.post('/api/Person/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+
+            angular.forEach($scope.viewModel.People, function (item) {
+                if (item.Profile == 1) {
+                    item.ProfileName = 'Administrator';
+                } else if (item.Profile == 2) {
+                    item.ProfileName = 'Manager';
+                } else if (item.Profile == 3) {
+                    item.ProfileName = 'Twórca';
+                } else if (item.Profile == 4) {
+                    item.ProfileName = 'Opiekun';
+                } else if (item.Profile == 5) {
+                    item.ProfileName = 'Uzytkownik';
+                }
+            });
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function (data) {
@@ -50,6 +65,19 @@
         person.Email = $scope.editablePerson.Email;
         person.Status = $scope.editablePerson.Status;
         person.selectedStatus = $scope.editablePerson.selectedStatus;
+
+        if (person.Profile == 1) {
+            person.ProfileName = 'Administrator';
+        } else if (person.Profile == 2) {
+            person.ProfileName = 'Manager';
+        } else if (person.Profile == 3) {
+            person.ProfileName = 'Twórca';
+        } else if (person.Profile == 4) {
+            person.ProfileName = 'Opiekun';
+        } else if (person.Profile == 5) {
+            person.ProfileName = 'Uzytkownik';
+        }
+
         $scope.editablePerson = {};
         //shoudl get only by id
         person.isEditable = false;
@@ -105,6 +133,21 @@
         $scope.viewModel.ActionType = 1;
         $http.post('/api/Person/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+
+            angular.forEach($scope.viewModel.People, function (item) {
+                if (item.Profile == 1) {
+                    item.ProfileName = 'Administrator';
+                } else if (item.Profile == 2) {
+                    item.ProfileName = 'Manager';
+                } else if (item.Profile == 3) {
+                    item.ProfileName = 'Twórca';
+                } else if (item.Profile == 4) {
+                    item.ProfileName = 'Opiekun';
+                } else if (item.Profile == 5) {
+                    item.ProfileName = 'Uzytkownik';
+                }
+            });
+
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
             $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas usuniecia uzytkownika' + data;

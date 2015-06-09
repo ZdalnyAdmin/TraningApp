@@ -24,9 +24,11 @@ namespace OrganizationModule.Controllers.Api
         {
             try
             {
-                if (obj.LoggedUser == null)
+                obj.LoggedUser = Person.GetLoggedPerson(User);
+                if (obj.LoggedUser.Status == StatusEnum.Deleted)
                 {
-                    obj.LoggedUser = Person.GetLoggedPerson(User);
+                    obj.ErrorMessage = "Uprawnienia uzytkownika wygasly!";
+                    return Request.CreateResponse(HttpStatusCode.Created, obj);
                 }
 
                 if (obj.CurrentOrganization == null)
