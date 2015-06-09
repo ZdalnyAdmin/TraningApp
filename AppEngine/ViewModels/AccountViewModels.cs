@@ -58,7 +58,7 @@ namespace AppEngine.Models.ViewModels.Account
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "Nazwa Użytkownika")]
+        [Display(Name = "Login")]
         [StringLength(12, ErrorMessage = "{0} musi mieć długość pomiędzy {2} - {1}.", MinimumLength = 8)]
         public string UserName { get; set; }
 
