@@ -116,6 +116,38 @@
 #create-training .drag-and-drop .empty-image{
     width:100%;
 }
+
+#create-training .add-question .points div{
+    padding-right:50px;
+    float:left;
+}
+#create-training .add-question .points button{
+    position:absolute;
+    right:15px;
+    bottom:0;
+}
+#create-training .add-question .new-answer{
+    margin-top:15px;
+}
+#create-training .add-question .buttons{
+    text-align:center;
+    margin-top:15px;
+}
+#create-training .add-question .radio-question .radio-answer label, #create-training .add-question .checkbox-question .checkbox-answer label{
+    float:left;
+}
+#create-training .add-question .radio-question .radio-answer div, #create-training .add-question .checkbox-question .checkbox-answer div{
+    padding-left:50px;
+}
+#create-training .add-question .radio-question, #create-training .add-question .checkbox-question{
+    border-bottom:none!important;
+    padding:0!important;
+}
+#create-training .accessibility .item{
+    float:left;
+    margin-right:15px;
+}
+
 @media screen and (max-width: 1199px) AND (min-width: 992px) {
     /*#create-training .add-content{
         width:110px;
