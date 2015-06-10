@@ -1,22 +1,93 @@
-﻿<div>
+﻿<div class="add-question">
     <div class="row">
-        Pytanie {{questions.length + 1}}
+        <!--Pytanie {{questions.length + 1}}-->
+
+        <div class="col-xs-12">
+            <h4><span>DODAJ NOWE PYTANIE</span></h4>
+        </div>
     </div>
 
-    <div class="row" ng-show="selectedQuestion == 1">
-        <div class="row">
-            <input type="text" id="mainInput"
-                   name="currentQuestion.Text"
-                   ng-model="currentQuestion.Text"
-                   maxlength="100"
-                   ng-blur="questionValidation = true">
-            <div ng-show="questionValidation">
-                <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length < 10"> Wpisz pytanie na przynajmniej 10 znaków!      </div>
-                <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length > 100"> Pytanie może mieć maksymalnie 100 znaków!      </div>
+    <div class="row radio-question" ng-show="selectedQuestion == 1">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-lg-8">
+                    <label>Wpisz treść pytania</label>
+                    <input class="form-control" type="text" id="mainInput"
+                           placeholder="pytanie"
+                           name="currentQuestion.Text"
+                           ng-model="currentQuestion.Text"
+                           maxlength="100"
+                           ng-blur="questionValidation = true">                    
+                    <div ng-show="questionValidation">
+                        <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length < 10"> Wpisz pytanie na przynajmniej 10 znaków!      </div>
+                        <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length > 100"> Pytanie może mieć maksymalnie 100 znaków!      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h5>Wpisz prawidłową odpowiedź (odpowiedzi) i przydziel punkty</h5>
+                        </div>
+                        <div class="col-lg-9">
+                            <label>Wpisz treść odpowiedzi</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Liczba punktów</label>
+                        </div>
+                        <div ng-repeat="answer in currentQuestion.Answers">
+
+                            <!--Od tego momentu zaczyna się powtarzanie htmla gdy dodamy nową odpowiedź, labelek wyżej nie powtarzamy jak dodamy nową odpowiedź-->
+                            <div class="col-lg-9 radio-answer">
+                                <!--unikalne id i atrybut for (oba identyczne)-->
+                                <input id="r1" type="radio" name="answer" ng-model="answer.IsSelected" />
+                                <label for="r1"><span></span></label>
+                                <div>
+                                    <input class="form-control" placeholder="odpowiedź" type="text" id="mainInput" ng-model="answer.Text" maxlength="100" ng-blur="answerValidation = true">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 points">
+                                <div>
+                                    <input class="form-control" placeholder="pkt" type="number" id="mainInput" ng-model="answer.Score" maxlength="3" ng-blur="answerValidation = true">
+                                </div>
+                                <!--ten przycisk usuwa daną odpowiedź-->
+                                <button>x</button>
+                            </div>
+                            <div ng-show="answerValidation">
+                                <div ng-show="!!answer.Text && answer.Text.length < 1"> Odpowiedź musi zawierać miniumum 1 znaków!          </div>
+                                <div ng-show="!!answer.Text && answer.Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
+                                <div ng-show="!!answer.Score && (answer.Score < 0 || answer.Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 new-answer">
+                            <button class="btn btn-m empty-button">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="navy-cloud">
+                        Wpisz kilka odpowiedzi - najlepiej 4-5,
+                        z których tylko jedna jest prawidłowa i
+                        tylko za nią przyznaj punkty, za
+                        nieprawidłowe 0 punktów (możesz
+                        przy nich pozostawić puste pole na
+                        punkty).
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 buttons">
+                    <div class="btn btn-l blue-button">
+                        DODAJ DO SZKOLENIA
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div ng-repeat="answer in currentQuestion.Answers">
+        <!--<div ng-repeat="answer in currentQuestion.Answers">
             <div class="row">
                 <input type="radio" name="answer" ng-model="answer.IsSelected" />
 
@@ -29,62 +100,175 @@
                 <div ng-show="!!answer.Text && answer.Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
                 <div ng-show="!!answer.Score && (answer.Score < 0 || answer.Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
             </div>
-        </div>
+        </div>-->
     </div>
 
-    <div class="row" ng-show="selectedQuestion == 2">
+    <div class="row checkbox-question" ng-show="selectedQuestion == 2">
         <div class="row">
-            <input type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text" maxlength="100" ng-blur="questionValidation = true">
-            <div ng-show="questionValidation">
-                <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length < 10"> Wpisz pytanie na przynajmniej 10 znaków!      </div>
-                <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length > 100"> Pytanie może mieć maksymalnie 100 znaków!      </div>
+            <div class="col-lg-8">
+                <label>Wpisz treść pytania</label>
+                <input class="form-control" placeholder="pytanie" type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text" maxlength="100" ng-blur="questionValidation = true">
+                <div ng-show="questionValidation">
+                    <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length < 10"> Wpisz pytanie na przynajmniej 10 znaków!      </div>
+                    <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length > 100"> Pytanie może mieć maksymalnie 100 znaków!      </div>
+                </div>
             </div>
         </div>
-        <div ng-repeat="answer in currentQuestion.Answers">
-            <div class="row">
-                <input type="checkbox" name="answer" ng-model="answer.IsSelected" />
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h5>Wpisz prawidłową odpowiedź (odpowiedzi) i przydziel punkty</h5>
+                    </div>
+                    <div class="col-lg-9">
+                        <label>Wpisz treść odpowiedzi</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <label>Liczba punktów</label>
+                    </div>
+                    <div ng-repeat="answer in currentQuestion.Answers">
 
-                <input type="text" id="mainInput" ng-model="answer.Text" maxlength="100" ng-blur="answerValidation = true">
-                Punkty
-                <input type="number" id="mainInput" ng-model="answer.Score" maxlength="3" ng-blur="answerValidation = true">
-                <div ng-show="answerValidation">
-                    <div ng-show="!!answer.Text && answer.Text.length < 1"> Odpowiedź musi zawierać miniumum 10 znaków!          </div>
-                    <div ng-show="!!answer.Text && answer.Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
-                    <div ng-show="!!answer.Score && (answer.Score < 0 || answer.Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
+                        <!--Od tego momentu zaczyna się powtarzanie htmla gdy dodamy nową odpowiedź, labelek wyżej nie powtarzamy jak dodamy nową odpowiedź-->
+                        <div class="col-lg-9 checkbox-answer">
+                            <!--unikalne id i atrybut for (oba identyczne)-->
+                            <input id="c1" type="checkbox" name="answer" ng-model="answer.IsSelected" />
+                            <label for="c1"><span></span></label>
+                            <div>
+                                <input class="form-control" placeholder="odpowiedź" type="text" id="mainInput" ng-model="answer.Text" maxlength="100" ng-blur="answerValidation = true">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 points">
+                            <div>
+                                <input class="form-control" placeholder="pkt" type="number" id="mainInput" ng-model="answer.Score" maxlength="3" ng-blur="answerValidation = true">
+                            </div>
+                            <!--ten przycisk usuwa daną odpowiedź-->
+                            <button>x</button>
+                        </div>
+                        <div ng-show="answerValidation">
+                            <div ng-show="!!answer.Text && answer.Text.length < 1"> Odpowiedź musi zawierać miniumum 10 znaków!          </div>
+                            <div ng-show="!!answer.Text && answer.Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
+                            <div ng-show="!!answer.Score && (answer.Score < 0 || answer.Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 new-answer">
+                        <button class="btn btn-m empty-button">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="navy-cloud">
+                    Wpisz kilka odpowiedzi - najlepiej 4-5,
+                    z których tylko jedna jest prawidłowa i
+                    tylko za nią przyznaj punkty, za
+                    nieprawidłowe 0 punktów (możesz
+                    przy nich pozostawić puste pole na
+                    punkty).
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 buttons">
+                <div class="btn btn-l blue-button">
+                    DODAJ DO SZKOLENIA
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row" ng-show="selectedQuestion == 3">
-        <div class="row">
-            <input type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text" maxlength="100" ng-blur="questionValidation = true">
-            <div ng-show="questionValidation">
-                <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length < 10"> Wpisz pytanie na przynajmniej 10 znaków!      </div>
-                <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length > 100"> Pytanie może mieć maksymalnie 100 znaków!      </div>
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-lg-8">
+                    <label>Wpisz treść pytania</label>
+                    <input class="form-control" placeholder="pytanie" type="text" id="mainInput" name="currentQuestion.Text" ng-model="currentQuestion.Text" maxlength="100" ng-blur="questionValidation = true">
+                    <div ng-show="questionValidation">
+                        <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length < 10"> Wpisz pytanie na przynajmniej 10 znaków!      </div>
+                        <div ng-show="!!currentQuestion.Text && currentQuestion.Text.length > 100"> Pytanie może mieć maksymalnie 100 znaków!      </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <input type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Text" maxlength="100" ng-blur="answerValidation = true">
-            Punkty
-            <input type="number" id="mainInput" ng-model="currentQuestion.Answers[0].Score" maxlength="3" ng-blur="answerValidation = true">
-            <div ng-show="answerValidation">
-                <div ng-show="!!currentQuestion.Answers[0].Text && currentQuestion.Answers[0].Text.length < 1"> Odpowiedź musi zawierać miniumum 10 znaków!          </div>
-                <div ng-show="!!currentQuestion.Answers[0].Text && currentQuestion.Answers[0].Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
-                <div ng-show="!!currentQuestion.Answers[0].Score && (currentQuestion.Answers[0].Score < 0 || currentQuestion.Answers[0].Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h5>Wpisz prawidłową odpowiedź (odpowiedzi) i przydziel punkty</h5>
+                        </div>
+                        <div class="col-lg-9">
+                            <label>Wpisz treść odpowiedzi</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Liczba punktów</label>
+                        </div>
+                        <!--Od tego momentu zaczyna się powtarzanie htmla gdy dodamy nową odpowiedź, labelek wyżej nie powtarzamy jak dodamy nową odpowiedź-->
+                        <div>
+                            <div class="col-lg-9">
+                                <input class="form-control" placeholder="odpowiedź" type="text" id="mainInput" ng-model="currentQuestion.Answers[0].Text" maxlength="100" ng-blur="answerValidation = true">
+                            </div>
+                            <div class="col-lg-3 points">
+                                <div>
+                                    <input class="form-control" placeholder="pkt" type="number" id="mainInput" ng-model="currentQuestion.Answers[0].Score" maxlength="3" ng-blur="answerValidation = true">
+                                </div>
+                                <!--ten przycisk usuwa daną odpowiedź-->
+                                <button>x</button>
+                            </div>
+                            <div class="col-xs-12" ng-show="answerValidation">
+                                <div ng-show="!!currentQuestion.Answers[0].Text && currentQuestion.Answers[0].Text.length < 1"> Odpowiedź musi zawierać miniumum 10 znaków!          </div>
+                                <div ng-show="!!currentQuestion.Answers[0].Text && currentQuestion.Answers[0].Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
+                                <div ng-show="!!currentQuestion.Answers[0].Score && (currentQuestion.Answers[0].Score < 0 || currentQuestion.Answers[0].Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
+                            </div>
+                        </div>
+                        <div>
+                            <!--tu się pojawi kolejna odpowiedź identycznie jak wyżej-->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 new-answer">
+                            <button class="btn btn-m empty-button">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="navy-cloud">
+                        W przypadku pytania wymagającego
+                        wpisania odpowiedzi najlepiej, jeśli
+                        będzie ona krótka. Warto dodać różne
+                        możliwe sformułowania, które będą
+                        poprawne, przyznajac za nie punkty,
+                        ale oczywiście moze też być tylko
+                        jedna poprawna odpowiedź. Wielkość
+                        liter nie ma znaczenia. Za wpisanie
+                        innej odpowiedzi niż wskazane obok
+                        użytkownik otrzyma 0 punktów.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 buttons">
+                    <div class="btn btn-l blue-button">
+                        DODAJ DO SZKOLENIA
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
+
         <button id="inputButto" ng-click="nextQuestion()">
             Dodaj kolejne pytanie
         </button>
-        <select ng-model="selected" ng-options="c for c in questionType" ng-show="showQuestionType" ng-change="changeQuestion(selected)">
-            <option value="">Wybierz</option>
-        </select>
+        <div class="row selects">
+            <div class="col-lg-4 col-md-5 col-sm-4 col-sm-offset-4 col-md-offset-0 select-l">
+                <label>Wybierz rodzaj pytania</label>
+                <select class="form-control" ng-model="selected" ng-options="c for c in questionType" ng-show="showQuestionType" ng-change="changeQuestion(selected)">
+                    <option value="">Wybierz</option>
+                </select>
+            </div>
+        </div>
         <div ng-show="!!ErrorMessage && ErrorMessage.length > 0">
             {{ErrorMessage}}
         </div>
-    </div>
+
 </div>

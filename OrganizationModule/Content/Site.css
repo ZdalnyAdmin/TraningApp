@@ -199,6 +199,39 @@ h6{
 }
 
 /*****************/
+/******SELECTY*****/
+/****************/
+select{
+    background-color:#3770dd!important;
+    color:#fff!important;
+    border-radius:0!important;
+    padding:0 12px!important;
+    background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #ddd;
+    -webkit-appearance: none;
+    background-position-x: 244px;
+}
+select option{
+    background-color:#fff;
+    color:#333;
+}
+.selects label{
+    font-weight:400;
+}
+.selects .select-m label{
+    font-size:12px;
+}
+.selects .select-l label{
+    font-size:16px;
+}
+.selects .select-xl label{
+    font-size:18px;
+}
+.selects .select-m select{
+    height:32px;
+    border:2px solid #436DAA; 
+}
+
+/*****************/
 /******INPUTY*****/
 /****************/
 input{
