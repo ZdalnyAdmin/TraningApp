@@ -187,6 +187,7 @@
     <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\Api\TrainingsInGroupController.cs" />
     <Compile Include="Controllers\Api\TraningsResultController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="Controllers\CreatorController.cs" />
     <Compile Include="Controllers\Api\GroupController.cs" />
