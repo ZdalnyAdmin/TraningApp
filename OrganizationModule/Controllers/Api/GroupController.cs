@@ -26,9 +26,12 @@ namespace OrganizationModule.Controllers
             try
             {
                 obj.ErrorMessage = String.Empty;
-                if (obj.LoggedUser == null)
+
+                obj.LoggedUser = Person.GetLoggedPerson(User);
+                if(obj.LoggedUser.Status == StatusEnum.Deleted)
                 {
-                    obj.LoggedUser = Person.GetLoggedPerson(User);
+                    obj.ErrorMessage = "Uprawnienia uzytkownika wygasly!";
+                    return Request.CreateResponse(HttpStatusCode.Created, obj); 
                 }
 
                 if (obj.CurrentOrganization == null)
@@ -39,7 +42,7 @@ namespace OrganizationModule.Controllers
                 if (obj.CurrentOrganization == null)
                 {
                     obj.ErrorMessage = "Brak organizacji do ktorej mozna przypisac grupe!";
-                    return Request.CreateResponse(HttpStatusCode.Created, obj); ;
+                    return Request.CreateResponse(HttpStatusCode.Created, obj); 
                 }
 
                 switch (obj.ActionType)
@@ -125,6 +128,7 @@ namespace OrganizationModule.Controllers
                         if (toRemove != null && toRemove.Any())
                         {
                             db.PeopleInGroups.RemoveRange(toRemove);
+                            db.SaveChanges();
                         }
 
                         if (obj.Current.AssignedPeople != null && obj.Current.AssignedPeople.Any())
@@ -137,9 +141,10 @@ namespace OrganizationModule.Controllers
                                 pg.ProfileGroupID = obj.Current.ProfileGroupID;
                                 db.PeopleInGroups.Add(pg);
                             }
+                            db.SaveChanges();
                         }
 
-                        db.Entry(obj.Current).State = EntityState.Modified;
+                        db.Entry(group).State = EntityState.Modified;
 
                         db.SaveChanges();
 
@@ -178,7 +183,6 @@ namespace OrganizationModule.Controllers
                             db.SaveChanges();
                         }
 
-                        obj.Groups.Add(obj.Current);
                         obj.Current = new ProfileGroup();
 
                         obj.Success = "Dane zapisane!";

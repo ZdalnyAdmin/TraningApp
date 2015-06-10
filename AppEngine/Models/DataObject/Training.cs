@@ -12,12 +12,12 @@ namespace AppEngine.Models.Common
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int TrainingID { get; set; }
-        [MinLength(5)]
-        [MaxLength(80)]
-        [Required]
+        //[MinLength(5)]
+        //[MaxLength(80)]
+        //[Required]
         public string Name { get; set; }
-        [MinLength(5)]
-        [MaxLength(1500)]
+        //[MinLength(5)]
+        //[MaxLength(1500)]
         public string Description { get; set; }
         public bool IsActive { get; set; }
         public TrainingType TrainingType { get; set; }
@@ -44,8 +44,8 @@ namespace AppEngine.Models.Common
         //liczba punktow zeby zdac
         public Int32? PassResult { get; set; }
         //tekst jak zaliczone szkolenie
-        [MinLength(5)]
-        [MaxLength(500)]
+        //[MinLength(5)]
+        //[MaxLength(500)]
         public string PassInfo { get; set; }
         //odznaka - sciezka do pliku
         public string PassResources { get; set; }

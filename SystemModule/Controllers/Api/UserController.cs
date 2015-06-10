@@ -47,8 +47,16 @@ namespace SystemModule.Controllers.Api
                         break;
                     case PeopleActionType.DeleteProtector:
 
+                        //check if user is assigned to organization
                         var deleted = obj.People.FirstOrDefault(x => x.Id == obj.Current.Id);
                         var deletedUsr = db.Users.FirstOrDefault(x => x.Id == obj.Current.Id);
+
+
+                        if(deleted.OrganizationID.HasValue && deleted.OrganizationID.Value != 0)
+                        {
+                            obj.ErrorMessage = "Nie można usuną opiekuna przypisanego do organizacji. Proszę skontaktować się z administratorem.";
+                            return Request.CreateResponse(HttpStatusCode.Created, obj);
+                        }
 
                         deletedUsr.IsDeleted = true;
 
@@ -77,7 +85,7 @@ namespace SystemModule.Controllers.Api
 
                         var editable = obj.People.FirstOrDefault(x => x.Id == obj.Current.Id);
                         var user = db.Users.FirstOrDefault(x => x.Id == obj.Current.Id);
-                        user.UserName = obj.Current.UserName;
+                        user.DisplayName = obj.Current.DisplayName;
                         user.Email = obj.Current.Email;
 
                         user.ModifiedUserID = Person.GetLoggedPerson(User).Id;
@@ -89,7 +97,7 @@ namespace SystemModule.Controllers.Api
                         editable.UserName = obj.Current.UserName;
                         editable.Email = obj.Current.Email;
 
-                        LogService.InsertUserLogs(OperationLog.UserEdit, db, user.Id, user.ModifiedUserID);
+                        //LogService.InsertUserLogs(OperationLog.UserEdit, db, user.Id, user.ModifiedUserID, 0);
 
                         obj.Current = null;
 
@@ -103,7 +111,23 @@ namespace SystemModule.Controllers.Api
 
                         obj.People = db.Users.Where(x => x.Profile == ProfileEnum.Superuser && (x.Status == StatusEnum.Active || x.Status == StatusEnum.Blocked)).OrderByDescending(p => p.RegistrationDate).ToList();
 
-                        obj.Success =String.Empty;
+                        if (obj.People != null && obj.People.Any())
+                        {
+                            foreach (var person in obj.People)
+                            {
+                                var lastActivation = (from t in db.Logs
+                                                      where t.ModifiedUserID == person.Id
+                                                      orderby t.ModifiedDate descending
+                                                      select t).FirstOrDefault();
+                                if(lastActivation != null)
+                                {
+                                    person.LastActivationDate = lastActivation.ModifiedDate;
+                                }
+
+                            }
+                        }
+
+                        obj.Success = String.Empty;
                         break;
                     default:
                         break;

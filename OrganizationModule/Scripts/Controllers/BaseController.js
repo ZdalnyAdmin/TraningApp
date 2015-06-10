@@ -7,7 +7,9 @@
     $rootScope.$on('userChanged', reload);
 
     function reload() {
+        UserFactory.clearUser();
         $scope.menuUrl = '';
+        UserFactory.clearUser();
         $scope.currentUser = undefined;
         $scope.visible = false;
 

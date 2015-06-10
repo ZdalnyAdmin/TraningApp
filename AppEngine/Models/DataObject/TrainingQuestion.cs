@@ -13,9 +13,8 @@ namespace AppEngine.Models.DataObject
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int TrainingQuestionID { get; set; }
         public int TrainingID { get; set; }
-        [MinLength(10)]
-        [MaxLength(100)]
-        [Required]
+        //[MinLength(10)]
+        //[MaxLength(100)]
         public string Text { get; set; }
         public int DisplayNo { get; set; }
         public QuestionType Type { get; set; }

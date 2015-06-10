@@ -167,9 +167,11 @@ namespace AppEngine.Models.Common
             }
             else
             {
+                var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == this.OrganizationID);
+
                 sb.AppendFormat("<b>WITAJ </b> {0}", this.DisplayName);
                 sb.AppendLine();
-                sb.AppendFormat("ROZPOCZĄŁEŚ PRÓBĘ USUNIECIA SWOJEGO KONTA W ORGANIZACJI {0}", this.Organization != null ? this.Organization.Name: "Brak Nazwy");
+                sb.AppendFormat("ROZPOCZĄŁEŚ PRÓBĘ USUNIECIA SWOJEGO KONTA W ORGANIZACJI {0}", organization != null ? organization.Name : "Brak Nazwy");
                 sb.AppendLine();
                 sb.AppendLine("JEŚLI CHCESZ USUNĄĆ SWOJE KONTO TO POTWIERDŹ TO KLIKAJĄC W LINK");
                 sb.AppendLine();

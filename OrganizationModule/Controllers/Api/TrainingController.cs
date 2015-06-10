@@ -1,4 +1,5 @@
 ﻿using AppEngine.Models.Common;
+using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
 using AppEngine.Services;
 using AppEngine.ViewModels;
@@ -15,9 +16,11 @@ namespace OrganizationModule.Controllers.Api
         public HttpResponseMessage Post(TrainingViewModel obj)
         {
 
-            if (obj.LoggedUser == null)
+            obj.LoggedUser = Person.GetLoggedPerson(User);
+            if (obj.LoggedUser.Status == StatusEnum.Deleted)
             {
-                obj.LoggedUser = Person.GetLoggedPerson(User);
+                obj.ErrorMessage = "Uprawnienia uzytkownika wygasly!";
+                return Request.CreateResponse(HttpStatusCode.Created, obj);
             }
 
             var result = TrainingService.ManageTrainings(db, obj, true);

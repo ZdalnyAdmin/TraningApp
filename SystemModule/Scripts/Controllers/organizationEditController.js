@@ -127,6 +127,16 @@
                 $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
                     $scope.viewModel = data;
 
+                    angular.forEach($scope.viewModel.Organizations, function (item) {
+                        if (item.Status == 1) {
+                            item.selectedStatus = 'Aktywny';
+                        } else if (item.Status == 3) {
+                            item.selectedStatus = 'Usuniety';
+                        } else if (item.Status == 2) {
+                            item.selectedStatus = 'Ukryty';
+                        }
+                    });
+
                     var result = UserFactory.organizationDeleteMail($scope.viewModel.Current);
 
                     result.then(function (data) {

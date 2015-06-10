@@ -27,6 +27,20 @@
 
 
     $scope.save = function (item) {
+
+        $scope.viewModel.ErrorMessage = "";
+
+        if (!item.UserName || item.UserName.length < 3 || item.UserName.length > 30) {
+            $scope.viewModel.ErrorMessage = "Nazwa opiekuna musi zawierac miedzy 3 a 30 znakow";
+            return;
+        }
+
+        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        if (!item.Email || !re.test(item.Email)) {
+            $scope.viewModel.ErrorMessage = "Bledny format adresu email";
+            return;
+        }
+
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 2;
         $scope.viewModel.Current = item;

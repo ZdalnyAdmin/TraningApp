@@ -24,9 +24,11 @@ namespace OrganizationModule.Controllers.Api
         {
             try
             {
-                if (obj.LoggedUser == null)
+                obj.LoggedUser = Person.GetLoggedPerson(User);
+                if (obj.LoggedUser.Status == StatusEnum.Deleted)
                 {
-                    obj.LoggedUser = Person.GetLoggedPerson(User);
+                    obj.ErrorMessage = "Uprawnienia uzytkownika wygasly!";
+                    return Request.CreateResponse(HttpStatusCode.Created, obj);
                 }
 
                 if (obj.CurrentOrganization == null)
@@ -83,11 +85,18 @@ namespace OrganizationModule.Controllers.Api
 
                             training.AssignedGroups = (from item in db.TrainingInGroups
                                                        join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
-                                                       where grp.Name != "Wszyscy" && item.TrainingID == training.TrainingID
+                                                       where item.TrainingID == training.TrainingID
                                                        select new CommonDto
                                                        {
                                                            Name = grp.Name
                                                        }).ToList();
+
+                            var createdUser = db.Users.FirstOrDefault(x => x.Id == training.CreateUserID);
+                            if(createdUser != null)
+                            {
+                                training.UserName = createdUser.DisplayName;
+                            }
+
                         }
 
                         obj.Success = String.Empty;
@@ -102,7 +111,7 @@ namespace OrganizationModule.Controllers.Api
 
                         var groups = (from grp in db.GroupsInOrganizations
                                       join g in db.Groups on grp.ProfileGroupID equals g.ProfileGroupID
-                                      where grp.OrganizationID == obj.CurrentOrganization.OrganizationID && g.Name != "Wszyscy"
+                                      where grp.OrganizationID == obj.CurrentOrganization.OrganizationID
                                       select new
                                       {
 
@@ -158,7 +167,7 @@ namespace OrganizationModule.Controllers.Api
 
                         var assigend = (from item in db.TrainingInGroups
                                         join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
-                                        where grp.Name != "Wszyscy" && item.TrainingID == obj.Current.TrainingID
+                                        where  item.TrainingID == obj.Current.TrainingID
                                         select item).ToList();
 
                         if (assigend != null && assigend.Any())
@@ -181,7 +190,7 @@ namespace OrganizationModule.Controllers.Api
                             db.SaveChanges();
                             obj.Current.AssignedGroups = (from item in db.TrainingInGroups
                                                           join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
-                                                          where grp.Name != "Wszyscy" && item.TrainingID == obj.Current.TrainingID
+                                                          where  item.TrainingID == obj.Current.TrainingID
                                                           select new CommonDto
                                                           {
                                                               Name = grp.Name
@@ -239,7 +248,7 @@ namespace OrganizationModule.Controllers.Api
 
                 db.SaveChanges();
 
-                LogService.InsertTrainingLogs(OperationLog.TrainingEdit, db, obj.Current.TrainingID, obj.LoggedUser.Id);
+                LogService.InsertTrainingLogs(OperationLog.TrainingEdit, db, obj.Current.TrainingID, obj.LoggedUser.Id, obj.CurrentOrganization != null ? obj.CurrentOrganization.OrganizationID : 0);
             }
             catch (DbUpdateConcurrencyException ex)
             {

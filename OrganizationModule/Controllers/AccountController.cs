@@ -164,7 +164,7 @@ namespace OrganizationModule.Controllers
                         return this.Json(rslt);
                     }
 
-                    LogService.InsertUserLogs(OperationLog.UserRegistration, _db, user.Id, user.Id);
+                    LogService.InsertUserLogs(OperationLog.UserRegistration, _db, user.Id, user.Id, user.OrganizationID.HasValue ? user.OrganizationID.Value : 0);
 
                     await UserManager.UpdateSecurityStampAsync(user.Id);
                     await UserManager.SendEmailAsync(user.Id,
@@ -228,7 +228,7 @@ namespace OrganizationModule.Controllers
                     return Json(new
                     {
                         Succeeded = false,
-                        Errors = new string[] { "Nie ma użytkownika o takim adresie email" }
+                        Errors = new string[] { "Niepoprawny login lub e­mail!" }
                     });
                 }
 
@@ -246,7 +246,14 @@ namespace OrganizationModule.Controllers
         {
             if (ModelState.IsValid)
             {
-                Result result = new Result();
+                Result result = new Result() {Errors = new List<string>()};
+
+                if (string.IsNullOrWhiteSpace(model.UserName))
+                {
+                    result.Succeeded = false;
+                    result.Errors.Add("Proszę podać Login!");
+                    return Json(result);
+                }
 
                 result = await Person.ChangePasswordAsync(UserManager, model);
                 return Json(result);
@@ -301,7 +308,7 @@ namespace OrganizationModule.Controllers
                     user.DeleteUserID = User.Identity.GetUserId();
                     UserManager.Update(user);
 
-                    user.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+                    //user.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
 
                     await user.DeleteUserAsync(UserManager, Request, user.DeleteUserID);
                 }

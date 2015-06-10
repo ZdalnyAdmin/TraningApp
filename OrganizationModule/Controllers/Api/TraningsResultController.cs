@@ -19,7 +19,30 @@ namespace OrganizationModule.Controllers.Api
         {
             //get from correct profile
             //todo add question result
-            var result = db.TrainingResults.OrderByDescending(x => x.EndDate).OrderByDescending(x => x.StartDate).ToList();
+            var currentUser = Person.GetLoggedPerson(User);
+            if(currentUser == null || !currentUser.OrganizationID.HasValue)
+            {
+                return new List<TrainingResult>();
+            }
+
+            var currentOrganization = db.Organizations.FirstOrDefault(x => x.OrganizationID == currentUser.OrganizationID);
+
+            if (currentOrganization == null)
+            {
+                return new List<TrainingResult>();
+            }
+
+            //get assigned trainings
+            var trainings = (from t in db.TrainingsInOrganizations
+                            where t.OrganizationID == currentOrganization.OrganizationID
+                            select t.TrainingID).ToList();
+
+            if(trainings == null || !trainings.Any())
+            {
+                return new List<TrainingResult>();
+            }
+
+            var result = db.TrainingResults.Where(x=>trainings.Contains(x.TrainingID)).OrderByDescending(x => x.EndDate).OrderByDescending(x => x.StartDate).ToList();
 
             foreach (var item in result)
             {

@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using AppEngine.Models.ViewModels.Account;
 using System.Collections.ObjectModel;
 using AppEngine.Services;
+using System.Collections.Generic;
 
 namespace OrganizationModule.Controllers
 {
@@ -85,7 +86,7 @@ namespace OrganizationModule.Controllers
                 deletedPerson.DeletedDate = DateTime.Now;
                 await UserManager.UpdateAsync(deletedPerson);
 
-                deletedPerson.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
+                var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == user.OrganizationID);
 
                 var deleteUser = UserManager.FindById(deletedPerson.DeleteUserID);
 
@@ -93,23 +94,24 @@ namespace OrganizationModule.Controllers
                 var authManager = ctx.Authentication;
                 authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
-                LogService.InsertUserLogs(deletedPerson.DeleteUserID == deletedPerson.Id ? OperationLog.UserDeleteBySelf : OperationLog.UserDelete, _db, deletedPerson.Id, deletedPerson.DeleteUserID);
+                LogService.InsertUserLogs(deletedPerson.DeleteUserID == deletedPerson.Id ? OperationLog.UserDeleteBySelf : OperationLog.UserDelete, _db, deletedPerson.Id, deletedPerson.DeleteUserID, 
+                    organization != null ? organization.OrganizationID : 0);
 
                 if (deletedPerson.Id == user.Id)
                 {
-                    UserManager.SendEmail(deletedPerson.Organization.ProtectorID,
+                    UserManager.SendEmail(organization.ProtectorID,
                            "Usunięcie Użytkownika",
                            "W dniu " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "Użytkownik o Id " + deletedPerson.Id
                            + "i nazwie wyświetlanej: " + deletedPerson.DisplayName
-                           + " usunął swoje konto z organizacji " + (deletedPerson.Organization != null ? deletedPerson.Organization.Name : "Brak nazwy organizacji"));
+                           + " usunął swoje konto z organizacji " + (organization != null ? organization.Name : "Brak nazwy organizacji"));
                 }
                 else
                 {
-                    UserManager.SendEmail(deletedPerson.Organization.ProtectorID,
+                    UserManager.SendEmail(organization.ProtectorID,
                            "Usunięcie Użytkownika",
                            "W dniu " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "Użytkownik o Id " + deletedPerson.Id
                            + "i nazwie wyświetlanej: " + deletedPerson.DisplayName
-                           + " usunął swoje konto z organizacji " + (deletedPerson.Organization != null ? deletedPerson.Organization.Name : "Brak nazwy organizacji")
+                           + " usunął swoje konto z organizacji " + (organization != null ? organization.Name : "Brak nazwy organizacji")
                            + " przez użytkownika o Id " + deleteUser.Id + "oraz nazwie wyświetlanej: " + deleteUser.DisplayName);
                 }
 
@@ -132,7 +134,7 @@ namespace OrganizationModule.Controllers
             loggedUser.DeleteUserID = loggedUser.Id;
             await UserManager.UpdateAsync(loggedUser);
 
-            loggedUser.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == loggedUser.OrganizationID);
+            //loggedUser.Organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == loggedUser.OrganizationID);
 
             var result = await loggedUser.DeleteUserAsync(UserManager, Request);
 
@@ -210,6 +212,11 @@ namespace OrganizationModule.Controllers
                     model.Code = await UserManager.GeneratePasswordResetTokenAsync(loggedUser.Id);
 
                     result = await Person.ChangePasswordAsync(UserManager, model);
+                    if (result.Succeeded)
+                    {
+                        result.Message = "Hasło zostało zmienione!";
+                    }
+
                     return Json(result);
                 }
                 else
@@ -272,12 +279,12 @@ namespace OrganizationModule.Controllers
 
                 UserManager.Update(user);
 
-                user.Organization = _db.Organizations.FirstOrDefault(x=> x.OrganizationID == user.OrganizationID);
+                var organization = _db.Organizations.FirstOrDefault(x=> x.OrganizationID == user.OrganizationID);
 
                 emailChanged = true;
 
                 await UserManager.SendEmailAsync(user.InviterID, "Zmiana adresu email przez podopiecznego",
-                    string.Format("Użytkownik organizacji {0} o Id {1} i mailu {2} (stary email) zmienił swój adres email na nowy {3}", user.Organization.Name, user.Id, oldEmail, user.Email));
+                    string.Format("Użytkownik organizacji {0} o Id {1} i mailu {2} (stary email) zmienił swój adres email na nowy {3}", organization.Name, user.Id, oldEmail, user.Email));
             }
             else
             {

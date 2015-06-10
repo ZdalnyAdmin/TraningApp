@@ -74,7 +74,12 @@
                  if (!data.Succeeded) {
                      $scope.changePasswordModel.Errors = data.Errors.join();
                  } else {
-                     $scope.changeEmailModel.Errors = 'Email z potwierdzeniam zmiany hasła został wysłany';
+                     if (!data.Message) {
+                         $scope.changeEmailModel.Errors = 'Email z potwierdzeniam zmiany hasła został wysłany'; 
+                     } else {
+                         $scope.changeEmailModel.Errors = data.Message;
+                     }
+                     
                  }
 
                  $scope.changePasswordModel.UserName = '';
