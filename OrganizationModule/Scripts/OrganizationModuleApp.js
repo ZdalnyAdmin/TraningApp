@@ -135,10 +135,11 @@ configFunction.$inject = ['$routeProvider', '$httpProvider', '$locationProvider'
 
 OrganizationModuleApp.config(configFunction);
 
-OrganizationModuleApp.run(['$rootScope', '$location', 'UtilitiesFactory', '$templateCache', '$route', function ($rootScope, $location, UtilitiesFactory, $templateCache, $route) {
+OrganizationModuleApp.run(['$rootScope', '$location', 'UtilitiesFactory', '$templateCache', '$route', 'UserFactory', function ($rootScope, $location, UtilitiesFactory, $templateCache, $route, UserFactory) {
     $rootScope.$on('$routeChangeStart', function () {
         //show loading gif
         UtilitiesFactory.showSpinner();
+        UserFactory.checkUser();
     });
     $rootScope.$on('$routeChangeSuccess', function () {
         //hide loading gif

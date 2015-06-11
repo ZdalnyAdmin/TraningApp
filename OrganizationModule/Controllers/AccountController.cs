@@ -325,6 +325,14 @@ namespace OrganizationModule.Controllers
 
         #endregion
 
+        #region Check User
+        [HttpPost]
+        public bool Check(CheckUserModel model)
+        {
+            return model.Id == User.Identity.GetUserId();
+        }
+        #endregion
+
         #endregion
 
         #region Private Functions
