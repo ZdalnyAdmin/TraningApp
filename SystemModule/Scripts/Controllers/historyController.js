@@ -22,6 +22,7 @@
         UtilitiesFactory.showSpinner();
         if (!obj) {
             $scope.viewModel.DisplayLogs = $scope.viewModel.Logs;
+            UtilitiesFactory.showSpinner();
             return;
         }
 

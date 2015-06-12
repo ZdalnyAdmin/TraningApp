@@ -50,6 +50,9 @@ namespace AppEngine.Models.Common
         //odznaka - sciezka do pliku
         public string PassResources { get; set; }
 
+        //szkolenie dostepne dla wszystkich - tyczy sie zarowno grup jak i organizacji
+        public bool IsForAll { get; set; }
+
         [NotMapped]
         public List<CommonDto> Logs { get; set; }
         [NotMapped]

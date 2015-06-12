@@ -214,7 +214,7 @@
     <div class="row">
         <div class="col-xs-12">
             <h3>TEST DO SZKOLENIA</h3>
-        </div>
+    </div>
     </div>
 
     <div class="row">
@@ -239,6 +239,7 @@ wyznaczajac punkty za kazda z nich. Niech zaliczenie Twojego szkolenia bedzie wy
                 Dla kogo ma byc widoczne szkolenie? Jesli nie zaznaczysz zadnej opcji,
                 bedzie dostepne tylko dla Ciebie - do przetestowania.
             </h5>
+            <input id="d1" type="checkbox" ng-model="viewModel.Current.IsForAll" ng-click="selectAll(true)" /> Wszyscy
             <div class="item" ng-repeat="item in viewModel.Groups">
                 
                 <input id="d1" type="checkbox" ng-model="item.selected" />
@@ -253,17 +254,19 @@ wyznaczajac punkty za kazda z nich. Niech zaliczenie Twojego szkolenia bedzie wy
                 dopiero później przyznać uprawnienia
                 innym użytkownikom (możesz to
                 zrobić w zakładce Moje szkolenia).
-            </div>
-        </div>
+    </div>
+    </div>
+    <div ng-repeat="item in viewModel.Groups">
+        <input type="checkbox" ng-model="item.selected" />{{item.Name}}
     </div>
     <div class="row">
         <div class="col-xs-12 buttons">
             <button class="btn btn-xl blue-button" ng-click="save()">
                 
-                ZAPISZ SZKOLENIE
-            </button>
-        </div>
+            ZAPISZ SZKOLENIE
+        </button>
     </div>
+</div>
 </div>
 @Styles.Render("~/Trainings")
 

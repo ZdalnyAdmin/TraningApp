@@ -54,7 +54,7 @@ namespace OrganizationModule.Controllers.Api
                     obj.CurrentOrganization = db.Organizations.FirstOrDefault(x => x.OrganizationID == obj.LoggedUser.OrganizationID);
                 }
 
-                if(obj.Setting == null)
+                if (obj.Setting == null)
                 {
                     //get setting for organization
                     var setting = db.AppSettings.FirstOrDefault(x => x.ProtectorID == obj.LoggedUser.Id);
@@ -71,22 +71,29 @@ namespace OrganizationModule.Controllers.Api
                     if (setting.IsDefault)
                     {
                         obj.Setting = new AppSetting();
-                        obj.Setting.AllowUserToChangeMail = setting.AllowUserToChangeMail;
-                        obj.Setting.AllowUserToChangeName = setting.AllowUserToChangeName;
+                        obj.Setting.AllowUserToChangeMail = obj.CurrentOrganization.CanUserChangeMail;
+                        obj.Setting.AllowUserToChangeName = obj.CurrentOrganization.CanUserChangeName;
                         obj.Setting.DefaultEmail = setting.DefaultEmail;
                         obj.Setting.DefaultName = setting.DefaultName;
                         obj.Setting.IsDefault = false;
-                        obj.Setting.IsGlobalAvailable = setting.IsGlobalAvailable;
-                        obj.Setting.IsTrainingAvailableForAll = setting.IsTrainingAvailableForAll;
+                        obj.Setting.IsGlobalAvailable = obj.CurrentOrganization.IsGlobalAvailable;
+                        obj.Setting.IsTrainingAvailableForAll = obj.CurrentOrganization.IsTrainingAvailableForAll;
                         obj.Setting.MaxActiveTrainings = setting.MaxActiveTrainings;
-                        obj.Setting.MaxAssignedUser = setting.MaxAssignedUser;
-                        obj.Setting.SpaceDisk = setting.SpaceDisk;
-                        obj.Setting.ProtectorID = obj.LoggedUser.Id;
+                        obj.Setting.MaxAssignedUser = obj.CurrentOrganization.MaxAssignedUser;
+                        obj.Setting.SpaceDisk = System.Convert.ToInt32(obj.CurrentOrganization.SpaceDisk);
+                        obj.Setting.ProtectorID = obj.CurrentOrganization.ProtectorID;
                         db.AppSettings.Add(obj.Setting);
                         db.SaveChanges();
                     }
                     else
                     {
+                        setting.AllowUserToChangeMail = obj.CurrentOrganization.CanUserChangeMail;
+                        setting.AllowUserToChangeName = obj.CurrentOrganization.CanUserChangeName;
+                        setting.IsGlobalAvailable = obj.CurrentOrganization.IsGlobalAvailable;
+                        setting.IsTrainingAvailableForAll = obj.CurrentOrganization.IsTrainingAvailableForAll;
+                        setting.MaxAssignedUser = obj.CurrentOrganization.MaxAssignedUser;
+                        setting.SpaceDisk = System.Convert.ToInt32(obj.CurrentOrganization.SpaceDisk);
+                        setting.ProtectorID = obj.CurrentOrganization.ProtectorID;
                         obj.Setting = setting;
                     }
                 }
@@ -97,12 +104,35 @@ namespace OrganizationModule.Controllers.Api
                         obj.Success = String.Empty;
                         return Request.CreateResponse(HttpStatusCode.Created, obj);
                     case BaseActionType.Edit:
+
                         db.Entry(obj.CurrentOrganization).State = EntityState.Modified;
+
+                        //add changes in settings
+                        obj.Setting.AllowUserToChangeMail = obj.CurrentOrganization.CanUserChangeMail;
+                        obj.Setting.AllowUserToChangeName = obj.CurrentOrganization.CanUserChangeName;
+
+                        db.Entry(obj.Setting).State = EntityState.Modified;
+
+
                         db.SaveChanges();
                         obj.Success = "Dane zapisane!";
                         return Request.CreateResponse(HttpStatusCode.Created, obj);
                     case BaseActionType.Add:
+
+
                         db.Entry(obj.Setting).State = EntityState.Modified;
+
+                        //assigned new values into organization 
+
+                        obj.CurrentOrganization.CanUserChangeMail = obj.Setting.AllowUserToChangeMail;
+                        obj.CurrentOrganization.CanUserChangeName = obj.Setting.AllowUserToChangeName;
+                        obj.CurrentOrganization.IsGlobalAvailable = obj.Setting.IsGlobalAvailable;
+                        obj.CurrentOrganization.IsTrainingAvailableForAll = obj.Setting.IsTrainingAvailableForAll;
+                        obj.CurrentOrganization.MaxAssignedUser = obj.Setting.MaxAssignedUser;
+                        obj.CurrentOrganization.SpaceDisk = obj.Setting.SpaceDisk;
+
+                        db.Entry(obj.CurrentOrganization).State = EntityState.Modified;
+
                         db.SaveChanges();
                         obj.Success = "Dane zapisane!";
                         return Request.CreateResponse(HttpStatusCode.Created, obj);

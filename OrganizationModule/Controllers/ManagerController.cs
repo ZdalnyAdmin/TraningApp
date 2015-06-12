@@ -146,7 +146,9 @@ namespace OrganizationModule.Controllers
                         return Json(jsonResult);
                     }
 
-                    var actualUsersNo = _db.Users.Count(x => x.OrganizationID == organization.OrganizationID);
+                    var actualUsersNo = _db.Users.Count(x => x.OrganizationID == organization.OrganizationID && x.Profile != ProfileEnum.Protector &&
+                        (x.Status == StatusEnum.Active || x.Status == StatusEnum.Invited || x.Status == StatusEnum.Blocked || x.Status == StatusEnum.Rejected));
+
                     if (actualUsersNo >= organization.MaxAssignedUser)
                     {
                         jsonResult.Errors.Add("Maksymalna ilość użytkowników przypisanych do organizacji została przekroczona. Skontakuj się z administratorem.");
