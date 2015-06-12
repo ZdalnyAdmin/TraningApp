@@ -13,6 +13,7 @@ namespace AppEngine.Models.DTO
         public int DeleteUser { get; set; }
         public int InvationUser { get; set; }
         public string Email { get; set; }
+        public string Login { get; set; }
         public decimal UsedSpaceDisk { get; set; }
     }
 }

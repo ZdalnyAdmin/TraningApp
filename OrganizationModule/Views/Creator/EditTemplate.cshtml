@@ -104,8 +104,11 @@
     <div class="row">
         OKRESL DLA KOGO MA BYC WIDOCZNE SZKOLENIE
     </div>
+
+    <input type="checkbox" ng-model="viewModel.Current.IsForAll" ng-click="selectAll(true)" /> Wszyscy
+
     <div ng-repeat="item in viewModel.Current.Groups">
-        <input type="checkbox" ng-model="item.selected" />{{item.Name}}
+        <input type="checkbox" ng-model="item.selected" ng-click="selectAll(false)" />{{item.Name}}
     </div>
     <div class="row">
         Jesli nie zaznaczysz zadnej grupy, kurs będzie widoczny tylko dla Ciebie

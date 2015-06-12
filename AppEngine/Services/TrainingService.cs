@@ -159,9 +159,9 @@ namespace AppEngine.Services
                                             availableSpace += item.FileSize;
                                         }
                                         context.Entry(item).State = EntityState.Deleted;
-                                 
+
                                     }
-                                    if(removed != null && !String.IsNullOrEmpty(item.InternalResource) && !item.Name.Equals(removed.Name))
+                                    if (removed != null && !String.IsNullOrEmpty(item.InternalResource) && !item.Name.Equals(removed.Name))
                                     {
                                         File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, item.InternalResource));
                                         if (isInternal)
@@ -181,9 +181,9 @@ namespace AppEngine.Services
 
                                     var editable = modifiedDetails.FirstOrDefault(x => x.TrainingDetailID == item.TrainingDetailID);
 
-                                    if(editable != null && !String.IsNullOrEmpty(item.InternalResource) && item.Name.Equals(editable.Name))
+                                    if (editable != null && !String.IsNullOrEmpty(item.InternalResource) && item.Name.Equals(editable.Name))
                                     {
-                                        if(editable.DisplayNo != item.DisplayNo)
+                                        if (editable.DisplayNo != item.DisplayNo)
                                         {
                                             editable.DisplayNo = item.DisplayNo;
                                             context.Entry(editable).State = EntityState.Modified;
@@ -213,13 +213,13 @@ namespace AppEngine.Services
                                             }
                                         }
                                         context.Entry(item).State = EntityState.Added;
-                                    }  
+                                    }
                                 }
 
 
                                 context.SaveChanges();
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 model.ErrorMessage = "Problem z zapisaniem zmian w szczegolach szkolenia";
                                 return false;
@@ -244,7 +244,7 @@ namespace AppEngine.Services
                                 item.DisplayNo = index;
                                 index++;
                                 context.Entry(item).State = EntityState.Added;
-                            } 
+                            }
                             context.SaveChanges();
                         }
 
@@ -257,15 +257,16 @@ namespace AppEngine.Services
                                 foreach (var item in model.Current.Groups)
                                 {
                                     var grp = context.TrainingInGroups.FirstOrDefault(x => x.ProfileGroupID == item.ProfileGroupID && x.TrainingID == model.Current.TrainingID);
-                                    if(grp != null)
+                                    if (grp != null)
                                     {
                                         context.TrainingInGroups.Remove(grp);
                                     }
                                 }
                             }
 
+                            
 
-                            if (model.Groups != null && model.Groups.Any())
+                            if (!model.Current.IsForAll && model.Groups != null && model.Groups.Any())
                             {
                                 foreach (var item in model.Groups)
                                 {
@@ -288,31 +289,19 @@ namespace AppEngine.Services
                                 }
                             }
 
-
-                            if (model.Organizations == null || model.Organizations.Any())
+                            if (!model.Current.IsForAll && model.Organizations != null && model.Organizations.Any())
                             {
-                                model.Organizations = new List<Organization>();
-                                model.Organizations = context.Organizations.Where(x => !x.IsDeleted).ToList();
-                            }
 
-
-                            var organizations = new List<Trainings2Organizations>();
-
-
-                            foreach (var item in model.Organizations)
-                            {
-                                var trainingInOrganization = new Trainings2Organizations();
-                                trainingInOrganization.Organization = item;
-                                trainingInOrganization.OrganizationID = item.OrganizationID;
-                                trainingInOrganization.Training = model.Current;
-                                trainingInOrganization.TrainingID = model.Current.TrainingID;
-                                trainingInOrganization.IsDeleted = false;
-                                context.TrainingsInOrganizations.Add(trainingInOrganization);
-                            }
-
-                            if (organizations.Any())
-                            {
-                                context.TrainingsInOrganizations.AddRange(organizations);
+                                foreach (var item in model.Organizations)
+                                {
+                                    var trainingInOrganization = new Trainings2Organizations();
+                                    trainingInOrganization.Organization = item;
+                                    trainingInOrganization.OrganizationID = item.OrganizationID;
+                                    trainingInOrganization.Training = model.Current;
+                                    trainingInOrganization.TrainingID = model.Current.TrainingID;
+                                    trainingInOrganization.IsDeleted = false;
+                                    context.TrainingsInOrganizations.Add(trainingInOrganization);
+                                }
                             }
                         }
 
@@ -423,6 +412,12 @@ namespace AppEngine.Services
                         if (isInternal)
                         {
                             LogService.InsertTrainingLogs(OperationLog.TrainingCreate, context, model.Current.TrainingID, model.LoggedUser.Id, model.CurrentOrganization.OrganizationID);
+
+                            if (model.Current.IsForAll)
+                            {
+                                model.Current.Groups = null;
+                            }
+
                             if (model.Current.Groups != null && model.Current.Groups.Any())
                             {
                                 foreach (var item in model.Current.Groups)
@@ -448,15 +443,10 @@ namespace AppEngine.Services
                         }
                         else
                         {
-                            if (model.Organizations == null || model.Organizations.Any())
+                            if (model.Current.IsForAll)
                             {
                                 model.Organizations = new List<Organization>();
-                                model.Organizations = context.Organizations.Where(x => !x.IsDeleted).ToList();
                             }
-
-
-                            var organizations = new List<Trainings2Organizations>();
-
 
                             foreach (var item in model.Organizations)
                             {
@@ -467,12 +457,6 @@ namespace AppEngine.Services
                                 trainingInOrganization.TrainingID = model.Current.TrainingID;
                                 trainingInOrganization.IsDeleted = false;
                                 context.TrainingsInOrganizations.Add(trainingInOrganization);
-                            }
-
-                            if (organizations.Any())
-                            {
-                                context.TrainingsInOrganizations.AddRange(organizations);
-                                context.SaveChanges();
                             }
                         }
 
@@ -539,6 +523,7 @@ namespace AppEngine.Services
                         model.Current = new Training();
                         model.Current.PassResult = 80;
                         model.Current.TrainingResources = @"Assets\Image\main_image.png";
+                        model.Current.IsForAll = true;
                         model.Details = new List<TrainingDetail>();
                         model.Questions = new List<TrainingQuestion>();
                         model.AvailableForAll = true;
@@ -547,7 +532,7 @@ namespace AppEngine.Services
                         {
                             model.Groups = (from gio in context.GroupsInOrganizations
                                             join g in context.Groups on gio.ProfileGroupID equals g.ProfileGroupID
-                                            where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted
+                                            where gio.OrganizationID == model.CurrentOrganization.OrganizationID && !g.IsDeleted && g.Name != "Wszyscy"
                                             select g).ToList();
                         }
 
@@ -660,8 +645,8 @@ namespace AppEngine.Services
                         {
                             model.Trainings = (from t in context.Trainings
                                                join to in context.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
-                                               where to.OrganizationID == model.CurrentOrganization.OrganizationID && 
-                                               t.TrainingType == TrainingType.Internal && 
+                                               where to.OrganizationID == model.CurrentOrganization.OrganizationID &&
+                                               t.TrainingType == TrainingType.Internal &&
                                                t.CreateUserID == model.LoggedUser.Id
                                                orderby t.CreateDate
                                                select t).ToList();

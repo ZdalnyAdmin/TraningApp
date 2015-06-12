@@ -376,6 +376,23 @@
             resources = "";
         }
     }
+
+    $scope.selectAll = function (isAll) {
+        if(isAll)
+        {
+            if (!$scope.viewModel.Groups) {
+                return;
+            }
+
+            angular.forEach($scope.viewModel.Groups, function (val) {
+                    val.selected = false;
+            });
+        }
+        else
+        {
+            $scope.viewModel.Current.IsForAll = false;
+        }
+    }
 }
 
 creatorAddTrainingController.$inject = ['$scope', '$http', '$element', '$modal', 'UserFactory', 'UtilitiesFactory'];

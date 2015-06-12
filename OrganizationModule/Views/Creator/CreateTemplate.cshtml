@@ -223,8 +223,11 @@
     <div class="row">
         Na ta chwile polecamy Ci nie zaznaczac zadnej grupy. W takiej sytuacji kurs bedzie widoczny tylko dla Ciebie. Polecamy Ci go uruchomić i przetestowac a dopiero pozniej przyznac uprawnienia dla innych uzytkownikow (Mozesz to zrobic w zakladce moje szkolenia)
     </div>
+
+    <input type="checkbox" ng-model="viewModel.Current.IsForAll" ng-click="selectAll(true)" /> Wszyscy
+
     <div ng-repeat="item in viewModel.Groups">
-        <input type="checkbox" ng-model="item.selected" />{{item.Name}}
+        <input type="checkbox" ng-model="item.selected" ng-click="selectAll(false)" />{{item.Name}}
     </div>
     <div class="row">
         <button ng-click="save()">

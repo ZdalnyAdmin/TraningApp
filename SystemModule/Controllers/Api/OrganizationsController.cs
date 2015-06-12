@@ -208,10 +208,9 @@ namespace SystemModule.Controllers.Api
 
                         var protector = db.Users.FirstOrDefault(x => x.Id == current.ProtectorID);
 
-                        var assignedUsers = (from gio in db.GroupsInOrganizations
-                                             join pig in db.PeopleInGroups on gio.ProfileGroupID equals pig.ProfileGroupID
-                                             join u in db.Users on pig.PersonID equals u.Id
-                                             where gio.OrganizationID == obj.OrganizationID
+                        var assignedUsers = (from u in db.Users
+                                             where u.OrganizationID.HasValue && u.OrganizationID.Value == obj.OrganizationID
+                                             && u.Profile != ProfileEnum.Protector
                                              select u).ToList();
 
                         obj.Detail.AssignedUser = assignedUsers.Count(x => x.Status == StatusEnum.Active);
@@ -220,6 +219,7 @@ namespace SystemModule.Controllers.Api
                         obj.Detail.InvationUser = assignedUsers.Count(x => x.Status == StatusEnum.Invited);
 
                         obj.Detail.Email = protector != null ? protector.Email : String.Empty;
+                        obj.Detail.Login = protector != null ? protector.DisplayName : String.Empty;
 
 
 
