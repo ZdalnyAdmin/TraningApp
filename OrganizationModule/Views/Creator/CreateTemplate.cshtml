@@ -210,30 +210,63 @@
     <div ng-training-details-tab obj="viewModel.Details"></div>
     <div ng-training-edit-details collection="viewModel.Details"></div>
 
+
     <div class="row">
-        PYTANIE W SZKOLENIU
+        <div class="col-xs-12">
+            <h3>TEST DO SZKOLENIA</h3>
+    </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h5>Mozesz stworzyc test do swojego szkolenia, wybierajac rodzaj pytania, wpisujac jego tresc i odpowiedzi oraz
+wyznaczajac punkty za kazda z nich. Niech zaliczenie Twojego szkolenia bedzie wyzwaniem! :)</h5>
+        </div>
     </div>
 
     <div ng-training-edit-question questions="viewModel.Questions"></div>
     <div ng-training-add-question questions="viewModel.Questions"></div>
 
     <div class="row">
-        OKRESL DLA KOGO MA BYC WIDOCZNE SZKOLENIE
-    </div>
-    <div class="row">
-        Na ta chwile polecamy Ci nie zaznaczac zadnej grupy. W takiej sytuacji kurs bedzie widoczny tylko dla Ciebie. Polecamy Ci go uruchomić i przetestowac a dopiero pozniej przyznac uprawnienia dla innych uzytkownikow (Mozesz to zrobic w zakladce moje szkolenia)
+        <div class="col-xs-12">
+            <h3>DOSTĘPNOŚĆ SZKOLENIA</h3>
+        </div>
     </div>
 
-    <input type="checkbox" ng-model="viewModel.Current.IsForAll" ng-click="selectAll(true)" /> Wszyscy
-
+    <div class="row accessibility">
+        <div class="col-lg-8">
+            <h5>
+                Dla kogo ma byc widoczne szkolenie? Jesli nie zaznaczysz zadnej opcji,
+                bedzie dostepne tylko dla Ciebie - do przetestowania.
+            </h5>
+            <input id="d1" type="checkbox" ng-model="viewModel.Current.IsForAll" ng-click="selectAll(true)" /> Wszyscy
+            <div class="item" ng-repeat="item in viewModel.Groups">
+                
+                <input id="d1" type="checkbox" ng-model="item.selected" />
+                <label for="d1"><span></span>{{item.Name}}</label>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="navy-cloud">
+                Na tą chwilę polecamy Ci nie
+                zaznaczać żadnej grupy. Warto
+                uruchomić i przetestować szkolenie, a
+                dopiero później przyznać uprawnienia
+                innym użytkownikom (możesz to
+                zrobić w zakładce Moje szkolenia).
+    </div>
+    </div>
     <div ng-repeat="item in viewModel.Groups">
-        <input type="checkbox" ng-model="item.selected" ng-click="selectAll(false)" />{{item.Name}}
+        <input type="checkbox" ng-model="item.selected" />{{item.Name}}
     </div>
     <div class="row">
-        <button ng-click="save()">
+        <div class="col-xs-12 buttons">
+            <button class="btn btn-xl blue-button" ng-click="save()">
+                
             ZAPISZ SZKOLENIE
         </button>
     </div>
+</div>
 </div>
 @Styles.Render("~/Trainings")
 

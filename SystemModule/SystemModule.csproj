@@ -183,6 +183,7 @@
     <Compile Include="Controllers\Api\StatisticsController.cs" />
     <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\Api\UserController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
@@ -399,6 +400,7 @@
     <Folder Include="Temp\Images\" />
     <Folder Include="Temp\Movies\" />
     <Folder Include="Temp\Presentations\" />
+    <Folder Include="Views\File\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -74,12 +74,16 @@
             };
 
             $scope.change = function () {
-                $scope.model.isEdit = true;
+                $scope.model.isEdit = false;
 
                 if ($scope.model.InternalResource) {
                     deleteFile($scope.model.InternalResource);
+                    cancel();
+                    $scope.fileName = undefined;
                     $scope.model.InternalResource = undefined;
                 }
+
+                $scope.model.isEdit = true;
 
                 if ($scope.options == 'MOVIE' && $scope.model.ExternalResource) {
                     try {
@@ -129,7 +133,9 @@
                 }
             };
 
-            $scope.$watch('model.isEdit', function () {
+            $scope.$watch('model.isEdit', cancel);
+
+            function cancel() {
                 if (!$scope.model.isEdit) {
                     $scope.fileName = undefined;
                     $scope.fileSrc = undefined;
@@ -149,9 +155,9 @@
                     }
 
                     $element.find('.progressBar').text('');
-                    $element.find('.upload-file').parent().html('<input type="file" class="upload-file" onchange="angular.element(this).scope().upload(this)" name="uploadFiles">');
+                    $element.find('.upload-file').parent().html('WYBIERZ PLIK Z DYSKU<input type="file" class="upload-file" onchange="angular.element(this).scope().upload(this)" name="uploadFiles">');
                 }
-            });
+            }
 
             $element[0].addEventListener('drop',
                 function (e) {
@@ -312,6 +318,7 @@
             //);
 
             function sendFileToServer(formData, status) {
+                $scope.model.ExternalResource = undefined;
                 var uploadURL = ""; //Upload URL
 
                 switch ($scope.options) {

@@ -74,6 +74,12 @@ namespace SystemModule
             );
 
             routes.MapRoute(
+                name: "File",
+                url: "File/{guid}",
+                defaults: new { controller = "File", action = "Index", guid = UrlParameter.Optional, fileName = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Redirect",
                 url: "{id}",
                 defaults: new { controller = "Redirect", action = "Index" }

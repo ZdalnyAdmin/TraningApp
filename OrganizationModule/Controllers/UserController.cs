@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using AppEngine.Models.ViewModels.Account;
 using System.Collections.ObjectModel;
 using AppEngine.Services;
+using System.Collections.Generic;
 
 namespace OrganizationModule.Controllers
 {
@@ -211,6 +212,11 @@ namespace OrganizationModule.Controllers
                     model.Code = await UserManager.GeneratePasswordResetTokenAsync(loggedUser.Id);
 
                     result = await Person.ChangePasswordAsync(UserManager, model);
+                    if (result.Succeeded)
+                    {
+                        result.Message = "Hasło zostało zmienione!";
+                    }
+
                     return Json(result);
                 }
                 else

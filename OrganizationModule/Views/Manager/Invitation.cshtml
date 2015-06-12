@@ -57,7 +57,11 @@
                                 @user.Email
                             </td>
                             <td>
-                                @(((StatusEnum)user.Status).GetDescription())
+                                @if(!user.IsDeleted){
+                                    WriteLiteral(((StatusEnum)user.Status).GetDescription());
+                                } else {
+                                    WriteLiteral("Nieaktualne");
+                                }
                             </td>
                             <td>
                                 @if(((StatusEnum)user.Status) == StatusEnum.Invited)
