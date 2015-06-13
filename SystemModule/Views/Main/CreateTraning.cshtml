@@ -1,4 +1,4 @@
-﻿<div ng-app="" ng-controller="addTrainingController" >
+﻿<div ng-app="" ng-controller="addTrainingController">
 
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="row">
-        
+
         <div class="col-md-12">
             <label>NAZWA SZKOLENIA</label>
             <input type="text" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" maxlength="80" ng-blur="nameValidation = true" />
@@ -58,8 +58,8 @@
             <button ng-click="remove(viewModel.Current.TrainingResources, true)" ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0 && viewModel.Current.TrainingResources !== 'Assets\\Image\\main_image.png'">Usuń</button>
         </div>
         @*<div class="col-md-4">
-            *Nie przejmuj sie, nie misisz dodawac zadnej grafiki! Jesli nie dodasz zadnej grafiki zostanie uzyta grafika domyslna
-        </div>*@
+                *Nie przejmuj sie, nie misisz dodawac zadnej grafiki! Jesli nie dodasz zadnej grafiki zostanie uzyta grafika domyslna
+            </div>*@
 
         <div ng-show="!!imageMessage && imageMessage.length > 0">
             {{imageMessage}}
@@ -97,7 +97,7 @@
         </div>
     </div>
 
-  
+
 
     <div class="row">
         <div class="col-md-12">
@@ -114,13 +114,13 @@
                     <div class='statusBarMark'><div></div></div>
                 </div>
                 <div class="col-md-6">
-                     [musi byc 100px na 100px i nie wiekszy niz 150kb] lub wybierz ktoras z przygotowanych przez nas!
+                    [musi byc 100px na 100px i nie wiekszy niz 150kb] lub wybierz ktoras z przygotowanych przez nas!
                 </div>
-                
+
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    lub 
+                    lub
                     <button id="inputButto" ng-click="showIcon()">
                         Wybierz z listy
                     </button>
@@ -128,9 +128,9 @@
 
                 <div class="col-md-6">
                     <img src="{{viewModel.Current.PassResources}}" />
-                    <button ng-click="remove(viewModel.Current.PassResources, false)" 
+                    <button ng-click="remove(viewModel.Current.PassResources, false)"
                             ng-show="!!viewModel.Current.PassResources && viewModel.Current.PassResources.length > 0 && viewModel.Current.TrainingResources !== 'Assets\\Image\\main_image.png'">
-                    Usuń
+                        Usuń
                     </button>
                 </div>
             </div>
@@ -139,7 +139,7 @@
             {{markMessage}}
         </div>
     </div>
- 
+
 
 
 
@@ -163,7 +163,7 @@
         <h2>DOSTEPNOSC SZKOLENIA</h2>
     </div>
     <div class="row">
-        <input type="checkbox" ng-model="viewModel.Current.IsForAll" ng-disabled="viewModel.Organizations.length > 0" />Wszystkie firmy
+        <input type="checkbox" ng-model="viewModel.Current.IsForAll" ng-click="selectAll(true)" />Wszystkie firmy
     </div>
     <div> lub wybierz z list</div>
     <button ng-click="showOrganization()">WYBIERZ</button>

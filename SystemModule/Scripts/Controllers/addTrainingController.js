@@ -354,7 +354,10 @@
         modalInstance.result.then(function (selectedOrganization) {
             if (!!selectedOrganization) {
                 $scope.viewModel.Organizations = selectedOrganization;
-                $scope.viewModel.AvailableForAll = selectedOrganization.length == 0;
+                
+                var isNotSelected = selectedOrganization.length == 0;
+                $scope.viewModel.AvailableForAll = isNotSelected;
+                $scope.selectAll(isNotSelected);
             }
         });
     }
@@ -380,6 +383,19 @@
             }
             $scope.viewModel.Current.PassResources = "";
             resources = "";
+        }
+    }
+
+    $scope.selectAll = function (isAll) {
+        if (isAll) {
+            if (!$scope.viewModel.Organizations) {
+                return;
+            }
+
+            $scope.viewModel.Organizations.length = 0;
+        }
+        else {
+            $scope.viewModel.Current.IsForAll = false;
         }
     }
 }
