@@ -1,7 +1,7 @@
 ﻿window.App
 .directive('ngTrainingEditQuestion', [function () {
     return {
-        scope: { questions: '='},
+        scope: { questions: '=' },
         restrict: 'A',
         replace: 'true',
         templateUrl: 'Templates/trainingEditQuestion.html',
@@ -32,7 +32,6 @@
             }
 
             $scope.save = function (question) {
-
                 $scope.ErrorMessage = '';
                 var isValid = true;
 
@@ -53,7 +52,7 @@
                                 checkScore = true;
                             }
                         }
-                        
+
                         if (!!val.Score && val.Score < 0 || val.Score > 100) {
                             isValid = false;
                         }
@@ -87,6 +86,9 @@
                     return;
                 }
 
+
+
+
                 $scope.editableQuestion = {};
                 question.isEdit = false;
             }
@@ -96,6 +98,37 @@
                 question.Answers = $scope.editableQuestion.Answers;
                 $scope.editableQuestion = {};
                 question.isEdit = false;
+            }
+
+            $scope.addAnswer = function (item) {
+                if (!item.Answers) {
+                    item.Answers = [];
+                }
+
+
+                if (item.Answers.length > 6) {
+                    $scope.ErrorMessage = "Maksymalnie moze byc 6 odpowiedzi";
+                    return;
+                }
+
+                item.Answers.push(createAnswer());
+            }
+
+            $scope.removeAnswer = function (item, answer) {
+
+                if (!item.Answers) {
+                    item.Answers = [];
+                }
+
+                var index = 0;
+                for (var i = 0; i < item.Answers.length; i++) {
+                    if (item.Answers[i] == answer) {
+                        index = i;
+                        break;
+                    }
+                }
+                //delete element from list
+                item.Answers.splice(index, 1);
             }
 
             changePosition = function (list, currentItem, up) {
