@@ -192,7 +192,7 @@ namespace AppEngine.Models.Common
             if (userByUserName == null)
             {
                 var errors = new List<string>();
-                errors.Add("Błędna nazwa użytkownika.");
+                errors.Add("Nieprawidłowy login!");
 
                 return new Result()
                 {
