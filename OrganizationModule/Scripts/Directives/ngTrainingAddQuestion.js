@@ -9,7 +9,7 @@
             $scope.questionType = ['jednokrotnego wyboru', 'wielokrotnego wyboru', 'wpisanie odpowiedzi'];
             $scope.selectedQuestion = 0;
             $scope.currentQuestion = {};
-            $scope.showQuestionType = false;
+            $scope.showQuestionType = true;
 
             //question methods
             $scope.changeQuestion = function (type) {
@@ -19,7 +19,7 @@
                     $scope.selectedQuestion = 1;
                     $scope.currentQuestion.Type = 0;
                     $scope.currentQuestion.Answers = [];
-                    for (var i = 0; i < 6; i++) {
+                    for (var i = 0; i < 2; i++) {
                         $scope.currentQuestion.Answers.push(createAnswer());
                     }
                     return;
@@ -28,7 +28,7 @@
                     $scope.selectedQuestion = 2;
                     $scope.currentQuestion.Type = 1;
                     $scope.currentQuestion.Answers = [];
-                    for (var i = 0; i < 6; i++) {
+                    for (var i = 0; i < 2; i++) {
                         $scope.currentQuestion.Answers.push(createAnswer());
                     }
                     return;
@@ -47,14 +47,44 @@
 
             $scope.nextQuestion = function () {
 
-                $scope.ErrorMessage = "";
+            }
 
-                if (!$scope.currentQuestion) {
+            $scope.addAnswer = function () {
+                if (!$scope.currentQuestion.Answers) {
+                    $scope.currentQuestion.Answers = [];
+                }
+
+
+                if ($scope.currentQuestion.Answers.length > 6) {
+                    $scope.ErrorMessage = "Maksymalnie moze byc 6 odpowiedzi";
                     return;
                 }
 
-                if (!$scope.showQuestionType && !$scope.currentQuestion.Text) {
-                    $scope.showQuestionType = true;
+                $scope.currentQuestion.Answers.push(createAnswer());
+            }
+
+            $scope.removeAnswer = function (answer) {
+
+                if (!$scope.currentQuestion.Answers) {
+                    $scope.currentQuestion.Answers = [];
+                }
+
+                var index = 0;
+                for (var i = 0; i < $scope.currentQuestion.Answers.length; i++) {
+                    if ($scope.currentQuestion.Answers[i] == answer) {
+                        index = i;
+                        break;
+                    }
+                }
+                //delete element from list
+                $scope.currentQuestion.Answers.splice(index, 1);
+            }
+
+            $scope.addQuestion = function () {
+
+                $scope.ErrorMessage = "";
+
+                if (!$scope.currentQuestion) {
                     return;
                 }
 
@@ -75,7 +105,7 @@
                                 checkScore = true;
                             }
                         }
-                        
+
                         if (!!val.Score && val.Score < 0 || val.Score > 100) {
                             isValid = false;
                         }
@@ -114,7 +144,10 @@
                 $scope.questions.push($scope.currentQuestion);
                 $scope.changeQuestion("");
                 $scope.selected = "Wybierz";
+                $scope.showQuestionType = true;
             }
+
+
 
             createAnswer = function () {
                 var obj = {};

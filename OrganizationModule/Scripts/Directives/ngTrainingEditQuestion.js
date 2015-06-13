@@ -100,6 +100,37 @@
                 question.isEdit = false;
             }
 
+            $scope.addAnswer = function (item) {
+                if (!item.Answers) {
+                    item.Answers = [];
+                }
+
+
+                if (item.Answers.length > 6) {
+                    $scope.ErrorMessage = "Maksymalnie moze byc 6 odpowiedzi";
+                    return;
+                }
+
+                item.Answers.push(createAnswer());
+            }
+
+            $scope.removeAnswer = function (item, answer) {
+
+                if (!item.Answers) {
+                    item.Answers = [];
+                }
+
+                var index = 0;
+                for (var i = 0; i < item.Answers.length; i++) {
+                    if (item.Answers[i] == answer) {
+                        index = i;
+                        break;
+                    }
+                }
+                //delete element from list
+                item.Answers.splice(index, 1);
+            }
+
             changePosition = function (list, currentItem, up) {
                 if (!list || !list.length) {
                     return;
