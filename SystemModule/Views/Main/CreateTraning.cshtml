@@ -48,6 +48,7 @@
                 Grafika obrazujaca szkolenie [400 x 300px i nie wieksza niz 350kb]
             </label>
             <input type="file"
+                   id="idTrainingImageInput"
                    class="upload-input upload-image"
                    onchange="angular.element(this).scope().loadImage(this)"
                    name="uploadImages">
@@ -108,6 +109,7 @@
                 <div class="col-md-6">
                     wczytaj własną
                     <input type="file"
+                           id="idTrainingMarkInput"
                            class="upload-input upload-mark"
                            onchange="angular.element(this).scope().loadIcon(this)"
                            name="uploadMarks">

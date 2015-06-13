@@ -56,6 +56,7 @@
                 <span class="btn blue-button btn-l btn-file">
                     WCZYTAJ PLIK
                     <input type="file"
+                           id="idTrainingImageInput"
                            class="upload-input upload-image"
                            onchange="angular.element(this).scope().loadImage(this)"
                            name="uploadImages">
@@ -157,6 +158,7 @@
             <span class="btn blue-button btn-l btn-file">
                 WCZYTAJ PLIK
                 <input type="file"
+                       id="idTrainingMarkInput"
                        class="upload-input upload-mark btn btn-l"
                        onchange="angular.element(this).scope().loadIcon(this)"
                        name="uploadMarks">

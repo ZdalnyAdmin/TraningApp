@@ -367,6 +367,11 @@
                 $scope.viewModel.Current.TrainingResources = "Assets\\Image\\main_image.png";
                 resources = "Assets\\Image\\main_image.png";
             }
+
+            var input = $("#idTrainingImageInput");
+            if (!!input) {
+                input.replaceWith(input.val('').clone(true));
+            }
         }
         else {
             if (resources.indexOf("Assets\\Marks") == -1) {
@@ -374,6 +379,12 @@
             }
             $scope.viewModel.Current.PassResources = "";
             resources = "";
+
+            var input = $("#idTrainingMarkInput");
+
+            if (!!input) {
+                input.replaceWith(input.val('').clone(true));
+            }
         }
     }
 
