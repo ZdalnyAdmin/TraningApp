@@ -263,8 +263,31 @@ namespace OrganizationModule.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation(ForgotPasswordViewModel model)
+        public async Task<ActionResult> ResetPasswordConfirmation(string code, string id)
         {
+            var isTokenValid = true;
+
+            if(string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(id))
+            {
+                isTokenValid = false;
+            }
+            else
+            {
+                code = code.Replace(' ', '+');
+                var user = UserManager.FindById(id);
+
+                if (user == null || !user.ResetPasswordDate.HasValue || (DateTime.Now - user.ResetPasswordDate.Value).Days > 0)
+                {
+                    isTokenValid = false;
+                }
+                else
+                {
+                    isTokenValid = await UserManager.UserTokenProvider.ValidateAsync("ResetPassword", code, UserManager, user);
+                }
+            }
+
+            ViewBag.IsTokenValid = isTokenValid;
+
             return View();
         }
         #endregion

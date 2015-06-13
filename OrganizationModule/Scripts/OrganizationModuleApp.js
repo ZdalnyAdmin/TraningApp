@@ -105,7 +105,9 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             controller: ResetPasswordController
         })
         .when('/resetPasswordConfirmation', {
-            templateUrl: 'Account/ResetPasswordConfirmation',
+            templateUrl: function (param) {
+                return 'Account/ResetPasswordConfirmation?code=' + param.code + '&id=' + param.id;
+            },
             controller: ResetPasswordConfirmation
         })
         .when('/ActiveTraining/:trainingID', {

@@ -16,7 +16,7 @@ namespace OrganizationModule
             routes.MapRoute(
                 name: "ResetPassword",
                 url: "resetPasswordConfirmation",
-                defaults: new { controller = "Redirect", action = "ResetPasswordConfirmation", code = UrlParameter.Optional }
+                defaults: new { controller = "Redirect", action = "ResetPasswordConfirmation", code = UrlParameter.Optional, id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
