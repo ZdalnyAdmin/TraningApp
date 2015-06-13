@@ -27,8 +27,7 @@
         var missingAnswer = false;
 
         angular.forEach($scope.answers, function (answer) {
-            if(answer instanceof Array)
-            {
+            if (answer instanceof Array) {
                 var selected = false;
 
                 angular.forEach(answer, function (val) {
@@ -50,9 +49,8 @@
         if (missingAnswer) {
             message = "Niestety nie wypełniłeś wszystkich odpowiedzi. Wprowadź brakujace odpowiedzi i spróbuj jeszcze raz podsumować szkolenie.";
         }
-        
-        if ($scope.currentRate < 1)
-        {
+
+        if ($scope.currentRate < 1) {
             message = "By podsumować kurs musisz go także ocenić. Twoja ocena pozwoli w przyszłości tworzyć jeszcze lepsze kursy.";
         }
 
@@ -69,6 +67,47 @@
             return;
         }
 
+        $http.post(
+                '/Training/CheckIsTrainingActive', {
+                    GenereateDate: $scope.generateDate,
+                    TrainingID: $scope.trainingID
+                }
+            ).
+            success(function (data) {
+                if (data.Succeeded) {
+                    checkDate();
+                } else {
+                    message = "To szkolenie nie jest już aktywne.";
+
+                    modalInstance = $modal.open({
+                        templateUrl: '/Templates/Modals/messageModal.html',
+                        controller: 'confirmModalController',
+                        size: 'sm',
+                        resolve: {
+                            modalResult: function () { return message; }
+                        }
+                    });
+
+                    modalInstance.result.then(function (modalResult) {
+                        if (modalResult !== undefined) {
+                           $location.path('/');
+                        }
+                    });
+                }
+            }).
+            error(function () {
+                modalInstance = $modal.open({
+                    templateUrl: '/Templates/Modals/messageModal.html',
+                    controller: 'confirmModalController',
+                    size: 'sm',
+                    resolve: {
+                        modalResult: function () { return message; }
+                    }
+                });
+            });
+    };
+
+    function checkDate() {
         $http.post(
             '/Training/CheckDate', {
                 GenereateDate: $scope.generateDate,
@@ -111,7 +150,7 @@
                 }
             });
         });
-    };
+    }
 
     function save() {
         var answers = {

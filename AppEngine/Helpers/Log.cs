@@ -19,11 +19,14 @@ namespace AppEngine.Helpers
             ERROR = 2
         }
 
-        static readonly TextWriter logTW;
+        private const int MAX_LOG_SIZE = 1048576; //1MB
+        private static TextWriter logTW;
+        private static string logPath;
+        private static object lockObj = new object();
 
         static Log()
         {
-            var logPath = HostingEnvironment.MapPath(Path.Combine("~/Log/", "log.txt"));
+            logPath = HostingEnvironment.MapPath(Path.Combine("~/Log/", string.Format("log-{0}.txt",DateTime.Now.ToString("ddMMyyyyHHmmss"))));
 
             if (!Directory.Exists(HostingEnvironment.MapPath("~/Log/")))
             {
@@ -52,6 +55,17 @@ namespace AppEngine.Helpers
         {
             var logDate = DateTime.Now;
             var logType = string.Empty;
+
+            lock (lockObj)
+            {
+                FileInfo f = new FileInfo(logPath);
+                if (f.Length >= MAX_LOG_SIZE)
+                {
+                    logPath = HostingEnvironment.MapPath(Path.Combine("~/Log/", string.Format("log-{0}.txt", DateTime.Now.ToString("ddMMyyyyHHmmss"))));
+                    logTW.Close();
+                    logTW = TextWriter.Synchronized(File.AppendText(logPath));
+                }
+            }
 
             switch (type)
             {

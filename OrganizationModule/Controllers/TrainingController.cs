@@ -25,10 +25,11 @@ namespace OrganizationModule.Controllers
                                   x => x.TrainingID,
                                   y => y.TrainingID,
                                   (x, y) => x)
+                            .Where(x=> x.IsActive)
                             .OrderByDescending(x => x.CreateDate)
                             .ToList();
 
-            var globalTrainings = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro).ToList();
+            var globalTrainings = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro && x.IsActive).ToList();
 
             globalTrainings.ForEach(x =>
             {
@@ -261,6 +262,24 @@ namespace OrganizationModule.Controllers
                 if (training != null)
                 {
                     result.Succeeded = !training.ModifiedDate.HasValue || training.ModifiedDate < model.GenereateDate;
+                }
+            }
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        public JsonResult CheckIsTrainingActive(CheckTrainingDateModel model)
+        {
+            Result result = new Result() { Succeeded = false };
+
+            if (ModelState.IsValid)
+            {
+                var training = _db.Trainings.FirstOrDefault(x => x.TrainingID == model.TrainingID);
+
+                if (training != null)
+                {
+                    result.Succeeded = training.IsActive;
                 }
             }
 

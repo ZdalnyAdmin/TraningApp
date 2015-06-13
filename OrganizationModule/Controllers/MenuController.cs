@@ -72,6 +72,7 @@ namespace OrganizationModule.Controllers
                                   x => x.TrainingID,
                                   y => y.TrainingID,
                                   (x, y) => x)
+                            .Where(x => x.IsActive)
                             .ToList();
 
             return trainings;

@@ -44,6 +44,7 @@ namespace AppEngine.Helpers
             catch (Exception ex)
             {
                 Log.Error(string.Format("Wystąpił błąd podczas wysyłania wiadomości do {0}", message.To.ToString()));
+                Log.Error(ex.Message);
                 Log.Error(ex.StackTrace);
             }
         }
