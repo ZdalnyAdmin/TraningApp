@@ -8,7 +8,10 @@
 
     result.then(function (user) {
         if (user && user.Id) {
-            $location.path('/')
+            angular.element('#content')
+                   .removeClass('col-md-12')
+                   .addClass('col-md-8 col-lg-9');
+            $location.path('/');
         }
     });
 
