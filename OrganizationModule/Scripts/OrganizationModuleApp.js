@@ -26,7 +26,9 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
 
     $routeProvider
         .when('/userTranings', {
-            templateUrl: 'Training/TrainingList',
+            templateUrl: function () {
+                return 'Training/TrainingList?random= '+ (Math.floor((Math.random() * 999999999) + 1));
+            },
             controller: trainingListController
         })
         .when('/userCurrent', {
