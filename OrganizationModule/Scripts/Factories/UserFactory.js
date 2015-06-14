@@ -204,7 +204,8 @@
         getLoggedUser: getLoggedUser,
         deleteUser: deleteUser,
         clearUser: clearUser,
-        checkUser: checkUser
+        checkUser: checkUser,
+        currentUser: currentUser
     }
 };
 

@@ -1,4 +1,4 @@
-﻿function trainingController($rootScope, $scope, $http, $modal, UtilitiesFactory, $templateCache, $route, $location) {
+﻿function trainingController($rootScope, $scope, $http, $modal, UtilitiesFactory, $templateCache, $route, $location, UserFactory) {
     $scope.answers = {};
     $scope.currentRate = 0;
 
@@ -21,6 +21,25 @@
     };
 
     $scope.summarize = function () {
+        var path = $location.path();
+        $http.post(
+            '/Account/Check', {
+                Id: (UserFactory.currentUser || {}).Id
+            }
+        ).
+        success(function (data) {
+            if (data === 'False') {
+                $location.path('/signin').search({ returnUrl: path });
+            } else {
+                $scope.answer();
+            }
+        }).
+        error(function () {
+            $location.path('/signin').search({ returnUrl: path });
+        });
+    };
+
+    $scope.answer = function () {
         var message = "";
         var modalInstance = {};
 
@@ -202,4 +221,4 @@
     }
 }
 
-trainingController.$inject = ['$rootScope', '$scope', '$http', '$modal', 'UtilitiesFactory', '$templateCache', '$route', '$location'];
+trainingController.$inject = ['$rootScope', '$scope', '$http', '$modal', 'UtilitiesFactory', '$templateCache', '$route', '$location', 'UserFactory'];
