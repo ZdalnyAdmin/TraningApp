@@ -5,6 +5,7 @@
     };
 
     $scope.errorMessage = '';
+    $scope.message = $routeParams.registered == true ? 'Twoje konto zostało utworzone. Możesz się zalogować' : '';
 
     $scope.login = function () {
         $scope.processing = true;
