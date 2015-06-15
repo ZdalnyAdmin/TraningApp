@@ -25,7 +25,7 @@ namespace SystemModule.Controllers
             var creatorId = fileParts[0];
             var creator = _db.Users.FirstOrDefault(x => x.Id == creatorId);
 
-            if (creator == null || loggedPerson == null || (creator.Profile != ProfileEnum.Superuser && creator.OrganizationID != loggedPerson.OrganizationID))
+            if (creator == null || loggedPerson == null || (creator.Profile != ProfileEnum.Superuser && creator.OrganizationID != loggedPerson.OrganizationID && loggedPerson.Profile != ProfileEnum.Superuser))
             {
                 return new HttpNotFoundResult();
             }
