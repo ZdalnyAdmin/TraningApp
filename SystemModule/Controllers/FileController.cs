@@ -30,7 +30,7 @@ namespace SystemModule.Controllers
                 return new HttpNotFoundResult();
             }
 
-            string filePath = Path.Combine(Server.MapPath("~/Assets/" + guid + "/Resources/" + fileName));
+            string filePath = Path.Combine("C:\\Assets\\" + guid + "\\Resources\\" + fileName);
 
             if (!System.IO.File.Exists(filePath))
             {
