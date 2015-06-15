@@ -220,6 +220,7 @@
     <Content Include="Content\Trainings\active-training.css" />
     <Content Include="Content\Trainings\create-training.css" />
     <Content Include="Content\Trainings\training-list.css" />
+    <Content Include="Content\Users\users.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

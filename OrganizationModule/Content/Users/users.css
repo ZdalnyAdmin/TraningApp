@@ -1,0 +1,81 @@
+﻿#users .user-header{
+    width:100%;
+    display:table;
+}
+#users .user-header div{
+    display:table-cell;
+    vertical-align:middle;
+    color:#009aaf;
+    border-bottom:1px solid #009aaf;
+    height:52px;
+}
+#users .user-header div:nth-child(1){
+    width:25%;
+}
+#users .user-header div:nth-child(2){
+    width:25%;
+}
+#users .user-header div:nth-child(3){
+    width:15%;
+}
+#users .user-header div:nth-child(4){
+    width:15%;
+}
+#users .user-header div:nth-child(5){
+    width:10%;
+}
+#users .user-header div:nth-child(6){
+    width:10%;
+}
+#users .info-row{
+    width:100%;
+    display:table;
+}
+#users .info-row div{
+    display:table-cell;
+    vertical-align:middle;
+    border-bottom:1px solid #009aaf;
+    height:52px;
+}
+#users .info-row div:nth-child(1){
+    width:25%;
+}
+#users .info-row div:nth-child(2){
+    width:25%;
+}
+#users .info-row div:nth-child(3){
+    width:15%;
+}
+#users .info-row div:nth-child(4){
+    width:15%;
+}
+#users .info-row div:nth-child(5){
+    width:10%;
+}
+#users .info-row div:nth-child(6){
+    width:10%;
+}
+#users .user-edit-row{
+    width:100%;
+    background:#0d223d;
+}
+#users .user-edit-row>div{
+    width:100%;
+    display:table;
+    margin:15px;
+}
+#users .user-edit-row div div{
+    display:table-cell;
+    vertical-align:middle;
+}
+#users .user-edit-row div div:nth-child(1){
+    width:40%;
+    padding-right:15px;
+}
+#users .user-edit-row div div:nth-child(2){
+    width:35%;
+    padding-right:15px;
+}
+#users .user-edit-row div div:nth-child(3){
+    width:25%;
+}
