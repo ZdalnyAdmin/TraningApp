@@ -17,12 +17,15 @@
         </div>
         <div>
             Moga uruchomic :
-            <div ng-repeat="grp in item.AssignedGroups">
+            <div ng-repeat="grp in item.AssignedGroups" >
                 {{grp.Name}} ,
+            </div>
+            <div ng-show="item.IsForAll">
+                Wszyscy
             </div>
         </div>
         <div>
-            <button >ZMIEN</button>
+            <button>ZMIEN</button>
         </div>
 
         <div>
