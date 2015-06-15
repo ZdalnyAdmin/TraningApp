@@ -47,15 +47,21 @@ namespace AppEngine.Helpers
 
                 var name = System.IO.Path.GetFileName(sourcePath);
 
-                //if (name.Contains("_"))
-                //{
-                //    var temp = (from t in name.Split('_')
-                //                select t).Skip(1);
-
-                //    name = string.Join("_", temp);
-                //}
-
+   
                 var destFile = Path.Combine(filePath, name);
+
+                //na razie zapisuje do sciezki na dysku dodatkowo
+                var localPath = filePath.Replace(domainPath, "C:\\");
+
+                if(!Directory.Exists(localPath))
+                {
+                    Directory.CreateDirectory(localPath);
+                }
+
+                localPath = Path.Combine(localPath, name);
+                //copy to local
+
+                System.IO.File.Copy(sourcePath, localPath, true);
 
                 System.IO.File.Copy(sourcePath, destFile, true);
 
