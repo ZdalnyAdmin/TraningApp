@@ -14,7 +14,7 @@
 
         result.then(function (data) {
             if (data.Succeeded) {
-                $location.path('/').search('');
+                $location.path('/signin').search({registered: true});
             } else {
                 if (data.Errors) {
                     $scope.errorMessage = '';

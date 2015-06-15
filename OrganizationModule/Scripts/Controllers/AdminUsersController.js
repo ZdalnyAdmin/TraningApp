@@ -2,6 +2,7 @@
     $scope.viewModel = {};
     $scope.editablePerson = {};
     $scope.availableStatus = ['Aktywny', 'Zablokowany'];
+    $scope.availableProfiles = ['Administrator', 'Manager', 'Twórca', 'Opiekun', 'Uzytkownik'];
     //temp solution
 
     //Used to display the data 
@@ -22,6 +23,12 @@
                     item.ProfileName = 'Opiekun';
                 } else if (item.Profile == 5) {
                     item.ProfileName = 'Uzytkownik';
+                }
+
+                if (item.Status == 1) {
+                    item.selectedStatus = 'Aktywny';
+                } else if (item.Status == 2) {
+                    item.selectedStatus = 'Zablokowany';
                 }
             });
 
@@ -65,6 +72,7 @@
         person.Email = $scope.editablePerson.Email;
         person.Status = $scope.editablePerson.Status;
         person.selectedStatus = $scope.editablePerson.selectedStatus;
+        person.Profile = $scope.editablePerson.Profile;
 
         if (person.Profile == 1) {
             person.ProfileName = 'Administrator';
@@ -76,6 +84,12 @@
             person.ProfileName = 'Opiekun';
         } else if (person.Profile == 5) {
             person.ProfileName = 'Uzytkownik';
+        }
+
+        if (person.Status == 1) {
+            item.selectedStatus = 'Aktywny';
+        } else if (person.Status == 2) {
+            item.selectedStatus = 'Zablokowany';
         }
 
         $scope.editablePerson = {};
@@ -122,6 +136,26 @@
 
     };
 
+    $scope.changeProfile = function (person) {
+        if (!person) {
+            return;
+        }
+
+        if (person.ProfileName == 'Administrator') {
+            person.Profile = 1;
+        } else if (person.ProfileName == 'Manager') {
+            person.Profile = 2;
+        } else if (person.ProfileName == 'Twórca') {
+            person.Profile = 3;
+        } else if (person.ProfileName == 'Opiekun') {
+            person.Profile = 4;
+        } else if (person.ProfileName == 'Uzytkownik') {
+            person.Profile = 5;
+        }
+
+
+    };
+
     $scope.deleteUser = function (person) {
         if (!person) {
             return;
@@ -145,6 +179,12 @@
                     item.ProfileName = 'Opiekun';
                 } else if (item.Profile == 5) {
                     item.ProfileName = 'Uzytkownik';
+                }
+
+                if (item.Status == 1) {
+                    item.selectedStatus = 'Aktywny';
+                } else if (item.Status == 2) {
+                    item.selectedStatus = 'Zablokowany';
                 }
             });
 

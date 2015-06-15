@@ -95,7 +95,7 @@ namespace AppEngine.Models.Common
 
             await manager.SendEmailAsync(this.Id, "Zmiana Hasła",
             "Zostało wysłane zgłoszenia zmiany hasła, aby kontynuować kliknij w <a href=\""
-                + request.Url.Scheme + "://" + request.Url.Authority + "/resetPasswordConfirmation?code=" + code + "\">link</a>");
+                + request.Url.Scheme + "://" + request.Url.Authority + "/resetPasswordConfirmation?id=" + this.Id + "&code=" + code + "\">link</a>");
 
             return result;
         }
@@ -192,7 +192,7 @@ namespace AppEngine.Models.Common
             if (userByUserName == null)
             {
                 var errors = new List<string>();
-                errors.Add("Błędna nazwa użytkownika.");
+                errors.Add("Nieprawidłowy login!");
 
                 return new Result()
                 {

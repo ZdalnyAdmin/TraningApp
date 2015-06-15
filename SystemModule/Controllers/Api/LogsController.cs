@@ -20,7 +20,7 @@ namespace SystemModule.Controllers.Api
         public IEnumerable<LogsViewModel> Get()
         {
             //get from correct profil
-            var logs = db.Logs.Where(x => x.IsSystem).ToList();
+            var logs = db.Logs.Where(x => x.IsSystem).OrderByDescending(x=>x.ModifiedDate).ToList();
             foreach (var item in logs)
             {
                 if (!string.IsNullOrWhiteSpace(item.ModifiedUserID))

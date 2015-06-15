@@ -78,6 +78,10 @@
             <select ng-model="person.selectedStatus" ng-options="c for c in availableStatus" ng-show="person.isEditable" ng-change="changeStatus(person)">
                 @*<option value="">{{ person.Status.Name }}</option>
             </select>
+
+            <select ng-model="person.ProfileName" ng-options="c for c in availableProfiles" ng-show="person.isEditable" ng-change="changeProfile(person)">
+                @*<option value="">{{ person.Status.Name }}</option>*@
+            </select>
             <div id="detailText">
                 {{ person.RegistrationDate | date: 'dd.MM.yyyy HH.mm' }}
             </div>

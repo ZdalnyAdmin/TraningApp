@@ -72,6 +72,7 @@ namespace OrganizationModule.Controllers
                                   x => x.TrainingID,
                                   y => y.TrainingID,
                                   (x, y) => x)
+                            .Where(x => x.IsActive)
                             .ToList();
 
             return trainings;
@@ -88,6 +89,9 @@ namespace OrganizationModule.Controllers
                 ViewBag.MyTrainings = myTrainings;
             }
 
+            var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == loggedPerson.OrganizationID);
+
+            ViewBag.OrganizationName = organization != null ? organization.Name : "Brak Organizacji";
             ViewBag.LoggedUser = loggedPerson;
             ViewBag.Trainings = trainings;
         }

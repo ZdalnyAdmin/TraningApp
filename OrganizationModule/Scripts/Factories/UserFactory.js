@@ -1,4 +1,4 @@
-﻿var UserFactory = function ($http, $q) {
+﻿var UserFactory = function ($http, $q, $rootScope) {
     var currentUser = null;
 
     var login = function (emailAddress, password) {
@@ -169,7 +169,29 @@
 
     var clearUser = function () {
         currentUser = null;
-    }
+    };
+
+    var checkUser = function () {
+        if (!currentUser) {
+            return;
+        }
+
+        $http.post(
+            '/Account/Check', {
+                Id: currentUser.Id
+            }
+        ).
+        success(function (data) {
+            if (data === 'False') {
+                clearUser();
+                $rootScope.$broadcast('userChanged');
+            }
+        }).
+        error(function () {
+            clearUser();
+            $rootScope.$broadcast('userChanged');
+        });
+    };
 
     return {
         login: login,
@@ -181,8 +203,10 @@
         resetPasswordConfirmation: resetPasswordConfirmation,
         getLoggedUser: getLoggedUser,
         deleteUser: deleteUser,
-        clearUser: clearUser
+        clearUser: clearUser,
+        checkUser: checkUser,
+        currentUser: currentUser
     }
 };
 
-UserFactory.$inject = ['$http', '$q'];
+UserFactory.$inject = ['$http', '$q', '$rootScope'];

@@ -47,13 +47,13 @@ namespace AppEngine.Helpers
 
                 var name = System.IO.Path.GetFileName(sourcePath);
 
-                if (name.Contains("_"))
-                {
-                    var temp = (from t in name.Split('_')
-                                select t).Skip(1);
+                //if (name.Contains("_"))
+                //{
+                //    var temp = (from t in name.Split('_')
+                //                select t).Skip(1);
 
-                    name = string.Join("_", temp);
-                }
+                //    name = string.Join("_", temp);
+                //}
 
                 var destFile = Path.Combine(filePath, name);
 

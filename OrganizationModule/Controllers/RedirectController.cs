@@ -33,7 +33,7 @@ namespace OrganizationModule.Controllers
             }
         }
 
-        public ActionResult ResetPasswordConfirmation(string code)
+        public ActionResult ResetPasswordConfirmation(string code, string id)
         {
             logoff();
 
@@ -44,7 +44,8 @@ namespace OrganizationModule.Controllers
             else
             {
                 code = Url.Encode(code);
-                return Redirect("/?page=resetPasswordConfirmation&code=" + code);
+                id = Url.Encode(id);
+                return Redirect("/?page=resetPasswordConfirmation&code=" + code + "&id=" + id);
             }
         }
 

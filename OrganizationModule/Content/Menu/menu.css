@@ -123,14 +123,17 @@ nav li:hover a{
 .creator-menu div:nth-child(n+3) ul li a{
     
 }
-.creator-menu div:nth-child(n+3) ul li:hover a{
+.creator-menu div:nth-child(n+3) ul li:hover a,
+.creator-menu div:nth-child(n+3) ul li.active a
+{
     color:#fff;
     background:#3469d0;
 }
 .creator-menu div:nth-child(n+4) ul li a{
     background:none!important;
 }
-.creator-menu div:nth-child(n+4) ul li:hover a{
+.creator-menu div:nth-child(n+4) ul li:hover a,
+.creator-menu div:nth-child(n+4) ul li.active a{
     background:#fff;
     color:#283759!important;
 }
@@ -138,28 +141,32 @@ nav li:hover a{
 .manager-menu div:nth-child(n+2) ul li a{
     
 }
-.manager-menu div:nth-child(n+2) ul li:hover a{
+.manager-menu div:nth-child(n+2) ul li:hover a,
+.manager-menu div:nth-child(n+2) ul li.active a{
     background:#3469d0!important;
     color:#fff!important;
 }
 .manager-menu div:nth-child(n+3) ul li:nth-child(n+3) a{
     
 }
-.manager-menu div:nth-child(n+3) ul li:nth-child(n+3):hover a{
+.manager-menu div:nth-child(n+3) ul li:nth-child(n+3):hover a,
+.manager-menu div:nth-child(n+3) ul li:nth-child(n+3).active a{
     background:#008fa2!important;
     color:#fff!important;
 }
 .manager-menu div:nth-child(n+4) ul li a{
     
 }
-.manager-menu div:nth-child(n+4) ul li:hover a{
+.manager-menu div:nth-child(n+4) ul li:hover a,
+.manager-menu div:nth-child(n+4) ul li.active a{
     background:#008fa2!important;
     color:#fff!important;
 }
 .manager-menu div:nth-child(n+5) ul li a{
     
 }
-.manager-menu div:nth-child(n+5) ul li:hover a{
+.manager-menu div:nth-child(n+5) ul li:hover a,
+.manager-menu div:nth-child(n+5) ul li.active a{
     background:#283759!important;
     color:#fff!important;
 }
@@ -168,28 +175,32 @@ nav li:hover a{
 .admin-menu div:nth-child(n+2) ul li a{
 
 }
-.admin-menu div:nth-child(n+2) ul li:hover a{
+.admin-menu div:nth-child(n+2) ul li:hover a,
+.admin-menu div:nth-child(n+2) ul li.active a{
     background:#3469d0!important;
     color:#fff!important;
 }
 .admin-menu div:nth-child(n+4) ul li a{
     
 }
-.admin-menu div:nth-child(n+4) ul li:hover a{
+.admin-menu div:nth-child(n+4) ul li:hover a,
+.admin-menu div:nth-child(n+4) ul li.active a{
     background:#008fa2!important;
     color:#fff!important;
 }
 .admin-menu div:nth-child(n+5) ul li a{
     
 }
-.admin-menu div:nth-child(n+5) ul li:hover a{
+.admin-menu div:nth-child(n+5) ul li:hover a,
+.admin-menu div:nth-child(n+5) ul li.active a{
     background:#842748!important;
     color:#fff!important;
 }
 .admin-menu div:nth-child(n+6) ul li a{
     
 }
-.admin-menu div:nth-child(n+6) ul li:hover a{
+.admin-menu div:nth-child(n+6) ul li:hover a,
+.admin-menu div:nth-child(n+6) ul li.active a{
     background:#283759!important;
     color:#fff!important;
 }
@@ -197,28 +208,32 @@ nav li:hover a{
 .keeper-menu div:nth-child(n+2) ul li a{
     
 }
-.keeper-menu div:nth-child(n+2) ul li:hover a{
+.keeper-menu div:nth-child(n+2) ul li:hover a,
+.keeper-menu div:nth-child(n+2) ul li.active a{
     background:#3469d0!important;
     color:#fff!important;
 }
 .keeper-menu div:nth-child(n+4) ul li a{
     
 }
-.keeper-menu div:nth-child(n+4) ul li:hover a{
+.keeper-menu div:nth-child(n+4) ul li:hover a,
+.keeper-menu div:nth-child(n+4) ul li.active a{
     background:#008fa2!important;
     color:#fff!important;
 }
 .keeper-menu div:nth-child(n+5) ul li a{
     
 }
-.keeper-menu div:nth-child(n+5) ul li:hover a{
+.keeper-menu div:nth-child(n+5) ul li:hover a,
+.keeper-menu div:nth-child(n+5) ul li.active a{
     background:#842748!important;
     color:#fff!important;
 }
 .keeper-menu div:nth-child(n+6) ul li a{
     
 }
-.keeper-menu div:nth-child(n+6) ul li:hover a{
+.keeper-menu div:nth-child(n+6) ul li:hover a,
+.keeper-menu div:nth-child(n+6) ul li.active a{
     background:#283759!important;
     color:#fff!important;
 }

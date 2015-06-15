@@ -19,18 +19,45 @@ namespace OrganizationModule.Controllers
         public ActionResult TrainingList()
         {
             var loggedPerson = Person.GetLoggedPerson(User);
+            var loggedPersonGroups = _db.PeopleInGroups
+                                        .Where(x => x.PersonID == loggedPerson.Id)
+                                        .Select(x=>x.ProfileGroupID)
+                                        .ToList();
+
+            // Organization trainings for all.
             var trainings = _db.Trainings
                             .Join(_db.TrainingsInOrganizations
                                      .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
                                   x => x.TrainingID,
                                   y => y.TrainingID,
                                   (x, y) => x)
+                            .Where(x=> x.IsActive && x.IsForAll)
                             .OrderByDescending(x => x.CreateDate)
                             .ToList();
 
-            var globalTrainings = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro).ToList();
+            // Logged user group trainings
+            var groupTrainings = _db.Trainings
+                            .Join(_db.TrainingInGroups
+                                     .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
+                                  x => x.TrainingID,
+                                  y => y.TrainingID,
+                                  (x, y) => x)
+                            .Where(x => x.IsActive)
+                            .OrderByDescending(x => x.CreateDate)
+                            .ToList();
+
+            // Global trainings for all. Not for alls should be in trining2org marked as for all.
+            var globalTrainings = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro && x.IsActive && x.IsForAll).ToList();
 
             globalTrainings.ForEach(x =>
+            {
+                if (trainings.IndexOf(x) == -1)
+                {
+                    trainings.Add(x);
+                }
+            });
+
+            groupTrainings.ForEach(x =>
             {
                 if (trainings.IndexOf(x) == -1)
                 {
@@ -261,6 +288,24 @@ namespace OrganizationModule.Controllers
                 if (training != null)
                 {
                     result.Succeeded = !training.ModifiedDate.HasValue || training.ModifiedDate < model.GenereateDate;
+                }
+            }
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        public JsonResult CheckIsTrainingActive(CheckTrainingDateModel model)
+        {
+            Result result = new Result() { Succeeded = false };
+
+            if (ModelState.IsValid)
+            {
+                var training = _db.Trainings.FirstOrDefault(x => x.TrainingID == model.TrainingID);
+
+                if (training != null)
+                {
+                    result.Succeeded = training.IsActive;
                 }
             }
 

@@ -17,7 +17,7 @@ namespace OrganizationModule.Controllers.Api
         {
 
             obj.LoggedUser = Person.GetLoggedPerson(User);
-            if (obj.LoggedUser.Status == StatusEnum.Deleted)
+            if (obj.LoggedUser == null || obj.LoggedUser.Status == StatusEnum.Deleted)
             {
                 obj.ErrorMessage = "Uprawnienia uzytkownika wygasly!";
                 return Request.CreateResponse(HttpStatusCode.Created, obj);

@@ -1,9 +1,6 @@
 ﻿<div id="create-training" ng-app="" ng-controller="creatorAddTrainingController" class="container">
-
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
-
-
 
     <div class="row">
         <div class="col-xs-12">
@@ -11,7 +8,6 @@
             <h5>Utworzenie szkolenia nie jest trudne, ale jesli robisz to pierwszy raz lub chcesz przypomniec sobie caly proces skorzystaj z przewodnika w zakladce jak tworzyć szkolenia</h5>
         </div>
     </div>
-
     <div class="row">
         <div class="col-xs-12">
             <h3>INFORMACJE O SZKOLENIU</h3>
@@ -29,7 +25,6 @@
             <div ng-show="!!viewModel.Current.Name && viewModel.Current.Name.length > 80"> Nazwa szkolenia może zawierać maksymalnie 80 znaków!         </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-xs-12">
             <div class="circle-pointer">2</div>
@@ -42,7 +37,6 @@
             <div ng-show="!!viewModel.Current.Description && viewModel.Current.Description.length > 1500"> Opis szkolenia jest zbyt długi!         </div>
         </div>
     </div>
-
     <div class="row training-image">
         <div class="col-xs-12">
             <div class="circle-pointer">3</div>
@@ -55,7 +49,6 @@
                     ng-show="!!viewModel.Current.TrainingResources && viewModel.Current.TrainingResources.length > 0 && viewModel.Current.TrainingResources !== 'Assets\\Image\\main_image.png'">
                 Usuń
             </button>
-
         </div>
         <div class=" col-lg-4 col-md-5 col-sm-7">
             <h5>Wybierz własny obrazek z dysku</h5>
@@ -63,6 +56,7 @@
                 <span class="btn blue-button btn-l btn-file">
                     WCZYTAJ PLIK
                     <input type="file"
+                           id="idTrainingImageInput"
                            class="upload-input upload-image"
                            onchange="angular.element(this).scope().loadImage(this)"
                            name="uploadImages">
@@ -93,7 +87,6 @@
             {{imageMessage}}
         </div>
     </div>
-
     <div class="row pass-training">
         <div class="col-xs-12">
             <div class="circle-pointer">4</div>
@@ -123,12 +116,10 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-xs-12">
             <div class="circle-pointer">5</div>
             <h4><span>KOMUNIKAT PO ZALICZENIU SZKOLENIA</span></h4>
-
         </div>
         <div class="col-md-11 col-lg-12">
             <h5>Jaką informację zobaczą osoby, które osiągną wymaganą liczbę punktów?</h5>
@@ -141,7 +132,6 @@
             <div class="letter-counter">{{ (viewModel.Current.PassInfo || '').length }} / 500 znaków</div>
         </div>
 
-
         <div class="col-lg-4 visible-lg">
             <div class="navy-cloud">
                 Przykładowy komunikat: „Gratulacje!
@@ -149,13 +139,11 @@
                 na temat procedury / produktu X."
             </div>
         </div>
-
         <div ng-show="passInfoValidation">
             <div ng-show="!!viewModel.Current.PassInfo && viewModel.Current.PassInfo.length < 5"> Komunikat po zaliczeniu szkolenia musi zawierać miniumum 5 znaków!          </div>
             <div ng-show="!!viewModel.Current.PassInfo && viewModel.Current.PassInfo.length > 500"> Komunikat po zaliczeniu szkolenia może zawierać maksymalnie 500 znaków!         </div>
         </div>
     </div>
-
     <div class="row badge-row">
         <div class="col-xs-12">
             <div class="circle-pointer">6</div>
@@ -170,6 +158,7 @@
             <span class="btn blue-button btn-l btn-file">
                 WCZYTAJ PLIK
                 <input type="file"
+                       id="idTrainingMarkInput"
                        class="upload-input upload-mark btn btn-l"
                        onchange="angular.element(this).scope().loadIcon(this)"
                        name="uploadMarks">
@@ -195,7 +184,6 @@
             {{markMessage}}
         </div>
     </div>
-
     <div class="row">
         <div class="col-xs-12">
             <h3>ZAWARTOŚĆ SZKOLENIA</h3>
@@ -206,42 +194,39 @@
             <h5>Dodaj dowolną liczbę elementów do swojego szkolenia. Możesz to robić w dowolnej kolejności, a potem je ustawić, przesuwając poszczególne z nich w górę lub w dół.</h5>
         </div>
     </div>
-
     <div ng-training-details-tab obj="viewModel.Details"></div>
     <div ng-training-edit-details collection="viewModel.Details"></div>
-
 
     <div class="row">
         <div class="col-xs-12">
             <h3>TEST DO SZKOLENIA</h3>
         </div>
     </div>
-
     <div class="row">
         <div class="col-xs-12">
-            <h5>Mozesz stworzyc test do swojego szkolenia, wybierajac rodzaj pytania, wpisujac jego tresc i odpowiedzi oraz
-wyznaczajac punkty za kazda z nich. Niech zaliczenie Twojego szkolenia bedzie wyzwaniem! :)</h5>
+            <h5>
+                Mozesz stworzyc test do swojego szkolenia, wybierajac rodzaj pytania, wpisujac jego tresc i odpowiedzi oraz
+                wyznaczajac punkty za kazda z nich. Niech zaliczenie Twojego szkolenia bedzie wyzwaniem! :)
+            </h5>
         </div>
     </div>
-
     <div ng-training-edit-question questions="viewModel.Questions"></div>
     <div ng-training-add-question questions="viewModel.Questions"></div>
-
     <div class="row">
         <div class="col-xs-12">
             <h3>DOSTĘPNOŚĆ SZKOLENIA</h3>
         </div>
     </div>
-
     <div class="row accessibility">
         <div class="col-lg-8">
             <h5>
                 Dla kogo ma byc widoczne szkolenie? Jesli nie zaznaczysz zadnej opcji,
                 bedzie dostepne tylko dla Ciebie - do przetestowania.
             </h5>
+            <input id="d1" type="checkbox" ng-model="viewModel.Current.IsForAll" ng-click="selectAll(true)" />
+            <label for="d1"><span></span> Wszyscy </label>
             <div class="item" ng-repeat="item in viewModel.Groups">
-                
-                <input id="d1" type="checkbox" ng-model="item.selected" />
+                <input id="d1" type="checkbox" ng-model="item.selected" ng-click="selectAll(false)" />
                 <label for="d1"><span></span>{{item.Name}}</label>
             </div>
         </div>
@@ -259,14 +244,13 @@ wyznaczajac punkty za kazda z nich. Niech zaliczenie Twojego szkolenia bedzie wy
     <div class="row">
         <div class="col-xs-12 buttons">
             <button class="btn btn-xl blue-button" ng-click="save()">
-                
+
                 ZAPISZ SZKOLENIE
             </button>
         </div>
     </div>
 </div>
 @Styles.Render("~/Trainings")
-
 <script>
     $(function () {
         $('.prompt').mouseover(function () {

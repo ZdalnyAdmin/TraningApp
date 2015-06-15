@@ -221,9 +221,9 @@ namespace OrganizationModule.Controllers
             {
                 var userByUserName = await UserManager.FindByNameAsync(model.UserName);
                 var usersByMail = _db.Users.Where(x => x.Email.Equals(model.Email)).ToList();
-                var userByMail = usersByMail.FirstOrDefault(x => x.UserName.Equals(userByUserName.UserName));
+                var userByMail = usersByMail.FirstOrDefault(x => x.UserName.Equals(model.UserName));
 
-                if (userByMail == null)
+                if (userByMail == null || userByUserName == null)
                 {
                     return Json(new
                     {
@@ -263,8 +263,31 @@ namespace OrganizationModule.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation(ForgotPasswordViewModel model)
+        public async Task<ActionResult> ResetPasswordConfirmation(string code, string id)
         {
+            var isTokenValid = true;
+
+            if(string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(id))
+            {
+                isTokenValid = false;
+            }
+            else
+            {
+                code = code.Replace(' ', '+');
+                var user = UserManager.FindById(id);
+
+                if (user == null || !user.ResetPasswordDate.HasValue || (DateTime.Now - user.ResetPasswordDate.Value).Days > 0)
+                {
+                    isTokenValid = false;
+                }
+                else
+                {
+                    isTokenValid = await UserManager.UserTokenProvider.ValidateAsync("ResetPassword", code, UserManager, user);
+                }
+            }
+
+            ViewBag.IsTokenValid = isTokenValid;
+
             return View();
         }
         #endregion
@@ -323,6 +346,14 @@ namespace OrganizationModule.Controllers
             return false;
         }
 
+        #endregion
+
+        #region Check User
+        [HttpPost]
+        public bool Check(CheckUserModel model)
+        {
+            return model.Id == User.Identity.GetUserId();
+        }
         #endregion
 
         #endregion

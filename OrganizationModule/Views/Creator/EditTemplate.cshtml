@@ -32,6 +32,7 @@
         Grafika obrazujaca szkolenie [400 x 300px i nie wieksza niz 350kb]: 
 
         <input type="file"
+               id="idTrainingImageInput"
                class="upload-input upload-image"
                onchange="angular.element(this).scope().loadImage(this)"
                name="uploadFiles">
@@ -87,6 +88,7 @@
 
     <div class="row">
         <input type="file"
+               id="idTrainingMarkInput"
                class="upload-input upload-mark"
                onchange="angular.element(this).scope().loadIcon(this)"
                name="uploadFiles">
@@ -104,8 +106,11 @@
     <div class="row">
         OKRESL DLA KOGO MA BYC WIDOCZNE SZKOLENIE
     </div>
+
+    <input type="checkbox" ng-model="viewModel.Current.IsForAll" ng-click="selectAll(true)" /> Wszyscy
+
     <div ng-repeat="item in viewModel.Current.Groups">
-        <input type="checkbox" ng-model="item.selected" />{{item.Name}}
+        <input type="checkbox" ng-model="item.selected" ng-click="selectAll(false)" />{{item.Name}}
     </div>
     <div class="row">
         Jesli nie zaznaczysz zadnej grupy, kurs będzie widoczny tylko dla Ciebie

@@ -9,7 +9,7 @@
             $scope.questionType = ['jednokrotnego wyboru', 'wielokrotnego wyboru', 'wpisanie odpowiedzi'];
             $scope.selectedQuestion = 0;
             $scope.currentQuestion = {};
-            $scope.showQuestionType = false;
+            $scope.showQuestionType = true;
 
             //question methods
             $scope.changeQuestion = function (type) {
@@ -19,7 +19,7 @@
                     $scope.selectedQuestion = 1;
                     $scope.currentQuestion.Type = 0;
                     $scope.currentQuestion.Answers = [];
-                    for (var i = 0; i < 6; i++) {
+                    for (var i = 0; i < 2; i++) {
                         $scope.currentQuestion.Answers.push(createAnswer());
                     }
                     return;
@@ -28,7 +28,7 @@
                     $scope.selectedQuestion = 2;
                     $scope.currentQuestion.Type = 1;
                     $scope.currentQuestion.Answers = [];
-                    for (var i = 0; i < 6; i++) {
+                    for (var i = 0; i < 2; i++) {
                         $scope.currentQuestion.Answers.push(createAnswer());
                     }
                     return;
@@ -42,14 +42,49 @@
                     }
                     return;
                 }
-                type = "Wybierz";
                 $scope.selectedQuestion = 0;
             }
 
             $scope.nextQuestion = function () {
 
-                if (!$scope.showQuestionType && !$scope.currentQuestion.Text) {
-                    $scope.showQuestionType = true;
+            }
+
+            $scope.addAnswer = function () {
+                if (!$scope.currentQuestion.Answers) {
+                    $scope.currentQuestion.Answers = [];
+                }
+
+
+                if ($scope.currentQuestion.Answers.length > 6) {
+                    $scope.ErrorMessage = "Maksymalnie moze byc 6 odpowiedzi";
+                    return;
+                }
+
+                $scope.currentQuestion.Answers.push(createAnswer());
+            }
+
+            $scope.removeAnswer = function (answer) {
+
+                if (!$scope.currentQuestion.Answers) {
+                    $scope.currentQuestion.Answers = [];
+                }
+
+                var index = 0;
+                for (var i = 0; i < $scope.currentQuestion.Answers.length; i++) {
+                    if ($scope.currentQuestion.Answers[i] == answer) {
+                        index = i;
+                        break;
+                    }
+                }
+                //delete element from list
+                $scope.currentQuestion.Answers.splice(index, 1);
+            }
+
+            $scope.addQuestion = function () {
+
+                $scope.ErrorMessage = "";
+
+                if (!$scope.currentQuestion) {
                     return;
                 }
 
@@ -78,7 +113,7 @@
                     });
 
                     if (!checkScore) {
-                        $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br>";
+                        $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br> ";
                         isValid = false;
                     }
 
@@ -94,7 +129,8 @@
                         isValid = false;
                     }
 
-                    if (!!$scope.currentQuestion.Answers[0].Score && $scope.currentQuestion.Answers[0].Score > 0 && $scope.currentQuestion.Answers[0].Score < 100) {
+
+                    if (!$scope.currentQuestion.Answers[0].Score || $scope.currentQuestion.Answers[0].Score < 0 || $scope.currentQuestion.Answers[0].Score > 100) {
                         $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br>";
                         isValid = false;
                     }
@@ -108,13 +144,16 @@
                 $scope.questions.push($scope.currentQuestion);
                 $scope.changeQuestion("");
                 $scope.selected = "Wybierz";
+                $scope.showQuestionType = true;
             }
+
+
 
             createAnswer = function () {
                 var obj = {};
                 obj.Text = '';
                 obj.IsSelected = false;
-                obj.Score = '';
+                obj.Score = 0;
                 return obj;
             }
 

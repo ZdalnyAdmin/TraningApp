@@ -178,6 +178,7 @@ namespace OrganizationModule.Controllers
             trainingResults.ForEach(x =>
                                         {
                                             x.Training = _db.Trainings.FirstOrDefault(y => y.TrainingID == x.TrainingID);
+                                            x.Training.UserName = _db.Users.FirstOrDefault(y => y.Id == x.Training.CreateUserID).DisplayName;
                                             x.Training.Questions = _db.TrainingQuestons.Where(y => y.TrainingID == x.TrainingID).ToList();
                                             x.Training.Questions.ForEach(y =>
                                                                             {

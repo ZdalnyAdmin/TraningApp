@@ -32,6 +32,7 @@
         Grafika obrazujaca szkolenie [400px x 300px i nie wieksza niz 350kb]:
 
         <input type="file"
+               id="idTrainingImageInput"
                class="upload-input upload-image"
                onchange="angular.element(this).scope().loadImage(this)"
                name="uploadFiles">
@@ -89,6 +90,7 @@
 
     <div class="row">
         <input type="file"
+               id="idTrainingMarkInput"
                class="upload-input upload-mark"
                onchange="angular.element(this).scope().loadIcon(this)"
                name="uploadFiles">
@@ -102,7 +104,7 @@
         DOSTEPNOSC SZKOLENIA
     </div>
     <div class="row">
-        <input type="checkbox" ng-model="viewModel.AvailableForAll" ng-disabled="viewModel.Organizations.length > 0" />Wszystkie firmy
+        <input type="checkbox" ng-model="viewModel.Current.IsForAll" ng-click="selectAll(true)" />Wszystkie firmy
     </div>
     <div> lub wybierz z list</div>
     <button ng-click="showOrganization()">WYBIERZ</button>

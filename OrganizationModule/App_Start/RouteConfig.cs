@@ -16,7 +16,7 @@ namespace OrganizationModule
             routes.MapRoute(
                 name: "ResetPassword",
                 url: "resetPasswordConfirmation",
-                defaults: new { controller = "Redirect", action = "ResetPasswordConfirmation", code = UrlParameter.Optional }
+                defaults: new { controller = "Redirect", action = "ResetPasswordConfirmation", code = UrlParameter.Optional, id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
@@ -65,6 +65,12 @@ namespace OrganizationModule
                 name: "Register",
                 url: "registerUser",
                 defaults: new { controller = "Account", action = "Register", id = UrlParameter.Optional, code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "File",
+                url: "File/{guid}",
+                defaults: new { controller = "File", action = "Index", guid = UrlParameter.Optional, fileName = UrlParameter.Optional }
             );
 
             routes.MapRoute(

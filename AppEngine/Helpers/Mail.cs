@@ -38,10 +38,14 @@ namespace AppEngine.Helpers
                     client.Credentials = getNetworkCredential(account);
                     client.Send(message);
                 }
+
+                Log.Info(string.Format("Wiadomość została wysłana do {0}", message.To.ToString()));
             }
             catch (Exception ex)
             {
-                // TODO 
+                Log.Error(string.Format("Wystąpił błąd podczas wysyłania wiadomości do {0}", message.To.ToString()));
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
             }
         }
 

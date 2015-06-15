@@ -187,6 +187,7 @@
     <Compile Include="Controllers\Api\TrainingController.cs" />
     <Compile Include="Controllers\Api\TrainingsInGroupController.cs" />
     <Compile Include="Controllers\Api\TraningsResultController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="Controllers\CreatorController.cs" />
     <Compile Include="Controllers\Api\GroupController.cs" />
@@ -231,6 +232,7 @@
     <Content Include="Scripts\Controllers\trainingListController.js" />
     <Content Include="Scripts\Controllers\trainingController.js" />
     <Content Include="Scripts\Directives\ngJwPlayer.js" />
+    <Content Include="Scripts\Directives\ngMenuMaintenance.js" />
     <Content Include="Scripts\Directives\ngUploadFile.js" />
     <Content Include="Scripts\Directives\ngDragAndDrop.js" />
     <Content Include="Scripts\Factories\TrainingFactory.js" />

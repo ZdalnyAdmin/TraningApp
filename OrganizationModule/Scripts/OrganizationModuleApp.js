@@ -26,7 +26,9 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
 
     $routeProvider
         .when('/userTranings', {
-            templateUrl: 'Training/TrainingList',
+            templateUrl: function () {
+                return 'Training/TrainingList?random= '+ (Math.floor((Math.random() * 999999999) + 1));
+            },
             controller: trainingListController
         })
         .when('/userCurrent', {
@@ -105,7 +107,9 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
             controller: ResetPasswordController
         })
         .when('/resetPasswordConfirmation', {
-            templateUrl: 'Account/ResetPasswordConfirmation',
+            templateUrl: function (param) {
+                return 'Account/ResetPasswordConfirmation?code=' + param.code + '&id=' + param.id;
+            },
             controller: ResetPasswordConfirmation
         })
         .when('/ActiveTraining/:trainingID', {
@@ -135,10 +139,11 @@ configFunction.$inject = ['$routeProvider', '$httpProvider', '$locationProvider'
 
 OrganizationModuleApp.config(configFunction);
 
-OrganizationModuleApp.run(['$rootScope', '$location', 'UtilitiesFactory', '$templateCache', '$route', function ($rootScope, $location, UtilitiesFactory, $templateCache, $route) {
+OrganizationModuleApp.run(['$rootScope', '$location', 'UtilitiesFactory', '$templateCache', '$route', 'UserFactory', function ($rootScope, $location, UtilitiesFactory, $templateCache, $route, UserFactory) {
     $rootScope.$on('$routeChangeStart', function () {
         //show loading gif
         UtilitiesFactory.showSpinner();
+        UserFactory.checkUser();
     });
     $rootScope.$on('$routeChangeSuccess', function () {
         //hide loading gif

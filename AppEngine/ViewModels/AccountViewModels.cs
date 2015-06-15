@@ -124,4 +124,9 @@ namespace AppEngine.Models.ViewModels.Account
         [Display(Name = "UserName")]
         public string UserName { get; set; }
     }
+
+    public class CheckUserModel
+    {
+        public string Id { get; set; }
+    }
 }

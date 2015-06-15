@@ -3,10 +3,8 @@
         var result = UserFactory.logoff();
         result.then(function (result) {
             if (result.success) {
-                $timeout(function () {
-                    $location.path('/');
-                    $window.location.reload();
-                }, 1000);
+                $location.path('/');
+                $window.location.reload();
             }
         });
     })();
