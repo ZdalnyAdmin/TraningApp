@@ -103,7 +103,7 @@ namespace AppEngine.Services
                         if (!model.Current.TrainingResources.EndsWith(fileName))
                         {
                             File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toModified.TrainingResources));
-                            toModified.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
+                            toModified.TrainingResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
                         }
 
                         fileName = String.IsNullOrEmpty(toModified.PassResources) ? string.Empty : Path.GetFileName(toModified.PassResources);
@@ -115,7 +115,7 @@ namespace AppEngine.Services
                             {
                                 File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toModified.PassResources));
                             }
-                            toModified.PassResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
+                            toModified.PassResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
                         }
                         toModified.Name = model.Current.Name;
                         toModified.Description = model.Current.Description;
@@ -141,6 +141,8 @@ namespace AppEngine.Services
 
                             var modifiedDetails = context.TrainingDetails.Where(x => x.TrainingID == model.Current.TrainingID).ToList();
 
+                            var localFile = String.Empty;
+
                             try
                             {
 
@@ -152,7 +154,9 @@ namespace AppEngine.Services
                                     {
                                         if (!String.IsNullOrEmpty(item.InternalResource))
                                         {
-                                            File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, item.InternalResource));
+                                            //
+                                            localFile = item.InternalResource.Replace("File", "C:\\Assets");
+                                            File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, localFile));
                                         }
                                         if (isInternal)
                                         {
@@ -163,7 +167,8 @@ namespace AppEngine.Services
                                     }
                                     if (removed != null && !String.IsNullOrEmpty(item.InternalResource) && !item.Name.Equals(removed.Name))
                                     {
-                                        File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, item.InternalResource));
+                                        localFile = item.InternalResource.Replace("File", "C:\\Assets");
+                                        File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, localFile));
                                         if (isInternal)
                                         {
                                             availableSpace += item.FileSize;
@@ -205,7 +210,8 @@ namespace AppEngine.Services
                                             {
                                                 foreach (var itemToDel in model.Details.Where(x => x.FileSize != 0))
                                                 {
-                                                    File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, itemToDel.InternalResource));
+                                                    localFile = item.InternalResource.Replace("File", "C:\\Assets");
+                                                    File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, localFile));
                                                 }
 
                                                 model.ErrorMessage = "Przestrzeń dyskowa organizacji została wykorzystana i nie ma miejsca na Twoje szkolenie - skontaktuj się z administratorem.";
@@ -344,11 +350,11 @@ namespace AppEngine.Services
                         }
 
                         fileSize = 0m;
-                        model.Current.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
+                        model.Current.TrainingResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
                         if (!String.IsNullOrEmpty(model.Current.PassResources))
                         {
                             fileSize = 0m;
-                            model.Current.PassResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
+                            model.Current.PassResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
                         }
 
 
