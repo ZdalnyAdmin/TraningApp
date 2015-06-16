@@ -1,6 +1,15 @@
 ﻿function trainingController($rootScope, $scope, $http, $modal, UtilitiesFactory, $templateCache, $route, $location, UserFactory) {
     $scope.answers = {};
     $scope.currentRate = 0;
+    $scope.currentUser = undefined;
+
+    var result = UserFactory.getLoggedUser();
+
+    result.then(function (user) {
+        if (user && user.Id) {
+            $scope.currentUser = user
+        } 
+    });
 
     $scope.init = function (questionId, questionType) {
         var currentPageTemplate = $route.current.templateUrl;
@@ -24,7 +33,7 @@
         var path = $location.path();
         $http.post(
             '/Account/Check', {
-                Id: (UserFactory.currentUser || {}).Id
+                Id: ($scope.currentUser || {}).Id
             }
         ).
         success(function (data) {
