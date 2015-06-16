@@ -60,7 +60,11 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 new-answer">
-                            <button class="btn btn-m empty-blue-button" ng-click="addAnswer()">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+<<<<<<< HEAD
+                            <button class="btn btn-m empty-blue-button">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+=======
+                            <button class="btn btn-m empty-button" ng-click="addAnswer()">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+>>>>>>> 8dedf2d5099a4f1a89b423cea795fa3d5cfea4af
                         </div>
                     </div>
                 </div>
@@ -147,7 +151,11 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 new-answer">
-                        <button class="btn btn-m empty-blue-button" ng-click="addAnswer()">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+<<<<<<< HEAD
+                        <button class="btn btn-m empty-blue-button">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+=======
+                        <button class="btn btn-m empty-button" ng-click="addAnswer()">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+>>>>>>> 8dedf2d5099a4f1a89b423cea795fa3d5cfea4af
                     </div>
                 </div>
             </div>
@@ -219,7 +227,11 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 new-answer">
-                            <button class="btn btn-m empty-blue-button" ng-click="addAnswer()">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+<<<<<<< HEAD
+                            <button class="btn btn-m empty-blue-button">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+=======
+                            <button class="btn btn-m empty-button" ng-click="addAnswer()">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+>>>>>>> 8dedf2d5099a4f1a89b423cea795fa3d5cfea4af
                         </div>
                     </div>
                 </div>
