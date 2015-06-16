@@ -45,6 +45,9 @@
     right:15px;
     cursor:pointer;
 }
+.dashed-border{
+    border:2px dashed #0d223d;
+}
 /*****************/
 /******NAGŁÓWKI*****/
 /****************/
@@ -171,11 +174,13 @@ h6{
 }
 .empty-blue-button{
     background:none;
-    border:1px solid #3770dd;
+    border:1px solid;
+    border-color:#3770dd;
     color:#3770dd;
 }
 .empty-blue-button:hover{
-    border:1px solid #3a76ea;
+    border:1px solid;
+    border-color:#3a76ea;
     color:#3a76ea;
 }
 .empty-green-button{
@@ -226,6 +231,13 @@ h6{
     background: white;
     cursor: inherit;
     display: block;
+}
+.table-btn{
+    height:32px!important;
+    font-size:16px!important;
+    font-weight:700;
+    border:2px solid!important;
+    padding:4px 20px!important;
 }
 
 /*****************/
