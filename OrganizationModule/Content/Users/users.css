@@ -1,0 +1,125 @@
+﻿#users .user-header{
+    width:100%;
+    display:table;
+}
+#users .user-header div{
+    display:table-cell;
+    vertical-align:middle;
+    color:#009aaf;
+    border-bottom:1px solid #009aaf;
+    height:52px;
+    padding-left:15px;
+    padding-right:15px;
+}
+#users .user-header div:nth-child(5), #users .user-header div:nth-child(6){
+    border-bottom:none;
+}
+#users .display-table{
+    display:table;
+}
+#users .display-table>div{
+    display:table-row;
+}
+#users .display-table>div>div{
+    display:table-cell;
+    vertical-align:middle;
+    padding-left:15px;
+    padding-right:15px;
+    height:35px;
+}
+#users .user-header div:nth-child(1){
+    width:25%;
+}
+#users .user-header div:nth-child(2){
+    width:25%;
+}
+#users .user-header div:nth-child(3){
+    width:15%;
+}
+#users .user-header div:nth-child(4){
+    width:15%;
+}
+#users .user-header div:nth-child(5){
+    width:10%;
+}
+#users .user-header div:nth-child(6){
+    width:10%;
+}
+#users .info-row{
+    width:100%;
+    display:table;
+}
+#users .info-row div{
+    display:table-cell;
+    vertical-align:middle;
+    border-bottom:1px solid #009aaf;
+    height:52px;
+    padding-left:15px;
+    padding-right:15px;
+}
+#users .info-row div:nth-child(5), #users .info-row div:nth-child(6){
+    border-bottom:none;
+}
+#users .info-row div:nth-child(1){
+    width:25%;
+}
+#users .info-row div:nth-child(2){
+    width:25%;
+}
+#users .info-row div:nth-child(3){
+    width:15%;
+}
+#users .info-row div:nth-child(4){
+    width:15%;
+}
+#users .info-row div:nth-child(5){
+    width:10%;
+}
+#users .info-row div:nth-child(6){
+    width:10%;
+}
+#users .user-edit-row .edit-data{
+    width:100%;
+    margin-top:10px;
+}
+#users .user-edit-row .edit-data>div{
+    width:100%;
+    display:table;
+    margin:15px;
+}
+#users .user-edit-row .edit-data div div{
+    display:table-cell;
+    vertical-align:middle;
+}
+#users .user-edit-row .edit-data div div:nth-child(1){
+    width:40%;
+    padding-right:15px;
+}
+#users .user-edit-row .edit-data div div:nth-child(2){
+    width:35%;
+    padding-right:15px;
+}
+#users .user-edit-row .edit-data div div:nth-child(3){
+    width:25%;
+}
+#users .user-info .labels div{
+    color:#009aaf;
+}
+#users .user-courses .labels div{
+    color:#3770dd;
+}
+#users .user-courses .labels .groups{
+    color:#009aaf;
+}
+#users .buttons{
+    padding:15px;
+}
+#users .buttons div:nth-child(1){
+    float:left;
+}
+#users .buttons div:nth-child(2){
+    float:right;
+}
+#users .deleted-users .labels div{
+    color:#009aaf;
+}

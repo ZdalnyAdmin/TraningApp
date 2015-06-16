@@ -1,9 +1,162 @@
-﻿<div ng-app="" ng-controller="adminUsersController" class="container">
+﻿<div ng-app="" ng-controller="adminUsersController" id="users">
 
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
-    <div ng-repeat="person in viewModel.People">
-        <div class="row">
+
+    <h3>UŻYTKOWNICY AKTYWNI</h3>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="user-header clearfix">
+                <div>NAZWA UŻYTKOWNIKA</div>
+                <div>ADRES E-MAIL</div>
+                <div>ROLA</div>
+                <div>STATUS</div>
+                <div>EDYTUJ</div>
+                <div>USUŃ</div>
+            </div>
+            <div ng-repeat="person in viewModel.People" class="user-content">
+                <div class="info-row clearfix">
+                    <div>{{ person.DisplayName }}</div>
+                    <div>{{ person.Email }}</div>
+                    <div>{{ person.ProfileName }}</div>
+                    <div>{{ person.selectedStatus }}</div>
+                    <div><button class="glyphicon glyphicon-pencil squared-btn empty-green-button" ng-hide="person.isEditable" ng-click="showEdit(person)"></button></div>
+                    <div><button class="glyphicon glyphicon-remove squared-btn empty-purple-button" ng-hide="person.isEditable" ng-click="delete(person)"></button></div>
+                </div>
+                <div class="user-edit-row">
+                    <div class="edit-data clearfix dashed-border">
+                        <div class="clearfix">
+                            <div><input class="form-control" type="text" id="mainInput" name="person.DisplayName" ng-model="person.DisplayName" ng-show="person.isEditable"></div>
+                            <div></div>
+                            <div><button class="btn btn-input-s green-button" ng-show="person.isEditable" ng-click="save(person)">ZATWIERDŹ ZMIANY</button></div>
+                        </div>
+                        <div class="clearfix">
+                            <div><input class="form-control" type="text" id="mainInput" name="person.Email" ng-model="person.Email" ng-show="person.isEditable"></div>
+                            <div>
+                                <select class="select-m select-green form-control" ng-model="person.selectedStatus" ng-options="c for c in availableStatus" ng-show="person.isEditable" ng-change="changeStatus(person)">
+                                    @*<option value="">{{ person.Status.Name }}</option>*@
+                                </select>
+                            </div>
+                            <div><button class="btn table-btn empty-green-button" ng-show="person.isEditable" ng-click="cancel(person)">ANULUJ</button></div>
+                        </div>
+                    </div>
+                    <div class="display-table user-info">
+                        <div class="labels">
+                            <div>LOGIN</div>
+                            @*<div>ID</div>*@
+                            <div>REJESTRACJA</div>
+                            <div>OSTATNIA AKTYWNOŚĆ</div>
+                        </div>
+                        <div>
+                            <div>{{ person.ProfileName }}</div>
+                            @*<div>{{ item.Id }}</div>*@
+                            <div>{{ person.RegistrationDate | date: 'dd.MM.yyyy HH.mm' }}</div>
+                            <div>{{ person.LastActivationDate | date: 'dd.MM.yyyy HH.mm' }}</div>
+                        </div>
+                    </div>
+                    <div class="user-details">
+                        <div class="display-table">
+                            <div class="labels">
+                                <div>SZKOLENIA ({{ person.TrainingNumber }})</div>
+                                <div class="groups">W GRUPACH</div>
+                            </div>
+                            <div>
+                                <div>
+                                    <button class="btn table-btn empty-blue-button" ng-click="showDetails = ! showDetails" ng-show="!showDetails">
+                                        POKAŻ
+                                    </button>
+                                    <button class="btn table-btn empty-blue-button" ng-click="showDetails = ! showDetails" ng-show="showDetails">
+                                        UKRYJ
+                                    </button>
+                                </div>
+                                <div ng-repeat="group in person.AssignedGroups">
+                                    {{ group.GroupName }},
+                                </div>
+                            </div>
+                        </div>
+                        <div class="display-table user-courses">
+                            <div class="labels">
+                                <div>NAZWA SZKOLENIA</div>
+                                <div>START</div>
+                                <div>KONIEC</div>
+                                <div>PUNKTY</div>
+                            </div>
+                            <div ng-repeat="item in person.AssignedTrainings" ng-show="showDetails">
+                                <div id="detailText">
+                                    @*{{ item.Id }}*@
+                                    NAZWA
+                                </div>
+                                <div id="detailText">
+                                    {{ item.StartDate | date: 'dd.MM.yyyy HH.mm' }}
+                                </div>
+                                @*<div id="detailText" ng-hide="{{item.IsCompleted}}">W trakcie</div>*@
+                                <div id="detailText">
+                                    {{ item.EndDate | date: 'dd.MM.yyyy HH.mm'}}
+                                </div>
+                                <div ng-show="{{item.IsCompleted}}">
+                                    {{item.Result}}
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <button class="btn table-btn empty-blue-button">KOLEJNE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons clearfix">
+                <div>
+                    <button class="btn btn-m empty-green-button">POKAŻ KOLEJNYCH</button>
+                </div>
+                <div>
+                    <button class="btn btn-m empty-green-button" ng-click="showDeleted = ! showDeleted" ng-show="!showDeleted">
+                        POKAŻ USUNIĘTYCH
+                    </button>
+                    <button class="btn btn-m empty-green-button" ng-click="showDeleted = ! showDeleted" ng-show="showDeleted">
+                        UKRYJ USUNIĘTYCH
+                    </button>
+                </div>             
+            </div>
+            <div class="deleted-users" ng-show="showDeleted">
+                <div>
+                    <h3>UŻYTKOWNICY USUNIĘCI</h3>
+                </div>
+                <div class="display-table">
+                    <div class="labels">
+                        <div>NAZWA UŻYTKOWNIKA</div>
+                        <div>REJESTRACJA</div>
+                        <div>USUNIĘCIE</div>
+                        <div>PRZEZ</div>
+                    </div>
+
+                    <div ng-repeat="person in viewModel.DeletedPeople">
+                        <div>
+                            {{ person.DisplayName }}
+                        </div>
+                        <div>
+                            {{ person.RegistrationDate | date: 'dd.MM.yyyy HH.mm' }}
+                        </div>
+                        <div>
+                            {{ person.DeletedDate | date: 'dd.MM.yyyy HH.mm' }}
+                        </div>
+                        <div>
+                            {{ person.DeletedUserID }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div ng-repeat="person in viewModel.People">*@
+
+        
+
+
+        @*<div class="row">
             <div id="mainText" ng-hide="person.isEditable">
                 {{ person.DisplayName }}
             </div>
@@ -20,8 +173,8 @@
             <button ng-show="person.isEditable" ng-click="cancel(person)">
                 ANULUJ ZMIANY
             </button>
-        </div>
-        <div class="row">
+        </div>*@
+        @*<div class="row">
             <div id="detailText" ng-hide="person.isEditable">
                 {{ person.Email }}
             </div>
@@ -30,11 +183,11 @@
                 {{ person.selectedStatus }}
             </div>
             <select ng-model="person.selectedStatus" ng-options="c for c in availableStatus" ng-show="person.isEditable" ng-change="changeStatus(person)">
-                @*<option value="">{{ person.Status.Name }}</option>*@
+                @*<option value="">{{ person.Status.Name }}</option>
             </select>
 
             <select ng-model="person.ProfileName" ng-options="c for c in availableProfiles" ng-show="person.isEditable" ng-change="changeProfile(person)">
-                @*<option value="">{{ person.Status.Name }}</option>*@
+                @*<option value="">{{ person.Status.Name }}</option>
             </select>
             <div id="detailText">
                 {{ person.RegistrationDate | date: 'dd.MM.yyyy HH.mm' }}
@@ -54,8 +207,8 @@
             <div id="detailText">
                 {{ person.UserName }}
             </div>
-        </div>
-        <div class="row">
+        </div>*@
+        @*<div class="row">
             <div id="mainText">
                 Kursy ({{ person.TrainingNumber }})
             </div>
@@ -87,10 +240,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
 
-    </div>
-    <button  ng-click="showDeleted = ! showDeleted" ng-show="!showDeleted">
+    @*</div>*@
+    @*<button  ng-click="showDeleted = ! showDeleted" ng-show="!showDeleted">
         POKAZ USUNIETE
     </button>
     <button  ng-click="showDeleted = ! showDeleted" ng-show="showDeleted">
@@ -120,5 +273,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 </div>
+@Styles.Render("~/Users")

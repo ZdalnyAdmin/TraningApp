@@ -45,6 +45,9 @@
     right:15px;
     cursor:pointer;
 }
+.dashed-border{
+    border:2px dashed #0d223d;
+}
 /*****************/
 /******NAGŁÓWKI*****/
 /****************/
@@ -123,20 +126,20 @@ h6{
     padding:6px 20px!important;
 }
 .btn-input-s{
-    height:32px!important;
+    height:34px!important;
     font-size:13px!important;
 }
 .btn-input-m{
-    height:44px!important;
+    height:46px!important;
     font-size:18px!important;
 }
 .btn-input-l{
-    height:50px!important;
+    height:52px!important;
     font-size:21px!important;
     padding:6px 20px!important;
 }
 .btn-input-xl{
-    height:60px!important;
+    height:62px!important;
     font-size:28px!important;
     padding:6px 20px!important;
 }
@@ -169,14 +172,46 @@ h6{
 .navy-button:hover{
     background:#1e2850;
 }
-.empty-button{
+.empty-blue-button{
     background:none;
-    border:1px solid #3770dd;
+    border:1px solid;
+    border-color:#3770dd;
     color:#3770dd;
 }
-.empty-button:hover{
-    border:1px solid #3a76ea;
+.empty-blue-button:hover{
+    border:1px solid;
+    border-color:#3a76ea;
     color:#3a76ea;
+}
+.empty-green-button{
+    background:none;
+    border:1px solid;
+    border-color:#009aaf;
+    color:#009aaf;
+}
+.empty-green-button:hover{
+    border:1px solid;
+    border-color:#00a5bc;
+    color:#00a5bc;
+}
+.empty-purple-button{
+    background:none;
+    border:1px solid;
+    border-color:#912A4F;
+    color:#912A4F;
+}
+.empty-purple-button:hover{
+    border-color:#912a4f;
+    color:#912a4f;
+}
+.squared-btn{
+    width:36px;
+    height:36px;
+    font-size:18px;
+    border:2px solid!important;
+    background:none;
+    margin:7.5px;
+    padding:0;
 }
 .btn-file {
     position: relative;
@@ -197,18 +232,36 @@ h6{
     cursor: inherit;
     display: block;
 }
+.table-btn{
+    height:32px!important;
+    font-size:16px!important;
+    font-weight:700;
+    border:2px solid!important;
+    padding:4px 20px!important;
+}
 
 /*****************/
 /******SELECTY*****/
 /****************/
 select{
-    background-color:#3770dd!important;
     color:#fff!important;
     border-radius:0!important;
     padding:0 12px!important;
     background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #ddd;
     -webkit-appearance: none;
-    background-position-x: 244px;
+    background-origin:content-box;
+}
+.select-green{
+    background-color:#009aaf!important;
+}
+.select-green:hover{
+    background-color:#00a5bc!important;
+}
+.select-blue{
+    background-color:#3770dd!important;
+}
+.select-blue:hover{
+    background-color:#3a76ea!important;
 }
 select option{
     background-color:#fff;
