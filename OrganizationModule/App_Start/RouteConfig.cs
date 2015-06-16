@@ -69,7 +69,7 @@ namespace OrganizationModule
 
             routes.MapRoute(
                 name: "File",
-                url: "File/{guid}",
+                url: "File/{guid}/{fileName}",
                 defaults: new { controller = "File", action = "Index", guid = UrlParameter.Optional, fileName = UrlParameter.Optional }
             );
 
