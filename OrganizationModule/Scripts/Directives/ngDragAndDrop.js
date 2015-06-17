@@ -69,7 +69,7 @@
                     $scope.fileName = file.name;
                     var fd = new FormData();
                     fd.append('file', file);
-                    sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
+                    sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), file);
                 });
             };
 
@@ -288,7 +288,7 @@
                 $scope.fileName = file.name;
                 var fd = new FormData();
                 fd.append('file', file);
-                sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')));
+                sendFileToServer(fd, new createStatusbar($element[0].getElementsByClassName('statusBar')), file);
                 $scope.model.isEdit = true;
 
                 if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
@@ -316,7 +316,7 @@
             //    false
             //);
 
-            function sendFileToServer(formData, status) {
+            function sendFileToServer(formData, status, file) {
                 $scope.model.ExternalResource = undefined;
                 var uploadURL = ""; //Upload URL
 
@@ -357,14 +357,9 @@
                     data: formData,
                     success: function (data) {
                         if (data.Succeeded) {
-                            $scope.model.InternalResource = $scope.fileSrc = data.Message;
+                            $scope.fileSrc = URL.createObjectURL(file);
+                            $scope.model.InternalResource = data.Message;
                             $scope.errorMessage = 'Plik został pomyślnie wczytany.';
-
-                            if ($scope.options == 'MOVIE') {
-                                jwplayer($scope.videoId).setup({
-                                    file: $scope.fileSrc
-                                });
-                            }
 
                             if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
                                 $scope.$apply();

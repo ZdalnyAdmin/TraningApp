@@ -24,9 +24,7 @@
         <div class="col-md-12">
             <img ng-show="!fileSrc && !model.ExternalResource" src="{{ options == 'IMAGE' ? '../Assets/Image/drag-drop-image.png' : '../Assets/Image/drag-drop-video.png' }}" class="empty-image" />
             <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{fileSrc || '../Assets/Image/empty.png' }}" class="filled-image" width="200px" height="200px" />
-            <div ng-show="options == 'MOVIE' && !!fileSrc" id="{{videoId}}" width="200px" height="200px">
-                Ładuję plik wideo.
-            </div>
+            <video ng-show="options == 'MOVIE' && !!fileSrc" controls autoplay src="{{ getUrl(fileSrc)}}"></video>
             <div ng-if="options == 'MOVIE' && model.ExternalResource">
                 <iframe ng-if="model.ExternalResource.indexOf('youtu') !=-1" width="560" height="315" src="{{getUrl(model.ExternalResource)}}" frameborder="0" allowfullscreen></iframe>
                 <iframe ng-if="model.ExternalResource.indexOf('player.vimeo.com') !=-1" src="{{getUrl(model.ExternalResource)}}" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

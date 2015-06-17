@@ -14,9 +14,10 @@ SystemModuleApp.factory('UserFactory', UserFactory);
 SystemModuleApp.factory('UtilitiesFactory', UtilitiesFactory);
 //SystemModuleApp.service('SessionService', SessionService);
 
-var configFunction = function ($routeProvider, $httpProvider, $locationProvider) {
+var configFunction = function ($routeProvider, $httpProvider, $locationProvider, $compileProvider) {
 
-   $locationProvider.hashPrefix('!').html5Mode(true);
+    $locationProvider.hashPrefix('!').html5Mode(true);
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(http?|https?|ftp|mailto|tel|file|blob):/);
 
     $routeProvider.
         when('/currentUser', {
@@ -95,6 +96,6 @@ var configFunction = function ($routeProvider, $httpProvider, $locationProvider)
     $httpProvider.interceptors.push('AuthHttpResponseInterceptor');
 }
 
-configFunction.$inject = ['$routeProvider', '$httpProvider', '$locationProvider'];
+configFunction.$inject = ['$routeProvider', '$httpProvider', '$locationProvider', '$compileProvider'];
 
 SystemModuleApp.config(configFunction);
