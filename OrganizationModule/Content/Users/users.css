@@ -14,19 +14,7 @@
 #users .user-header div:nth-child(5), #users .user-header div:nth-child(6){
     border-bottom:none;
 }
-#users .display-table{
-    display:table;
-}
-#users .display-table>div{
-    display:table-row;
-}
-#users .display-table>div>div{
-    display:table-cell;
-    vertical-align:middle;
-    padding-left:15px;
-    padding-right:15px;
-    height:35px;
-}
+
 #users .user-header div:nth-child(1){
     width:25%;
 }

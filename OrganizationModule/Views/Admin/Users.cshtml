@@ -76,13 +76,13 @@
                             </div>
                         </div>
                         <div class="display-table user-courses">
-                            <div class="labels">
+                            <div class="labels display-table-row">
                                 <div>NAZWA SZKOLENIA</div>
                                 <div>START</div>
                                 <div>KONIEC</div>
                                 <div>PUNKTY</div>
                             </div>
-                            <div ng-repeat="item in person.AssignedTrainings" ng-show="showDetails">
+                            <div class="display-table-row" ng-repeat="item in person.AssignedTrainings" ng-show="showDetails">
                                 <div id="detailText">
                                     @*{{ item.Id }}*@
                                     NAZWA
@@ -125,14 +125,14 @@
                     <h3>UŻYTKOWNICY USUNIĘCI</h3>
                 </div>
                 <div class="display-table">
-                    <div class="labels">
+                    <div class="labels display-table-row">
                         <div>NAZWA UŻYTKOWNIKA</div>
                         <div>REJESTRACJA</div>
                         <div>USUNIĘCIE</div>
                         <div>PRZEZ</div>
                     </div>
 
-                    <div ng-repeat="person in viewModel.DeletedPeople">
+                    <div class="display-table-row" ng-repeat="person in viewModel.DeletedPeople">
                         <div>
                             {{ person.DisplayName }}
                         </div>

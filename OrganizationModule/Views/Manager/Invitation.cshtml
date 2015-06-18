@@ -1,7 +1,125 @@
 ﻿@using AppEngine.Models.DataBusiness
 @using AppEngine.Helpers
 <div>{{errorMessage}}</div>
-<div>
+
+<div class="container" id="invite">
+
+        <div>
+            <h3>ZAPROŚ OSOBĘ DO ZESPOŁU</h3>
+        </div>
+        <form name="inviteFrm">
+            <div class="row">
+
+                <div class="col-lg-6 form-row">
+                    <div>
+                        <label>podaj adres e-mail</label>
+                        <input class="form-control" name="inviteUserEmail" ng-model="user.Email" type="text" placeholder="adres e-mail" required />
+                    </div>
+                    <div>
+                        <label>podaj nazwę użytkownika</label>
+                        <input class="form-control" name="inviteUserName" ng-model="user.UserName" type="text" placeholder="nazwa użytkownika" required maxlength="30" />
+                    </div>
+                    <div>
+                        <label>określ rolę zapraszanego</label>
+                        <select class="form-control select-green select-m" name="inviteUserRole" ng-model="user.Role">
+                            <option value="@((int)ProfileEnum.User)">@ProfileEnum.User.GetDescription()</option>
+                            <option value="@((int)ProfileEnum.Creator)">@ProfileEnum.Creator.GetDescription()</option>
+                            <option value="@((int)ProfileEnum.Manager)">@ProfileEnum.Manager.GetDescription()</option>
+
+                            @if (ViewBag.User.Profile == ProfileEnum.Administrator ||
+                    ViewBag.User.Profile == ProfileEnum.Protector ||
+                    ViewBag.User.Profile == ProfileEnum.Superuser)
+                            {
+                                <option value="@((int)ProfileEnum.Administrator)" ng-click="inviteUser()">@ProfileEnum.Administrator.GetDescription()</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-l green-button" ng-click="invite()">WYŚLIJ ZAPROSZENIE</button>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="navy-cloud">
+                        Wypełnij formularz, by zaprosić
+                        nowego członka zespołu. Pod podany
+                        adres e-mail zostanie wysłana
+                        informacja o zaproszeniu z linkiem
+                        aktywacyjnym.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="display-table">
+                    <div class="display-table-row">
+                        <div>ZAPROSZONY</div>
+                        <div>ZAPRASZAJĄCY</div>
+                        <div>DATA</div>
+                        <div>STATUS</div>
+                        <div>WIĘCEJ</div>
+                        <div>USUŃ</div>
+                    </div>
+                    @foreach (var user in ViewBag.InvitedUsers)
+                    {
+                        <div class="display-table-row">
+                            <div>
+                                @user.DisplayName
+                            </div>
+                            <div>
+                                @if (user.Inviter != null)
+                                {
+                                    @user.Inviter.DisplayName
+                                }
+                            </div>
+                            <div>
+                                @user.InvitationDate
+                            </div>
+                            <div>
+                                @if (!user.IsDeleted)
+                                {
+                                    WriteLiteral(((StatusEnum)user.Status).GetDescription());
+                                }
+                                else
+                                {
+                                    WriteLiteral("Nieaktualne");
+                                }
+                            </div>
+                            <div>
+                                @if (((StatusEnum)user.Status) == StatusEnum.Invited)
+                                {
+                                    <div ng-click="deleteUser('@user.Id')">Usuń zaproszenie</div>
+                                }
+                            </div>
+
+                        </div>
+                        <div class="display-block">
+                            <div class="display-table-nested">
+                                <div class="display-table-row">
+                                    <div>ADRES E-MAIL</div>
+                                    <div>ROLA</div>
+                                    
+                                </div>
+                                <div class="display-table-row">
+                                    <div>
+                                        @*@user.Email*@
+                                        fds
+                                    </div>
+                                    <div>
+                                        @(((ProfileEnum)user.Profile).GetDescription())
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+@*<div>
+
     <div>Wprowadź dane i zaproś użytkownika do udziału w grupie:</div>
     <form name="inviteFrm">
         <div><label for="inviteUserName">Nazwa Użytkownika</label><input name="inviteUserName" ng-model="user.UserName" type="text" placeholder="NazwaUżytkownika" required maxlength="30" /></div>
@@ -75,4 +193,6 @@
             </table>
         </div>
     </form>
-</div>
+</div>*@
+
+@Styles.Render("~/Users")

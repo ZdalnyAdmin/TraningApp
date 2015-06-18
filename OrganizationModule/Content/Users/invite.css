@@ -1,0 +1,9 @@
+﻿#invite label{
+    font-weight:300;
+}
+#invite .form-row>div{
+    margin-bottom:15px;
+}
+#invite .display-table .display-table-row>div:last-child{
+    width:50px;
+}

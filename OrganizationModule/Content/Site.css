@@ -48,6 +48,41 @@
 .dashed-border{
     border:2px dashed #0d223d;
 }
+.display-table{
+    display:table;
+    width:100%;
+}
+.display-table>.display-table-row{
+    display:table-row;
+}
+.display-table>.display-table-row>div{
+    display:table-cell;
+    vertical-align:middle;
+    padding-left:15px;
+    padding-right:15px;
+    height:35px;
+}
+.display-table>.display-table-row>div:first-child{
+    width:25%;
+}
+.display-block{
+    display:block!important;
+    width:400%;
+}
+.display-table-nested{
+    display:table!important;
+    width:100%;
+}
+.display-table-nested>.display-table-row{
+    display:table-row!important;
+}
+.display-table-nested>.display-table-row>div{
+    display:table-cell;
+    vertical-align:middle;
+    padding-left:15px;
+    padding-right:15px;
+    height:35px;
+}
 /*****************/
 /******NAGŁÓWKI*****/
 /****************/

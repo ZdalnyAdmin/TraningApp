@@ -47,7 +47,8 @@ namespace OrganizationModule
                 "~/Content/Settings/user-settings.css"));
 
             bundles.Add(new StyleBundle("~/Users").Include(
-                "~/Content/Users/users.css"));
+                "~/Content/Users/users.css",
+                "~/Content/Users/invite.css"));
 
             bundles.Add(new ScriptBundle("~/FroalaScripts")
                 .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js", "*.js")
