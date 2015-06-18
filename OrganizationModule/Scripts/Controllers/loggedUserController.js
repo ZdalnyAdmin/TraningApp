@@ -10,6 +10,8 @@
         }
     });
 
+    $scope.deleteUserModel = {};
+
     $scope.deleteUser = function () {
         var modalInstance = $modal.open({
             templateUrl: '/Templates/Modals/deleteUserModal.html',
@@ -22,12 +24,12 @@
 
         modalInstance.result.then(function () {
             UtilitiesFactory.showSpinner();
+            $scope.deleteUserModel.Errors = undefined;
 
             $http.post('/User/DeleteUser')
                 .success(function (data) {
                     UtilitiesFactory.hideSpinner();
-                    $location.path('/');
-                    $window.location.reload();
+                    $scope.deleteUserModel.Errors = 'Wysłano maila z linkiem do potwierdzenia usunięcia konta!';
                 })
                 .error(function () {
                     UtilitiesFactory.hideSpinner();

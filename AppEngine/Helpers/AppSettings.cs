@@ -31,6 +31,45 @@ namespace AppEngine.Helpers
             return Path.Combine("Assets", AppSettings.generateID(), "Resources");
         }
 
+        public static string CopyTrainingImages(string filePath, string domainPath, string sourcePath, out decimal size, bool delete = true)
+        {
+            try
+            {
+                size = 0;
+
+                if (sourcePath.StartsWith("/"))
+                {
+                    sourcePath = sourcePath.Substring(1, sourcePath.Length - 1);
+                    sourcePath = sourcePath.Replace("/", "\\");
+                }
+
+                sourcePath = Path.Combine(domainPath, sourcePath);
+                var name = System.IO.Path.GetFileName(sourcePath);
+                var destFile = Path.Combine(filePath, name);
+                System.IO.File.Copy(sourcePath, destFile, true);
+                var toDelete = sourcePath.Contains("Temp");
+                if (toDelete)
+                {
+                    File.Delete(sourcePath);
+                }
+
+                FileInfo f = new FileInfo(destFile);
+                long s1 = f.Length;
+
+                if (s1 != 0)
+                {
+                    size = System.Convert.ToDecimal((s1 / 1024f) / 1024f);
+                }
+
+                return destFile.Replace(domainPath, "");
+            }
+            catch (Exception ex)
+            {
+                size = 0;
+                return string.Empty;
+            }
+        }
+
         public static string CopyFile(string filePath,string domainPath, string sourcePath, out decimal size, bool delete=true)
         {
             try
@@ -46,12 +85,11 @@ namespace AppEngine.Helpers
                 sourcePath = Path.Combine(domainPath, sourcePath);
 
                 var name = System.IO.Path.GetFileName(sourcePath);
-
-   
                 var destFile = Path.Combine(filePath, name);
 
                 //na razie zapisuje do sciezki na dysku dodatkowo
                 var localPath = filePath.Replace(domainPath, "C:\\");
+                localPath = localPath.Replace("\\Resources", string.Empty);
 
                 if(!Directory.Exists(localPath))
                 {
@@ -60,19 +98,14 @@ namespace AppEngine.Helpers
 
                 localPath = Path.Combine(localPath, name);
                 //copy to local
-
                 System.IO.File.Copy(sourcePath, localPath, true);
-
-                System.IO.File.Copy(sourcePath, destFile, true);
-
                 var toDelete = sourcePath.Contains("Temp");
-
                 if (toDelete)
                 {
                     File.Delete(sourcePath);
                 }
 
-                FileInfo f = new FileInfo(destFile);
+                FileInfo f = new FileInfo(localPath);
                 long s1 = f.Length;
 
                 if (s1 != 0)
@@ -80,7 +113,7 @@ namespace AppEngine.Helpers
                     size = System.Convert.ToDecimal((s1 / 1024f) / 1024f);
                 }
 
-                return destFile.Replace(domainPath, "");
+                return localPath.Replace("C:\\Assets", "File");
             }
             catch (Exception ex)
             {
