@@ -10,6 +10,7 @@
             $scope.selectedQuestion = 0;
             $scope.currentQuestion = {};
             $scope.showQuestionType = true;
+            $scope.currentQuestion.selected = 'Wybierz';
 
             //question methods
             $scope.changeQuestion = function (type) {
@@ -143,7 +144,7 @@
                 $scope.currentQuestion.isEdit = false;
                 $scope.questions.push($scope.currentQuestion);
                 $scope.changeQuestion("");
-                $scope.selected = "Wybierz";
+                $scope.currentQuestion.selected = 'Wybierz';
                 $scope.showQuestionType = true;
             }
 

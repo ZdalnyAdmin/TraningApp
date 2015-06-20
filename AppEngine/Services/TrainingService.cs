@@ -108,7 +108,8 @@ namespace AppEngine.Services
 
                         fileName = String.IsNullOrEmpty(toModified.PassResources) ? string.Empty : Path.GetFileName(toModified.PassResources);
 
-                        if (!String.IsNullOrEmpty(model.Current.PassResources) && !model.Current.PassResources.EndsWith(fileName))
+                        if ((!String.IsNullOrEmpty(model.Current.PassResources) && !model.Current.PassResources.EndsWith(fileName)) || 
+                            (String.IsNullOrEmpty(fileName) && !String.IsNullOrEmpty(model.Current.PassResources)))
                         {
                             fileSize = 0m;
                             if (!String.IsNullOrEmpty(fileName))
@@ -124,6 +125,7 @@ namespace AppEngine.Services
                         toModified.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
                         toModified.ModifieddUserID = model.LoggedUser.Id;
                         toModified.ModifiedDate = DateTime.Now;
+                        toModified.IsForAll = model.Current.IsForAll;
 
                         context.Entry(toModified).State = EntityState.Modified;
                         context.SaveChanges();
