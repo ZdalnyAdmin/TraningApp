@@ -19,53 +19,8 @@ namespace OrganizationModule.Controllers
         public ActionResult TrainingList()
         {
             var loggedPerson = Person.GetLoggedPerson(User);
-            var loggedPersonGroups = _db.PeopleInGroups
-                                        .Where(x => x.PersonID == loggedPerson.Id)
-                                        .Select(x=>x.ProfileGroupID)
-                                        .ToList();
 
-            // Organization trainings for all.
-            var trainings = _db.Trainings
-                            .Join(_db.TrainingsInOrganizations
-                                     .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
-                                  x => x.TrainingID,
-                                  y => y.TrainingID,
-                                  (x, y) => x)
-                            .Where(x=> x.IsActive && x.IsForAll)
-                            .OrderByDescending(x => x.CreateDate)
-                            .ToList();
-
-            // Logged user group trainings
-            var groupTrainings = _db.Trainings
-                            .Join(_db.TrainingInGroups
-                                     .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
-                                  x => x.TrainingID,
-                                  y => y.TrainingID,
-                                  (x, y) => x)
-                            .Where(x => x.IsActive)
-                            .OrderByDescending(x => x.CreateDate)
-                            .ToList();
-
-            // Global trainings for all. Not for alls should be in trining2org marked as for all.
-            var globalTrainings = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro && x.IsActive && x.IsForAll).ToList();
-
-            globalTrainings.ForEach(x =>
-            {
-                if (trainings.IndexOf(x) == -1)
-                {
-                    trainings.Add(x);
-                }
-            });
-
-            groupTrainings.ForEach(x =>
-            {
-                if (trainings.IndexOf(x) == -1)
-                {
-                    trainings.Add(x);
-                }
-            });
-
-            ViewBag.Trainings = trainings;
+            ViewBag.Trainings = getMyTrainings(loggedPerson);
             return View();
         }
 
@@ -75,12 +30,10 @@ namespace OrganizationModule.Controllers
             var result = new Result() { Errors = new List<string>() };
             var loggedPerson = Person.GetLoggedPerson(User);
 
-            var trainingInOrg = _db.TrainingsInOrganizations
-                                   .FirstOrDefault(x => x.OrganizationID == loggedPerson.OrganizationID && x.TrainingID == model.TrainingID);
+            var myTrainings = getMyTrainings(loggedPerson);
+            var training = myTrainings.FirstOrDefault(x => x.TrainingID == model.TrainingID);
 
-            var training = _db.Trainings.FirstOrDefault(x => x.TrainingID == model.TrainingID);
-
-            if (trainingInOrg == null && (training == null || training.TrainingType != TrainingType.Kenpro))
+            if (training == null)
             {
                 result.Errors.Add("Nie masz uprawnień by uruchomić to szkolenie");
                 return Json(result);
@@ -335,6 +288,72 @@ namespace OrganizationModule.Controllers
             .ToList();
 
             return listOfSelectedAnswers;
+        }
+
+        private List<Training> getMyTrainings(Person loggedPerson)
+        {
+
+            var loggedPersonGroups = _db.PeopleInGroups
+                                        .Where(x => x.PersonID == loggedPerson.Id)
+                                        .Select(x => x.ProfileGroupID)
+                                        .ToList();
+
+            // Organization trainings for all.
+            var trainings = _db.Trainings
+                            .Join(_db.TrainingsInOrganizations
+                                     .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
+                                  x => x.TrainingID,
+                                  y => y.TrainingID,
+                                  (x, y) => x)
+                            .Where(x => x.IsActive && x.IsForAll)
+                            .OrderByDescending(x => x.CreateDate)
+                            .ToList();
+
+            // My Trainings.
+            var myTrainings = _db.Trainings
+                            .Where(x => x.IsActive && x.CreateUserID == loggedPerson.Id)
+                            .OrderByDescending(x => x.CreateDate)
+                            .ToList();
+
+            // Logged user group trainings
+            var groupTrainings = _db.Trainings
+                            .Join(_db.TrainingInGroups
+                                     .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
+                                  x => x.TrainingID,
+                                  y => y.TrainingID,
+                                  (x, y) => x)
+                            .Where(x => x.IsActive)
+                            .OrderByDescending(x => x.CreateDate)
+                            .ToList();
+
+            // Global trainings for all. Not for alls should be in trining2org marked as for all.
+            var globalTrainings = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro && x.IsActive && x.IsForAll).ToList();
+
+            globalTrainings.ForEach(x =>
+            {
+                if (trainings.IndexOf(x) == -1)
+                {
+                    trainings.Add(x);
+                }
+            });
+
+            groupTrainings.ForEach(x =>
+            {
+                if (trainings.IndexOf(x) == -1)
+                {
+                    trainings.Add(x);
+                }
+            });
+
+            myTrainings.ForEach(x =>
+            {
+                if (trainings.IndexOf(x) == -1)
+                {
+                    trainings.Add(x);
+                }
+            });
+
+            return trainings;
         }
         #endregion
     }
