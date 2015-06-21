@@ -55,6 +55,7 @@ namespace OrganizationModule.Controllers
                         var groups = (from grp in db.GroupsInOrganizations
                                       join g in db.Groups on grp.ProfileGroupID equals g.ProfileGroupID
                                       where grp.OrganizationID == obj.CurrentOrganization.OrganizationID && g.Name != "Wszyscy" && !g.IsDeleted
+                                      orderby g.CreateDate descending
                                       select new
                                       {
                                           ProfileGroupID = g.ProfileGroupID,
@@ -184,6 +185,10 @@ namespace OrganizationModule.Controllers
                         }
 
                         obj.Current = new ProfileGroup();
+
+                        obj.ActionType = BaseActionType.Get;
+
+                        Post(obj);
 
                         obj.Success = "Dane zapisane!";
 
