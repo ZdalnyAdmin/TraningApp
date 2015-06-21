@@ -353,7 +353,29 @@ namespace OrganizationModule.Controllers
                 }
             });
 
-            return trainings;
+            if (loggedPerson.Profile == ProfileEnum.Protector)
+            {
+                var allGroups = _db.GroupsInOrganizations.Where(x => x.OrganizationID == loggedPerson.OrganizationID).Select(x=>x.ProfileGroupID).ToList();
+                var allGroupsTrainings = _db.Trainings
+                            .Join(_db.TrainingInGroups
+                                     .Where(y => allGroups.Contains(y.ProfileGroupID)),
+                                  x => x.TrainingID,
+                                  y => y.TrainingID,
+                                  (x, y) => x)
+                            .Where(x => x.IsActive)
+                            .OrderByDescending(x => x.CreateDate)
+                            .ToList();
+
+                allGroupsTrainings.ForEach(x =>
+                {
+                    if (trainings.IndexOf(x) == -1)
+                    {
+                        trainings.Add(x);
+                    }
+                });
+            }
+
+            return trainings.OrderByDescending(x => x.ModifiedDate).ToList();
         }
         #endregion
     }
