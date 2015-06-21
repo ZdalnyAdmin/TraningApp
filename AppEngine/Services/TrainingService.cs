@@ -108,7 +108,7 @@ namespace AppEngine.Services
 
                         fileName = String.IsNullOrEmpty(toModified.PassResources) ? string.Empty : Path.GetFileName(toModified.PassResources);
 
-                        if ((!String.IsNullOrEmpty(model.Current.PassResources) && !model.Current.PassResources.EndsWith(fileName)) || 
+                        if ((!String.IsNullOrEmpty(model.Current.PassResources) && !model.Current.PassResources.EndsWith(fileName)) ||
                             (String.IsNullOrEmpty(fileName) && !String.IsNullOrEmpty(model.Current.PassResources)))
                         {
                             fileSize = 0m;
@@ -272,7 +272,7 @@ namespace AppEngine.Services
                                 }
                             }
 
-                            
+
 
                             if (!model.Current.IsForAll && model.Groups != null && model.Groups.Any())
                             {
@@ -638,8 +638,16 @@ namespace AppEngine.Services
 
                             if (!String.IsNullOrEmpty(item.CreatorID))
                             {
-                                item.CreatorName = context.Users.FirstOrDefault(x => x.Id == item.CreatorID).UserName;
+                                var creator = context.Users.FirstOrDefault(x => x.Id == item.CreatorID);
+                                item.CreatorName = creator.UserName;
+                                item.CreatorLogin = creator.DisplayName;
                             }
+
+                            item.AssignedGroup = (from tig in context.TrainingInGroups
+                                                  join g in context.Groups
+                                                  on tig.ProfileGroupID equals g.ProfileGroupID
+                                                  where tig.TrainingID == item.Id
+                                                  select g.Name).ToList();
                         }
 
                         model.Success = String.Empty;
