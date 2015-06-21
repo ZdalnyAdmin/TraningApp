@@ -707,6 +707,44 @@ namespace AppEngine.Services
                         model.Success = String.Empty;
 
                         break;
+
+                    case BaseActionType.ChangeImage:
+
+                        var toImageModified = context.Trainings.FirstOrDefault(x => x.TrainingID == model.Current.TrainingID);
+
+                        //check training resources
+                        var imageFileName = Path.GetFileName(toImageModified.TrainingResources);
+
+                        //Assets\34c3cd6d0bbb4001a5570372f4db649f\Resources\U_05_0238035_0115RW.pdf
+                        serverPath = toImageModified.TrainingResources.Replace("\\" + imageFileName, "");
+                        path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
+
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                        fileSize = 0m;
+                        if (!model.Current.TrainingResources.EndsWith(imageFileName))
+                        {
+                            File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toImageModified.TrainingResources));
+                            toImageModified.TrainingResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
+                        }
+
+                        toImageModified.ModifieddUserID = model.LoggedUser.Id;
+                        toImageModified.ModifiedDate = DateTime.Now;
+
+                        context.Entry(toImageModified).State = EntityState.Modified;
+                        context.SaveChanges();
+                        
+                        if (isInternal)
+                        {
+                            LogService.InsertTrainingLogs(OperationLog.TrainingEdit, context, model.Current.TrainingID, model.LoggedUser.Id, model.CurrentOrganization.OrganizationID);
+                        }
+
+                        model.Success = "Edycja szkolenia zakończyła się sukcesem!";
+
+                        break;
                     default:
                         break;
                 }
