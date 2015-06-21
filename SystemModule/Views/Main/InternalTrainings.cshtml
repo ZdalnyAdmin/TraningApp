@@ -17,6 +17,14 @@
             {{ item.CreatorName}}
         </div>
         <div>
+            {{ item.CreatorLogin}}
+        </div>
+        <div>
+            <div ng-repeat="group in item.AssignedGroup">
+                {{group}} ,
+            </div>
+        </div>
+        <div>
             {{ item.StartDate | date: 'dd.MM.yyyy HH.mm' }}
         </div>
         <div>
