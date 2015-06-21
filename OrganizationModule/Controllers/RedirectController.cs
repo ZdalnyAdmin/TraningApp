@@ -9,9 +9,11 @@ namespace OrganizationModule.Controllers
 {
     public class RedirectController : Controller
     {
+        private string[] _blackList = new[] { "signin", "resetPassword" };
+
         public ActionResult Index(string id, string trainingID)
         {
-            if (id == "signin")
+            if (_blackList.Contains(id))
             {
                 logoff();
             }
@@ -68,6 +70,11 @@ namespace OrganizationModule.Controllers
         [AllowAnonymous]
         public ActionResult ChangeEmail(string code, string id)
         {
+            if (User.Identity.GetUserId() != id)
+            {
+                logoff();
+            }
+
             if (string.IsNullOrWhiteSpace(code))
             {
                 return Redirect("/");
