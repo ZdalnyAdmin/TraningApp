@@ -54,70 +54,73 @@
     </div>
     <div class="row">
         <div class="display-table">
-            <div class="display-table-row labels main-labels">
-                <div>ZAPROSZONY</div>
-                <div>ZAPRASZAJĄCY</div>
-                <div>DATA</div>
-                <div>STATUS</div>
-                <div>WIĘCEJ</div>
-                <div>USUŃ</div>
+            <div class="display-table-header-group">
+                <div class="display-table-row green-labels main-labels">
+                    <div>ZAPROSZONY</div>
+                    <div>DATA</div>
+                    <div>STATUS</div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
             @foreach (var user in ViewBag.InvitedUsers)
             {
-                <div class="display-table-row basic-data">
-                    <div>
-                        @user.DisplayName
+                <div class="display-table-row-group">
+                    <div class="display-table-row">
+                        <div>
+                            @user.DisplayName
+                        </div>
+                        
+                        <div>
+                            @user.InvitationDate
+                        </div>
+                        <div>
+                            @if (!user.IsDeleted)
+                            {
+                                WriteLiteral(((StatusEnum)user.Status).GetDescription());
+                            }
+                            else
+                            {
+                                WriteLiteral("Nieaktualne");
+                            }
+                        </div>
+                        <div>
+                            <button class="show-details btn squared-btn empty-green-button glyphicon glyphicon-chevron-down"></button>
+                            <button style="display:none;" class="show-details btn squared-btn empty-green-button glyphicon glyphicon-chevron-up"></button>
+                        </div>
+                        <div>
+                            @if (((StatusEnum)user.Status) == StatusEnum.Invited)
+                            {
+                                <button class="glyphicon glyphicon-remove squared-btn empty-purple-button" ng-click="deleteUser('@user.Id')"></button>
+                            }
+                        </div>
                     </div>
-                    <div>
-                        @if (user.Inviter != null)
-                        {
-                            @user.Inviter.DisplayName
-                        }
-                    </div>
-                    <div>
-                        @user.InvitationDate
-                    </div>
-                    <div>
-                        @if (!user.IsDeleted)
-                        {
-                            WriteLiteral(((StatusEnum)user.Status).GetDescription());
-                        }
-                        else
-                        {
-                            WriteLiteral("Nieaktualne");
-                        }
-                    </div>
-                    <div>
-                        <button class="show-details btn squared-btn empty-green-button glyphicon glyphicon-pencil"></button>
-                    </div>
-                    <div>
-                        @if (((StatusEnum)user.Status) == StatusEnum.Invited)
-                        {
-                            <button class="glyphicon glyphicon-remove squared-btn empty-purple-button" ng-click="deleteUser('@user.Id')"></button>
-                        }
-                    </div>
-                </div>
-                <div class="display-table details-row">
-                    <div class="display-table-row labels">
+                    <div class="display-table-row details-row green-labels">
+                        <div>ZAPRASZAJĄCY</div>
                         <div>ADRES E-MAIL</div>
                         <div>ROLA</div>
-                                    
                     </div>
-                    <div class="display-table-row">
+                    <div class="display-table-row details-row">
+                        <div>
+                            @if (user.Inviter != null)
+                            {
+                                @user.Inviter.DisplayName
+                            }
+                        </div>
                         <div>
                             @user.Email
                         </div>
                         <div>
                             @(((ProfileEnum)user.Profile).GetDescription())
                         </div>
-                                    
                     </div>
                 </div>
+
             }
         </div>
     </div>
-        
 </div>
+      
 
 
 

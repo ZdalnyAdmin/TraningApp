@@ -13,7 +13,6 @@
                         <div>NAZWA UŻYTKOWNIKA</div>
                         <div>ADRES E-MAIL</div>
                         <div>ROLA</div>
-                        <div>STATUS</div>
                         <div></div>
                         <div></div>
                         <div></div>
@@ -24,31 +23,35 @@
                         <div>{{ person.DisplayName }}</div>
                         <div>{{ person.Email }}</div>
                         <div>{{ person.ProfileName }}</div>
-                        <div>{{ person.selectedStatus }}</div>
                         <div><button class="glyphicon glyphicon-pencil squared-btn empty-green-button" ng-hide="person.isEditable" ng-click="showEdit(person)"></button></div>
-                        <div><button class="glyphicon glyphicon-chevron-down squared-btn empty-green-button" ng-hide="person.isEditable" ng-click="showEdit(person)"></button></div>
+                        <div>
+                            <button class="glyphicon glyphicon-chevron-down squared-btn empty-green-button" ng-hide="person.isEditable" ng-click="showEdit(person)"></button>
+                            <button style="display:none;" class="glyphicon glyphicon-chevron-up squared-btn empty-green-button" ng-hide="person.isEditable" ng-click="showEdit(person)"></button>
+                        </div>
                         <div><button class="glyphicon glyphicon-remove squared-btn empty-purple-button" ng-hide="person.isEditable" ng-click="delete(person)"></button></div>
                     </div>
-                    <div class="display-table-row green-labels">
+                    <div class="display-table-row green-labels details-row">
                         <div>LOGIN</div>
                         @*<div>ID</div>*@
                         <div>REJESTRACJA</div>
-                        <div>OSTATNIA AKTYWNOŚĆ</div>
-                        <div>W GRUPACH</div>
+                        <div>STATUS</div>
                     </div>
-                    <div class="display-table-row">
+                    <div class="display-table-row details-row">
                         <div>{{ person.ProfileName }}</div>
                         @*<div>{{ item.Id }}</div>*@
                         <div>{{ person.RegistrationDate | date: 'dd.MM.yyyy HH.mm' }}</div>
-                        <div>{{ person.LastActivationDate | date: 'dd.MM.yyyy HH.mm' }}</div>
+                        <div>{{ person.selectedStatus }}</div>
+                    </div>
+                    <div class="display-table-row blue-labels details-row">
+                        <div>W GRUPACH</div>
+                        <div>OSTATNIA AKTYWNOŚĆ</div>
+                        <div>SZKOLENIA ({{ person.TrainingNumber }})</div>
+                    </div>
+                    <div class="display-table-row details-row">
                         <div>
                             <span ng-repeat="group in person.AssignedGroups"></span>{{ group.GroupName }},
                         </div>
-                    </div>
-                    <div class="display-table-row blue-labels">
-                        <div>SZKOLENIA ({{ person.TrainingNumber }})</div>
-                    </div>
-                    <div class="display-table-row">
+                        <div>{{ person.LastActivationDate | date: 'dd.MM.yyyy HH.mm' }}</div>                  
                         <div>
                             <button class="btn table-btn empty-blue-button" ng-click="showDetails = ! showDetails" ng-show="!showDetails">
                                 POKAŻ
@@ -58,29 +61,25 @@
                             </button>
                         </div>
                     </div>
-                    <div class="display-table-row blue-labels">
+                    <div class="display-table-row blue-labels trainings-details-row">
                         <div>NAZWA SZKOLENIA</div>
-                        <div>START</div>
-                        <div>KONIEC</div>
+                        <div>START - KONIEC</div>
                         <div>PUNKTY</div>
                     </div>
-                    <div class="display-table-row" ng-repeat="item in person.AssignedTrainings" ng-show="showDetails">
+                    <div class="display-table-row trainings-details-row" ng-repeat="item in person.AssignedTrainings" ng-show="showDetails">
                         <div>
                             @*{{ item.Id }}*@
                             NAZWA
                         </div>
                         <div>
-                            {{ item.StartDate | date: 'dd.MM.yyyy HH.mm' }}
+                            {{ item.StartDate | date: 'dd.MM.yyyy HH.mm' }} - {{ item.EndDate | date: 'dd.MM.yyyy HH.mm'}}
                         </div>
                         @*<div id="detailText" ng-hide="{{item.IsCompleted}}">W trakcie</div>*@
-                        <div>
-                            {{ item.EndDate | date: 'dd.MM.yyyy HH.mm'}}
-                        </div>
                         <div ng-show="{{item.IsCompleted}}">
                             {{item.Result}}
                         </div>
                     </div>
-                    <div class="display-table-row">
+                    <div class="display-table-row trainings-details-row">
                         <div>
                             <button class="btn table-btn empty-blue-button">KOLEJNE</button>
                         </div>

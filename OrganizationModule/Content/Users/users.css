@@ -13,12 +13,6 @@
     border-top:none;
     padding:0;
 }
-#users .green-labels div{
-    color:#009aaf;
-}
-#users .blue-labels div{
-    color:#3770dd;
-}
 #users .buttons{
     padding:15px;
 }

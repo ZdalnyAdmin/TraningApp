@@ -1,0 +1,11 @@
+﻿
+#trainings-manage .display-table-row-group .display-table-row:first-child div{
+    border-top:1px solid #3770dd;
+}
+#trainings-manage .display-table-row-group .display-table-row:first-child div:nth-last-child(1), #trainings-manage .internal-trainings .display-table-row-group .display-table-row:first-child div:nth-last-child(2){
+    border-top:none;
+    text-align:center;
+}
+#trainings-manage .buttons{
+    background:#ebebf0;
+}

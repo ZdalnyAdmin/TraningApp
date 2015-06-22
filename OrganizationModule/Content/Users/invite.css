@@ -7,26 +7,16 @@
 #invite .form-row>div{
     margin-bottom:15px;
 }
-#invite .display-table .display-table-row>div:last-child{
-    width:50px;
-}
-#invite .labels{
-    color:#009aaf;
-}
-#invite .main-labels div{
-    border-bottom:1px solid #009aaf;
-}
-#invite .main-labels div:nth-child(5), #invite .main-labels div:nth-child(6){
-    border-bottom:none;
+#invite .main-labels div:nth-last-child(1), #invite .main-labels div:nth-last-child(2){
     text-align:center
 }
 #invite .details-row{
     display:none;
 }
-#invite .basic-data div{
-    border-bottom:1px solid #009aaf;
+#invite .display-table-row-group .display-table-row:first-child div{
+    border-top:1px solid #009aaf;
 }
-#invite .basic-data div:nth-child(5), #invite .basic-data div:nth-child(6){
-    border-bottom:none;
+#invite .display-table-row-group .display-table-row:first-child div:nth-last-child(1), #invite .display-table-row-group .display-table-row:first-child div:nth-last-child(2){
+    border-top:none;
     text-align:center;
 }
