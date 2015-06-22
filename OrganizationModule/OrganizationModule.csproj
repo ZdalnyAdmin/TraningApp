@@ -214,6 +214,7 @@
     <Content Include="Assets\Marks\All\Kowalski.png" />
     <Content Include="Assets\Marks\All\Król_Julian.png" />
     <Content Include="Assets\Marks\All\Marlenka.png" />
+    <Content Include="Content\Admin\groups.css" />
     <Content Include="Content\Login\login.css" />
     <Content Include="Content\Menu\menu.css" />
     <Content Include="Content\Results\user-result.css" />

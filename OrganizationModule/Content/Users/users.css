@@ -2,102 +2,22 @@
     width:100%;
     display:table;
 }
-#users .user-header div{
-    display:table-cell;
-    vertical-align:middle;
+#users .display-table-header-group .display-table-row div{
     color:#009aaf;
-    border-bottom:1px solid #009aaf;
     height:52px;
-    padding-left:15px;
-    padding-right:15px;
 }
-#users .user-header div:nth-child(5), #users .user-header div:nth-child(6){
-    border-bottom:none;
+#users .display-table-row-group .display-table-row:first-child div{
+    border-top:1px solid #009aaf;  
 }
-
-#users .user-header div:nth-child(1){
-    width:25%;
+#users .display-table-row-group .display-table-row:first-child div:nth-last-child(1), #users .display-table-row-group .display-table-row:first-child div:nth-last-child(2), #users .display-table-row-group .display-table-row:first-child div:nth-last-child(3){
+    border-top:none;
+    padding:0;
 }
-#users .user-header div:nth-child(2){
-    width:25%;
-}
-#users .user-header div:nth-child(3){
-    width:15%;
-}
-#users .user-header div:nth-child(4){
-    width:15%;
-}
-#users .user-header div:nth-child(5){
-    width:10%;
-}
-#users .user-header div:nth-child(6){
-    width:10%;
-}
-#users .info-row{
-    width:100%;
-    display:table;
-}
-#users .info-row div{
-    display:table-cell;
-    vertical-align:middle;
-    border-bottom:1px solid #009aaf;
-    height:52px;
-    padding-left:15px;
-    padding-right:15px;
-}
-#users .info-row div:nth-child(5), #users .info-row div:nth-child(6){
-    border-bottom:none;
-}
-#users .info-row div:nth-child(1){
-    width:25%;
-}
-#users .info-row div:nth-child(2){
-    width:25%;
-}
-#users .info-row div:nth-child(3){
-    width:15%;
-}
-#users .info-row div:nth-child(4){
-    width:15%;
-}
-#users .info-row div:nth-child(5){
-    width:10%;
-}
-#users .info-row div:nth-child(6){
-    width:10%;
-}
-#users .user-edit-row .edit-data{
-    width:100%;
-    margin-top:10px;
-}
-#users .user-edit-row .edit-data>div{
-    width:100%;
-    display:table;
-    margin:15px;
-}
-#users .user-edit-row .edit-data div div{
-    display:table-cell;
-    vertical-align:middle;
-}
-#users .user-edit-row .edit-data div div:nth-child(1){
-    width:40%;
-    padding-right:15px;
-}
-#users .user-edit-row .edit-data div div:nth-child(2){
-    width:35%;
-    padding-right:15px;
-}
-#users .user-edit-row .edit-data div div:nth-child(3){
-    width:25%;
-}
-#users .user-info .labels div{
+#users .green-labels div{
     color:#009aaf;
 }
-#users .user-courses .labels div{
+#users .blue-labels div{
     color:#3770dd;
-}
-#users .user-courses .labels .groups{
-    color:#009aaf;
 }
 #users .buttons{
     padding:15px;

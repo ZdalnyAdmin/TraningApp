@@ -30,12 +30,12 @@
                 <div id="mainText" ng-hide="{{ item.IsActive }}">
                     zablokowany
                 </div>
-                <butto ng-click="showLogs(item)" ng-hide="item.showLog">
+                <button ng-click="showLogs(item)" ng-hide="item.showLog">
                     POKAZ LOGI EDYCJI
-                </butto>
-                <butto  ng-click="hideLogs(item)" ng-show="item.showLog">
+                </button>
+                <button  ng-click="hideLogs(item)" ng-show="item.showLog">
                     UKRYJ LOGI EDYCJI
-                </butto>
+                </button>
                 <button  ng-click="changeStatus(item)" ng-show="{{ item.IsActive }}">
                     ZABLOKUJ
                 </button>

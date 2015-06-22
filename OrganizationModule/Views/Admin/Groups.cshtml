@@ -1,45 +1,90 @@
-﻿<div ng-app="" ng-controller="adminGroupsController" class="container">
+﻿<div id="groups" ng-app="" ng-controller="adminGroupsController" class="container">
 
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>UTWÓRZ NOWĄ GRUPĘ</h3>
 
-    <div>
-        Domyslnie kazde szkolenie moze byc widoczne przez jego autora lub przez wszystkich uzytkowanikow. Mozesz jednak stworzyc grupy skladajaca sie z czesci uzytkownikow i
-        udostepnic tylko takiej grupie szkolenia. Mozesz np. udostepnic szkolenia do IT, biura obslugi klienta, handlowcow itp.
-    </div>
-    <div>
-        Grupy dla ktorych udostepniane jest szkolenie mozesz ustawic tworzac lub edytujac szkolenie. W tym miejscu mozesz tworzyc same grupy.
-    </div>
-
-    <div id="inputButto" ng-click="showCreate()">
-        Utworz grupe
-    </div>
-    <div ng-show="isCreated">
-        <div class="row">
-            <div id="mainText">
-                Nazwa grupy
-            </div>
-            <input type="text" id="mainInput" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" maxlength=40>
+            <h6>
+                Domyslnie kazde szkolenie moze byc widoczne dla jego autora lub dla wszystkich uzytkowników. Mozesz jednak stworzyc grupy składajace sie z
+                czesci uzytkowników i udostepnic dane szkolenie tylko takiej grupie. Mozesz np. udostepnic szkolenia dla IT, biura obsługi klienta, handlowcow itp.
+            </h6>
+            <h6>
+                Grupy, dla których udostepniane jest szkolenie, mozesz ustawic, tworzac lub edytujac szkolenie. W tym miejscu mozesz tworzyc same grupy.
+            </h6>
+            
         </div>
-        <div class="row">
-            <div id="mainText">
-                Czlonkowie grupy :
-                <div ng-repeat="user in viewModel.Current.AssignedPeople">
+    </div>
+    <div class="row form">
+        <div class="col-sm-6 col-sm-offset-3 col-md-offset-0">
+            <button class="btn btn-xl green-button" ng-click="showCreate()">
+                UTWÓRZ GRUPĘ
+            </button>
+        </div>
+    </div>
+    <div class="row form" ng-show="isCreated">
+        <div class="col-sm-6 col-sm-offset-3 col-md-offset-0">
+            
+
+            <div>
+                <label id="mainText">
+                    podaj nazwę grupy
+                </label>
+                <input class="form-control" placeholder="nazwa grupy - od 3 do 20 znaków" type="text" id="mainInput" name="viewModel.Current.Name" ng-model="viewModel.Current.Name" maxlength=40>
+            </div>
+            <div>
+                <h5>
+                    Uczestnicy grupy
+                </h5>
+                <h6 ng-repeat="user in viewModel.Current.AssignedPeople">
                     {{user.DisplayName}} ,
+                </h6>
+                <div>
+                    <label>dodaj uczestników grupy</label>
+                    <button class="btn btn-l green-button" ng-click="chooseUsers(viewModel.Current.AssignedPeople)">
+                        WYBIERZ OSOBY Z LISTY
+                    </button>
                 </div>
-               
             </div>
-            <button ng-click="chooseUsers(viewModel.Current.AssignedPeople)">
-                Wybierz z listy
-            </button>
-        </div>
-        <div class="row">
-            <button ng-click="add(viewModel.Current)">
-                Zapisz
-            </button>
+            <div>
+                <button class="btn btn-xl green-button" ng-click="add(viewModel.Current)">
+                    ZAPISZ GRUPĘ
+                </button>
+            </div>
         </div>
     </div>
-    <div ng-repeat="group in viewModel.Groups">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>UTWORZONE GRUPY</h3>
+        </div>
+        <div class="display-table">
+            <div class="display-table-row">
+                <div>NAZWA GRUPY</div>
+                <div>CZŁONKOWIE</div>
+                <div>EDYTUJ</div>
+                <div>USUŃ</div>
+            </div>
+
+            <div class="display-table-row" ng-repeat="group in viewModel.Groups">
+                <div ng-hide="group.isEditable">
+                    {{ group.Name }}
+                </div>
+                <div class="members">
+                    <span ng-repeat="user in group.AssignedPeople">{{user.DisplayName}}, </span>
+                </div>
+                <div>
+                    <button class="btn squared-btn empty-green-button glyphicon glyphicon-pencil" ng-hide="group.isEditable" ng-click="showEdit(group)"></button>
+                </div>
+                <div>
+                    <button class="glyphicon glyphicon-remove squared-btn empty-purple-button" ng-hide="group.isEditable" ng-click="delete(group)"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @*<div ng-repeat="group in viewModel.Groups">
         <div class="row">
             <div id="mainText">
                 Grupa :
@@ -74,5 +119,7 @@
                 ANULUJ ZMIANY
             </button>
         </div>
-    </div>
+    </div>*@
 </div>
+
+@Styles.Render("~/Groups")

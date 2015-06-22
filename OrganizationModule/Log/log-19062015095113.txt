@@ -1,0 +1,4 @@
+19-06-2015 09:51:13 ERROR: Wystąpił błąd podczas wysyłania wiadomości do g5524553@trbvm.com
+19-06-2015 09:51:13 ERROR: Upłynął limit czasu operacji.
+19-06-2015 09:51:13 ERROR:    w System.Net.Mail.SmtpClient.Send(MailMessage message)
+   w AppEngine.Helpers.Mail.Send(MailMessage message, MailAccount account) w c:\github\kenpro-ZA\AppEngine\Helpers\Mail.cs:wiersz 39
