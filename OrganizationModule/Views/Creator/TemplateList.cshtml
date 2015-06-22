@@ -17,7 +17,7 @@
         </div>
         <div>
             Moga uruchomic :
-            <div ng-repeat="grp in item.AssignedGroups" >
+            <div ng-repeat="grp in item.AssignedGroups">
                 {{grp.Name}} ,
             </div>
             <div ng-show="item.IsForAll">
@@ -25,7 +25,17 @@
             </div>
         </div>
         <div>
-            <button>ZMIEN</button>
+            <input type="file"
+                   id="idTrainingImageInput"
+                   class="upload-input upload-image"
+                   onchange="angular.element(this).scope().loadImage(this, angular.element(this).scope().item)"
+                   name="uploadFiles">
+
+            <div class='statusBar'><div></div></div>
+
+            <div ng-show="!!imageMessage && imageMessage.length > 0">
+                {{imageMessage}}
+            </div>
         </div>
 
         <div>
@@ -36,7 +46,7 @@
             {{item.Description}}
         </div>
 
-        <input type="button" value="Szczegoly"/>
+        <input type="button" value="Szczegoly" />
 
         <input type="button" value="Edytuj szkolenia" ng-click="edit(item)" />
 

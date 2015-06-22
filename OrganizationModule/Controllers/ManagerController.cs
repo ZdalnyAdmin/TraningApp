@@ -76,7 +76,7 @@ namespace OrganizationModule.Controllers
         /// Navigate to trainig modifications view
         /// </summary>
         /// <returns></returns>
-        [Access(ProfileEnum.Manager)]
+        [Access(ProfileEnum.Creator)]
         public ActionResult EditTrainings()
         {
             Person currentUser = Person.GetLoggedPerson(User);

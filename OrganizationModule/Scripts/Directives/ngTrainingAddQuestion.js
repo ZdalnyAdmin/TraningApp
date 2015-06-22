@@ -6,15 +6,17 @@
         replace: 'true',
         templateUrl: 'Templates/trainingAddQuestion.html',
         controller: ['$scope', function ($scope) {
-            $scope.questionType = ['jednokrotnego wyboru', 'wielokrotnego wyboru', 'wpisanie odpowiedzi'];
+            $scope.questionType = ['Wybierz','jednokrotnego wyboru', 'wielokrotnego wyboru', 'wpisanie odpowiedzi'];
             $scope.selectedQuestion = 0;
             $scope.currentQuestion = {};
             $scope.showQuestionType = true;
+            $scope.currentQuestion.selected = 'Wybierz';
 
             //question methods
             $scope.changeQuestion = function (type) {
                 $scope.showQuestionType = false;
                 $scope.currentQuestion = {};
+                $scope.currentQuestion.selected = 'Wybierz';
                 if (type == 'jednokrotnego wyboru') {
                     $scope.selectedQuestion = 1;
                     $scope.currentQuestion.Type = 0;
@@ -143,7 +145,7 @@
                 $scope.currentQuestion.isEdit = false;
                 $scope.questions.push($scope.currentQuestion);
                 $scope.changeQuestion("");
-                $scope.selected = "Wybierz";
+                $scope.currentQuestion.selected = 'Wybierz';
                 $scope.showQuestionType = true;
             }
 

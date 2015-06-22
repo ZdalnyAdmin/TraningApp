@@ -1,6 +1,7 @@
-﻿var usersListModalController = function ($scope, $http, $modalInstance, UtilitiesFactory) {
+﻿var usersListModalController = function ($scope, $http, $modalInstance, UtilitiesFactory, selectedUsers) {
     $scope.viewModel = {};
     //temp solution
+    $scope.selectedUsers = selectedUsers;
 
     //Used to display the data 
     $scope.loadData = function () {
@@ -8,6 +9,15 @@
         $scope.viewModel.ActionType = 4;
         $http.post('/api/Person/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+            
+            angular.forEach($scope.viewModel.People, function (x) {
+                angular.forEach($scope.selectedUsers, function (y) {
+                    if (x.Id == y.Id) {
+                        x.selected = true;
+                    }
+                })
+            });
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -34,4 +44,4 @@
     };
 };
 
-usersListModalController.$inject = ['$scope', '$http', '$modalInstance', 'UtilitiesFactory'];
+usersListModalController.$inject = ['$scope', '$http', '$modalInstance', 'UtilitiesFactory', 'selectedUsers'];

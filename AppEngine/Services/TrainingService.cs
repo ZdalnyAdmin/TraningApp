@@ -108,7 +108,8 @@ namespace AppEngine.Services
 
                         fileName = String.IsNullOrEmpty(toModified.PassResources) ? string.Empty : Path.GetFileName(toModified.PassResources);
 
-                        if (!String.IsNullOrEmpty(model.Current.PassResources) && !model.Current.PassResources.EndsWith(fileName))
+                        if ((!String.IsNullOrEmpty(model.Current.PassResources) && !model.Current.PassResources.EndsWith(fileName)) ||
+                            (String.IsNullOrEmpty(fileName) && !String.IsNullOrEmpty(model.Current.PassResources)))
                         {
                             fileSize = 0m;
                             if (!String.IsNullOrEmpty(fileName))
@@ -124,6 +125,7 @@ namespace AppEngine.Services
                         toModified.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
                         toModified.ModifieddUserID = model.LoggedUser.Id;
                         toModified.ModifiedDate = DateTime.Now;
+                        toModified.IsForAll = model.Current.IsForAll;
 
                         context.Entry(toModified).State = EntityState.Modified;
                         context.SaveChanges();
@@ -270,7 +272,7 @@ namespace AppEngine.Services
                                 }
                             }
 
-                            
+
 
                             if (!model.Current.IsForAll && model.Groups != null && model.Groups.Any())
                             {
@@ -636,8 +638,16 @@ namespace AppEngine.Services
 
                             if (!String.IsNullOrEmpty(item.CreatorID))
                             {
-                                item.CreatorName = context.Users.FirstOrDefault(x => x.Id == item.CreatorID).UserName;
+                                var creator = context.Users.FirstOrDefault(x => x.Id == item.CreatorID);
+                                item.CreatorName = creator.UserName;
+                                item.CreatorLogin = creator.DisplayName;
                             }
+
+                            item.AssignedGroup = (from tig in context.TrainingInGroups
+                                                  join g in context.Groups
+                                                  on tig.ProfileGroupID equals g.ProfileGroupID
+                                                  where tig.TrainingID == item.Id
+                                                  select g.Name).ToList();
                         }
 
                         model.Success = String.Empty;
@@ -695,6 +705,44 @@ namespace AppEngine.Services
                         }
 
                         model.Success = String.Empty;
+
+                        break;
+
+                    case BaseActionType.ChangeImage:
+
+                        var toImageModified = context.Trainings.FirstOrDefault(x => x.TrainingID == model.Current.TrainingID);
+
+                        //check training resources
+                        var imageFileName = Path.GetFileName(toImageModified.TrainingResources);
+
+                        //Assets\34c3cd6d0bbb4001a5570372f4db649f\Resources\U_05_0238035_0115RW.pdf
+                        serverPath = toImageModified.TrainingResources.Replace("\\" + imageFileName, "");
+                        path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
+
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                        fileSize = 0m;
+                        if (!model.Current.TrainingResources.EndsWith(imageFileName))
+                        {
+                            File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toImageModified.TrainingResources));
+                            toImageModified.TrainingResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
+                        }
+
+                        toImageModified.ModifieddUserID = model.LoggedUser.Id;
+                        toImageModified.ModifiedDate = DateTime.Now;
+
+                        context.Entry(toImageModified).State = EntityState.Modified;
+                        context.SaveChanges();
+                        
+                        if (isInternal)
+                        {
+                            LogService.InsertTrainingLogs(OperationLog.TrainingEdit, context, model.Current.TrainingID, model.LoggedUser.Id, model.CurrentOrganization.OrganizationID);
+                        }
+
+                        model.Success = "Edycja szkolenia zakończyła się sukcesem!";
 
                         break;
                     default:

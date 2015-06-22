@@ -111,7 +111,7 @@
             size: 'sm',
             resolve: {
                 selectedUsers: function () {
-                    return $scope.selectedUsers;
+                    return group.AssignedPeople;
                 }
             }
         });

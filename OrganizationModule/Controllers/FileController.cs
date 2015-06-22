@@ -30,7 +30,7 @@ namespace OrganizationModule.Controllers
                 return new HttpNotFoundResult();
             }
 
-            string filePath = Path.Combine("C:\\Assets\\" + guid + "\\Resources\\" + fileName);
+            string filePath = Path.Combine("C:\\Assets\\" + guid + "\\" + fileName);
 
             if (!System.IO.File.Exists(filePath))
             {

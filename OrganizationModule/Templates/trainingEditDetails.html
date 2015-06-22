@@ -31,7 +31,7 @@
         <div class="row">
             Dodany plik wideo : {{item.Name}}
             <div ng-if="item.InternalResource">
-                <ng-jw-player setup='{ "file": "{{item.InternalResource}}" }'></ng-jw-player>
+                <video controls src="{{ item.InternalResource }}"></video>
             </div>
             <div ng-if="item.ExternalResource" >
                 <iframe ng-if="item.ExternalResource.indexOf('youtu') !=-1" width="560" height="315" src="{{getUrl(item.ExternalResource)}}" frameborder="0" allowfullscreen></iframe>

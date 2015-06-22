@@ -182,7 +182,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-lg-8">
                     <div class="row">
@@ -247,15 +246,13 @@
             </div>
         </div>
     </div>
-
     <!--<button id="inputButto" ng-click="nextQuestion()">
         Dodaj kolejne pytanie
     </button>-->
     <div class="row selects" ng-show="showQuestionType">
         <div class="col-lg-4 col-md-5 col-sm-4 col-sm-offset-4 col-md-offset-0 select-l">
             <label>Wybierz rodzaj pytania</label>
-            <select class="form-control" ng-model="selected" ng-options="c for c in questionType" ng-change="changeQuestion(selected)">
-                <option value="">Wybierz</option>
+            <select class="form-control" ng-model="currentQuestion.selected" ng-options="c for c in questionType" ng-change="changeQuestion(currentQuestion.selected)">
             </select>
         </div>
     </div>

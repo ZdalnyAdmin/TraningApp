@@ -42,16 +42,22 @@
                 </h6>
                 <div>
                     <label>dodaj uczestników grupy</label>
-                    <button class="btn btn-l green-button" ng-click="chooseUsers(viewModel.Current)">
+                    <button class="btn btn-l green-button" ng-click="chooseUsers(viewModel.Current.AssignedPeople)">
                         WYBIERZ OSOBY Z LISTY
                     </button>
                 </div>
             </div>
+<<<<<<< HEAD
             <div>
                 <button class="btn btn-xl green-button" ng-click="add(viewModel.Current)">
                     ZAPISZ GRUPĘ
                 </button>
             </div>
+=======
+            <button ng-click="chooseUsers(viewModel.Current)">
+                Wybierz z listy
+            </button>
+>>>>>>> fc7511f1eb31000e6697af0be735e9350e7f525a
         </div>
     </div>
 
