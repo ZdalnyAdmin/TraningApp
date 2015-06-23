@@ -1,9 +1,22 @@
-﻿#invite label{
+﻿#invite form button{
+    width:100%;
+}
+#invite label{
     font-weight:300;
 }
 #invite .form-row>div{
     margin-bottom:15px;
 }
-#invite .display-table .display-table-row>div:last-child{
-    width:50px;
+#invite .main-labels div:nth-last-child(1), #invite .main-labels div:nth-last-child(2){
+    text-align:center
+}
+#invite .details-row{
+    display:none;
+}
+#invite .display-table-row-group .display-table-row:first-child div{
+    border-top:1px solid #009aaf;
+}
+#invite .display-table-row-group .display-table-row:first-child div:nth-last-child(1), #invite .display-table-row-group .display-table-row:first-child div:nth-last-child(2){
+    border-top:none;
+    text-align:center;
 }

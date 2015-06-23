@@ -1,79 +1,94 @@
-﻿
-
-<strong class="error">{{ viewModel.ErrorMessage }}</strong>
+﻿<strong class="error">{{ viewModel.ErrorMessage }}</strong>
 <strong class="error">{{ viewModel.Success }}</strong>
 
-<div>
-    <button class="row" ng-click="showTab(1)">
-        WEWNETRZNE
-    </button>
-
-    <button class="row" ng-click="showTab(2)" ng-show="viewModel.ShowExternal">
-        OD KENPRO
-    </button>
-
-    <div ng-repeat="item in viewModel.InternalTrainings" ng-show="index  == 1">
-        <div class="row">
-            <div id="mainText">
-                {{ item.Name }}
-            </div>
-            <div id="mainText">
-                {{ item.UserName }}
-            </div>
-            <div id="mainText">
-                <div ng-repeat="group in item.AssignedGroups">
-                    {{ group.Name }} ,
-                </div>
-                <div id="mainText" ng-show="{{ item.IsActive }}">
-                    dostepny
-                </div>
-                <div id="mainText" ng-hide="{{ item.IsActive }}">
-                    zablokowany
-                </div>
-                <butto ng-click="showLogs(item)" ng-hide="item.showLog">
-                    POKAZ LOGI EDYCJI
-                </butto>
-                <butto  ng-click="hideLogs(item)" ng-show="item.showLog">
-                    UKRYJ LOGI EDYCJI
-                </butto>
-                <button  ng-click="changeStatus(item)" ng-show="{{ item.IsActive }}">
-                    ZABLOKUJ
-                </button>
-                <button ng-click="changeStatus(item)" ng-hide="{{ item.IsActive }}">
-                    ODBLOKUJ
-                </button>
-            </div>
-            <div class="row" ng-show="item.showLog">
-                <div ng-repeat="log in item.Logs">
-                    <div class="row">
-                        <div id="mainText">
-                            {{ log.Date | date: 'dd.MM.yyyy HH.mm' }}
-                        </div>
-                        <div id="mainText">
-                            {{ log.Name }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div ng-repeat="item in viewModel.ExternalTrainings" ng-show="index  == 2">
-        <div class="row">
-            <div id="mainText">
-                {{ item.Name }}
-            </div>
-        </div>
-        <div class="row">
-            <div id="mainText">
-                Dostepne dla :
-                <div ng-repeat="group in item.AssignedGroups">
-                    {{group.Name}}, 
-                </div>
-            </div>
-            <button ng-click="showEdit = ! showEdit" ng-show="!showEdit">
-                EDYTUJ
+<div class="container" id="trainings-manage">
+    <div class="row">
+        <div class="row buttons">
+            <button class="tab-button" ng-click="showTab(1)">
+                WEWNETRZNE
+            </button>
+            <button class="tab-button active" ng-click="showTab(2)" ng-show="viewModel.ShowExternal">
+                OD KENPRO
             </button>
         </div>
+    </div>
+    <div class="row internal-trainings" ng-show="index  == 1">
+        <div class="col-xs-12">
+            <h3>SZKOLENIA WEWNĘTRZNE</h3>
+        </div>
+        <div class="display-table">
+            <div class="display-table-header-group blue-labels">
+                <div class="display-table-row">
+                    <div>SZKOLENIE</div>
+                    <div>TWÓRCA</div>
+                    <div>MOGĄ URUCHOMIĆ</div>
+                    <div>STATUS</div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="display-table-row-group" ng-repeat="item in viewModel.InternalTrainings">
+                <div class="display-table-row">
+                    <div>{{ item.Name }}</div>
+                    <div>{{ item.UserName }}</div>
+                    <div>
+                        <span ng-repeat="group in item.AssignedGroups">{{ group.Name }}, </span>
+                    </div>
+                    <div>
+                        <span ng-show="{{ item.IsActive }}">dostepne</span>
+                        <span ng-hide="{{ item.IsActive }}">zablokowane</span>
+                    </div>
+                    <div>
+                        <button ng-click="changeStatus(item)" ng-show="{{ item.IsActive }}" class="glyphicon glyphicon-minus-sign circle-btn"></button>
+                        <button ng-click="changeStatus(item)" ng-hide="{{ item.IsActive }}" class="glyphicon glyphicon-remove-sign circle-btn"></button>
+                    </div>
+                    <div>
+                        <button ng-click="showLogs(item)" ng-hide="item.showLog" class="glyphicon glyphicon-chevron-down squared-btn empty-blue-button"></button>
+                        <button ng-click="hideLogs(item)" ng-show="item.showLog" class="glyphicon glyphicon-chevron-up squared-btn empty-blue-button"></button>
+                    </div>
+                </div>
+                <div class="display-table-row blue-labels" ng-show="item.showLog">
+                    <div>DATA EDYCJI</div>
+                    <div>OSOBA EDYTUJĄCA</div>
+                </div>
+                <div class="display-table-row" ng-show="item.showLog" ng-repeat="log in item.Logs">
+                    <div>
+                        {{ log.Date | date: 'dd.MM.yyyy HH.mm' }}
+                    </div>
+                    <div>
+                        {{ log.Name }}
+                    </div>
+                </div>
+            </div>         
+        </div>
+    </div>
+    
+    <div class="row" ng-show="index  == 2">
+        <div class="col-xs-12">
+            <h3>SZKOLENIA OD KENPRO</h3>
+        </div>
+        <div class="display-table">
+            <div class="display-table-header-group">
+                <div class="display-table-row blue-labels">
+                    <div>SZKOLENIE</div>
+                    <div>MOGĄ URUCHOMIĆ</div>
+                    <div></div>
+                </div>
+            </div>
+            <div ng-repeat="item in viewModel.ExternalTrainings" class="display-table-row-group">
+                <div class="display-table-row">
+                    <div>{{ item.Name }}</div>
+                    <div>
+                        <span ng-repeat="group in item.AssignedGroups">{{group.Name}}, </span>
+                    </div>
+                    <div><button ng-click="showEdit = ! showEdit" ng-show="!showEdit" class="glyphicon glyphicon-pencil squared-btn empty-blue-button"></button></div>
+                </div>
+            </div>
+        </div>
+
+
+        @*Edycja w popupie*@
         <div class="row" ng-show="showEdit">
             <div ng-repeat="item in viewModel.Groups">
                 <input type="checkbox" ng-model="item.selected" />{{item.Name}}
@@ -82,7 +97,9 @@
                 ZAPISZ ZMIANY
             </button>
         </div>
-    </div>
+        
+    </div>  
 </div>
 
 
+@Styles.Render("~/Trainings")

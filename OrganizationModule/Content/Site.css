@@ -1,6 +1,7 @@
 ﻿body{
     background:#f5f5fa;
     font-family: 'PT Sans', sans-serif;
+
 }
 
 .froala-element, froala-editor, froala-modal, .modal-text {
@@ -51,38 +52,42 @@
 .display-table{
     display:table;
     width:100%;
+    padding:15px;
+    background:#fff;
 }
-.display-table>.display-table-row{
+.display-table .display-table-header-group{
+    display:table-header-group;
+}
+.display-table .display-table-row-group{
+    display:table-row-group;
+}
+.display-table .display-table-row{
     display:table-row;
 }
-.display-table>.display-table-row>div{
+.display-table .display-table-row>div{
     display:table-cell;
     vertical-align:middle;
     padding-left:15px;
     padding-right:15px;
     height:35px;
 }
-.display-table>.display-table-row>div:first-child{
-    width:25%;
-}
-.display-block{
-    display:block!important;
-    width:400%;
-}
-.display-table-nested{
-    display:table!important;
+
+.form label{
+    font-weight:300;
     width:100%;
+    margin-bottom:10px;
 }
-.display-table-nested>.display-table-row{
-    display:table-row!important;
+.form button{
+    width:100%;
+    margin-bottom:30px;
 }
-.display-table-nested>.display-table-row>div{
-    display:table-cell;
-    vertical-align:middle;
-    padding-left:15px;
-    padding-right:15px;
-    height:35px;
+.blue-labels div{
+    color:#3770dd;
 }
+.green-labels div{
+    color:#009aaf;
+}
+
 /*****************/
 /******NAGŁÓWKI*****/
 /****************/
@@ -101,13 +106,13 @@ h2{
 h3{
     font-family: 'Archivo Narrow', sans-serif;
     font-size:24px;
-    text-align:center;
     color:#1e2850;
+    border-bottom:1px solid #141932;
+    padding-bottom:10px;
 }
 h4{
     font-family: 'Archivo Narrow', sans-serif;
     font-size:21px;
-    text-align:center;
     color:#1e2850;
 }
 h5{
@@ -181,10 +186,11 @@ h6{
 
 .green-button{
     background:#009aaf;
-    color:#141932;
+    color:#fff;
 }
 .green-button:hover{
     background:#00a5bc;
+    color:#fff;
 }
 .blue-button{
     background:#3770dd;
@@ -192,6 +198,7 @@ h6{
 }
 .blue-button:hover{
     background:#3a76ea;
+    color:#fff;
 }
 .purple-button{
     background:#912A4F;
@@ -199,6 +206,7 @@ h6{
 }
 .purple-button:hover{
     background:#912a4f;
+    color:#fff;
 }
 .navy-button{
     background:#0d223d;
@@ -206,6 +214,7 @@ h6{
 }
 .navy-button:hover{
     background:#1e2850;
+    color:#fff;
 }
 .empty-blue-button{
     background:none;
@@ -245,8 +254,16 @@ h6{
     font-size:18px;
     border:2px solid!important;
     background:none;
-    margin:7.5px;
+    margin:5px;
     padding:0;
+}
+.circle-btn{
+    font-size:36px;
+    padding:5px;
+    margin:0;
+    border:none;
+    color:#ff5a5a;
+    background:none;
 }
 .btn-file {
     position: relative;
@@ -273,6 +290,20 @@ h6{
     font-weight:700;
     border:2px solid!important;
     padding:4px 20px!important;
+}
+.tab-button{
+    height:60px;
+    background:none;
+    color:#333;
+    border:none;
+    padding-left:30px;
+    padding-right:30px;
+    font-weight:700;
+    font-size:16px;
+}
+.tab-button.active{
+    color:#3770dd;
+    background:#f5f5fa;
 }
 
 /*****************/

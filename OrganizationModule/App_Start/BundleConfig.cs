@@ -35,7 +35,8 @@ namespace OrganizationModule
             bundles.Add(new StyleBundle("~/Trainings").Include(
                 "~/Content/Trainings/training-list.css",
                 "~/Content/Trainings/active-training.css",
-                "~/Content/Trainings/create-training.css"));
+                "~/Content/Trainings/create-training.css",
+                "~/Content/Trainings/manage-trainings.css"));
 
             bundles.Add(new StyleBundle("~/Results").Include(
                 "~/Content/Trainings/user-result.css"));
@@ -49,6 +50,9 @@ namespace OrganizationModule
             bundles.Add(new StyleBundle("~/Users").Include(
                 "~/Content/Users/users.css",
                 "~/Content/Users/invite.css"));
+
+            bundles.Add(new StyleBundle("~/Groups").Include(
+                "~/Content/Admin/groups.css"));
 
             bundles.Add(new ScriptBundle("~/FroalaScripts")
                 .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js", "*.js")
