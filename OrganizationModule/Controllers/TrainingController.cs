@@ -375,7 +375,7 @@ namespace OrganizationModule.Controllers
                 });
             }
 
-            return trainings.OrderByDescending(x => x.ModifiedDate).ToList();
+            return trainings.OrderByDescending(x => x.ModifiedDate ?? x.CreateDate).ToList();
         }
         #endregion
     }
