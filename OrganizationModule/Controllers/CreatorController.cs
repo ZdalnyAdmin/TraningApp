@@ -44,7 +44,7 @@ namespace OrganizationModule.Controllers
         /// Navigate to created tranings view
         /// </summary>
         /// <returns></returns>
-        [Access(ProfileEnum.Manager)]
+        [Access(ProfileEnum.Creator)]
         public ActionResult EditTemplate()
         {
             Person currentUser = Person.GetLoggedPerson(User);
