@@ -6,7 +6,7 @@
         replace: 'true',
         templateUrl: 'Templates/trainingAddQuestion.html',
         controller: ['$scope', function ($scope) {
-            $scope.questionType = ['Wybierz','jednokrotnego wyboru', 'wielokrotnego wyboru', 'wpisanie odpowiedzi'];
+            $scope.questionType = ['Wybierz', 'jednokrotnego wyboru', 'wielokrotnego wyboru', 'wpisanie odpowiedzi'];
             $scope.selectedQuestion = 0;
             $scope.currentQuestion = {};
             $scope.showQuestionType = true;
@@ -93,50 +93,46 @@
                 var isValid = true;
 
                 if (!$scope.currentQuestion.Text || $scope.currentQuestion.Text.length < 10) {
+                    if (!$scope.currentQuestion.Text)
+                    {
+                    $scope.currentQuestion.Text = ''
+                }
                     isValid = false;
                 }
 
                 var checkScore = false;
                 var checkAnswerCount = 0;
 
-                if ($scope.currentQuestion.Type === 0 || $scope.currentQuestion.Type === 1) {
-                    angular.forEach($scope.currentQuestion.Answers, function (val) {
-                        if (!!val.Text && val.Text.length > 0) {
-                            checkAnswerCount++;
-                            if (!!val.Score && val.Score > 0 && val.Score < 100) {
-                                checkScore = true;
-                            }
+
+                angular.forEach($scope.currentQuestion.Answers, function (val) {
+                    if (!!val.Text && val.Text.length > 0) {
+                        checkAnswerCount++;
+                        if (!!val.Score && val.Score > 0 && val.Score < 100) {
+                            checkScore = true;
                         }
+                    }
 
-                        if (!!val.Score && val.Score < 0 || val.Score > 100) {
-                            isValid = false;
-                        }
-
-                    });
-
-                    if (!checkScore) {
-                        $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br> ";
+                    if (!!val.Score && val.Score < 0 || val.Score > 100) {
                         isValid = false;
                     }
 
-                    if (checkAnswerCount < 2) {
-                        $scope.ErrorMessage += "Wpisz przy najmniej 2 odpowiedzi na pytanie! <br>";
-                        isValid = false;
-                    }
+                });
+
+                if (!checkScore) {
+                    $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br> ";
+                    isValid = false;
                 }
 
-                if ($scope.currentQuestion.Type === 2) {
-                    if (!$scope.currentQuestion.Answers[0].Text || $scope.currentQuestion.Answers[0].Text.length < 1) {
-                        $scope.ErrorMessage += "Wpisz chodź jedną odpowiedź na pytanie <br>";
-                        isValid = false;
-                    }
-
-
-                    if (!$scope.currentQuestion.Answers[0].Score || $scope.currentQuestion.Answers[0].Score < 0 || $scope.currentQuestion.Answers[0].Score > 100) {
-                        $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br>";
-                        isValid = false;
-                    }
+                if (checkAnswerCount < 2 && ($scope.currentQuestion.Type === 0 || $scope.currentQuestion.Type === 1)) {
+                    $scope.ErrorMessage += "Wpisz przy najmniej 2 odpowiedzi na pytanie! <br>";
+                    isValid = false;
                 }
+
+                if (checkAnswerCount < 1 && $scope.currentQuestion.Type === 2) {
+                    $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br>";
+                    isValid = false;
+                }
+
 
                 if (!isValid) {
                     return;

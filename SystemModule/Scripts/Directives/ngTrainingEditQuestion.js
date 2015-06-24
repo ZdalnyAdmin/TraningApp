@@ -44,42 +44,33 @@
                 var checkScore = false;
                 var checkAnswerCount = 0;
 
-                if (question.Type === 0 || question.Type === 1) {
-                    angular.forEach(question.Answers, function (val) {
-                        if (!!val.Text && val.Text.length > 0) {
-                            checkAnswerCount++;
-                            if (!!val.Score && val.Score > 0 && val.Score < 100) {
-                                checkScore = true;
-                            }
+                angular.forEach(question.Answers, function (val) {
+                    if (!!val.Text && val.Text.length > 0) {
+                        checkAnswerCount++;
+                        if (!!val.Score && val.Score > 0 && val.Score < 100) {
+                            checkScore = true;
                         }
+                    }
 
-                        if (!!val.Score && val.Score < 0 || val.Score > 100) {
-                            isValid = false;
-                        }
-
-                    });
-
-                    if (!checkScore) {
-                        $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br> ";
+                    if (!!val.Score && val.Score < 0 || val.Score > 100) {
                         isValid = false;
                     }
 
-                    if (checkAnswerCount < 2) {
-                        $scope.ErrorMessage += "Wpisz przy najmniej 2 odpowiedzi na pytanie! <br>";
-                        isValid = false;
-                    }
+                });
+
+                if (!checkScore) {
+                    $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br> ";
+                    isValid = false;
                 }
 
-                if (question.Type === 2) {
-                    if (!question.Answers[0].Text || question.Answers[0].Text.length < 1) {
-                        $scope.ErrorMessage += "Wpisz chodź jedną odpowiedź na pytanie <br>";
-                        isValid = false;
-                    }
+                if (checkAnswerCount < 2 && (question.Type === 0 || question.Type === 1)) {
+                    $scope.ErrorMessage += "Wpisz przy najmniej 2 odpowiedzi na pytanie! <br>";
+                    isValid = false;
+                }
 
-                    if (!!question.Answers[0].Score && question.Answers[0].Score > 0 && question.Answers[0].Score < 100) {
-                        $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br>";
-                        isValid = false;
-                    }
+                if (checkAnswerCount < 1 && question.Type === 2) {
+                    $scope.ErrorMessage += "Przy najmniej jedna odpowiedź musi być prawidłowa - wyznacz za nią punkty! <br>";
+                    isValid = false;
                 }
 
                 if (!isValid) {
