@@ -338,12 +338,7 @@ namespace AppEngine.Services
 
                         }
 
-                        serverPath = AppSettings.ServerPath();
-                        path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
-                        if (!Directory.Exists(path))
-                        {
-                            Directory.CreateDirectory(path);
-                        }
+
 
 
                         model.Current.CreateDate = DateTime.Now;
@@ -351,6 +346,20 @@ namespace AppEngine.Services
 
                         model.Current.IsDeleted = false;
                         model.Current.IsActive = true;
+                        model.Current.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
+
+                        context.Trainings.Add(model.Current);
+                        context.SaveChanges();
+
+
+                        serverPath = AppSettings.ServerPath(model.Current.TrainingID);
+                        path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+
                         if (String.IsNullOrEmpty(model.Current.TrainingResources))
                         {
                             model.Current.TrainingResources = @"Assets\Image\main_image.png";
@@ -364,8 +373,10 @@ namespace AppEngine.Services
                             model.Current.PassResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
                         }
 
+                        context.Entry<Training>(model.Current).State = EntityState.Modified;
+                        context.SaveChanges();
 
-                        model.Current.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
+
                         index = 0;
 
                         if (model.Details != null && model.Details.Any())
