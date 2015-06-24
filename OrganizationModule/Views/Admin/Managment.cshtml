@@ -4,10 +4,10 @@
 <div class="container" id="trainings-manage">
     <div class="row">
         <div class="row buttons">
-            <button class="tab-button" ng-click="showTab(1)">
+            <button ng-class="{active: index == 1 }" class="tab-button" ng-click="showTab(1)">
                 WEWNETRZNE
             </button>
-            <button class="tab-button active" ng-click="showTab(2)" ng-show="viewModel.ShowExternal">
+            <button ng-class="{active: index == 2 }" class="tab-button" ng-click="showTab(2)" ng-show="viewModel.ShowExternal">
                 OD KENPRO
             </button>
         </div>
