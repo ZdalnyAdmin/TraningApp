@@ -262,19 +262,24 @@ namespace AppEngine.Services
                             //todo change to only update
                             if (model.Current.Groups != null && model.Current.Groups.Any())
                             {
-                                foreach (var item in model.Current.Groups)
+                                var currentGroups = (from t in context.TrainingInGroups
+                                                     where t.TrainingID == model.Current.TrainingID
+                                                     select t).ToList();
+
+                                if (currentGroups != null)
                                 {
-                                    var grp = context.TrainingInGroups.FirstOrDefault(x => x.ProfileGroupID == item.ProfileGroupID && x.TrainingID == model.Current.TrainingID);
-                                    if (grp != null)
+                                    foreach (var item in currentGroups)
                                     {
-                                        context.TrainingInGroups.Remove(grp);
+                                        var grp = context.TrainingInGroups.FirstOrDefault(x => x.ProfileGroupID == item.ProfileGroupID && x.TrainingID == model.Current.TrainingID);
+                                        if (grp != null)
+                                        {
+                                            context.TrainingInGroups.Remove(grp);
+                                        }
                                     }
                                 }
                             }
 
-
-
-                            if (!model.Current.IsForAll && model.Groups != null && model.Groups.Any())
+                            if (!model.Current.IsForAll && model.Current.Groups != null && model.Current.Groups.Any())
                             {
                                 foreach (var item in model.Groups)
                                 {
@@ -574,11 +579,10 @@ namespace AppEngine.Services
                         if (isInternal)
                         {
                             //todo groups
-                            model.Groups = (from extTig in context.TrainingInGroups
-                                            join extG in context.Groups on extTig.ProfileGroupID equals extG.ProfileGroupID
-                                            where extTig.TrainingID == model.Current.TrainingID
-                                            select extG).ToList();
-                            model.Current.Groups = model.Groups;
+                            model.Current.Groups = (from extTig in context.TrainingInGroups
+                                                    join extG in context.Groups on extTig.ProfileGroupID equals extG.ProfileGroupID
+                                                    where extTig.TrainingID == model.Current.TrainingID
+                                                    select extG).ToList();
                         }
                         else
                         {
@@ -736,7 +740,7 @@ namespace AppEngine.Services
 
                         context.Entry(toImageModified).State = EntityState.Modified;
                         context.SaveChanges();
-                        
+
                         if (isInternal)
                         {
                             LogService.InsertTrainingLogs(OperationLog.TrainingEdit, context, model.Current.TrainingID, model.LoggedUser.Id, model.CurrentOrganization.OrganizationID);

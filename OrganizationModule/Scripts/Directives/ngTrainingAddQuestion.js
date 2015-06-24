@@ -93,10 +93,7 @@
                 var isValid = true;
 
                 if (!$scope.currentQuestion.Text || $scope.currentQuestion.Text.length < 10) {
-                    if (!$scope.currentQuestion.Text)
-                    {
-                    $scope.currentQuestion.Text = ''
-                }
+                    $scope.ErrorMessage += "Brak treści pytanie";
                     isValid = false;
                 }
 

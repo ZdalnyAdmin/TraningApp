@@ -36,10 +36,10 @@
                 var isValid = true;
 
                 if (!question.Text || question.Text.length < 10) {
+                    $scope.ErrorMessage += "Brak treści pytanie";
                     isValid = false;
                 }
 
-                $scope.ErrorMessage = '';
 
                 var checkScore = false;
                 var checkAnswerCount = 0;
