@@ -142,7 +142,11 @@
                 $scope.showQuestionType = true;
             }
 
-
+            $scope.cancelQuestion = function () {
+                $scope.changeQuestion("");
+                $scope.currentQuestion.selected = 'Wybierz';
+                $scope.showQuestionType = true;
+            }
 
             createAnswer = function () {
                 var obj = {};
