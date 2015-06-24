@@ -308,9 +308,7 @@ namespace AppEngine.Services
                                 foreach (var item in model.Organizations)
                                 {
                                     var trainingInOrganization = new Trainings2Organizations();
-                                    trainingInOrganization.Organization = item;
                                     trainingInOrganization.OrganizationID = item.OrganizationID;
-                                    trainingInOrganization.Training = model.Current;
                                     trainingInOrganization.TrainingID = model.Current.TrainingID;
                                     trainingInOrganization.IsDeleted = false;
                                     context.TrainingsInOrganizations.Add(trainingInOrganization);
