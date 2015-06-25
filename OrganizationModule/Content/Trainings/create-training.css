@@ -11,6 +11,7 @@
     text-align:center;    
     font-size:24px;
     margin-right:15px;
+    margin-top:10px;
 }
 #create-training .italics{
     font-style:italic;
@@ -24,10 +25,14 @@
     text-align:left;
     display:table;
     min-height:40px;
+    float:left;
 }
 #create-training h4 span{
     display:table-cell;
     vertical-align:middle;
+}
+#create-training .prompt{
+    float:right;
 }
 #create-training .letter-counter{
     float:right;
@@ -95,7 +100,10 @@
     display:block;
     margin-top:15px;
 }*/
-
+#create-training .buttons{
+    text-align:center;
+    margin-top:15px;
+}
 #create-training .add-content{
     float:left;
     padding:7.5px;
@@ -109,7 +117,8 @@
 #create-training .content .buttons div{
     margin-top:15px;
 }
-#create-training .content .buttons div:last-child{
+#create-training .content .buttons div:last-child, #create-training .content-item .buttons div:last-child,
+#create-training .preview-question .buttons div:last-child{
     position:absolute;
     right:30px;  
 }
@@ -117,29 +126,32 @@
     width:100%;
 }
 
-#create-training .add-question .points div{
+#create-training .add-question .points div, #create-training .preview-question .points div{
     padding-right:50px;
     float:left;
 }
-#create-training .add-question .points button{
+#create-training .add-question .points button, #create-training .preview-question .points button{
     position:absolute;
     right:15px;
     bottom:0;
 }
-#create-training .add-question .new-answer{
+#create-training .add-question .new-answer, #create-training .preview-question .new-answer{
     margin-top:15px;
 }
-#create-training .add-question .buttons{
+#create-training .add-question .buttons #create-training .preview-question .buttons{
     text-align:center;
     margin-top:15px;
 }
-#create-training .add-question .radio-question .radio-answer label, #create-training .add-question .checkbox-question .checkbox-answer label{
+#create-training .add-question .radio-question .radio-answer label, #create-training .add-question .checkbox-question .checkbox-answer label,
+#create-training .preview-question .radio-question .radio-answer label, #create-training .preview-question .checkbox-question .checkbox-answer label{
     float:left;
 }
-#create-training .add-question .radio-question .radio-answer div, #create-training .add-question .checkbox-question .checkbox-answer div{
+#create-training .add-question .radio-question .radio-answer div, #create-training .add-question .checkbox-question .checkbox-answer div,
+#create-training .preview-question .radio-question .radio-answer div, #create-training .preview-question .checkbox-question .checkbox-answer div{
     padding-left:50px;
 }
-#create-training .add-question .radio-question, #create-training .add-question .checkbox-question{
+#create-training .add-question .radio-question, #create-training .add-question .checkbox-question,
+#create-training .preview-question .radio-question, #create-training .preview-question .checkbox-question{
     border-bottom:none!important;
     padding:0!important;
 }
@@ -147,7 +159,44 @@
     float:left;
     margin-right:15px;
 }
+#create-training .content-item{
+    margin-top:20px;
+    margin-bottom:20px;
+}
+#create-training .content-item .text-item, #create-training .content-item .image-item, #create-training .content-item .video-item,
+#create-training .content-item .presentation-item, #create-training .content-item .file-item{
+    padding:15px;
+    background:#fff;
+    min-height:86px;
+}
+#create-training .content-item .image-item img{
+    margin:auto;
+    display:block;
+}
+#create-training .squared-btn{
+    margin-bottom:10px!important;
+    margin-left:5px!important; 
+    margin-right:5px!important;
+    margin-top:0px!important;
+}
 
+#create-training .content-item video{
+    width:100%;
+}
+#create-training .content-item .file-item h5{
+    float:left;
+}
+#create-training .content-item .file-item a{
+    height:42px;
+    display:table;
+    float:left;
+    margin-left:15px;
+}
+#create-training .content-item .file-item a>span{
+    font-size:22px;
+    display:table-cell;
+    vertical-align:middle;
+}
 @media screen and (max-width: 1199px) AND (min-width: 992px) {
     /*#create-training .add-content{
         width:110px;

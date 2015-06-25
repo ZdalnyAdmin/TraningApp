@@ -1,61 +1,50 @@
-﻿<div ng-repeat="item in collection">
+﻿<div class="content-item" ng-repeat="item in collection">
     <div class="row">
-        <div id="inputButto" ng-click="up(item)">
-            UP
-        </div>
-        <div id="inputButto" ng-click="down(item)">
-            DOWN
-        </div>
-        <div id="inputButto" ng-click="edit(item)">
-            EDIT
-        </div>
-        <div id="inputButto" ng-click="delete(item)">
-            REMOVE
-        </div>
-    </div>
-
-    <div ng-show="item.ResourceType == 0">
-        <div class="row" ng-hide="item.isEdit" ng-bind-html="item.Text"></div>
-        <div class="row" ng-show="item.isEdit">
-            <textarea name="item.Text" froala="options" ng-model="item.Text"></textarea>
-        </div>
-    </div>
-    <div ng-show="item.ResourceType == 1">
-        <div class="row">
-            <div class="row">
-                <img src="{{item.InternalResource || item.ExternalResource}}" width="300" height="200" />
+        <div class="col-lg-10 text-item" ng-show="item.ResourceType == 0">
+            <div ng-hide="item.isEdit" ng-bind-html="item.Text"></div>
+            <div ng-show="item.isEdit">
+                <textarea name="item.Text" froala="options" ng-model="item.Text"></textarea>
             </div>
         </div>
-    </div>
-    <div ng-show="item.ResourceType == 2">
-        <div class="row">
-            Dodany plik wideo : {{item.Name}}
+        <div class="col-lg-10 image-item" ng-show="item.ResourceType == 1">
+            <img src="{{item.InternalResource || item.ExternalResource}}" />
+        </div>
+        <div class="col-lg-10 video-item" ng-show="item.ResourceType == 2">
+
+            <!--Dodany plik wideo : {{item.Name}}-->
             <div ng-if="item.InternalResource">
                 <video controls src="{{ item.InternalResource }}"></video>
             </div>
-            <div ng-if="item.ExternalResource" >
-                <iframe ng-if="item.ExternalResource.indexOf('youtu') !=-1" width="560" height="315" src="{{getUrl(item.ExternalResource)}}" frameborder="0" allowfullscreen></iframe>
-                <iframe ng-if="item.ExternalResource.indexOf('player.vimeo.com') !=-1" src="{{getUrl(item.ExternalResource)}}" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            <div class="video-wrapper" ng-if="item.ExternalResource">
+                <iframe ng-if="item.ExternalResource.indexOf('youtu') !=-1" src="{{getUrl(item.ExternalResource)}}" frameborder="0" allowfullscreen></iframe>
+                <iframe ng-if="item.ExternalResource.indexOf('player.vimeo.com') !=-1" src="{{getUrl(item.ExternalResource)}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </div>
+
+        </div>
+        <div class="col-lg-10 presentation-item" ng-show="item.ResourceType == 3">
+            <!--Dodany plik prezentacji : {{item.Name}}-->
+            <div class="video-wrapper">
+                <iframe ng-if="item.InternalResource" src="{{getPresentationUrl(item.InternalResource)}}" frameborder="0"></iframe>
             </div>
         </div>
-    </div>
-    <div ng-show="item.ResourceType == 3">
-        <div class="row">
-            Dodany plik prezentacji : {{item.Name}}
-            <iframe ng-if="item.InternalResource" src="{{getPresentationUrl(item.InternalResource)}}" style="width:600px; height:500px;" frameborder="0"></iframe>
+        <div class="col-lg-10 file-item" ng-show="item.ResourceType == 4">
+            <div>
+                <h5>OTWÓRZ LUB POBIERZ PLIK:</h5><a href=""><span class="glyphicon glyphicon-download-alt">{{item.Name}}</span></a>
+            </div>
         </div>
-    </div>
-    <div ng-show="item.ResourceType == 4">
-        <div class="row">
-            Dodany plik : {{item.Name}}
+        <div class="col-lg-2">
+            <button class="btn squared-btn empty-blue-button glyphicon glyphicon-arrow-up" ng-click="up(item)"></button>
+            <button class="btn squared-btn empty-blue-button glyphicon glyphicon-arrow-down" ng-click="down(item)"></button>
+            <button class="btn squared-btn empty-blue-button glyphicon glyphicon-pencil" ng-click="edit(item)"></button>
+            <button class="btn squared-btn empty-purple-button glyphicon glyphicon-remove" ng-click="delete(item)"></button>
         </div>
     </div>
 
-    <div class="row">
-        <div id="inputButto" ng-click="save(item)" ng-show="item.isEdit">
-            ZAPISZ
+    <div class="buttons">
+        <div class="btn btn-l blue-button" ng-click="save(item)" ng-show="item.isEdit">
+            ZAPISZ ZMIANY
         </div>
-        <div id="inputButto" ng-click="cancel(item)" ng-show="item.isEdit">
+        <div class="btn btn-m empty-blue-button" ng-click="cancel(item)" ng-show="item.isEdit">
             ANULUJ
         </div>
     </div>

@@ -25,8 +25,8 @@
                 <div class='statusBar'><div></div></div>
             </div>
             <div class="col-lg-4">
-                <img ng-show="!fileSrc && !model.ExternalResource" src="{{ options == 'IMAGE' ? '../Assets/Image/drag-drop-image.png' : '../Assets/Image/drag-drop-video.png' }}" class="empty-image" />
-                <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{ fileSrc || '../Assets/Image/drag-drop-image.png' }}" class="filled-image" />
+                <img ng-show="!fileSrc && !model.ExternalResource" src="{{ options == 'IMAGE' ? '../Assets/Image/drag-drop-image.png' : '../Assets/Image/drag-drop-video.png' }}" class="empty-image img-responsive" />
+                <img ng-show="options == 'IMAGE' && !!fileSrc" src="{{ fileSrc || '../Assets/Image/drag-drop-image.png' }}" class="filled-image img-responsive" />
                 <video ng-show="options == 'MOVIE' && !!fileSrc" controls autoplay src="{{ getUrl(fileSrc)}}"></video>
                 <div ng-if="options == 'MOVIE' && model.ExternalResource">
                     <iframe ng-if="model.ExternalResource.indexOf('youtu') !=-1" width="560" height="315" src="{{getUrl(model.ExternalResource)}}" frameborder="0" allowfullscreen></iframe>
