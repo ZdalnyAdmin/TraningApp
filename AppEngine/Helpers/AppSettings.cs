@@ -21,14 +21,21 @@ namespace AppEngine.Helpers
             return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
         }
 
-        private static string generateID()
+        private static string generateID(int trainingID)
         {
-            return Guid.NewGuid().ToString("N");
+            var quid = Guid.NewGuid().ToString("N");
+
+            if (trainingID != 0)
+            {
+                quid += "_" + trainingID.ToString();
+            }
+
+            return quid;
         }
 
-        public static string ServerPath()
+        public static string ServerPath(int trainingID)
         {
-            return Path.Combine("Assets", AppSettings.generateID(), "Resources");
+            return Path.Combine("Assets", AppSettings.generateID(trainingID), "Resources");
         }
 
         public static string CopyTrainingImages(string filePath, string domainPath, string sourcePath, out decimal size, bool delete = true)
@@ -70,7 +77,7 @@ namespace AppEngine.Helpers
             }
         }
 
-        public static string CopyFile(string filePath,string domainPath, string sourcePath, out decimal size, bool delete=true)
+        public static string CopyFile(string filePath, string domainPath, string sourcePath, out decimal size, bool delete = true)
         {
             try
             {
@@ -78,7 +85,7 @@ namespace AppEngine.Helpers
 
                 if (sourcePath.StartsWith("/"))
                 {
-                    sourcePath = sourcePath.Substring(1, sourcePath.Length-1);
+                    sourcePath = sourcePath.Substring(1, sourcePath.Length - 1);
                     sourcePath = sourcePath.Replace("/", "\\");
                 }
 
@@ -91,7 +98,7 @@ namespace AppEngine.Helpers
                 var localPath = filePath.Replace(domainPath, "C:\\");
                 localPath = localPath.Replace("\\Resources", string.Empty);
 
-                if(!Directory.Exists(localPath))
+                if (!Directory.Exists(localPath))
                 {
                     Directory.CreateDirectory(localPath);
                 }

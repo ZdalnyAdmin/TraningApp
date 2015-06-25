@@ -2,9 +2,9 @@
 <div class="col-md-12 content">
     <div class="submenu clearfix">
         <ul class="clearfix">
-            <li><a ng-click="changeDisplayedTrainings('All')">WSZYSTKIE</a></li>
-            <li><a ng-click="changeDisplayedTrainings('Internal')">WEWNĘTRZNE</a></li>
-            <li><a ng-click="changeDisplayedTrainings('Kenpro')">OD KENPRO</a></li>
+            <li><a ng-class="{active: display == 'All'}" ng-click="changeDisplayedTrainings('All')">WSZYSTKIE</a></li>
+            <li><a ng-class="{active: display == 'Internal'}" ng-click="changeDisplayedTrainings('Internal')">WEWNĘTRZNE</a></li>
+            <li><a ng-class="{active: display == 'Kenpro'}" ng-click="changeDisplayedTrainings('Kenpro')">OD KENPRO</a></li>
         </ul>
     </div>
 

@@ -262,19 +262,24 @@ namespace AppEngine.Services
                             //todo change to only update
                             if (model.Current.Groups != null && model.Current.Groups.Any())
                             {
-                                foreach (var item in model.Current.Groups)
+                                var currentGroups = (from t in context.TrainingInGroups
+                                                     where t.TrainingID == model.Current.TrainingID
+                                                     select t).ToList();
+
+                                if (currentGroups != null)
                                 {
-                                    var grp = context.TrainingInGroups.FirstOrDefault(x => x.ProfileGroupID == item.ProfileGroupID && x.TrainingID == model.Current.TrainingID);
-                                    if (grp != null)
+                                    foreach (var item in currentGroups)
                                     {
-                                        context.TrainingInGroups.Remove(grp);
+                                        var grp = context.TrainingInGroups.FirstOrDefault(x => x.ProfileGroupID == item.ProfileGroupID && x.TrainingID == model.Current.TrainingID);
+                                        if (grp != null)
+                                        {
+                                            context.TrainingInGroups.Remove(grp);
+                                        }
                                     }
                                 }
                             }
 
-
-
-                            if (!model.Current.IsForAll && model.Groups != null && model.Groups.Any())
+                            if (!model.Current.IsForAll && model.Current.Groups != null && model.Current.Groups.Any())
                             {
                                 foreach (var item in model.Groups)
                                 {
@@ -303,9 +308,7 @@ namespace AppEngine.Services
                                 foreach (var item in model.Organizations)
                                 {
                                     var trainingInOrganization = new Trainings2Organizations();
-                                    trainingInOrganization.Organization = item;
                                     trainingInOrganization.OrganizationID = item.OrganizationID;
-                                    trainingInOrganization.Training = model.Current;
                                     trainingInOrganization.TrainingID = model.Current.TrainingID;
                                     trainingInOrganization.IsDeleted = false;
                                     context.TrainingsInOrganizations.Add(trainingInOrganization);
@@ -333,12 +336,7 @@ namespace AppEngine.Services
 
                         }
 
-                        serverPath = AppSettings.ServerPath();
-                        path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
-                        if (!Directory.Exists(path))
-                        {
-                            Directory.CreateDirectory(path);
-                        }
+
 
 
                         model.Current.CreateDate = DateTime.Now;
@@ -346,6 +344,20 @@ namespace AppEngine.Services
 
                         model.Current.IsDeleted = false;
                         model.Current.IsActive = true;
+                        model.Current.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
+
+                        context.Trainings.Add(model.Current);
+                        context.SaveChanges();
+
+
+                        serverPath = AppSettings.ServerPath(model.Current.TrainingID);
+                        path = Path.Combine(HttpRuntime.AppDomainAppPath, serverPath);
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+
                         if (String.IsNullOrEmpty(model.Current.TrainingResources))
                         {
                             model.Current.TrainingResources = @"Assets\Image\main_image.png";
@@ -359,8 +371,10 @@ namespace AppEngine.Services
                             model.Current.PassResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
                         }
 
+                        context.Entry<Training>(model.Current).State = EntityState.Modified;
+                        context.SaveChanges();
 
-                        model.Current.TrainingType = isInternal ? TrainingType.Internal : TrainingType.Kenpro;
+
                         index = 0;
 
                         if (model.Details != null && model.Details.Any())
@@ -574,11 +588,10 @@ namespace AppEngine.Services
                         if (isInternal)
                         {
                             //todo groups
-                            model.Groups = (from extTig in context.TrainingInGroups
-                                            join extG in context.Groups on extTig.ProfileGroupID equals extG.ProfileGroupID
-                                            where extTig.TrainingID == model.Current.TrainingID
-                                            select extG).ToList();
-                            model.Current.Groups = model.Groups;
+                            model.Current.Groups = (from extTig in context.TrainingInGroups
+                                                    join extG in context.Groups on extTig.ProfileGroupID equals extG.ProfileGroupID
+                                                    where extTig.TrainingID == model.Current.TrainingID
+                                                    select extG).ToList();
                         }
                         else
                         {
@@ -736,7 +749,7 @@ namespace AppEngine.Services
 
                         context.Entry(toImageModified).State = EntityState.Modified;
                         context.SaveChanges();
-                        
+
                         if (isInternal)
                         {
                             LogService.InsertTrainingLogs(OperationLog.TrainingEdit, context, model.Current.TrainingID, model.LoggedUser.Id, model.CurrentOrganization.OrganizationID);

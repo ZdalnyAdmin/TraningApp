@@ -33,6 +33,15 @@
         $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            angular.forEach($scope.viewModel.Groups, function (val) {
+                angular.forEach($scope.viewModel.Current.Groups, function (act) {
+                    if (val.ProfileGroupID == act.ProfileGroupID) {
+                        val.selected = true;
+                    }
+                });
+            });
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -327,6 +336,9 @@
 
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 2;
+
+        $scope.viewModel.Current.Groups = [];
+
         angular.forEach($scope.viewModel.Groups, function (val) {
             if (val.selected) {
                 $scope.viewModel.Current.Groups.push(val);
@@ -336,6 +348,16 @@
         $http.post('/api/Training', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            angular.forEach($scope.viewModel.Groups, function (val) {
+                angular.forEach($scope.viewModel.Current.Groups, function (act) {
+                    if (val.ProfileGroupID == act.ProfileGroupID) {
+                        val.selected = true;
+                    }
+                });
+            });
+
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function (data) {

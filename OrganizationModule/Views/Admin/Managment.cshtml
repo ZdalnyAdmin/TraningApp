@@ -4,10 +4,10 @@
 <div class="container" id="trainings-manage">
     <div class="row">
         <div class="row buttons">
-            <button class="tab-button" ng-click="showTab(1)">
+            <button ng-class="{active: index == 1 }" class="tab-button" ng-click="showTab(1)">
                 WEWNETRZNE
             </button>
-            <button class="tab-button active" ng-click="showTab(2)" ng-show="viewModel.ShowExternal">
+            <button ng-class="{active: index == 2 }" class="tab-button" ng-click="showTab(2)" ng-show="viewModel.ShowExternal">
                 OD KENPRO
             </button>
         </div>
@@ -33,7 +33,12 @@
                     <div>{{ item.Name }}</div>
                     <div>{{ item.UserName }}</div>
                     <div>
-                        <span ng-repeat="group in item.AssignedGroups">{{ group.Name }}, </span>
+                        <div ng-show="!!item.AssignedGroups && item.AssignedGroups.length > 0">
+                            <span ng-repeat="group in item.AssignedGroups">{{ group.Name }}, </span>
+                        </div>
+                        <div ng-show="!item.AssignedGroups || item.AssignedGroups.length == 0">
+                           tylko autor 
+                        </div>
                     </div>
                     <div>
                         <span ng-show="{{ item.IsActive }}">dostepne</span>
@@ -60,10 +65,10 @@
                         {{ log.Name }}
                     </div>
                 </div>
-            </div>         
+            </div>
         </div>
     </div>
-    
+
     <div class="row" ng-show="index  == 2">
         <div class="col-xs-12">
             <h3>SZKOLENIA OD KENPRO</h3>
@@ -97,8 +102,8 @@
                 ZAPISZ ZMIANY
             </button>
         </div>
-        
-    </div>  
+
+    </div>
 </div>
 
 
