@@ -335,10 +335,7 @@ namespace AppEngine.Services
                             return false;
 
                         }
-
-
-
-
+                        
                         model.Current.CreateDate = DateTime.Now;
                         model.Current.CreateUserID = model.LoggedUser.Id;
 
@@ -427,10 +424,6 @@ namespace AppEngine.Services
                             model.Current.Questions = model.Questions;
                         }
 
-
-                        context.Trainings.Add(model.Current);
-                        context.SaveChanges();
-
                         if (isInternal)
                         {
                             LogService.InsertTrainingLogs(OperationLog.TrainingCreate, context, model.Current.TrainingID, model.LoggedUser.Id, model.CurrentOrganization.OrganizationID);
@@ -456,7 +449,6 @@ namespace AppEngine.Services
 
                             var trainingInOrganization = new Trainings2Organizations();
                             trainingInOrganization.OrganizationID = model.CurrentOrganization.OrganizationID;
-                            trainingInOrganization.Training = model.Current;
                             trainingInOrganization.TrainingID = model.Current.TrainingID;
                             trainingInOrganization.IsDeleted = false;
                             context.TrainingsInOrganizations.Add(trainingInOrganization);
@@ -473,9 +465,7 @@ namespace AppEngine.Services
                             foreach (var item in model.Organizations)
                             {
                                 var trainingInOrganization = new Trainings2Organizations();
-                                trainingInOrganization.Organization = item;
                                 trainingInOrganization.OrganizationID = item.OrganizationID;
-                                trainingInOrganization.Training = model.Current;
                                 trainingInOrganization.TrainingID = model.Current.TrainingID;
                                 trainingInOrganization.IsDeleted = false;
                                 context.TrainingsInOrganizations.Add(trainingInOrganization);
