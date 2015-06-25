@@ -65,12 +65,12 @@
             </div>
             @foreach (var user in ViewBag.InvitedUsers)
             {
-                <div class="display-table-row-group">
+                <div class="display-table-row-group" ng-init="u_@user.Id.Replace("-", "") = false">
                     <div class="display-table-row">
                         <div>
                             @user.DisplayName
                         </div>
-                        
+
                         <div>
                             @user.InvitationDate
                         </div>
@@ -85,22 +85,22 @@
                             }
                         </div>
                         <div>
-                            <button class="show-details btn squared-btn empty-green-button glyphicon glyphicon-chevron-down"></button>
-                            <button style="display:none;" class="show-details btn squared-btn empty-green-button glyphicon glyphicon-chevron-up"></button>
+                            <button ng-show="!u_@user.Id.Replace("-","")" ng-click="toggle('u_@user.Id.Replace("-", "")')" class="show-details btn squared-btn empty-green-button glyphicon glyphicon-chevron-down"></button>
+                            <button ng-show="u_@user.Id.Replace("-", "")" ng-click="toggle('u_@user.Id.Replace("-", "")')" class="show-details btn squared-btn empty-green-button glyphicon glyphicon-chevron-up"></button>
                         </div>
                         <div>
                             @if (((StatusEnum)user.Status) == StatusEnum.Invited)
                             {
-                                <button class="glyphicon glyphicon-remove squared-btn empty-purple-button" ng-click="deleteUser('@user.Id')"></button>
+                                <button ng-click="deleteUser('@user.Id.Replace("-","")')" class="glyphicon glyphicon-remove squared-btn empty-purple-button"></button>
                             }
                         </div>
                     </div>
-                    <div class="display-table-row details-row green-labels">
+                    <div ng-show="u_@user.Id.Replace("-", "")" class="display-table-row details-row green-labels">
                         <div>ZAPRASZAJĄCY</div>
                         <div>ADRES E-MAIL</div>
                         <div>ROLA</div>
                     </div>
-                    <div class="display-table-row details-row">
+                    <div ng-show="u_@user.Id.Replace("-", "")" class="display-table-row details-row">
                         <div>
                             @if (user.Inviter != null)
                             {

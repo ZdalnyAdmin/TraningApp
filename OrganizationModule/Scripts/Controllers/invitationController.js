@@ -11,12 +11,25 @@
         result.then(processResponse);
     };
 
+    function insert(str, index, value) {
+        return str.substr(0, index) + value + str.substr(index);
+    }
+
     $scope.deleteUser = function (id) {
+        id = insert(id, 8, '-');
+        id = insert(id, 13, '-');
+        id = insert(id, 18, '-');
+        id = insert(id, 23, '-');
+
         UtilitiesFactory.showSpinner();
         var result = UserFactory.removeInvitation({ Id: id });
         result.then(processResponse);
     };
     
+    $scope.toggle = function (rowId) {
+        $scope[rowId] = !$scope[rowId];
+    };
+
     function processResponse (data){
         if (data.Succeeded) {
             reload();
@@ -29,7 +42,7 @@
                     $scope.errorMessage += ' ' + val;
                 });
             } else {
-                $scope.errorMessage = 'Wystąpił nieoczekiwany błąd podczas rejestracji';
+                $scope.errorMessage = 'Wystąpił nieoczekiwany błąd!';
             }
         }
     }
