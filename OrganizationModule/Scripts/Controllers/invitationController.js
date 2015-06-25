@@ -1,11 +1,13 @@
-﻿function invitationController($scope, $http, $modal, UserFactory, $route, $templateCache, UtilitiesFactory) {
+﻿function invitationController($scope, $http, $modal, UserFactory, $route, $templateCache, UtilitiesFactory, $location) {
     $scope.user = {
         Role: 5
     };
 
-    $scope.errorMessage = '';
+    var search = $location.search();
+    $scope.errorMessage = search ? search.message : '';
 
     $scope.invite = function () {
+        $scope.invitation = true;
         UtilitiesFactory.showSpinner();
         var result = UserFactory.inviteUser($scope.user);
         result.then(processResponse);
@@ -32,8 +34,14 @@
 
     function processResponse (data){
         if (data.Succeeded) {
-            reload();
+            var search = {};
+            if ($scope.invitation) {
+                search = { message: 'Zaproszenie zostało wysłane!' };
+            }
+
+            reload(search);
         } else {
+            $scope.invitation = false;
             UtilitiesFactory.hideSpinner();
 
             if (data.Errors) {
@@ -47,11 +55,17 @@
         }
     }
 
-    function reload() {
+    function reload(search) {
         var currentPageTemplate = $route.current.templateUrl;
+        var locSearch = $location.search();
         $templateCache.remove(currentPageTemplate);
-        $route.reload();
+
+        if (locSearch.message) {
+            $route.reload();
+        } else {
+            $location.path('/managerInvitation').search(search);
+        }
     }
 }
 
-invitationController.$inject = ['$scope', '$http', '$modal', 'UserFactory', '$route', '$templateCache', 'UtilitiesFactory'];
+invitationController.$inject = ['$scope', '$http', '$modal', 'UserFactory', '$route', '$templateCache', 'UtilitiesFactory', '$location'];
