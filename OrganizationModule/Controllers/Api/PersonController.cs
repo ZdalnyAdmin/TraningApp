@@ -42,17 +42,28 @@ namespace OrganizationModule.Controllers
                     return Request.CreateResponse(HttpStatusCode.Created, obj);
                 }
 
+
+                var take = 10;
+                var skip = 0;
+
+
                 switch (obj.ActionType)
                 {
                     case BaseActionType.Get:
                         //todo logs for add and send invitation
                         var people = (from p in db.Users
-                                      where
-                                      p.OrganizationID == obj.CurrentOrganization.OrganizationID &&
-                                      (p.Status == StatusEnum.Active || p.Status == StatusEnum.Blocked || p.Status == StatusEnum.Deleted)
+                                      where p.OrganizationID == obj.CurrentOrganization.OrganizationID &&
+                                      (p.Status == StatusEnum.Active || p.Status == StatusEnum.Blocked)
                                       && (p.Profile == ProfileEnum.User || p.Profile == ProfileEnum.Creator || p.Profile == ProfileEnum.Administrator || p.Profile == ProfileEnum.Manager)
                                       orderby p.RegistrationDate
-                                      select p).ToList();
+                                      select p).Take(20).ToList();
+
+                        var deleted = (from p in db.Users
+                                       where p.OrganizationID == obj.CurrentOrganization.OrganizationID &&
+                                       (p.Status == StatusEnum.Deleted)
+                                       && (p.Profile == ProfileEnum.User || p.Profile == ProfileEnum.Creator || p.Profile == ProfileEnum.Administrator || p.Profile == ProfileEnum.Manager)
+                                       orderby p.RegistrationDate
+                                       select p).Take(20).ToList();
 
 
                         var groups = (from gio in db.Groups
@@ -64,14 +75,17 @@ namespace OrganizationModule.Controllers
                         foreach (var p in people)
                         {
                             p.AssignedTrainings = (from t in db.TrainingResults
+                                                   join tr in db.Trainings on t.TrainingID equals tr.TrainingID
                                                    where t.PersonID == p.Id
+                                                   orderby t.StartDate descending
                                                    select new TrainingDto
                                                    {
                                                        Id = t.TrainingID,
                                                        StartDate = t.StartDate.Value,
                                                        EndDate = t.EndDate,
-                                                       Result = t.Rating
-                                                   }).ToList();
+                                                       Result = t.Rating,
+                                                       Name = tr.Name
+                                                   }).Take(5).ToList();
 
                             var assignedGroups = (from pg in db.PeopleInGroups
                                                   where pg.PersonID == p.Id
@@ -92,14 +106,45 @@ namespace OrganizationModule.Controllers
                         }
 
 
-                        obj.People = (from t in people
-                                      where !t.IsDeleted
-                                      select t).ToList();
+                        obj.People = people;
 
-                        obj.DeletedPeople = (from t in people
-                                             where t.IsDeleted
-                                             select t).ToList();
+                        if (deleted != null && deleted.Any())
+                        {
 
+                            foreach (var p in deleted)
+                            {
+                                p.AssignedTrainings = (from t in db.TrainingResults
+                                                        join tr in db.Trainings on t.TrainingID equals tr.TrainingID
+                                                       where t.PersonID == p.Id
+                                                       orderby t.StartDate descending
+                                                       select new TrainingDto
+                                                       {
+                                                           Id = t.TrainingID,
+                                                           StartDate = t.StartDate.Value,
+                                                           EndDate = t.EndDate,
+                                                           Result = t.Rating,
+                                                           Name = tr.Name
+                                                       }).ToList();
+
+                                var assignedGroups = (from pg in db.PeopleInGroups
+                                                      where pg.PersonID == p.Id
+                                                      select pg).ToList();
+
+                                if (assignedGroups != null)
+                                {
+                                    p.AssignedGroups = new List<ProfileGroup2Person>();
+                                    foreach (var grp in assignedGroups)
+                                    {
+                                        p.AssignedGroups.Add(new ProfileGroup2Person()
+                                        {
+                                            ProfileGroupID = grp.ProfileGroupID,
+                                            GroupName = groups.FirstOrDefault(x => x.ProfileGroupID == grp.ProfileGroupID).Name
+                                        });
+                                    }
+                                }
+                            }
+                            obj.DeletedPeople = deleted;
+                        }
                         obj.Success = String.Empty;
                         break;
                     case BaseActionType.Delete:
@@ -114,7 +159,7 @@ namespace OrganizationModule.Controllers
                         db.SaveChanges();
 
                         var current = obj.People.FirstOrDefault(x => x.Id == obj.Current.Id);
-                        if(current != null)
+                        if (current != null)
                         {
                             obj.People.Remove(current);
                             obj.DeletedPeople.Add(obj.Current);
@@ -144,11 +189,118 @@ namespace OrganizationModule.Controllers
                                       orderby p.RegistrationDate
                                       select p).ToList();
                         break;
+                    case BaseActionType.GetSpecial:
+
+                        take = 20;
+                        skip = 0;
+
+                        if (obj.People != null)
+                        {
+                            skip = obj.People.Count();
+                        }
+
+
+                        var collection = (from p in db.Users
+                                          where p.OrganizationID == obj.CurrentOrganization.OrganizationID &&
+                                          (p.Status == StatusEnum.Active || p.Status == StatusEnum.Blocked)
+                                          && (p.Profile == ProfileEnum.User || p.Profile == ProfileEnum.Creator || p.Profile == ProfileEnum.Administrator || p.Profile == ProfileEnum.Manager)
+                                          orderby p.RegistrationDate
+                                          select p).Skip(skip).Take(take).ToList();
+
+                        var groupsEx = (from gio in db.Groups
+                                        join g in db.GroupsInOrganizations on gio.ProfileGroupID equals g.ProfileGroupID
+                                        select gio).ToList();
+
+
+
+                        foreach (var p in collection)
+                        {
+                            p.AssignedTrainings = (from t in db.TrainingResults
+                                                    join tr in db.Trainings on t.TrainingID equals tr.TrainingID
+                                                   where t.PersonID == p.Id
+                                                   orderby t.StartDate descending
+                                                   select new TrainingDto
+                                                   {
+                                                       Id = t.TrainingID,
+                                                       StartDate = t.StartDate.Value,
+                                                       EndDate = t.EndDate,
+                                                       Result = t.Rating,
+                                                       Name = tr.Name
+                                                   }).ToList();
+
+                            var assignedGroups = (from pg in db.PeopleInGroups
+                                                  where pg.PersonID == p.Id
+                                                  select pg).ToList();
+
+                            if (assignedGroups != null)
+                            {
+                                p.AssignedGroups = new List<ProfileGroup2Person>();
+                                foreach (var grp in assignedGroups)
+                                {
+                                    p.AssignedGroups.Add(new ProfileGroup2Person()
+                                    {
+                                        ProfileGroupID = grp.ProfileGroupID,
+                                        GroupName = groupsEx.FirstOrDefault(x => x.ProfileGroupID == grp.ProfileGroupID).Name
+                                    });
+                                }
+                            }
+                        }
+
+
+                        obj.People.AddRange(collection);
+
+                        obj.Success = "";
+
+                        break;
+
+                    case BaseActionType.GetExtData:
+
+                        if (obj.Current == null)
+                        {
+                            obj.ErrorMessage = "Nie wybrano uzytkowanika";
+                            return Request.CreateResponse(HttpStatusCode.Created, obj);
+                        }
+
+                        take = 5;
+                        skip = 0;
+
+                        if (obj.Current.AssignedTrainings != null)
+                        {
+                            skip = obj.Current.AssignedTrainings.Count();
+                        }
+                        else
+                        {
+                            obj.Current.AssignedTrainings = new List<TrainingDto>();
+                        }
+
+
+                        var trainingsEx = (from t in db.TrainingResults
+                                            join tr in db.Trainings on t.TrainingID equals tr.TrainingID
+                                           where t.PersonID == obj.Current.Id
+                                           orderby t.StartDate descending
+                                           select new TrainingDto
+                                           {
+                                               Id = t.TrainingID,
+                                               StartDate = t.StartDate.Value,
+                                               EndDate = t.EndDate,
+                                               Result = t.Rating,
+                                               Name = tr.Name
+                                           }).Skip(skip).Take(take);
+
+                        if (trainingsEx != null && trainingsEx.Any())
+                        {
+                            obj.Current.AssignedTrainings.AddRange(trainingsEx.ToList());
+                        }
+
+                        obj.Success = "";
+
+                        break;
+
                     default:
                         break;
                 }
 
-              
+
                 return Request.CreateResponse(HttpStatusCode.Created, obj);
             }
             catch (Exception ex)

@@ -71,20 +71,19 @@
                     </div>
                     <div class="display-table-row trainings-details-row" ng-repeat="item in person.AssignedTrainings" ng-show="showDetails">
                         <div>
-                            @*{{ item.Id }}*@
-                            NAZWA
+                            {{ item.Name }}
                         </div>
                         <div>
                             {{ item.StartDate | date: 'dd.MM.yyyy HH.mm' }} - {{ item.EndDate | date: 'dd.MM.yyyy HH.mm'}}
                         </div>
                         @*<div id="detailText" ng-hide="{{item.IsCompleted}}">W trakcie</div>*@
                         <div ng-show="{{item.IsCompleted}}">
-                            {{item.Result}}
+                            {{ item.Rating }} / {{ item.PossibleRate }} - {{ (item.Rating * 100 / item.PossibleRate) | number : 0 }} %
                         </div>
                     </div>
                     <div class="display-table-row trainings-details-row" ng-show="showDetails">
                         <div>
-                            <button class="btn table-btn empty-blue-button">KOLEJNE</button>
+                            <button class="btn table-btn empty-blue-button" ng-click="getTrainings(person)">KOLEJNE</button>
                         </div>
                     </div>
                 </div>
@@ -94,7 +93,7 @@
         <div class="col-xs-12">
             <div class="buttons clearfix">
                 <div>
-                    <button class="btn btn-m empty-green-button">POKAŻ KOLEJNYCH</button>
+                    <button class="btn btn-m empty-green-button" ng-click="getUsers()">POKAŻ KOLEJNYCH</button>
                 </div>
                 <div ng-show="!!viewModel.DeletedPeople && viewModel.DeletedPeople.length > 0">
                     <button class="btn btn-m empty-green-button" ng-click="showDeleted = ! showDeleted" ng-show="!showDeleted">
