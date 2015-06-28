@@ -321,7 +321,7 @@ namespace OrganizationModule.Controllers
 
             var internalTrainingsForAll = _db.Trainings.Where(x => x.TrainingType != TrainingType.Kenpro &&
                                                                    x.IsForAll &&
-                                                                   x.IsActive)
+                                                                   (x.IsActive || loggedPerson.Profile == ProfileEnum.Protector))
                                                        .Join(_db.TrainingsInOrganizations
                                                                 .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
                                                              x => x.TrainingID,
@@ -329,12 +329,23 @@ namespace OrganizationModule.Controllers
                                                              (x, y) => x)
                                                        .ToList();
 
-            var myTrainings = _db.Trainings.Where(x => x.CreateUserID == loggedPerson.Id &&
-                                                       x.IsActive)
+            var myTrainings = _db.Trainings.Where(x => x.CreateUserID == loggedPerson.Id)
                                            .ToList();
 
             var internalGroupTrainings = _db.Trainings
-                                            .Where(x => x.IsActive)
+                                            .Where(x => (x.IsActive || loggedPerson.Profile == ProfileEnum.Protector) &&
+                                                        x.TrainingType != TrainingType.Kenpro)
+                                            .Join(_db.TrainingInGroups
+                                                     .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
+                                                  x => x.TrainingID,
+                                                  y => y.TrainingID,
+                                                  (x, y) => x)
+                                            .ToList();
+
+            var globalGroupTrainings =   _db.Trainings
+                                            .Where(x => x.IsActive &&
+                                                        x.TrainingType == TrainingType.Kenpro &&
+                                                        organization.IsGlobalAvailable)
                                             .Join(_db.TrainingInGroups
                                                      .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
                                                   x => x.TrainingID,
@@ -375,6 +386,14 @@ namespace OrganizationModule.Controllers
             });
 
             internalGroupTrainings.ForEach(x =>
+            {
+                if (trainings.IndexOf(x) == -1)
+                {
+                    trainings.Add(x);
+                }
+            });
+
+            globalGroupTrainings.ForEach(x =>
             {
                 if (trainings.IndexOf(x) == -1)
                 {
