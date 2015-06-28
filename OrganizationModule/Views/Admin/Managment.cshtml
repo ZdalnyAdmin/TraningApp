@@ -37,7 +37,7 @@
                             <span ng-repeat="group in item.AssignedGroups">{{ group.Name }} {{$last ? '' : ', '}} </span>
                         </div>
                         <div ng-show="!item.AssignedGroups || item.AssignedGroups.length == 0">
-                           tylko autor 
+                            tylko autor
                         </div>
                     </div>
                     <div>
@@ -84,25 +84,16 @@
             <div ng-repeat="item in viewModel.ExternalTrainings" class="display-table-row-group">
                 <div class="display-table-row">
                     <div>{{ item.Name }}</div>
-                    <div>
+                    <div ng-show="!!item.AssignedGroups && item.AssignedGroups.length > 0">
                         <span ng-repeat="group in item.AssignedGroups">{{group.Name}} {{$last ? '' : ', '}} </span>
                     </div>
-                    <div><button ng-click="showEdit = ! showEdit" ng-show="!showEdit" class="glyphicon glyphicon-pencil squared-btn empty-blue-button"></button></div>
+                    <div ng-show="!item.AssignedGroups || item.AssignedGroups.length == 0">
+                        <span > Wszyscy </span>
+                    </div>
+                    <div><button ng-click="edit(item)" class="glyphicon glyphicon-pencil squared-btn empty-blue-button"></button></div>
                 </div>
             </div>
         </div>
-
-
-        @*Edycja w popupie*@
-        <div class="row" ng-show="showEdit">
-            <div ng-repeat="item in viewModel.Groups">
-                <input type="checkbox" ng-model="item.selected" />{{item.Name}}
-            </div>
-            <button ng-click="edit(item)" ng-show="showEdit">
-                ZAPISZ ZMIANY
-            </button>
-        </div>
-
     </div>
 </div>
 

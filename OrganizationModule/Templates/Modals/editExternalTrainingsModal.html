@@ -1,0 +1,14 @@
+﻿<div class="modal-header">
+    <div class="btn btn-primary" ng-click="close()">X</div>
+</div>
+<div class="modal-body">
+    <div>
+        <div ng-repeat="item in Groups">
+            <input type="checkbox" ng-model="item.selected" />{{item.Name}}
+        </div>
+    </div>
+</div>
+<div class="modal-header">
+    <div class="btn btn-primary" ng-click="save()">Zapisz</div>
+    <div class="btn btn-primary" ng-click="close()">Anuluj</div>
+</div>

@@ -46,26 +46,41 @@
         if (!training) {
             return;
         }
-        
-        UtilitiesFactory.showSpinner();
+
 
         $scope.viewModel.Current = training;
-        $scope.viewModel.Current.Groups = [];
-        angular.forEach($scope.viewModel.Groups, function (val) {
-            if (val.selected) {
-                $scope.viewModel.Current.Groups.push(val);
+
+        var modalInstance = $modal.open({
+            templateUrl: '/Templates/Modals/editExternalTrainingsModal.html',
+            controller: 'editExternalTrainingsModalController',
+            size: 'sm',
+            resolve: {
+                selectedGroups: function () {
+                    return $scope.viewModel.Current.AssignedGroups;
+                },
+                groups : function () {
+                    return $scope.viewModel.Groups;
+                },
             }
         });
 
-        $scope.viewModel.ActionType = 3;
+        modalInstance.result.then(function (selectedGroups) {
+            if (!!selectedGroups) {
+                UtilitiesFactory.showSpinner();
 
-        $http.post('/api/TrainingManagment/', $scope.viewModel).success(function (data) {
-            $scope.viewModel = data;
-            UtilitiesFactory.hideSpinner();
-        })
-        .error(function () {
-            $scope.viewModel.ErrorMessage = "Wystapil problem z zapisem danych!";
-            UtilitiesFactory.hideSpinner();
+                $scope.viewModel.Current.Groups =selectedGroups;
+
+                $scope.viewModel.ActionType = 3;
+
+                $http.post('/api/TrainingManagment/', $scope.viewModel).success(function (data) {
+                    $scope.viewModel = data;
+                    UtilitiesFactory.hideSpinner();
+                })
+                .error(function () {
+                    $scope.viewModel.ErrorMessage = "Wystapil problem z zapisem danych!";
+                    UtilitiesFactory.hideSpinner();
+                });
+            }
         });
     }
 
