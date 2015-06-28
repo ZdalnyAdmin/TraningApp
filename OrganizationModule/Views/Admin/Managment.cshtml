@@ -34,7 +34,7 @@
                     <div>{{ item.UserName }}</div>
                     <div>
                         <div ng-show="!!item.AssignedGroups && item.AssignedGroups.length > 0">
-                            <span ng-repeat="group in item.AssignedGroups">{{ group.Name }}, </span>
+                            <span ng-repeat="group in item.AssignedGroups">{{ group.Name }} {{$last ? '' : ', '}} </span>
                         </div>
                         <div ng-show="!item.AssignedGroups || item.AssignedGroups.length == 0">
                            tylko autor 
@@ -85,7 +85,7 @@
                 <div class="display-table-row">
                     <div>{{ item.Name }}</div>
                     <div>
-                        <span ng-repeat="group in item.AssignedGroups">{{group.Name}}, </span>
+                        <span ng-repeat="group in item.AssignedGroups">{{group.Name}} {{$last ? '' : ', '}} </span>
                     </div>
                     <div><button ng-click="showEdit = ! showEdit" ng-show="!showEdit" class="glyphicon glyphicon-pencil squared-btn empty-blue-button"></button></div>
                 </div>

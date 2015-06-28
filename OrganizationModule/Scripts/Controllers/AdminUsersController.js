@@ -73,6 +73,7 @@
         person.Status = $scope.editablePerson.Status;
         person.selectedStatus = $scope.editablePerson.selectedStatus;
         person.Profile = $scope.editablePerson.Profile;
+        person.DisplayName = $scope.editablePerson.DisplayName;
 
         if (person.Profile == 1) {
             person.ProfileName = 'Administrator';
@@ -125,6 +126,27 @@
         }
         person.isEditable = true;
         $scope.editablePerson = angular.copy(person);
+
+        var modalInstance = $modal.open({
+            templateUrl: '/Templates/Modals/editUserModal.html',
+            controller: 'editUserModalController',
+            size: 'sm',
+            resolve: {
+                user: function () {
+                    return person;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (obj) {
+            if (!!obj) {
+                $scope.save(obj);
+            }
+            else
+            {
+                $scope.cancel(person);
+            }
+        });
 
     };
 

@@ -38,7 +38,7 @@
                     Uczestnicy grupy
                 </h5>
                 <h6 ng-repeat="user in viewModel.Current.AssignedPeople">
-                    {{user.DisplayName}} ,
+                    {{user.DisplayName}} {{$last ? '' : ', '}}
                 </h6>
                 <div>
                     <label>dodaj uczestników grupy</label>
@@ -68,17 +68,17 @@
             </div>
 
             <div class="display-table-row" ng-repeat="group in viewModel.Groups">
-                <div ng-hide="group.isEditable">
+                <div>
                     {{ group.Name }}
                 </div>
                 <div class="members">
-                    <span ng-repeat="user in group.AssignedPeople">{{user.DisplayName}}, </span>
+                    <span ng-repeat="user in group.AssignedPeople">{{user.DisplayName}} {{$last ? '' : ', '}} </span>
                 </div>
                 <div>
-                    <button class="btn squared-btn empty-green-button glyphicon glyphicon-pencil" ng-hide="group.isEditable" ng-click="showEdit(group)"></button>
+                    <button class="btn squared-btn empty-green-button glyphicon glyphicon-pencil" ng-click="showEdit(group)"></button>
                 </div>
                 <div>
-                    <button class="glyphicon glyphicon-remove squared-btn empty-purple-button" ng-hide="group.isEditable" ng-click="delete(group)"></button>
+                    <button class="glyphicon glyphicon-remove squared-btn empty-purple-button" ng-click="delete(group)"></button>
                 </div>
             </div>
         </div>
