@@ -1,0 +1,7 @@
+﻿#results .display-table-row-group .display-table-row:first-child div{
+    border-top:1px solid #3770dd;
+}
+#results .selects{
+    margin-top:30px;
+    margin-bottom:30px;
+}

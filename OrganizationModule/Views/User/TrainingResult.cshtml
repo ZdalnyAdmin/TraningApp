@@ -2,7 +2,7 @@
 
 @if (ViewBag.TrainingResults.Count > 0)
 {
-    <div class="col-md-8 col-md-offset-4 col-lg-9 col-lg-offset-3" id="courses-result">
+    <div class="col-xs-12" id="courses-result">
         @foreach (var trainingResult in ViewBag.TrainingResults)
         {
             if (trainingResult.IsPassed ?? false)

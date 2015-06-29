@@ -55,6 +55,140 @@
                             <div ng-show="!!answer.Score && (answer.Score < 0 || answer.Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
                         </div>
                     </div>
+                    <div class="col-xs-12 new-answer">
+                        <button class="btn btn-m empty-blue-button" ng-click="addAnswer(item)">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <div class="btn btn-l blue-button" ng-click="save(item)" ng-show="item.isEdit">
+                    ZATWIERDŹ ZMIANY
+                </div>
+                <div class="btn btn-m empty-blue-button" ng-click="cancel(item)" ng-show="item.isEdit">
+                    ANULUJ
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10 checkbox-question clearfix" ng-show="item.Type == 1">
+            <div class="question-number">
+                <span>PYTANIE</span>
+                <strong>{{questions.length}}</strong>
+            </div>
+            <div class="question clearfix">
+                <div class="txt-l" ng-hide="item.isEdit">
+                    {{item.Text}}
+                </div>
+                <div ng-hide="item.isEdit">
+                    <div ng-repeat="answer in item.Answers">
+                        <div>
+                            <input id="" type="checkbox" name="answer" value=true ng-disabled="!item.isEdit" ng-model="answer.IsSelected" />
+                            <label for=""><span></span>{{answer.Text}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="item.isEdit">
+                    <label>Treść pytania</label>
+                    <input type="text" name="item.Text" ng-model="item.Text" maxlength="100" ng-blur="questionValidation = true">
+                    <div ng-show="questionValidation">
+                        <div ng-show="!!item.Text && item.Text.length < 10"> Wpisz pytanie na przynajmniej 10 znaków!      </div>
+                        <div ng-show="!!item.Text && item.Text.length > 100"> Pytanie może mieć maksymalnie 100 znaków!      </div>
+                    </div>
+                </div>
+                <div class="answers" ng-show="item.isEdit">
+                    <div>
+                        <div class="col-xs-9">
+                            <label>Treść odpowiedzi</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label>Liczba punktów</label>
+                        </div>
+                    </div>
+                    <div ng-repeat="answer in item.Answers">
+                        <div class="col-xs-9 checkbox-answer">
+                            <input id="" disabled type="checkbox" name="answer" value=true ng-disabled="!item.isEdit" ng-model="answer.IsSelected" />
+                            <label for=""><span></span></label>
+                            <div>
+                                <input class="form-control" type="text" ng-disabled="!item.isEdit" ng-model="answer.Text" maxlength="100" ng-blur="answerValidation = true">
+                            </div>
+                        </div>
+                        <div class="col-xs-3 points">
+                            <div>
+                                <input class="form-control" type="number" ng-disabled="!item.isEdit" ng-model="answer.Score" maxlength="3" ng-blur="answerValidation = true">
+                            </div>
+                            <button class="btn squared-btn empty-purple-button glyphicon glyphicon-remove" ng-click="removeAnswer(item, answer)" ng-show="item.isEdit"></button>
+                        </div>
+                        <div ng-show="answerValidation">
+                            <div ng-show="!!answer.Text && answer.Text.length < 1"> Odpowiedź musi zawierać miniumum 1 znak!          </div>
+                            <div ng-show="!!answer.Text && answer.Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
+                            <div ng-show="!!answer.Score && (answer.Score < 0 || answer.Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 new-answer">
+                        <button class="btn btn-m empty-blue-button" ng-click="addAnswer(item)">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+                    </div>
+                </div>
+            </div>  
+            <div class="buttons">
+                <div class="btn btn-l blue-button" ng-click="save(item)" ng-show="item.isEdit">
+                    ZATWIERDŹ ZMIANY
+                </div>
+                <div class="btn btn-m empty-blue-button" ng-click="cancel(item)" ng-show="item.isEdit">
+                    ANULUJ
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10 checkbox-question clearfix" ng-show="item.Type == 2">
+            <div class="question-number">
+                <span>PYTANIE</span>
+                <strong>{{questions.length}}</strong>
+            </div>
+            <div class="question clearfix">
+                <div class="txt-l" ng-hide="item.isEdit">
+                    {{item.Text}}
+                </div>
+                <div ng-hide="item.isEdit">
+                    <div ng-repeat="answer in item.Answers">
+                        <div>
+                            <label>{{answer.Text}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="item.isEdit">
+                    <label>Treść pytania</label>
+                    <input class="form-control" type="text" name="item.Text" ng-model="item.Text" maxlength="100" ng-blur="questionValidation = true">
+                    <div ng-show="questionValidation">
+                        <div ng-show="!!item.Text && item.Text.length < 10"> Wpisz pytanie na przynajmniej 10 znaków!      </div>
+                        <div ng-show="!!item.Text && item.Text.length > 100"> Pytanie może mieć maksymalnie 100 znaków!      </div>
+                    </div>
+                </div>
+                <div class="answers" ng-show="item.isEdit">
+                    <div>
+                        <div class="col-xs-9">
+                            <label>Treść odpowiedzi</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label>Liczba punktów</label>
+                        </div>
+                    </div>
+                    <div ng-repeat="answer in item.Answers">
+                        <div class="col-xs-9 checkbox-answer">
+                            <input class="form-control" type="text" ng-disabled="!item.isEdit" ng-model="answer.Text" maxlength="100" ng-blur="answerValidation = true">
+                        </div>
+                        <div class="col-xs-3 points">
+                            <div>
+                                <input class="form-control" type="number" ng-disabled="!item.isEdit" ng-model="answer.Score" maxlength="3" ng-blur="answerValidation = true">
+                            </div>
+                            <button class="btn squared-btn empty-purple-button glyphicon glyphicon-remove" ng-click="removeAnswer(item, answer)" ng-show="item.isEdit"></button>
+                        </div>
+                        <div ng-show="answerValidation">
+                            <div ng-show="!!answer.Text && answer.Text.length < 1"> Odpowiedź musi zawierać miniumum 1 znak!          </div>
+                            <div ng-show="!!answer.Text && answer.Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
+                            <div ng-show="!!answer.Score && (answer.Score < 0 || answer.Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 new-answer">
+                        <button class="btn btn-m empty-blue-button" ng-click="addAnswer(item)">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
+                    </div>
                 </div>
             </div>
             <div class="buttons">
@@ -73,38 +207,7 @@
             <button class="btn squared-btn empty-purple-button glyphicon glyphicon-remove" ng-click="delete(item)"></button>
         </div>
     </div>
-    <div class="row" ng-show="item.Type == 0">
-        <div class="row" ng-hide="item.isEdit">
-            {{item.Text}}
-        </div>
-        <div class="row" ng-show="item.isEdit">
-            <input type="text" id="mainInput" name="item.Text" ng-model="item.Text" maxlength="100" ng-blur="questionValidation = true">
-            <div ng-show="questionValidation">
-                <div ng-show="!!item.Text && item.Text.length < 10"> Wpisz pytanie na przynajmniej 10 znaków!      </div>
-                <div ng-show="!!item.Text && item.Text.length > 100"> Pytanie może mieć maksymalnie 100 znaków!      </div>
-            </div>
-        </div>
-        <div ng-repeat="answer in item.Answers">
-            <div class="row">
-                <input type="radio" name="answer" value=true ng-disabled="!item.isEdit" ng-model="answer.IsSelected" />
-                <input type="text" id="mainInput" ng-disabled="!item.isEdit" ng-model="answer.Text" maxlength="100" ng-blur="answerValidation = true">
-                Punkty
-                <input type="number" id="mainInput" ng-disabled="!item.isEdit" ng-model="answer.Score" maxlength="3" ng-blur="answerValidation = true">
-                <button ng-click="removeAnswer(item, answer)" ng-show="item.isEdit">x</button>
-                <div ng-show="answerValidation">
-                    <div ng-show="!!answer.Text && answer.Text.length < 1"> Odpowiedź musi zawierać miniumum 1 znak!          </div>
-                    <div ng-show="!!answer.Text && answer.Text.length > 100"> Odpowiedź może mieć maksymalnie 100 znaków!        </div>
-                    <div ng-show="!!answer.Score && (answer.Score < 0 || answer.Score > 100)"> Za odpowiedź możesz przyznać od 0 do 100 punktów.          </div>
-                </div>
-            </div>
-        </div>
-        <div class="row" ng-show="item.isEdit">
-            <div class="col-xs-12 new-answer">
-                <button class="btn btn-m empty-button" ng-click="addAnswer(item)">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
-            </div>
-        </div>
-    </div>
-    <div class="row" ng-show="item.Type == 1">
+    <!--<div class="row" ng-show="item.Type == 1">
         <div class="row" ng-hide="item.isEdit">
             {{item.Text}}
         </div>
@@ -164,11 +267,11 @@
                 <button class="btn btn-m empty-button" ng-click="addAnswer(item)">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
             </div>
         </div>
-    </div>
+    </div>-->
     <div ng-show="!!ErrorMessage && ErrorMessage.length > 0">
         {{ErrorMessage}}
     </div>
-    <div class="col-md-2">
+    <!--<div class="col-md-2">
         <div id="inputButto" ng-click="up(item)">
             <span class="glyphicon glyphicon-arrow-up"></span>
         </div>
@@ -181,5 +284,5 @@
         <div id="inputButto" ng-click="delete(item)">
             <span class="glyphicon glyphicon-remove"></span>
         </div>
-    </div>
+    </div>-->
 </div>

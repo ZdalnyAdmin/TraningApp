@@ -1,52 +1,44 @@
-﻿<div ng-app="" ng-controller="managerResultController" class="container">
+﻿<div id="results" ng-app="" ng-controller="managerResultController" class="container">
 
     <strong class="error">{{ error }}</strong>
     <strong class="error">{{ success }}</strong>
 
+    <div class="row selects">
+        <div class="col-sm-6">
+            <label>pokaż użytkowników</label>
+            <select class="form-control select-blue select-l" ng-model="selected" ng-options="c as c.Name for c in Users" ng-change="changePerson(selected)">
+                <option value="">Wszystkie</option>
+            </select>
+        </div>
+        <div class="col-sm-6">
+            <label>pokaż szkolenia</label>
+            <select class="form-control select-blue select-l" ng-model="selected" ng-options="c as c.Name for c in Trainings" ng-change="changeTraning(selected)">
+                <option value="">Wszystkie</option>
+            </select>
+        </div>
+    </div>
     <div class="row">
-        POKAZ UZYTKOWNIKOW
-        <select ng-model="selected" ng-options="c as c.Name for c in Users" ng-change="changePerson(selected)">
-            <option value="">Wszystkie</option>
-        </select>
-        POKAZ SZKOLENIA
-        <select ng-model="selected" ng-options="c as c.Name for c in Trainings" ng-change="changeTraning(selected)">
-            <option value="">Wszystkie</option>
-        </select>
-    </div>
-
-    <div>
-        <div>
-            Nazwa uzytkowanika
+        <div class="display-table">
+            <div class="display-table-header-group">
+                <div class="display-table-row blue-labels">
+                    <div>UŻYTKOWNIK</div>
+                    <div>SZKOLENIE</div>
+                    <div>PUNKTY</div>
+                    <div>DATA</div>
+                    <div>KONIEC</div>
+                </div>
+            </div>
+            <div class="display-table-row-group" ng-repeat="item in Results">
+                <div class="display-table-row">
+                    <div>{{ item.Person.DisplayName}}</div>
+                    <div>{{ item.Training.Name}}</div>
+                    <div><span ng-show="item.EndDate">{{ item.Rating }} / {{ item.PossibleRate }} - {{ (item.Rating * 100 / item.PossibleRate) | number : 0 }} %</span></div>
+                    <div>{{ item.StartDate | date: 'dd.MM.yyyy HH.mm' }}</div>
+                    <div>{{ item.EndDate | date: 'dd.MM.yyyy HH.mm' }}</div>
+                </div>
+            </div>
         </div>
-        <div>
-            Nazwa szkolenia
-        </div>
-        <div>
-            Data uruchomienia
-        </div>
-        <div>
-            Data ukonczenia
-        </div>
-        <div>
-            Punkty
-        </div>
-    </div>
-    <div ng-repeat="item in Results">
-        <div>
-            {{ item.Person.DisplayName}}
-        </div>
-        <div>
-            {{ item.Training.Name}}
-        </div>
-        <div>
-           {{ item.StartDate | date: 'dd.MM.yyyy HH.mm' }}
-        </div>
-        <div>
-            {{ item.EndDate | date: 'dd.MM.yyyy HH.mm' }}
-        </div>
-        <div>
-            <span ng-show="item.EndDate">{{ item.Rating }} / {{ item.PossibleRate }} - {{ (item.Rating * 100 / item.PossibleRate) | number : 0 }} %</span>
-        </div>
-
     </div>
 </div>
+
+@Styles.Render("~/Results")
