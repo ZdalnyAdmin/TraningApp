@@ -74,6 +74,26 @@
         }
         group.isEditable = true;
         $scope.editableGroup = angular.copy(group);
+
+        var modalInstance = $modal.open({
+            templateUrl: '/Templates/Modals/editGroupModal.html',
+            controller: 'editGroupModalController',
+            size: 'sm',
+            resolve: {
+                group: function () {
+                    return group;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (obj) {
+            if (!!obj) {
+                $scope.edit(obj);
+            }
+            else {
+                $scope.cancel(group);
+            }
+        });
     };
 
     //Used to save a record after edit 

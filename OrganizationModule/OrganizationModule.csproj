@@ -231,6 +231,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Controllers\createrTrainingsListController.js" />
+    <Content Include="Scripts\Controllers\editExternalTrainingsModalController.js" />
+    <Content Include="Scripts\Controllers\editGroupModalController.js" />
+    <Content Include="Scripts\Controllers\editUserModalController.js" />
     <Content Include="Scripts\Controllers\errorController.js" />
     <Content Include="Scripts\Controllers\loggedUserController.js" />
     <Content Include="Scripts\Controllers\trainingListController.js" />
@@ -243,6 +246,9 @@
     <Content Include="Scripts\jquery.js" />
     <Content Include="Templates\error.html" />
     <Content Include="Templates\Modals\deleteUserModal.html" />
+    <Content Include="Templates\Modals\editExternalTrainingsModal.html" />
+    <Content Include="Templates\Modals\editGroupModal.html" />
+    <Content Include="Templates\Modals\editUserModal.html" />
     <Content Include="Templates\Modals\reloadModal.html" />
     <Content Include="Templates\Modals\messageModal.html" />
     <Content Include="Templates\uploadFile.html" />

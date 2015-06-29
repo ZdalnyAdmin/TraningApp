@@ -103,16 +103,13 @@ namespace OrganizationModule.Controllers
                             db.PeopleInGroups.RemoveRange(personsInGroups);
                         }
 
-
-                        db.Entry(obj).State = EntityState.Modified;
-
-                        db.SaveChanges();
-
                         var current = obj.Groups.FirstOrDefault(x => x.ProfileGroupID == obj.Current.ProfileGroupID);
                         if (current != null)
                         {
                             obj.Groups.Remove(current);
                         }
+
+                        db.SaveChanges();
 
                         obj.Success = "Dane usuniete!";
 

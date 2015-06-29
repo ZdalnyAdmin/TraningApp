@@ -298,38 +298,62 @@ namespace OrganizationModule.Controllers
                                         .Select(x => x.ProfileGroupID)
                                         .ToList();
 
-            // Organization trainings for all.
-            var trainings = _db.Trainings
-                            .Join(_db.TrainingsInOrganizations
-                                     .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
-                                  x => x.TrainingID,
-                                  y => y.TrainingID,
-                                  (x, y) => x)
-                            .Where(x => x.IsActive && x.IsForAll)
-                            .OrderByDescending(x => x.CreateDate)
-                            .ToList();
+            var organization = _db.Organizations.FirstOrDefault(x => x.OrganizationID == loggedPerson.OrganizationID);
 
-            // My Trainings.
-            var myTrainings = _db.Trainings
-                            .Where(x => x.IsActive && x.CreateUserID == loggedPerson.Id)
-                            .OrderByDescending(x => x.CreateDate)
-                            .ToList();
+            var trainings = new List<Training>();
 
-            // Logged user group trainings
-            var groupTrainings = _db.Trainings
-                            .Join(_db.TrainingInGroups
-                                     .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
-                                  x => x.TrainingID,
-                                  y => y.TrainingID,
-                                  (x, y) => x)
-                            .Where(x => x.IsActive)
-                            .OrderByDescending(x => x.CreateDate)
-                            .ToList();
+            // Global Trainings
+            var globalTrainingsForAll = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro && 
+                                                           x.IsActive && 
+                                                           x.IsForAll &&
+                                                           organization.IsGlobalAvailable)
+                                               .ToList();
 
-            // Global trainings for all. Not for alls should be in trining2org marked as for all.
-            var globalTrainings = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro && x.IsActive && x.IsForAll).ToList();
+            var globalTrainingsForOrganization = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro &&
+                                                                          x.IsActive &&
+                                                                          organization.IsGlobalAvailable)
+                                                              .Join(_db.TrainingsInOrganizations
+                                                                       .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
+                                                                    x => x.TrainingID,
+                                                                    y => y.TrainingID,
+                                                                    (x, y) => x)
+                                                              .ToList();
 
-            globalTrainings.ForEach(x =>
+            var internalTrainingsForAll = _db.Trainings.Where(x => x.TrainingType != TrainingType.Kenpro &&
+                                                                   x.IsForAll &&
+                                                                   (x.IsActive || loggedPerson.Profile == ProfileEnum.Protector))
+                                                       .Join(_db.TrainingsInOrganizations
+                                                                .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
+                                                             x => x.TrainingID,
+                                                             y => y.TrainingID,
+                                                             (x, y) => x)
+                                                       .ToList();
+
+            var myTrainings = _db.Trainings.Where(x => x.CreateUserID == loggedPerson.Id)
+                                           .ToList();
+
+            var internalGroupTrainings = _db.Trainings
+                                            .Where(x => (x.IsActive || loggedPerson.Profile == ProfileEnum.Protector) &&
+                                                        x.TrainingType != TrainingType.Kenpro)
+                                            .Join(_db.TrainingInGroups
+                                                     .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
+                                                  x => x.TrainingID,
+                                                  y => y.TrainingID,
+                                                  (x, y) => x)
+                                            .ToList();
+
+            var globalGroupTrainings =   _db.Trainings
+                                            .Where(x => x.IsActive &&
+                                                        x.TrainingType == TrainingType.Kenpro &&
+                                                        organization.IsGlobalAvailable)
+                                            .Join(_db.TrainingInGroups
+                                                     .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
+                                                  x => x.TrainingID,
+                                                  y => y.TrainingID,
+                                                  (x, y) => x)
+                                            .ToList();
+
+            globalTrainingsForAll.ForEach(x =>
             {
                 if (trainings.IndexOf(x) == -1)
                 {
@@ -337,7 +361,15 @@ namespace OrganizationModule.Controllers
                 }
             });
 
-            groupTrainings.ForEach(x =>
+            globalTrainingsForOrganization.ForEach(x =>
+            {
+                if (trainings.IndexOf(x) == -1)
+                {
+                    trainings.Add(x);
+                }
+            });
+
+            internalTrainingsForAll.ForEach(x =>
             {
                 if (trainings.IndexOf(x) == -1)
                 {
@@ -353,27 +385,21 @@ namespace OrganizationModule.Controllers
                 }
             });
 
-            if (loggedPerson.Profile == ProfileEnum.Protector)
+            internalGroupTrainings.ForEach(x =>
             {
-                var allGroups = _db.GroupsInOrganizations.Where(x => x.OrganizationID == loggedPerson.OrganizationID).Select(x=>x.ProfileGroupID).ToList();
-                var allGroupsTrainings = _db.Trainings
-                            .Join(_db.TrainingInGroups
-                                     .Where(y => allGroups.Contains(y.ProfileGroupID)),
-                                  x => x.TrainingID,
-                                  y => y.TrainingID,
-                                  (x, y) => x)
-                            .Where(x => x.IsActive)
-                            .OrderByDescending(x => x.CreateDate)
-                            .ToList();
-
-                allGroupsTrainings.ForEach(x =>
+                if (trainings.IndexOf(x) == -1)
                 {
-                    if (trainings.IndexOf(x) == -1)
-                    {
-                        trainings.Add(x);
-                    }
-                });
-            }
+                    trainings.Add(x);
+                }
+            });
+
+            globalGroupTrainings.ForEach(x =>
+            {
+                if (trainings.IndexOf(x) == -1)
+                {
+                    trainings.Add(x);
+                }
+            });
 
             return trainings.OrderByDescending(x => x.ModifiedDate ?? x.CreateDate).ToList();
         }

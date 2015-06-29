@@ -143,7 +143,8 @@ namespace OrganizationModule.Controllers.Api
                                                            where grp.Name != "Wszyscy" && item.TrainingID == training.TrainingID
                                                            select new CommonDto
                                                            {
-                                                               Name = grp.Name
+                                                               Name = grp.Name,
+                                                               Id = grp.ProfileGroupID
                                                            }).ToList();
                             }
                         }
@@ -193,7 +194,8 @@ namespace OrganizationModule.Controllers.Api
                                                           where  item.TrainingID == obj.Current.TrainingID
                                                           select new CommonDto
                                                           {
-                                                              Name = grp.Name
+                                                              Name = grp.Name,
+                                                              Id = grp.ProfileGroupID
                                                           }).ToList();
                         }
 

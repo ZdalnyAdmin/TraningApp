@@ -73,6 +73,7 @@
         person.Status = $scope.editablePerson.Status;
         person.selectedStatus = $scope.editablePerson.selectedStatus;
         person.Profile = $scope.editablePerson.Profile;
+        person.DisplayName = $scope.editablePerson.DisplayName;
 
         if (person.Profile == 1) {
             person.ProfileName = 'Administrator';
@@ -125,6 +126,26 @@
         }
         person.isEditable = true;
         $scope.editablePerson = angular.copy(person);
+
+        var modalInstance = $modal.open({
+            templateUrl: '/Templates/Modals/editUserModal.html',
+            controller: 'editUserModalController',
+            size: 'sm',
+            resolve: {
+                user: function () {
+                    return person;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (obj) {
+            if (!!obj) {
+                $scope.save(obj);
+            }
+            else {
+                $scope.cancel(person);
+            }
+        });
 
     };
 
@@ -191,6 +212,77 @@
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
             $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas usuniecia uzytkownika' + data;
+            UtilitiesFactory.hideSpinner();
+        });
+    }
+
+
+    $scope.getTrainings = function (person) {
+        UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 5;
+        $scope.viewModel.Current = person;
+        $http.post('/api/Person/', $scope.viewModel).success(function (data) {
+            person = data.Current;
+
+            if (person.Profile == 1) {
+                person.ProfileName = 'Administrator';
+            } else if (person.Profile == 2) {
+                person.ProfileName = 'Manager';
+            } else if (person.Profile == 3) {
+                person.ProfileName = 'Twórca';
+            } else if (person.Profile == 4) {
+                person.ProfileName = 'Opiekun';
+            } else if (person.Profile == 5) {
+                person.ProfileName = 'Uzytkownik';
+            }
+
+            if (person.Status == 1) {
+                person.selectedStatus = 'Aktywny';
+            } else if (person.Status == 2) {
+                person.selectedStatus = 'Zablokowany';
+            }
+
+
+            UtilitiesFactory.hideSpinner();
+        })
+        .error(function (data) {
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
+            $scope.loading = false;
+            UtilitiesFactory.hideSpinner();
+        });
+    }
+
+    $scope.getUsers = function () {
+        UtilitiesFactory.showSpinner();
+        $scope.viewModel.ActionType = 7;
+        $http.post('/api/Person/', $scope.viewModel).success(function (data) {
+            $scope.viewModel = data;
+
+            angular.forEach($scope.viewModel.People, function (item) {
+                if (item.Profile == 1) {
+                    item.ProfileName = 'Administrator';
+                } else if (item.Profile == 2) {
+                    item.ProfileName = 'Manager';
+                } else if (item.Profile == 3) {
+                    item.ProfileName = 'Twórca';
+                } else if (item.Profile == 4) {
+                    item.ProfileName = 'Opiekun';
+                } else if (item.Profile == 5) {
+                    item.ProfileName = 'Uzytkownik';
+                }
+
+                if (item.Status == 1) {
+                    item.selectedStatus = 'Aktywny';
+                } else if (item.Status == 2) {
+                    item.selectedStatus = 'Zablokowany';
+                }
+            });
+
+            UtilitiesFactory.hideSpinner();
+        })
+        .error(function (data) {
+            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
+            $scope.loading = false;
             UtilitiesFactory.hideSpinner();
         });
     }
