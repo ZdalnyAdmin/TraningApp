@@ -217,7 +217,8 @@
     <Content Include="Content\Admin\groups.css" />
     <Content Include="Content\Login\login.css" />
     <Content Include="Content\Menu\menu.css" />
-    <Content Include="Content\Results\user-result.css" />
+    <Content Include="Content\Trainings\results.css" />
+    <Content Include="Content\Trainings\user-result.css" />
     <Content Include="Content\Settings\user-settings.css" />
     <Content Include="Content\Trainings\active-training.css" />
     <Content Include="Content\Trainings\create-training.css" />
