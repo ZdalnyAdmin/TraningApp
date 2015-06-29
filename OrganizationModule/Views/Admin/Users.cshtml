@@ -55,7 +55,7 @@
                         </div>
                         <span ng-show="!person.AssignedGroups || person.AssignedGroups.length == 0"> -  </span>
                         <div>{{ person.LastActivationDate | date: 'dd.MM.yyyy HH.mm' }}</div>
-                        <div>
+                        <div ng-show="!!person.AssignedTrainings && person.AssignedTrainings.length > 0">
                             <button class="btn table-btn empty-blue-button" ng-click="showDetails = ! showDetails" ng-show="!showDetails">
                                 POKAŻ
                             </button>
@@ -64,7 +64,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="display-table-row blue-labels trainings-details-row" ng-show="showInfo">
+                    <div class="display-table-row blue-labels trainings-details-row" ng-show="showDetails">
                         <div>NAZWA SZKOLENIA</div>
                         <div>START - KONIEC</div>
                         <div>PUNKTY</div>
