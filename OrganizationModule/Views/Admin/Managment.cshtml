@@ -88,7 +88,7 @@
                         <span ng-repeat="group in item.AssignedGroups">{{group.Name}} {{$last ? '' : ', '}} </span>
                     </div>
                     <div ng-show="!item.AssignedGroups || item.AssignedGroups.length == 0">
-                        <span > Wszyscy </span>
+                        <span > tylko autor </span>
                     </div>
                     <div><button ng-click="edit(item)" class="glyphicon glyphicon-pencil squared-btn empty-blue-button"></button></div>
                 </div>

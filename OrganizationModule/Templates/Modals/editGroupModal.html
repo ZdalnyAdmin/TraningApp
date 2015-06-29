@@ -4,9 +4,14 @@
 <div class="modal-body">
     <div>
         <div id="mainText">
-            Grupa :
+            Nazwa :
         </div>
         <input type="text" id="mainInput" name="Current.Name" ng-model="Current.Name">
+
+            Uzytkownicy : 
+        <div ng-repeat="user in viewModel.People" class="user-item">
+            <input type="checkbox" ng-model="user.selected" /> {{user.DisplayName}}, ({{user.Email}})
+        </div>
 
     </div>
 </div>

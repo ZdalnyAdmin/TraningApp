@@ -30,7 +30,7 @@
                         </div>
                         <div><button class="glyphicon glyphicon-remove squared-btn empty-purple-button" ng-click="delete(person)"></button></div>
                     </div>
-                    <div class="display-table-row green-labels details-row">
+                    <div class="display-table-row green-labels details-row" ng-show="showInfo">
                         <div>LOGIN</div>
                         @*<div>ID</div>*@
                         <div>REJESTRACJA</div>
@@ -50,7 +50,7 @@
                     <div class="display-table-row details-row" ng-show="showInfo">
                         <div ng-show="!!person.AssignedGroups && person.AssignedGroups.length > 0">
                             <span ng-repeat="group in person.AssignedGroups">
-                                {{ group.GroupName }},
+                                {{ group.GroupName }} {{$last ? '' : ', '}}
                             </span> 
                         </div>
                         <span ng-show="!person.AssignedGroups || person.AssignedGroups.length == 0"> -  </span>
