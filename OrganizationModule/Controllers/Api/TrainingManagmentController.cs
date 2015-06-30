@@ -49,27 +49,16 @@ namespace OrganizationModule.Controllers.Api
                         {
                             obj.ShowExternal = false;
                             //get protector
-                            var protector = db.Users.FirstOrDefault(x => x.Profile == ProfileEnum.Administrator && x.OrganizationID == obj.LoggedUser.OrganizationID);
-
-                            AppSetting setting = null;
-                            if (protector != null)
+                            if(obj.CurrentOrganization != null)
                             {
-                                setting = db.AppSettings.FirstOrDefault(x => x.ProtectorID == protector.Id);
+                                obj.ShowExternal = obj.CurrentOrganization.IsGlobalAvailable;
                             }
-
-                            obj.ShowExternal = setting != null ? setting.IsTrainingAvailableForAll : false;
                         }
 
                         obj.InternalTrainings = (from t in db.Trainings
                                                  join to in db.TrainingsInOrganizations on t.TrainingID equals to.TrainingID
                                                  where to.OrganizationID == obj.LoggedUser.OrganizationID && t.TrainingType == TrainingType.Internal
                                                  select t).ToList();
-
-
-
-                        //obj.InternalTrainings = (from t in db.Trainings
-
-                        //                         select t).ToList();
 
                         foreach (var training in obj.InternalTrainings)
                         {
