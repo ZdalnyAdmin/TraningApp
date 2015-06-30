@@ -65,6 +65,7 @@
             </div>
             @foreach (var user in ViewBag.InvitedUsers)
             {
+                if (user.Profile != ProfileEnum.Protector) { 
                 <div class="display-table-row-group" ng-init="u_@user.Id.Replace("-", "") = false">
                     <div class="display-table-row">
                         <div>
@@ -115,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-
+                }
             }
         </div>
     </div>
