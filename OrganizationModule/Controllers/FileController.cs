@@ -24,35 +24,45 @@ namespace OrganizationModule.Controllers
             }
 
             var fileParts = fileName.Split('_');
-            if (fileParts.Length < 3)
+            var name = fileName.Split('.').FirstOrDefault();
+
+            if (loggedPerson == null)
             {
                 return new HttpNotFoundResult();
             }
 
-            var creatorId = fileParts[0];
-            var creator = _db.Users.FirstOrDefault(x => x.Id == creatorId);
-
-            int trainingId = 0;
-            int.TryParse(guidParts[1], out trainingId);
-
-            var training = _db.Trainings.FirstOrDefault(x => x.TrainingID == trainingId);
-
-            if (creator == null || training == null || loggedPerson == null )
+            if (!name.Equals("main_image"))
             {
-                return new HttpNotFoundResult();
-            }
+                if (fileParts.Length < 3)
+                {
+                    return new HttpNotFoundResult();
+                }
 
-            var trainingResult = _db.TrainingResults.FirstOrDefault(x => x.TrainingID == trainingId && loggedPerson.Id == x.PersonID);
+                var creatorId = fileParts[0];
+                var creator = _db.Users.FirstOrDefault(x => x.Id == creatorId);
 
-            if (trainingResult == null && 
-                training.CreateUserID != loggedPerson.Id && 
-                loggedPerson.Profile != ProfileEnum.Superuser &&
-                !(loggedPerson.OrganizationID == creator.OrganizationID &&
-                 (loggedPerson.Profile != ProfileEnum.Protector ||
-                  loggedPerson.Profile != ProfileEnum.Manager ||
-                  loggedPerson.Profile != ProfileEnum.Administrator)))
-            {
-                return new HttpNotFoundResult();
+                int trainingId = 0;
+                int.TryParse(guidParts[1], out trainingId);
+
+                var training = _db.Trainings.FirstOrDefault(x => x.TrainingID == trainingId);
+
+                if (creator == null || training == null)
+                {
+                    return new HttpNotFoundResult();
+                }
+
+                var trainingResult = _db.TrainingResults.FirstOrDefault(x => x.TrainingID == trainingId && loggedPerson.Id == x.PersonID);
+
+                if (trainingResult == null &&
+                    training.CreateUserID != loggedPerson.Id &&
+                    loggedPerson.Profile != ProfileEnum.Superuser &&
+                    !(loggedPerson.OrganizationID == creator.OrganizationID &&
+                     (loggedPerson.Profile != ProfileEnum.Protector ||
+                      loggedPerson.Profile != ProfileEnum.Manager ||
+                      loggedPerson.Profile != ProfileEnum.Administrator)))
+                {
+                    return new HttpNotFoundResult();
+                }
             }
 
             string filePath = Path.Combine("C:\\Assets\\" + guid + "\\" + fileName);
