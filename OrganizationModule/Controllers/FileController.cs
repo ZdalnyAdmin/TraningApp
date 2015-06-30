@@ -31,7 +31,7 @@ namespace OrganizationModule.Controllers
                 return new HttpNotFoundResult();
             }
 
-            if (!name.Equals("main_image"))
+            if (!name.Equals("training_image") && !name.Equals("training_mark"))
             {
                 if (fileParts.Length < 3)
                 {
