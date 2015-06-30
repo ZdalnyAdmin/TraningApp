@@ -357,7 +357,7 @@ namespace OrganizationModule.Controllers
 
             globalTrainingsForAll.ForEach(x =>
             {
-                if (trainings.IndexOf(x) == -1)
+                if (trainings.IndexOf(x) == -1 && _db.TrainingInGroups.Any(y => y.TrainingID == x.TrainingID && loggedPersonGroups.Contains(y.ProfileGroupID)))
                 {
                     trainings.Add(x);
                 }
@@ -365,7 +365,7 @@ namespace OrganizationModule.Controllers
 
             globalTrainingsForOrganization.ForEach(x =>
             {
-                if (trainings.IndexOf(x) == -1)
+                if (trainings.IndexOf(x) == -1 && _db.TrainingInGroups.Any(y => y.TrainingID == x.TrainingID && loggedPersonGroups.Contains(y.ProfileGroupID)))
                 {
                     trainings.Add(x);
                 }
@@ -395,13 +395,14 @@ namespace OrganizationModule.Controllers
                 }
             });
 
-            globalGroupTrainings.ForEach(x =>
-            {
-                if (trainings.IndexOf(x) == -1)
-                {
-                    trainings.Add(x);
-                }
-            });
+            // It is temporary unnecessary.
+            //globalGroupTrainings.ForEach(x =>
+            //{
+            //    if (trainings.IndexOf(x) == -1)
+            //    {
+            //        trainings.Add(x);
+            //    }
+            //});
 
             return trainings.OrderByDescending(x => x.ModifiedDate ?? x.CreateDate).ToList();
         }
