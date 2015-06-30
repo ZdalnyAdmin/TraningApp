@@ -10,6 +10,8 @@ namespace AppEngine.ViewModels
         public List<Person> DeletedPeople { get; set; }
         public Person Current { get; set; }
 
+        public int PeopleCount { get; set; }
+
         public BaseActionType ActionType { get; set; }
     }
 }

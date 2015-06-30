@@ -51,7 +51,7 @@
                         <div ng-show="!!person.AssignedGroups && person.AssignedGroups.length > 0">
                             <span ng-repeat="group in person.AssignedGroups">
                                 {{ group.GroupName }} {{$last ? '' : ', '}}
-                            </span> 
+                            </span>
                         </div>
                         <span ng-show="!person.AssignedGroups || person.AssignedGroups.length == 0"> -  </span>
                         <div>{{ person.LastActivationDate | date: 'dd.MM.yyyy HH.mm' }}</div>
@@ -83,7 +83,11 @@
                     </div>
                     <div class="display-table-row trainings-details-row" ng-show="showDetails">
                         <div>
-                            <button class="btn table-btn empty-blue-button" ng-click="getTrainings(person)">KOLEJNE</button>
+                            <button class="btn table-btn empty-blue-button"
+                                    ng-click="getTrainings(person)"
+                                    ng-show="!!person.AssignedTrainings && person.AssignedTrainings.length > 0 && person.AssignedTrainings.length < person.AssignedTrainingCount">
+                                KOLEJNE
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -93,7 +97,11 @@
         <div class="col-xs-12">
             <div class="buttons clearfix">
                 <div>
-                    <button class="btn btn-m empty-green-button" ng-click="getUsers()">POKAŻ KOLEJNYCH</button>
+                    <button class="btn btn-m empty-green-button"
+                            ng-click="getUsers()"
+                            ng-show="!!viewModel.People && viewModel.People.length > 0 && viewModel.People.length < viewModel.PeopleCount">
+                        POKAŻ KOLEJNYCH
+                    </button>
                 </div>
                 <div ng-show="!!viewModel.DeletedPeople && viewModel.DeletedPeople.length > 0">
                     <button class="btn btn-m empty-green-button" ng-click="showDeleted = ! showDeleted" ng-show="!showDeleted">

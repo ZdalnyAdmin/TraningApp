@@ -44,7 +44,7 @@
             return;
         }
 
-
+        $scope.OrganizationID = $scope.viewModel.Protector.OrganizationID;
 
         UtilitiesFactory.showSpinner();
 
@@ -57,6 +57,17 @@
                 $scope.viewModel.Protector = {};
                 $scope.viewModel.Protector.Profile = 4;
                 $scope.viewModel.Success = 'Użytkownik został zaproszony';
+                
+                var index = 0;
+                for (var i = 0; i < $scope.viewModel.NotAssigned.length; i++) {
+                    if ($scope.viewModel.NotAssigned[i].Id == $scope.OrganizationID) {
+                        index = i;
+                        break;
+                    }
+                }
+                $scope.viewModel.NotAssigned.splice(index, 1);
+                
+
             }
             else {
                 if (data.Errors) {

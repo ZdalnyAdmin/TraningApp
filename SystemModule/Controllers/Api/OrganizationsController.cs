@@ -71,7 +71,7 @@ namespace SystemModule.Controllers.Api
                         var deleted = obj.Organizations.FirstOrDefault(x => x.OrganizationID == obj.Current.OrganizationID);
                         deleted.Status = OrganizationEnum.Hidden;
 
-                        obj.Success = "Organizacja usunieta!";
+                        obj.Success = "Organizacja została ukryta!";
 
                         break;
                     case BaseActionType.Edit:
