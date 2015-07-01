@@ -21,6 +21,25 @@
         $modalInstance.close();
     };
 
+    $scope.selectAll = function (boo) {
+
+        var isForAll = false;
+        angular.forEach($scope.Groups, function (x) {
+            if (x.Name == 'Wszyscy') {
+                x.selected = false;
+            }
+        });
+
+
+        if (isForAll) {
+            angular.forEach($scope.Groups, function (x) {
+                if (x.Name !== 'Wszyscy') {
+                    isForAll = true;
+                }
+            });
+        }
+    }
+
     $scope.save = function () {
 
         var temp = [];
