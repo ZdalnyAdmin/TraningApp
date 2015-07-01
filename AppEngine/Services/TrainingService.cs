@@ -470,6 +470,8 @@ namespace AppEngine.Services
                                 trainingInOrganization.IsDeleted = false;
                                 context.TrainingsInOrganizations.Add(trainingInOrganization);
                             }
+
+                            context.SaveChanges();
                         }
 
                         model.ActionType = BaseActionType.GetExtData;
