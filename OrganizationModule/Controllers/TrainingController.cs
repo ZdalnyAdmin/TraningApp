@@ -28,7 +28,7 @@ namespace OrganizationModule.Controllers
         public ActionResult TrainingList(StartTrainingModel model)
         {
             var result = new Result() { Errors = new List<string>() };
-            var loggedPerson = Person.GetLoggedPerson(User);
+            var loggedPerson = Person.GetLoggedPerson(User, _db);
 
             var myTrainings = getMyTrainings(loggedPerson);
             var training = myTrainings.FirstOrDefault(x => x.TrainingID == model.TrainingID);
@@ -65,6 +65,7 @@ namespace OrganizationModule.Controllers
             trainingResult.PersonID = loggedPerson.Id;
             trainingResult.StartDate = DateTime.Now;
             trainingResult.TrainingID = model.TrainingID;
+            loggedPerson.LastActivationDate = DateTime.Now;
             _db.TrainingResults.Add(trainingResult);
             _db.SaveChanges();
 
@@ -144,7 +145,7 @@ namespace OrganizationModule.Controllers
             var s = new System.Web.Script.Serialization.JavaScriptSerializer();
             var answers = s.Deserialize<Dictionary<string, string>>(model.TrainingAnswers);
 
-            var loggedPerson = Person.GetLoggedPerson(User);
+            var loggedPerson = Person.GetLoggedPerson(User, _db);
             var trainingResult = _db.TrainingResults.FirstOrDefault(x => x.PersonID == loggedPerson.Id &&
                                                                          x.TrainingID == model.TrainingID &&
                                                                          x.EndDate == null);
@@ -154,6 +155,7 @@ namespace OrganizationModule.Controllers
                 return Json(result);
             }
 
+            loggedPerson.LastActivationDate = DateTime.Now;
             trainingResult.EndDate = DateTime.Now;
             trainingResult.Rating = 0;
             trainingResult.Training = _db.Trainings.FirstOrDefault(x => x.TrainingID == trainingResult.TrainingID);
@@ -355,7 +357,7 @@ namespace OrganizationModule.Controllers
 
             globalTrainingsForAll.ForEach(x =>
             {
-                if (trainings.IndexOf(x) == -1)
+                if (trainings.IndexOf(x) == -1 && _db.TrainingInGroups.Any(y => y.TrainingID == x.TrainingID && loggedPersonGroups.Contains(y.ProfileGroupID)))
                 {
                     trainings.Add(x);
                 }
@@ -363,7 +365,7 @@ namespace OrganizationModule.Controllers
 
             globalTrainingsForOrganization.ForEach(x =>
             {
-                if (trainings.IndexOf(x) == -1)
+                if (trainings.IndexOf(x) == -1 && _db.TrainingInGroups.Any(y => y.TrainingID == x.TrainingID && loggedPersonGroups.Contains(y.ProfileGroupID)))
                 {
                     trainings.Add(x);
                 }
@@ -393,13 +395,14 @@ namespace OrganizationModule.Controllers
                 }
             });
 
-            globalGroupTrainings.ForEach(x =>
-            {
-                if (trainings.IndexOf(x) == -1)
-                {
-                    trainings.Add(x);
-                }
-            });
+            // It is temporary unnecessary.
+            //globalGroupTrainings.ForEach(x =>
+            //{
+            //    if (trainings.IndexOf(x) == -1)
+            //    {
+            //        trainings.Add(x);
+            //    }
+            //});
 
             return trainings.OrderByDescending(x => x.ModifiedDate ?? x.CreateDate).ToList();
         }
