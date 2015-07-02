@@ -413,9 +413,9 @@ textarea.form-control:focus{
     color:#ff7878;
 }
 
-/*input[type="checkbox"] {
+input[type="checkbox"] {
     display:none;
-}*/
+}
 input[type="checkbox"] + label span:not(.format) {
     display:inline-block;
     width:24px;
@@ -433,9 +433,9 @@ input[type="checkbox"]:checked + label span:not(.format) {
     background-position:-144px 0px!important;
 }
 
-/*input[type="radio"] {
+input[type="radio"] {
     display:none;
-}*/
+}
 input[type="radio"] + label span:not(.format) {
     display:inline-block;
     width:24px;
