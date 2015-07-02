@@ -260,24 +260,23 @@ namespace AppEngine.Services
                         if (isInternal)
                         {
                             //todo change to only update
-                            if (model.Current.Groups != null && model.Current.Groups.Any())
-                            {
-                                var currentGroups = (from t in context.TrainingInGroups
-                                                     where t.TrainingID == model.Current.TrainingID
-                                                     select t).ToList();
 
-                                if (currentGroups != null)
+                            var currentGroups = (from t in context.TrainingInGroups
+                                                 where t.TrainingID == model.Current.TrainingID
+                                                 select t).ToList();
+
+                            if (currentGroups != null)
+                            {
+                                foreach (var item in currentGroups)
                                 {
-                                    foreach (var item in currentGroups)
+                                    var grp = context.TrainingInGroups.FirstOrDefault(x => x.ProfileGroupID == item.ProfileGroupID && x.TrainingID == model.Current.TrainingID);
+                                    if (grp != null)
                                     {
-                                        var grp = context.TrainingInGroups.FirstOrDefault(x => x.ProfileGroupID == item.ProfileGroupID && x.TrainingID == model.Current.TrainingID);
-                                        if (grp != null)
-                                        {
-                                            context.TrainingInGroups.Remove(grp);
-                                        }
+                                        context.TrainingInGroups.Remove(grp);
                                     }
                                 }
                             }
+
 
                             if (!model.Current.IsForAll && model.Current.Groups != null && model.Current.Groups.Any())
                             {
@@ -335,7 +334,7 @@ namespace AppEngine.Services
                             return false;
 
                         }
-                        
+
                         model.Current.CreateDate = DateTime.Now;
                         model.Current.CreateUserID = model.LoggedUser.Id;
 
