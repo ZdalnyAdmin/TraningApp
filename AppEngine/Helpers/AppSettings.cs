@@ -77,7 +77,7 @@ namespace AppEngine.Helpers
             }
         }
 
-        public static string CopyFile(string filePath, string domainPath, string sourcePath, out decimal size, bool delete = true)
+        public static string CopyFile(string filePath, string domainPath, string sourcePath, out decimal size, bool delete = true, string fileName = "")
         {
             try
             {
@@ -92,6 +92,13 @@ namespace AppEngine.Helpers
                 sourcePath = Path.Combine(domainPath, sourcePath);
 
                 var name = System.IO.Path.GetFileName(sourcePath);
+
+                if (!string.IsNullOrEmpty(fileName))
+                {
+                    var ext = System.IO.Path.GetExtension(sourcePath);
+                    name = fileName + ext;
+                }
+
                 var destFile = Path.Combine(filePath, name);
 
                 //na razie zapisuje do sciezki na dysku dodatkowo

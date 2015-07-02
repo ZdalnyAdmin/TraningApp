@@ -103,7 +103,7 @@ namespace AppEngine.Services
                         if (!model.Current.TrainingResources.EndsWith(fileName))
                         {
                             File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toModified.TrainingResources));
-                            toModified.TrainingResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
+                            toModified.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize, true, "training_image");
                         }
 
                         fileName = String.IsNullOrEmpty(toModified.PassResources) ? string.Empty : Path.GetFileName(toModified.PassResources);
@@ -116,7 +116,7 @@ namespace AppEngine.Services
                             {
                                 File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toModified.PassResources));
                             }
-                            toModified.PassResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
+                            toModified.PassResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize, true, "training_mark");
                         }
                         toModified.Name = model.Current.Name;
                         toModified.Description = model.Current.Description;
@@ -361,11 +361,11 @@ namespace AppEngine.Services
                         }
 
                         fileSize = 0m;
-                        model.Current.TrainingResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
+                        model.Current.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize, true, "training_image");
                         if (!String.IsNullOrEmpty(model.Current.PassResources))
                         {
                             fileSize = 0m;
-                            model.Current.PassResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize);
+                            model.Current.PassResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.PassResources, out fileSize, true, "training_mark");
                         }
 
                         context.Entry<Training>(model.Current).State = EntityState.Modified;
@@ -470,6 +470,8 @@ namespace AppEngine.Services
                                 trainingInOrganization.IsDeleted = false;
                                 context.TrainingsInOrganizations.Add(trainingInOrganization);
                             }
+
+                            context.SaveChanges();
                         }
 
                         model.ActionType = BaseActionType.GetExtData;
@@ -731,7 +733,7 @@ namespace AppEngine.Services
                         if (!model.Current.TrainingResources.EndsWith(imageFileName))
                         {
                             File.Delete(Path.Combine(HttpRuntime.AppDomainAppPath, toImageModified.TrainingResources));
-                            toImageModified.TrainingResources = AppSettings.CopyTrainingImages(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize);
+                            toImageModified.TrainingResources = AppSettings.CopyFile(path, HttpRuntime.AppDomainAppPath, model.Current.TrainingResources, out fileSize, true, "training_image");
                         }
 
                         toImageModified.ModifieddUserID = model.LoggedUser.Id;

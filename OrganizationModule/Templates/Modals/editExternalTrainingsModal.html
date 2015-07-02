@@ -4,7 +4,7 @@
 <div class="modal-body">
     <div>
         <div ng-repeat="item in Groups">
-            <input type="checkbox" ng-model="item.selected" />{{item.Name}}
+            <input type="checkbox" ng-model="item.selected" ng-click="selectAll(true)" />{{item.Name}}
         </div>
     </div>
 </div>

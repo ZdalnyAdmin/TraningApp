@@ -63,6 +63,9 @@ namespace AppEngine.Models.Common
         [NotMapped]
         public List<TrainingDto> AssignedTrainings { get; set; }
 
+        [NotMapped]
+        public int AssignedTrainingCount { get; set; }
+
         #endregion Properties
 
         #region Methods

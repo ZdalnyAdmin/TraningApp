@@ -2,6 +2,18 @@
     <div class="btn btn-primary" ng-click="close()">X</div>
 </div>
 <div class="modal-body">
+<<<<<<< HEAD
+    <div>Nazwa : <input class="form-control" type="text" id="mainInput" name="Current.DisplayName" ng-model="Current.DisplayName"></div>
+    <div>Email : <input class="form-control" type="text" id="mainInput" name="Current.Email" ng-model="Current.Email"></div>
+    <div>
+        Select z edycją statusu (ten skopiowany z poprzedniego widoku)
+        <select class="select-m select-green form-control" ng-model="person.selectedStatus" ng-options="c for c in availableStatus" ng-show="person.isEditable" ng-change="changeStatus(person)">
+            <option value="">{{ person.Status.Name }}</option>
+        </select>
+    </div>
+    <div>
+        Select z edycją roli
+=======
     <div>
         Nazwa : <input class="form-control" type="text" id="mainInput" name="Current.DisplayName" ng-model="Current.DisplayName" maxlength="40">
     </div>
@@ -18,6 +30,7 @@
 
     <div>
         Email : <input class="form-control" type="text" id="mainInput" name="Current.Email" ng-model="Current.Email">
+>>>>>>> 231820b676947081a1b895be4897563fce0a867c
     </div>
 </div>
 <div class="modal-header">

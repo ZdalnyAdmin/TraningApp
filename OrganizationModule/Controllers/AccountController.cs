@@ -64,7 +64,7 @@ namespace OrganizationModule.Controllers
             {
                 var person = _db.Users.Where(x => x.UserName == model.Email &&
                                                   !x.IsDeleted &&
-                                                  (x.Status == StatusEnum.Blocked || 
+                                                  (x.Status == StatusEnum.Blocked ||
                                                   x.Status == StatusEnum.Active) &&
                                                   x.Profile != ProfileEnum.Superuser).FirstOrDefault();
                 if (person == null)
@@ -98,7 +98,7 @@ namespace OrganizationModule.Controllers
                         return Json(jsonResult);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 jsonResult.Errors.Add("Wystąpił nieoczekiwany błąd.");
                 return Json(jsonResult);
@@ -145,6 +145,18 @@ namespace OrganizationModule.Controllers
                     user.Status = StatusEnum.Active;
                     user.UserName = model.UserName;
                     result = UserManager.Update(user);
+
+
+                    var group = _db.Groups.FirstOrDefault(x => x.Name == "Wszyscy");
+
+                    if (group != null)
+                    {
+                        var userInGroup = new ProfileGroup2Person();
+                        userInGroup.PersonID = user.Id;
+                        userInGroup.ProfileGroupID = group.ProfileGroupID;
+                        _db.PeopleInGroups.Add(userInGroup);
+                        _db.SaveChanges();
+                    }
 
                     if (!result.Succeeded)
                     {
@@ -246,7 +258,7 @@ namespace OrganizationModule.Controllers
         {
             if (ModelState.IsValid)
             {
-                Result result = new Result() {Errors = new List<string>()};
+                Result result = new Result() { Errors = new List<string>() };
 
                 if (string.IsNullOrWhiteSpace(model.UserName))
                 {
@@ -267,7 +279,7 @@ namespace OrganizationModule.Controllers
         {
             var isTokenValid = true;
 
-            if(string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(id))
+            if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(id))
             {
                 isTokenValid = false;
             }

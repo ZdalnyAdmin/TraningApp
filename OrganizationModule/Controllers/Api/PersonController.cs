@@ -51,6 +51,14 @@ namespace OrganizationModule.Controllers
                 {
                     case BaseActionType.Get:
                         //todo logs for add and send invitation
+                        obj.PeopleCount = (from p in db.Users
+                                           where p.OrganizationID == obj.CurrentOrganization.OrganizationID &&
+                                           (p.Status == StatusEnum.Active || p.Status == StatusEnum.Blocked)
+                                           && (p.Profile == ProfileEnum.User || p.Profile == ProfileEnum.Creator || p.Profile == ProfileEnum.Administrator || p.Profile == ProfileEnum.Manager)
+                                           orderby p.RegistrationDate
+                                           select p).Count();
+
+
                         var people = (from p in db.Users
                                       where p.OrganizationID == obj.CurrentOrganization.OrganizationID &&
                                       (p.Status == StatusEnum.Active || p.Status == StatusEnum.Blocked)
@@ -86,6 +94,12 @@ namespace OrganizationModule.Controllers
                                                        Result = t.Rating,
                                                        Name = tr.Name
                                                    }).Take(5).ToList();
+
+                            p.AssignedTrainingCount = (from t in db.TrainingResults
+                                                       join tr in db.Trainings on t.TrainingID equals tr.TrainingID
+                                                       where t.PersonID == p.Id
+                                                       orderby t.StartDate descending
+                                                       select t).Count();
 
                             var assignedGroups = (from pg in db.PeopleInGroups
                                                   where pg.PersonID == p.Id
