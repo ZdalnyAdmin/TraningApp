@@ -295,7 +295,7 @@ namespace AppEngine.Services
                         {
                             foreach (var item in model.Current.Organizations)
                             {
-                                var trainingInOrganization = context.TrainingsInOrganizations.FirstOrDefault(x => x.OrganizationID == item.OrganizationID && x.TrainingID == item.OrganizationID);
+                                var trainingInOrganization = context.TrainingsInOrganizations.FirstOrDefault(x => x.OrganizationID == item.OrganizationID && x.TrainingID == model.Current.TrainingID);
                                 if (trainingInOrganization != null)
                                 {
                                     context.TrainingsInOrganizations.Remove(trainingInOrganization);
