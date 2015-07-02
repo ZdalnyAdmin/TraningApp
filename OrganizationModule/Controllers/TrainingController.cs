@@ -401,7 +401,7 @@ namespace OrganizationModule.Controllers
 
             globalTrainingsForAll.ForEach(x =>
             {
-                if (trainings.IndexOf(x) == -1 && _db.TrainingInGroups.Any(y => y.TrainingID == x.TrainingID && loggedPersonGroups.Contains(y.ProfileGroupID)))
+                if (trainings.IndexOf(x) == -1 && (_db.TrainingInGroups.Any(y => y.TrainingID == x.TrainingID && loggedPersonGroups.Contains(y.ProfileGroupID)) || loggedPerson.Profile == ProfileEnum.Protector))
                 {
                     trainings.Add(x);
                 }
@@ -409,7 +409,7 @@ namespace OrganizationModule.Controllers
 
             globalTrainingsForOrganization.ForEach(x =>
             {
-                if (trainings.IndexOf(x) == -1 && _db.TrainingInGroups.Any(y => y.TrainingID == x.TrainingID && loggedPersonGroups.Contains(y.ProfileGroupID)))
+                if (trainings.IndexOf(x) == -1 && (_db.TrainingInGroups.Any(y => y.TrainingID == x.TrainingID && loggedPersonGroups.Contains(y.ProfileGroupID)) || loggedPerson.Profile == ProfileEnum.Protector))
                 {
                     trainings.Add(x);
                 }
