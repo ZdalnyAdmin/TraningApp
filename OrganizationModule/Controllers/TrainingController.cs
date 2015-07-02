@@ -33,7 +33,7 @@ namespace OrganizationModule.Controllers
             var myTrainings = getMyTrainings(loggedPerson);
             var training = myTrainings.FirstOrDefault(x => x.TrainingID == model.TrainingID);
 
-            if (training == null)
+            if (training == null || !training.IsActive)
             {
                 result.Errors.Add("Nie masz uprawnień by uruchomić to szkolenie");
                 return Json(result);
