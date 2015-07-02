@@ -94,7 +94,8 @@ namespace OrganizationModule.Controllers.Api
                     case TrainingManagmentActionType.GetExternal:
 
                         obj.ExternalTrainings = (from t in db.Trainings
-                                                 where t.TrainingType == TrainingType.Kenpro
+                                                 join tio in db.TrainingsInOrganizations on t.TrainingID equals tio.TrainingID
+                                                 where t.TrainingType == TrainingType.Kenpro && tio.OrganizationID == obj.CurrentOrganization.OrganizationID
                                                  select t).ToList();
 
 

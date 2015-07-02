@@ -304,13 +304,15 @@ namespace OrganizationModule.Controllers
 
             var trainings = new List<Training>();
 
-            // Global Trainings
+            // Global Trainings - to ok - pobiera dla wszystkich 
+
             var globalTrainingsForAll = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro && 
                                                            x.IsActive && 
                                                            x.IsForAll &&
                                                            organization.IsGlobalAvailable)
                                                .ToList();
 
+            // to ok - pobiera dla organizacji
             var globalTrainingsForOrganization = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro &&
                                                                           x.IsActive &&
                                                                           organization.IsGlobalAvailable)
@@ -321,39 +323,81 @@ namespace OrganizationModule.Controllers
                                                                     (x, y) => x)
                                                               .ToList();
 
-            var internalTrainingsForAll = _db.Trainings.Where(x => x.TrainingType != TrainingType.Kenpro &&
-                                                                   x.IsForAll &&
-                                                                   (x.IsActive || loggedPerson.Profile == ProfileEnum.Protector))
-                                                       .Join(_db.TrainingsInOrganizations
-                                                                .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
-                                                             x => x.TrainingID,
-                                                             y => y.TrainingID,
-                                                             (x, y) => x)
-                                                       .ToList();
-
+            //moje szkolenia
             var myTrainings = _db.Trainings.Where(x => x.CreateUserID == loggedPerson.Id)
                                            .ToList();
 
-            var internalGroupTrainings = _db.Trainings
-                                            .Where(x => (x.IsActive || loggedPerson.Profile == ProfileEnum.Protector) &&
-                                                        x.TrainingType != TrainingType.Kenpro)
-                                            .Join(_db.TrainingInGroups
-                                                     .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
-                                                  x => x.TrainingID,
-                                                  y => y.TrainingID,
-                                                  (x, y) => x)
-                                            .ToList();
 
-            var globalGroupTrainings =   _db.Trainings
-                                            .Where(x => x.IsActive &&
-                                                        x.TrainingType == TrainingType.Kenpro &&
-                                                        organization.IsGlobalAvailable)
-                                            .Join(_db.TrainingInGroups
-                                                     .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
-                                                  x => x.TrainingID,
-                                                  y => y.TrainingID,
-                                                  (x, y) => x)
-                                            .ToList();
+            var internalTrainingsForAll = new List<Training>();
+            var internalGroupTrainings = new List<Training>();
+
+            if (loggedPerson.Profile != ProfileEnum.Protector)
+            {
+
+                //szkolenia wewnetrzena
+                //dla wszystkich
+                //wewnetrzen
+                //i aktyne lub 
+                //tu pobierasz wszsytki szkolenia dla organizacji
+                internalTrainingsForAll = _db.Trainings.Where(x => x.TrainingType != TrainingType.Kenpro &&
+                                                                       x.IsForAll &&
+                                                                       (x.IsActive || loggedPerson.Profile == ProfileEnum.Protector))
+                                                           .Join(_db.TrainingsInOrganizations
+                                                                    .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
+                                                                 x => x.TrainingID,
+                                                                 y => y.TrainingID,
+                                                                 (x, y) => x)
+                                                           .ToList();
+
+
+                //szkolenie wewnetrzen
+                //dla wybranych grup - wyglada ok
+
+                //ale tu chyba lepiej jak by byo
+
+                //tu pobierasz wszystkie szkolenia dla grup 
+                internalGroupTrainings = _db.Trainings
+                                                .Where(x => (x.IsActive || loggedPerson.Profile == ProfileEnum.Protector) &&
+                                                            x.TrainingType != TrainingType.Kenpro)
+                                                .Join(_db.TrainingInGroups
+                                                         .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
+                                                      x => x.TrainingID,
+                                                      y => y.TrainingID,
+                                                      (x, y) => x)
+                                                .ToList();
+
+
+
+            }
+            else
+            {
+                internalTrainingsForAll = _db.Trainings.Where(x => x.TrainingType != TrainingType.Kenpro)
+                                             .Join(_db.TrainingsInOrganizations
+                                                      .Where(y => y.OrganizationID == loggedPerson.OrganizationID),
+                                                   x => x.TrainingID,
+                                                   y => y.TrainingID,
+                                                   (x, y) => x)
+                                             .ToList();
+
+
+                //szkolenie wewnetrzen
+                //dla wybranych grup - wyglada ok
+
+
+            }
+
+            ////to wydaj mi sie nie potrzebne
+            //var globalGroupTrainings =   _db.Trainings
+            //                                .Where(x => x.IsActive &&
+            //                                            x.TrainingType == TrainingType.Kenpro &&
+            //                                            organization.IsGlobalAvailable)
+            //                                .Join(_db.TrainingInGroups
+            //                                         .Where(y => loggedPersonGroups.Contains(y.ProfileGroupID)),
+            //                                      x => x.TrainingID,
+            //                                      y => y.TrainingID,
+            //                                      (x, y) => x)
+            //                                .ToList();
+
 
             globalTrainingsForAll.ForEach(x =>
             {
