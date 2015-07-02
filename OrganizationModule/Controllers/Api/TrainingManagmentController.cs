@@ -116,6 +116,8 @@ namespace OrganizationModule.Controllers.Api
                             obj.ExternalTrainings.AddRange(trainingsEx);
                         }
 
+                        obj.ExternalTrainings = obj.ExternalTrainings.OrderByDescending(x => x.CreateDate).ToList();
+
                         var groups = (from grp in db.GroupsInOrganizations
                                       join g in db.Groups on grp.ProfileGroupID equals g.ProfileGroupID
                                       where grp.OrganizationID == obj.CurrentOrganization.OrganizationID
