@@ -281,7 +281,7 @@ namespace AppEngine.Services
 
                             if (!model.Current.IsForAll && model.Current.Groups != null && model.Current.Groups.Any())
                             {
-                                foreach (var item in model.Groups)
+                                foreach (var item in model.Current.Groups)
                                 {
                                     var grp = new ProfileGroup2Trainings();
                                     grp.IsDeleted = false;
