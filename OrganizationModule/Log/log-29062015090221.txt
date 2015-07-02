@@ -1,0 +1,11 @@
+29-06-2015 09:02:21 INFO: Wiadomość została wysłana do g6076651@trbvm.com
+29-06-2015 09:03:59 INFO: Wiadomość została wysłana do g6076651@trbvm.com
+29-06-2015 11:53:42 INFO: Wiadomość została wysłana do g6083197@trbvm.com
+29-06-2015 12:04:28 INFO: Wiadomość została wysłana do g6083636@trbvm.com
+29-06-2015 12:14:21 ERROR: Wystąpił błąd podczas wysyłania wiadomości do g6083636@trbvm.com
+29-06-2015 12:14:21 ERROR: Upłynął limit czasu operacji.
+29-06-2015 12:14:21 ERROR:    w System.Net.Mail.SmtpClient.Send(MailMessage message)
+   w AppEngine.Helpers.Mail.Send(MailMessage message, MailAccount account) w c:\github\kenpro-ZA\AppEngine\Helpers\Mail.cs:wiersz 39
+29-06-2015 14:33:52 INFO: Wiadomość została wysłana do admin@kenpro.pl
+29-06-2015 14:38:33 INFO: Wiadomość została wysłana do g6090310@trbvm.com
+29-06-2015 14:41:36 INFO: Wiadomość została wysłana do g6090310@trbvm.com

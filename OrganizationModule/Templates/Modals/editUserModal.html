@@ -4,6 +4,15 @@
 <div class="modal-body">
     <div>Nazwa : <input class="form-control" type="text" id="mainInput" name="Current.DisplayName" ng-model="Current.DisplayName"></div>
     <div>Email : <input class="form-control" type="text" id="mainInput" name="Current.Email" ng-model="Current.Email"></div>
+    <div>
+        Select z edycją statusu (ten skopiowany z poprzedniego widoku)
+        <select class="select-m select-green form-control" ng-model="person.selectedStatus" ng-options="c for c in availableStatus" ng-show="person.isEditable" ng-change="changeStatus(person)">
+            <option value="">{{ person.Status.Name }}</option>
+        </select>
+    </div>
+    <div>
+        Select z edycją roli
+    </div>
 </div>
 <div class="modal-header">
     <div class="btn btn-primary" ng-click="save()">Zapisz</div>
