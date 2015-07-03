@@ -92,11 +92,31 @@ namespace OrganizationModule.Controllers.Api
 
                         break;
                     case TrainingManagmentActionType.GetExternal:
+                        obj.ExternalTrainings = new List<Training>();
 
-                        obj.ExternalTrainings = (from t in db.Trainings
-                                                 where t.TrainingType == TrainingType.Kenpro
+                        var trainingsEx = (from t in db.Trainings
+                                           where t.TrainingType == TrainingType.Kenpro && t.IsForAll
+                                           select t).ToList();
+
+                        if(trainingsEx != null)
+                        {
+                            
+                            obj.ExternalTrainings.AddRange(trainingsEx);
+                        }
+
+
+                        trainingsEx = (from t in db.Trainings
+                                                 join tio in db.TrainingsInOrganizations on t.TrainingID equals tio.TrainingID
+                                                 where t.TrainingType == TrainingType.Kenpro && tio.OrganizationID == obj.CurrentOrganization.OrganizationID
                                                  select t).ToList();
 
+
+                        if (trainingsEx != null)
+                        {
+                            obj.ExternalTrainings.AddRange(trainingsEx);
+                        }
+
+                        obj.ExternalTrainings = obj.ExternalTrainings.OrderByDescending(x => x.CreateDate).ToList();
 
                         var groups = (from grp in db.GroupsInOrganizations
                                       join g in db.Groups on grp.ProfileGroupID equals g.ProfileGroupID
