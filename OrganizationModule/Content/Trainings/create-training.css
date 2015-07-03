@@ -129,10 +129,14 @@
 #create-training .drag-and-drop .empty-image{
     width:100%;
 }
-
+#create-training .add-question .answer, #create-training .preview-question .answer{
+    margin-top:15px;
+}
+#create-training .add-question .answer label, #create-training .preview-question .answer label{
+    margin-top:7px;
+}
 #create-training .add-question .points div, #create-training .preview-question .points div{
     padding-right:50px;
-    padding-left:15px;
     float:left;
 }
 #create-training .add-question .points button{
@@ -158,7 +162,6 @@
 #create-training .add-question .radio-question .radio-answer div, #create-training .add-question .checkbox-question .checkbox-answer div,
 #create-training .preview-question .radio-question .radio-answer div, #create-training .preview-question .checkbox-question .checkbox-answer div{
     padding-left:50px;
-    padding-right:15px;
 }
 #create-training .add-question .radio-question, #create-training .add-question .checkbox-question,
 #create-training .preview-question .radio-question, #create-training .preview-question .checkbox-question{
@@ -206,6 +209,14 @@
     font-size:22px;
     display:table-cell;
     vertical-align:middle;
+}
+#create-training .form-validation{
+    overflow:auto;
+}
+@media screen and (max-width: 1199px) {
+    #create-training .cloud{
+        padding-top:30px;
+    }
 }
 @media screen and (max-width: 1199px) AND (min-width: 992px) {
     /*#create-training .add-content{

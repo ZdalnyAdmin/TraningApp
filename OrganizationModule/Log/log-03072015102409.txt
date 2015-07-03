@@ -1,0 +1,3 @@
+03-07-2015 10:24:09 INFO: Wiadomość została wysłana do g6307881@trbvm.com
+03-07-2015 10:27:16 INFO: Wiadomość została wysłana do g6307881@trbvm.com
+03-07-2015 10:29:36 INFO: Wiadomość została wysłana do qjy01818@cdnqa.com
