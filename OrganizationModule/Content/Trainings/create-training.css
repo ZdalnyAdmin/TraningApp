@@ -11,7 +11,6 @@
     text-align:center;    
     font-size:24px;
     margin-right:15px;
-    margin-top:10px;
 }
 #create-training .italics{
     font-style:italic;
@@ -22,10 +21,8 @@
     border-bottom:1px solid #141932;
 }
 #create-training h4{
-    text-align:left;
     display:table;
-    min-height:40px;
-    float:left;
+    height:40px;
 }
 #create-training h4 span{
     display:table-cell;
@@ -37,6 +34,9 @@
 #create-training .letter-counter{
     float:right;
     opacity:0.7;
+}
+#create-training .cloud{
+    overflow:auto;
 }
 #create-training .pass-training label{
     margin-right:50px;
