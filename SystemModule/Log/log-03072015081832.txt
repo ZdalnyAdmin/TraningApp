@@ -1,0 +1,3 @@
+03-07-2015 08:18:32 INFO: Wiadomość została wysłana do admin@kenis.pl
+03-07-2015 08:18:33 INFO: Wiadomość została wysłana do admin@kenpro.pl
+03-07-2015 08:18:52 INFO: Wiadomość została wysłana do g6303841@trbvm.com
