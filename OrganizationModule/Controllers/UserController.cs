@@ -1,18 +1,21 @@
 ﻿using AppEngine;
+using AppEngine.Helpers;
 using AppEngine.Models.Common;
 using AppEngine.Models.DataBusiness;
 using AppEngine.Models.DataContext;
+using AppEngine.Models.ViewModels.Account;
+using AppEngine.Services;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Mail;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using AppEngine.Models.ViewModels.Account;
-using System.Collections.ObjectModel;
-using AppEngine.Services;
-using System.Collections.Generic;
 
 namespace OrganizationModule.Controllers
 {
@@ -101,11 +104,20 @@ namespace OrganizationModule.Controllers
 
                 if (deletedPerson.Id == user.Id)
                 {
-                    UserManager.SendEmail("admin@kenpro.pl",
-                           "Usunięcie Użytkownika",
-                           "W dniu " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "Użytkownik o Id " + deletedPerson.Id
+
+                    MailMessage mail = new MailMessage(new MailAddress(Helpers.GetMailFrom(MailAccount.ADMIN), "Kenpro"),
+                                   new MailAddress("admin@kenpro.pl"))
+                    {
+                        Subject = "Usunięcie Użytkownika",
+                        Body = "W dniu " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "Użytkownik o Id " + deletedPerson.Id
                            + "i nazwie wyświetlanej: " + deletedPerson.DisplayName
-                           + " usunął swoje konto z organizacji " + (organization != null ? organization.Name : "Brak nazwy organizacji"));
+                           + " usunął swoje konto z organizacji " + (organization != null ? organization.Name : "Brak nazwy organizacji"),
+                        IsBodyHtml = true
+                    };
+
+                    mail.BodyEncoding = UTF8Encoding.UTF8;
+                    mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+                    Mail.Send(mail, MailAccount.ADMIN);
                 }
                 else
                 {
