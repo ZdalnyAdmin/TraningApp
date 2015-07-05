@@ -292,13 +292,13 @@ namespace AppEngine.Services
                         }
                         else
                         {
-                            foreach (var item in model.Current.Organizations)
+
+                            var currentOrganizations = context.TrainingsInOrganizations.Where(x => x.TrainingID == model.Current.TrainingID);
+
+                            if(currentOrganizations != null && currentOrganizations.Any())
                             {
-                                var trainingInOrganization = context.TrainingsInOrganizations.FirstOrDefault(x => x.OrganizationID == item.OrganizationID && x.TrainingID == model.Current.TrainingID);
-                                if (trainingInOrganization != null)
-                                {
-                                    context.TrainingsInOrganizations.Remove(trainingInOrganization);
-                                }
+                                context.TrainingsInOrganizations.RemoveRange(currentOrganizations);
+                                context.SaveChanges();
                             }
 
                             if (!model.Current.IsForAll && model.Organizations != null && model.Organizations.Any())

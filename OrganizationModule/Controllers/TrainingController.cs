@@ -215,7 +215,7 @@ namespace OrganizationModule.Controllers
 
             trainingResult.PossibleRate = trainingResult.GetPossibleRate();
 
-            if(trainingResult.PossibleRate != 0)
+            if (trainingResult.PossibleRate != 0)
             {
                 var percentageResult = trainingResult.Rating / trainingResult.PossibleRate * 100;
                 trainingResult.IsPassed = percentageResult >= trainingResult.Training.PassResult;
@@ -306,8 +306,8 @@ namespace OrganizationModule.Controllers
 
             // Global Trainings - to ok - pobiera dla wszystkich 
 
-            var globalTrainingsForAll = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro && 
-                                                           x.IsActive && 
+            var globalTrainingsForAll = _db.Trainings.Where(x => x.TrainingType == TrainingType.Kenpro &&
+                                                           x.IsActive &&
                                                            x.IsForAll &&
                                                            organization.IsGlobalAvailable)
                                                .ToList();
@@ -324,8 +324,7 @@ namespace OrganizationModule.Controllers
                                                               .ToList();
 
             //moje szkolenia
-            var myTrainings = _db.Trainings.Where(x => x.CreateUserID == loggedPerson.Id)
-                                           .ToList();
+            var myTrainings = _db.Trainings.Where(x => x.CreateUserID == loggedPerson.Id && x.IsActive).ToList();
 
 
             var internalTrainingsForAll = new List<Training>();
