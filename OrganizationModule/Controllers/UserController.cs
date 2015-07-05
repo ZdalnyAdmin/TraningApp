@@ -68,6 +68,8 @@ namespace OrganizationModule.Controllers
                                            .Select(x => x.Email)
                                            .ToList();
 
+            ViewBag.IsDeletable = currentUser.Profile != ProfileEnum.Protector;
+
             return View();
         }
 
@@ -99,7 +101,7 @@ namespace OrganizationModule.Controllers
 
                 if (deletedPerson.Id == user.Id)
                 {
-                    UserManager.SendEmail(organization.ProtectorID,
+                    UserManager.SendEmail("admin@kenpro.pl",
                            "Usunięcie Użytkownika",
                            "W dniu " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "Użytkownik o Id " + deletedPerson.Id
                            + "i nazwie wyświetlanej: " + deletedPerson.DisplayName
@@ -131,6 +133,14 @@ namespace OrganizationModule.Controllers
         public async Task<JsonResult> DeleteUser()
         {
             var loggedUser = UserManager.FindById(User.Identity.GetUserId());
+            if (loggedUser.Profile == ProfileEnum.Protector)
+            {
+                var jsonResult = new Result() { Succeeded = false, Errors = new List<string>() };
+                jsonResult.Errors.Add("Nie można usunąc opiekuna!");
+
+                return Json(jsonResult);
+            }
+
             loggedUser.DeleteUserID = loggedUser.Id;
             await UserManager.UpdateAsync(loggedUser);
 
