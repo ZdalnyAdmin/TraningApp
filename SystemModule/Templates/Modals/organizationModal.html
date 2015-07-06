@@ -5,7 +5,7 @@
     <div class="modal-body">
         <div>
             <div ng-repeat="item in viewModel.Organizations" class="user-item">
-                <input type="checkbox" ng-model="item.selected" />
+                <input {{$last ? '' : ', '}}  type="checkbox" ng-model="item.selected" />
                 {{item.Name}}
             </div>
         </div>

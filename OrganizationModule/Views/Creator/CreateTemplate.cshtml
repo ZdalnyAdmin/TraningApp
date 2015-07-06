@@ -231,7 +231,7 @@
             <input id="d1" type="checkbox" ng-model="viewModel.Current.IsForAll" ng-click="selectAll(true)" />
             <label for="d1"><span></span> Wszyscy </label>
             <div class="item" ng-repeat="item in viewModel.Groups">
-                <input id="{{item.Name}}" type="checkbox" ng-model="item.selected" ng-click="selectAll(false)" />
+                <input id="{{item.DisplayID}}" type="checkbox" ng-model="item.selected" ng-click="selectAll(false)" />
                 <label for="d1"><span></span>{{item.Name}}</label>
             </div>
         </div>

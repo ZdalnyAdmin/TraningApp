@@ -45,6 +45,15 @@ namespace AppEngine.Models.Common
         [NotMapped]
         public decimal UsedSpaceDisk { get; set; }
 
+        [NotMapped]
+        public string DisplayID
+        {
+            get
+            {
+                return string.Format("{0}_{1}", OrganizationID, Name);
+            }
+        }
+
         public void UpdateSecurityStamp()
         {
             this.SecurityStamp = Guid.NewGuid().ToString();
