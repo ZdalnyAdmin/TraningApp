@@ -49,7 +49,7 @@ namespace OrganizationModule.Controllers.Api
                         {
                             obj.ShowExternal = false;
                             //get protector
-                            if(obj.CurrentOrganization != null)
+                            if (obj.CurrentOrganization != null)
                             {
                                 obj.ShowExternal = obj.CurrentOrganization.IsGlobalAvailable;
                             }
@@ -81,7 +81,7 @@ namespace OrganizationModule.Controllers.Api
                                                        }).ToList();
 
                             var createdUser = db.Users.FirstOrDefault(x => x.Id == training.CreateUserID);
-                            if(createdUser != null)
+                            if (createdUser != null)
                             {
                                 training.UserName = createdUser.DisplayName;
                             }
@@ -98,17 +98,17 @@ namespace OrganizationModule.Controllers.Api
                                            where t.TrainingType == TrainingType.Kenpro && t.IsForAll
                                            select t).ToList();
 
-                        if(trainingsEx != null)
+                        if (trainingsEx != null)
                         {
-                            
+
                             obj.ExternalTrainings.AddRange(trainingsEx);
                         }
 
 
                         trainingsEx = (from t in db.Trainings
-                                                 join tio in db.TrainingsInOrganizations on t.TrainingID equals tio.TrainingID
-                                                 where t.TrainingType == TrainingType.Kenpro && tio.OrganizationID == obj.CurrentOrganization.OrganizationID
-                                                 select t).ToList();
+                                       join tio in db.TrainingsInOrganizations on t.TrainingID equals tio.TrainingID
+                                       where t.TrainingType == TrainingType.Kenpro && tio.OrganizationID == obj.CurrentOrganization.OrganizationID
+                                       select t).ToList();
 
 
                         if (trainingsEx != null)
@@ -155,6 +155,9 @@ namespace OrganizationModule.Controllers.Api
                                                                Name = grp.Name,
                                                                Id = grp.ProfileGroupID
                                                            }).ToList();
+
+                                training.AssignedGroups = training.AssignedGroups.Where(x => obj.Groups.Exists(p => p.ProfileGroupID == x.Id)).ToList();
+                                
                             }
                         }
 
@@ -177,7 +180,7 @@ namespace OrganizationModule.Controllers.Api
 
                         var assigend = (from item in db.TrainingInGroups
                                         join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
-                                        where  item.TrainingID == obj.Current.TrainingID
+                                        where item.TrainingID == obj.Current.TrainingID
                                         select item).ToList();
 
                         if (assigend != null && assigend.Any())
@@ -200,7 +203,7 @@ namespace OrganizationModule.Controllers.Api
                             db.SaveChanges();
                             obj.Current.AssignedGroups = (from item in db.TrainingInGroups
                                                           join grp in db.Groups on item.ProfileGroupID equals grp.ProfileGroupID
-                                                          where  item.TrainingID == obj.Current.TrainingID
+                                                          where item.TrainingID == obj.Current.TrainingID
                                                           select new CommonDto
                                                           {
                                                               Name = grp.Name,
