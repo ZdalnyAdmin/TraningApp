@@ -3,7 +3,36 @@
     font-family: 'PT Sans', sans-serif;
 
 }
-
+.error{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1;
+    background:#ff5a5a;
+    min-height:50px;
+    width:100%;
+}
+.error > div{
+    display:table;
+    height:100%;
+}
+.error img{
+    float:right;
+    cursor:pointer;
+}
+.success{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1;
+    background:#55ee99;
+    min-height:50px;
+    width:100%;
+}
+.success > div{
+    display:table;
+    height:100%;
+}
 .froala-element, froala-editor, froala-modal, .modal-text {
     color: #000;
 }
@@ -65,6 +94,10 @@
     width:100%;
     padding:15px;
     background:#fff;
+}
+.display-table-cell{
+    display:table-cell;
+    vertical-align:middle;
 }
 .display-table .display-table-header-group{
     display:table-header-group;
