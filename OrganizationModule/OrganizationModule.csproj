@@ -214,6 +214,7 @@
     <Content Include="Assets\Marks\All\Kowalski.png" />
     <Content Include="Assets\Marks\All\Król_Julian.png" />
     <Content Include="Assets\Marks\All\Marlenka.png" />
+    <Content Include="Content\Admin\company-settings.css" />
     <Content Include="Content\Admin\groups.css" />
     <Content Include="Content\Login\login.css" />
     <Content Include="Content\Menu\menu.css" />
@@ -447,6 +448,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Keeper\" />
     <Folder Include="Scripts\Providers\" />
     <Folder Include="Temp\Files\" />
     <Folder Include="Temp\Images\" />

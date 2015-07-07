@@ -55,6 +55,9 @@ namespace OrganizationModule
             bundles.Add(new StyleBundle("~/Groups").Include(
                 "~/Content/Admin/groups.css"));
 
+            bundles.Add(new StyleBundle("~/Company-settings").Include(
+                "~/Content/Admin/company-settings.css"));
+
             bundles.Add(new ScriptBundle("~/FroalaScripts")
                 .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js", "*.js")
                 .IncludeDirectory("~/thirdParty/FroalaWysiwygEditor/js/langs", "*.js")

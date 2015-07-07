@@ -1,15 +1,27 @@
 ﻿
-<div ng-app="" ng-controller="adminSettingsController" class="container">
+<div id="company-settings" ng-app="" ng-controller="adminSettingsController">
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
     <strong class="error">{{ viewModel.Success }}</strong>
-    <div>
-        Czy uzytkownicy moga samodzielnie zmieniac swoja nazwe
-        <input type="radio" name="allowToChangeName" value=1 ng-model="currentItem.ChangeName" ng-change="edit()" /> TAK
-        <input type="radio" name="allowToChangeName" value=0 ng-model="currentItem.ChangeName" ng-change="edit()" /> NIE
+
+    <h3>EDYCJA USTAWIEŃ PRZEZ UCZESTNIKÓW</h3>
+
+    <div class="settings-row">
+        <h5>Czy uczestnicy mogą samodzielnie zmieniać swoją nazwę?</h5>
+
+        <input id="n1" class="big purple" type="radio" name="allowToChangeName" value=1 ng-model="currentItem.ChangeName" ng-change="edit()" />
+        <label for="n1"><span></span>TAK</label>
+        <input id="n2" class="big purple" type="radio" name="allowToChangeName" value=0 ng-model="currentItem.ChangeName" ng-change="edit()" /> 
+        <label for="n2"><span></span>NIE</label>
     </div>
-    <div>
-        Czy uzytkownik moze samodzielnie zmieniac adres email
-        <input type="radio" name="allowToChangeMail" value=1 ng-model="currentItem.ChangeMail" ng-change="edit()" /> TAK
-        <input type="radio" name="allowToChangeMail" value=0 ng-model="currentItem.ChangeMail" ng-change="edit()" />NIE
+    <div class="settings-row">
+        <h5>Czy uczestnicy mogą samodzielnie zmieniać swój adres e-mail?</h5>
+
+        <input id="e1" class="big purple" type="radio" name="allowToChangeMail" value=1 ng-model="currentItem.ChangeMail" ng-change="edit()" />
+        <label for="e1"><span></span>TAK</label>
+        <input id="e2" class="big purple" type="radio" name="allowToChangeMail" value=0 ng-model="currentItem.ChangeMail" ng-change="edit()" />
+        <label for="e2"><span></span>NIE</label>
     </div>
+    
 </div>
+
+@Styles.Render("~/Company-settings")
