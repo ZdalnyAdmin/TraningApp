@@ -66,7 +66,7 @@ namespace AppEngine.Models.Common
         [NotMapped]
         public int AssignedTrainingCount { get; set; }
 
-        #endregion Properties
+       #endregion Properties
 
         #region Methods
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Person> manager)

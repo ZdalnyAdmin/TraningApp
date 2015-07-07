@@ -35,6 +35,15 @@ namespace AppEngine.Models.Common
         }
 
         [NotMapped]
+        public string DisplayID
+        {
+            get
+            {
+                return string.Format("{0}_{1}", ProfileGroupID, Name);
+            }
+        }
+
+        [NotMapped]
         public List<Person> AssignedPeople { get; set; }
 
     }

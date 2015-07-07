@@ -112,7 +112,7 @@
         Wybrane firmy:
     </div>
     <div ng-repeat="item in viewModel.Organizations">
-        {{item.Name}}  ,
+        {{item.Name}}  {{$last ? '' : ', '}} 
     </div>
 
     <div class="row">
