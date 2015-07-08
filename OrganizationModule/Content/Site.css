@@ -460,6 +460,10 @@ input[type="checkbox"] + label span:not(.format) {
     cursor:pointer;
     background-position:0 0;
 }
+input[type="checkbox"].purple + label span:not(.format) {
+    background:url('/Content/Images/purple-input.png') left top no-repeat;
+    background-position:0 0;
+}
 input[type="checkbox"]:checked + label span:not(.format) {
     background-position:-48px 0px;
 }
@@ -480,6 +484,10 @@ input[type="radio"] + label span:not(.format) {
     cursor:pointer;
     background-position:-144px 0;
 }
+input[type="radio"].purple + label span:not(.format) {
+    background:url('/Content/Images/blue-input.png') left top no-repeat;
+    background-position:-144px 0;
+}
 input[type="radio"]:checked + label span:not(.format) {
     background-position:-168px 0px;
 }
@@ -494,13 +502,7 @@ input[type="radio"].big + label span:not(.format) {
     background-position:-192px 0;
 }
 input[type="radio"].big.purple + label span:not(.format) {
-    display:inline-block;
-    width:32px;
-    height:32px;
-    margin:-1px 4px 0 0;
-    vertical-align:middle;
     background:url('/Content/Images/big-purple-input.png') left top no-repeat;
-    cursor:pointer;
     background-position:-192px 0;
 }
 input[type="radio"].big:checked + label span:not(.format) {

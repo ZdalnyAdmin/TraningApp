@@ -1,0 +1,19 @@
+﻿#logs select{
+    width:300px;
+}
+#logs label{
+    display:block;
+    color:#3770dd;
+    margin:0;
+}
+#logs strong{
+    display:block;
+}
+#logs span{
+    display:block;
+    font-size:12px;
+}
+#logs .select{
+    margin-top:30px;
+    margin-bottom:30px;
+}

@@ -1,0 +1,6 @@
+08-07-2015 11:00:34 INFO: Wiadomość została wysłana do g6589779@trbvm.com
+08-07-2015 11:20:46 INFO: Wiadomość została wysłana do g6590643@trbvm.com
+08-07-2015 11:21:08 INFO: Wiadomość została wysłana do g6590643@trbvm.com
+08-07-2015 11:34:19 INFO: Wiadomość została wysłana do g6591227@trbvm.com
+08-07-2015 11:35:08 INFO: Wiadomość została wysłana do g6591227@trbvm.com
+08-07-2015 11:37:29 INFO: Wiadomość została wysłana do g6591227@trbvm.com

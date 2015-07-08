@@ -1,0 +1,19 @@
+﻿#statistic .blue-labels label{
+    color:#3770dd;
+}
+#statistic .green-labels label{
+    color:#009aaf;
+}
+#statistic .purple-labels label{
+    color:#912A4F
+}
+#statistic strong{
+    display:block;
+    font-size:18px;
+}
+#statistic .statistic-row div{
+    margin-bottom:30px;
+}
+#statistic label{
+    font-family: 'Archivo Narrow', sans-serif;
+}

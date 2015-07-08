@@ -1,35 +1,62 @@
-﻿<div ng-app="" ng-controller="adminStatisticsController" class="container">
+﻿<div id="statistic" ng-app="" ng-controller="adminStatisticsController">
 
     <strong class="error">{{ success }}</strong>
+    
+    <h3>UŻYTKOWNICY</h3>
 
-    <div>
-        Liczba osob w organizacji: {{ Statistic.People }}
+    <div class="statistic-row row">
+        <div class="col-lg-4 col-xs-6 green-labels">
+            <label>LICZBA OSÓB W ORGANIZACJI</label>
+            <strong>{{ Statistic.People }}</strong>
+        </div>
+        <div class="col-lg-4 col-xs-6 green-labels">
+            <label>W TYM AKTYWNYCH</label>
+            <strong>{{ Statistic.ActivePeople }}</strong>
+        </div>
+        <div class="col-lg-4 col-xs-6 purple-labels">
+            <label>ZABLOKOWANYCH</label>
+            <strong>{{ Statistic.BlockedPeople }}</strong>
+        </div>
+        <div class="col-lg-4 col-xs-6 purple-labels">
+            <label>KONT USUNIĘTYCH</label>
+            <strong>{{ Statistic.DeleteAccount }}</strong>
+        </div>
+        <div class="col-lg-4 col-xs-6 green-labels">
+            <label>AKTYWNYCH W OSTATNICH 7 DNIACH</label>
+            <strong>{{ Statistic.WeekActiveUser }}</strong>
+        </div>
+        <div class="col-lg-4 col-xs-6 green-labels">
+            <label>AKTYWNYCH W OSTATNICH 30 DNIACH</label>
+            <strong>{{ Statistic.MonthActiveUser }}</strong>
+        </div>
     </div>
-    <div>
-        W tym osoby ze statusem aktywne: {{ Statistic.ActivePeople }}
+    
+    <h3>URUCHOMIENIA SZKOLEŃ</h3>
+
+    <div class="statistic-row row">
+        <div class="col-lg-4 col-xs-6 blue-labels">
+            <label>LICZBA URUCHOMIONYCH SZKOLEŃ</label>
+            <strong>{{ Statistic.StartedTrainings }}</strong>
+        </div>
+        <div class="col-lg-4 col-xs-6 blue-labels">
+            <label>W TYM ZAKOŃCZONYCH</label>
+            <strong>{{ Statistic.CompletedTrainings }}</strong>
+        </div>
     </div>
-    <div>
-        W tym osoby ze statusem zablokowane: {{ Statistic.BlockedPeople }}
-    </div>
-    <div>
-        Liczba kont usunietych: {{ Statistic.DeleteAccount }}
-    </div>
-    <div>
-        Liczba uruchomionych kursow: {{ Statistic.StartedTrainings }}
-    </div>
-    <div>
-        w tym zakonczonych: {{ Statistic.CompletedTrainings }}
-    </div>
-    <div>
-        Liczba osob aktywnych w ostatnich 7 dniach:{{ Statistic.WeekActiveUser }}
-    </div>
-    <div>
-        Liczba osob aktywnych w ostatnich 30 dniach: {{ Statistic.MonthActiveUser }}
-    </div>
-    <div>
-        SZCZEGOLOWE DANE O URUCHOMIENIACH SZKOLEN
-        <div ng-repeat="item in Trainings">
-            Szkolenie {{item.Name}} : {{item.RunTrainingStats}} uruchomien
+    <div class="display-table">
+        <div class="display-table-header-group">
+            <div class="display-table-row blue-labels">
+                <div>SZKOLENIE</div>
+                <div>URUCHOMIEŃ</div>
+            </div>
+        </div>
+        <div class="display-table-row-group">
+            <div class="display-table-row" ng-repeat="item in Trainings">
+                <div>{{item.Name}}</div>
+                <div>{{item.RunTrainingStats}}</div>
+            </div>
         </div>
     </div>
 </div>
+
+@Styles.Render("~/Statistic")

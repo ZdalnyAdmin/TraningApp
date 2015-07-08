@@ -216,6 +216,9 @@
     <Content Include="Assets\Marks\All\Marlenka.png" />
     <Content Include="Content\Admin\company-settings.css" />
     <Content Include="Content\Admin\groups.css" />
+    <Content Include="Content\Admin\statistic.css" />
+    <Content Include="Content\Keeper\company-permission.css" />
+    <Content Include="Content\Keeper\logs.css" />
     <Content Include="Content\Login\login.css" />
     <Content Include="Content\Menu\menu.css" />
     <Content Include="Content\Trainings\results.css" />
@@ -448,7 +451,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Keeper\" />
     <Folder Include="Scripts\Providers\" />
     <Folder Include="Temp\Files\" />
     <Folder Include="Temp\Images\" />

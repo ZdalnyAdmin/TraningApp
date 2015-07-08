@@ -1,36 +1,36 @@
-﻿<div ng-app="" ng-controller="protectorPermissionsController" class="container">
+﻿<div id="company-permission" ng-app="" ng-controller="protectorPermissionsController">
 
     <strong class="error">{{ viewModel.ErrorMessage }}</strong>
-    <strong class="error">{{ viewModel.Success }}</strong>
+    <strong class="success">{{ viewModel.Success }}</strong>
 
-    <div class="row">
-        Maksymalna ilosc aktywnych kursow dla uzytkownika
-        <input type="text" name="viewModel.Setting.MaxActiveTrainings" ng-model="viewModel.Setting.MaxActiveTrainings" />
+    <h3>LIMITY</h3>
 
+    <div class="permission-row">
+        <label>Maksymalna liczba aktywnych szkoleń na użytkownika</label>
+        <input class="form-control" type="text" name="viewModel.Setting.MaxActiveTrainings" ng-model="viewModel.Setting.MaxActiveTrainings" />
     </div>
-    <div class="row">
-        Przestrzen dyskowa (w GB)
-        <input type="text" name="viewModel.Setting.SpaceDisk" ng-model="viewModel.Setting.SpaceDisk" />
-
+    <div class="permission-row">
+        <label>Przestrzeń dyskowa organizacji (w GB)</label>
+        <input class="form-control" type="text" name="viewModel.Setting.SpaceDisk" ng-model="viewModel.Setting.SpaceDisk" />
     </div>
-    <div class="row">
-        Maksymalna liczba uzytkownikow w organizacji
-        <input type="text" name="viewModel.Setting.MaxAssignedUser" ng-model="viewModel.Setting.MaxAssignedUser" />
-
-    </div>
-    <div class="row">
-        Czy dostepne kursy globelne dla tej organizacji?
-        <input type="checkbox" ng-model="viewModel.Setting.IsGlobalAvailable" /> Tak
-    </div>
-    <div class="row">
-        Czy nowe kursy globalne dla firmy automatycznie dostepne dla wszystkich w organizacji
-        <input type="checkbox" ng-model="viewModel.Setting.IsTrainingAvailableForAll" /> Tak
+    <div class="permission-row">
+        <label>Maksymalna liczba użytkowników w organizacji</label>
+        <input class="form-control" type="text" name="viewModel.Setting.MaxAssignedUser" ng-model="viewModel.Setting.MaxAssignedUser" />
     </div>
 
-    <div class="row">
-        <button ng-click="edit()">
-            Zapisz
+    <h3>SZKOLENIA GLOBALNE</h3>
+
+    <div class="permission-row">
+        <input id="global" class="purple" type="checkbox" ng-model="viewModel.Setting.IsGlobalAvailable" />
+        <label for="global"><span></span>Szkolenia globalne mają być dostępne dla tej organizacji</label>
+    </div>
+
+    <div class="permission-row">
+        <button class="btn btn-l purple-button" ng-click="edit()">
+            ZAPISZ ZMIANY
         </button>
     </div>
 
 </div>
+
+@Styles.Render("~/Company-permission")
