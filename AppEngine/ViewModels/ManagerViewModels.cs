@@ -11,6 +11,7 @@ namespace AppEngine.Models.ViewModels.Manager
         public string UserName { get; set; }
 
         [Required]
+        [EmailAddress]
         [Display(Name = "Adres email")]
         public string Email { get; set; }
 

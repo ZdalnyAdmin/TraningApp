@@ -1,10 +1,18 @@
-﻿function invitationController($scope, $http, $modal, UserFactory, $route, $templateCache, UtilitiesFactory, $location) {
+﻿function invitationController($scope, $rootScope, $http, $modal, UserFactory, $route, $templateCache, UtilitiesFactory, $location) {
     $scope.user = {
         Role: 5
     };
 
     var search = $location.search();
-    $scope.errorMessage = search ? search.message : '';
+
+    if (search && search.message) {
+        $rootScope.$broadcast('showGlobalMessage', {
+            success: true,
+            messageText: search.message
+        });
+    }
+
+    $scope.errorMessage = '';
 
     $scope.invite = function () {
         $scope.invitation = true;
@@ -34,23 +42,33 @@
 
     function processResponse (data){
         if (data.Succeeded) {
-            var search = {};
             if ($scope.invitation) {
-                search = { message: 'Zaproszenie zostało wysłane!' };
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: 'Zaproszenie zostało wysłane!'
+                });
             }
 
-            reload(search);
+            reload();
         } else {
             $scope.invitation = false;
             UtilitiesFactory.hideSpinner();
 
             if (data.Errors) {
-                $scope.errorMessage = '';
+                var errorMessage = '';
                 angular.forEach(data.Errors, function (val) {
-                    $scope.errorMessage += ' ' + val;
+                    errorMessage += ' ' + val;
+                });
+
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: false,
+                    messageText: errorMessage
                 });
             } else {
-                $scope.errorMessage = 'Wystąpił nieoczekiwany błąd!';
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: false,
+                    messageText: 'Wystąpił nieoczekiwany błąd!'
+                });
             }
         }
     }
@@ -60,12 +78,8 @@
         var locSearch = $location.search();
         $templateCache.remove(currentPageTemplate);
 
-        if (locSearch.message) {
-            $route.reload();
-        } else {
-            $location.path('/managerInvitation').search(search);
-        }
+        $route.reload();
     }
 }
 
-invitationController.$inject = ['$scope', '$http', '$modal', 'UserFactory', '$route', '$templateCache', 'UtilitiesFactory', '$location'];
+invitationController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', '$route', '$templateCache', 'UtilitiesFactory', '$location'];
