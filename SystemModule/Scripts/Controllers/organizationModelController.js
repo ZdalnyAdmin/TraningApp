@@ -1,6 +1,8 @@
-﻿var organizationModalController = function ($scope, $http, $modalInstance, UtilitiesFactory) {
+﻿var organizationModalController = function ($scope, $http, $modalInstance, UtilitiesFactory, selectedOrganization) {
     $scope.viewModel = {};
     //temp solution
+
+    $scope.selectedOrganization = selectedOrganization;
 
     //Used to display the data 
     $scope.loadData = function () {
@@ -9,6 +11,16 @@
 
         $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+
+
+            angular.forEach($scope.viewModel.Organizations, function (x) {
+                angular.forEach($scope.selectedOrganization, function (y) {
+                    if (x.OrganizationID == y.OrganizationID) {
+                        x.selected = true;
+                    }
+                })
+            });
+            
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -35,4 +47,4 @@
     };
 };
 
-organizationModalController.$inject = ['$scope', '$http', '$modalInstance', 'UtilitiesFactory'];
+organizationModalController.$inject = ['$scope', '$http', '$modalInstance', 'UtilitiesFactory', 'selectedOrganization'];

@@ -357,7 +357,7 @@
             size: 'sm',
             resolve: {
                 selectedOrganization: function () {
-                    return $scope.selectedOrganization;
+                    return $scope.viewModel.Organizations;
                 }
             }
         });

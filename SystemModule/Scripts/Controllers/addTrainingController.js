@@ -313,14 +313,6 @@
         UtilitiesFactory.showSpinner();
         $scope.viewModel.ActionType = 3;
 
-        $scope.viewModel.Current.Groups = [];
-
-        angular.forEach($scope.viewModel.Groups, function (val) {
-            if (val.selected) {
-                $scope.viewModel.Current.Groups.push(val);
-            }
-        });
-
 
         $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
@@ -346,7 +338,7 @@
             size: 'sm',
             resolve: {
                 selectedOrganization: function () {
-                    return $scope.selectedOrganization;
+                    return $scope.viewModel.Organizations;
                 }
             }
         });
