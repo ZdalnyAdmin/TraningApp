@@ -4,7 +4,7 @@
         <div class="col-lg-10 radio-question clearfix" ng-show="item.Type == 0">
             <div class="question-number">
                 <span>PYTANIE</span>
-                <strong>{{questions.length}}</strong>
+                <strong>{{$index+1}}</strong>
             </div>
             <div class="question clearfix">
                 <div class="txt-l" ng-hide="item.isEdit">
@@ -72,7 +72,7 @@
         <div class="col-lg-10 checkbox-question clearfix" ng-show="item.Type == 1">
             <div class="question-number">
                 <span>PYTANIE</span>
-                <strong>{{questions.length}}</strong>
+                <strong>{{$index+1}}</strong>
             </div>
             <div class="question clearfix">
                 <div class="txt-l" ng-hide="item.isEdit">
@@ -127,7 +127,7 @@
                         <button class="btn btn-m empty-blue-button" ng-click="addAnswer(item)">DODAJ KOLEJNĄ ODPOWIEDŹ</button>
                     </div>
                 </div>
-            </div>  
+            </div>
             <div class="buttons">
                 <div class="btn btn-l blue-button" ng-click="save(item)" ng-show="item.isEdit">
                     ZATWIERDŹ ZMIANY
@@ -140,7 +140,7 @@
         <div class="col-lg-10 checkbox-question clearfix" ng-show="item.Type == 2">
             <div class="question-number">
                 <span>PYTANIE</span>
-                <strong>{{questions.length}}</strong>
+                <strong>{{$index+1}}</strong>
             </div>
             <div class="question clearfix">
                 <div class="txt-l" ng-hide="item.isEdit">
