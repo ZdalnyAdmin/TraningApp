@@ -29,7 +29,7 @@
         </div>
         <div class="col-lg-10 file-item" ng-show="item.ResourceType == 4">
             <div>
-                <h5>OTWÓRZ LUB POBIERZ PLIK:</h5><a href=""><span class="glyphicon glyphicon-download-alt">{{item.Name}}</span></a>
+                <h5>OTWÓRZ LUB POBIERZ PLIK:</h5><a ng-href="{{getUrl(item.InternalResource)}}" target="_blank"><span class="glyphicon glyphicon-download-alt">{{item.Name}}</span></a>
             </div>
         </div>
         <div class="col-lg-2">

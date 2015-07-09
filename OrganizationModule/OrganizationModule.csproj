@@ -243,6 +243,7 @@
     <Content Include="Scripts\Controllers\trainingListController.js" />
     <Content Include="Scripts\Controllers\trainingController.js" />
     <Content Include="Scripts\Directives\ngJwPlayer.js" />
+    <Content Include="Scripts\Directives\ngHrefReload.js" />
     <Content Include="Scripts\Directives\ngMenuMaintenance.js" />
     <Content Include="Scripts\Directives\ngUploadFile.js" />
     <Content Include="Scripts\Directives\ngDragAndDrop.js" />
