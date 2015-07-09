@@ -29,7 +29,10 @@
             $http.post('/User/DeleteUser')
                 .success(function (data) {
                     UtilitiesFactory.hideSpinner();
-                    $scope.deleteUserModel.Errors = 'Wysłano maila z linkiem do potwierdzenia usunięcia konta!';
+                    $rootScope.$broadcast('showGlobalMessage', {
+                        success: true,
+                        messageText: 'Wysłano maila z linkiem do potwierdzenia usunięcia konta!'
+                                                                });
                 })
                 .error(function () {
                     UtilitiesFactory.hideSpinner();
@@ -48,16 +51,26 @@
                  UtilitiesFactory.hideSpinner();
 
                  if (!data.Succeeded) {
-                     $scope.changeEmailModel.Errors = data.Errors.join();
+                     $rootScope.$broadcast('showGlobalMessage', {
+                         success: false,
+                         messageText: data.Errors.join()
+                     });
                  } else {
-                     $scope.changeEmailModel.Errors = 'Email został wysłany';
+                     $rootScope.$broadcast('showGlobalMessage', {
+                         success: true,
+                         messageText: 'Email został wysłany !'
+                     });
                  }
 
                  $scope.changeEmailModel.Email = '';
                  angular.element('.email.cancel-button').click();
              })
              .error(function () {
-                 $scope.changeEmailModel.Errors = 'Wystąpił nieoczekiwany błąd';
+                 $rootScope.$broadcast('showGlobalMessage', {
+                     success: false,
+                     messageText: 'Wystąpił nieoczekiwany błąd'
+                 });
+
                  angular.element('.email.cancel-button').click();
                  UtilitiesFactory.hideSpinner();
              });
@@ -74,14 +87,16 @@
                  UtilitiesFactory.hideSpinner();
 
                  if (!data.Succeeded) {
-                     $scope.changePasswordModel.Errors = data.Errors.join();
-                 } else {
-                     if (!data.Message) {
-                         $scope.changeEmailModel.Errors = 'Email z potwierdzeniam zmiany hasła został wysłany'; 
-                     } else {
-                         $scope.changeEmailModel.Errors = data.Message;
-                     }
+                     $rootScope.$broadcast('showGlobalMessage', {
+                         success: false,
+                         messageText: data.Errors.join()
+                     });
                      
+                 } else {
+                    $rootScope.$broadcast('showGlobalMessage', {
+                        success: true,
+                        messageText: data.Message || 'Email z potwierdzeniam zmiany hasła został wysłany'
+                    });
                  }
 
                  $scope.changePasswordModel.UserName = '';
@@ -90,7 +105,11 @@
                  angular.element('.password.cancel-button').click();
              })
              .error(function () {
-                 $scope.changePasswordModel.Errors = 'Wystąpił nieoczekiwany błąd';
+                 $rootScope.$broadcast('showGlobalMessage', {
+                     success: false,
+                     messageText: 'Wystąpił nieoczekiwany błąd'
+                 });
+
                  angular.element('.password.cancel-button').click();
                  UtilitiesFactory.hideSpinner();
              });
@@ -107,9 +126,17 @@
                  UtilitiesFactory.hideSpinner();
 
                  if (!data.Succeeded) {
-                     $scope.changeNameModel.Errors = data.Errors.join();
+                     $rootScope.$broadcast('showGlobalMessage', {
+                         success: false,
+                         messageText: data.Errors.join()
+                     });
+
                  } else {
-                     $scope.changeNameModel.Errors = 'Nazwa wyświetlania została zmieniona';
+                     $rootScope.$broadcast('showGlobalMessage', {
+                         success: true,
+                         messageText: 'Nazwa wyświetlania została zmieniona'
+                     });
+
                      UserFactory.clearUser();
                      var result = UserFactory.getLoggedUser();
 
@@ -128,7 +155,11 @@
                  }
              })
              .error(function () {
-                 $scope.changeNameModel.Errors = 'Wystąpił nieoczekiwany błąd';
+                 $rootScope.$broadcast('showGlobalMessage', {
+                     success: false,
+                     messageText: 'Wystąpił nieoczekiwany błąd'
+                 });
+
                  angular.element('.user-name.cancel-button').click();
                  UtilitiesFactory.hideSpinner();
              });

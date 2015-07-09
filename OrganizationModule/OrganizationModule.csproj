@@ -242,6 +242,7 @@
     <Content Include="Scripts\Controllers\loggedUserController.js" />
     <Content Include="Scripts\Controllers\trainingListController.js" />
     <Content Include="Scripts\Controllers\trainingController.js" />
+    <Content Include="Scripts\Directives\ngMessage.js" />
     <Content Include="Scripts\Directives\ngJwPlayer.js" />
     <Content Include="Scripts\Directives\ngHrefReload.js" />
     <Content Include="Scripts\Directives\ngMenuMaintenance.js" />
