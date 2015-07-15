@@ -1,4 +1,4 @@
-﻿function creatorAddTrainingController($scope, $http, $element, $modal, UserFactory, UtilitiesFactory) {
+﻿function creatorAddTrainingController($scope, $rootScope, $http, $element, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
     $scope.imageMessage = '';
     $scope.markMessage = '';
@@ -23,6 +23,13 @@
         .error(function () {
             $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
             UtilitiesFactory.hideSpinner();
+
+            var errorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: errorMessage
+            });
+
         });
     }
 
@@ -341,6 +348,12 @@
                 }
             });
             UtilitiesFactory.hideSpinner();
+
+            var errorMessage = $scope.viewModel.SSuccess;
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: true,
+                messageText: errorMessage
+            });
         })
         .error(function (data) {
             if (!data) {
@@ -350,6 +363,12 @@
                 $scope.viewModel.ErrorMessage = data.Message;
             }
             UtilitiesFactory.hideSpinner();
+
+            var errorMessage = $scope.viewModel.ErrorMessage;
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: errorMessage
+            });
         });
     }
 
@@ -389,21 +408,19 @@
     }
 
     $scope.selectAll = function (isAll) {
-        if(isAll)
-        {
+        if (isAll) {
             if (!$scope.viewModel.Groups) {
                 return;
             }
 
             angular.forEach($scope.viewModel.Groups, function (val) {
-                    val.selected = false;
+                val.selected = false;
             });
         }
-        else
-        {
+        else {
             $scope.viewModel.Current.IsForAll = false;
         }
     }
 }
 
-creatorAddTrainingController.$inject = ['$scope', '$http', '$element', '$modal', 'UserFactory', 'UtilitiesFactory'];
+creatorAddTrainingController.$inject = ['$scope', '$rootScope', '$http', '$element', '$modal', 'UserFactory', 'UtilitiesFactory'];
