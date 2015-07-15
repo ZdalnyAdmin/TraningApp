@@ -19,30 +19,30 @@
                 {{ item.OperationDesc}}
             </div>      
             <div ng-show="item.OperationType == 0">
-                {{ item.Person.Name}}
+                {{ item.Person.DisplayName}}
             </div>
             <div ng-show="item.OperationType == 0">
                 {{ item.Person.ProfileID}}
             </div>
             <div ng-show="item.OperationType == 0">
-                {{ item.ModifiedUser.Name}}
+                {{ item.ModifiedUser.DisplayName}}
             </div>
 
             <div ng-show="item.OperationType == 1">
                 <label>UŻYTKOWNIK</label>
-                <strong>{{ item.Person.Name}}</strong>
-                <span>ID</span>
+                <strong>{{ item.Person.DisplayName}}</strong>
+                <span>{{ item.Person.Id}}</span>
             </div>
 
             <div ng-show="item.OperationType == 2">
                 <label>UŻYTKOWNIK</label>
-                <strong>{{ item.Person.Name}}</strong>
-                <span>ID</span>
+                <strong>{{ item.Person.DisplayName}}</strong>
+                <span>{{ item.Person.Id}}</span>
             </div>
             <div ng-show="item.OperationType == 2">
                 <label>UŻYTKOWNIK</label>
-                <strong>{{ item.ModifiedUser.Name}}</strong>
-                <span>ID</span>
+                <strong>{{ item.ModifiedUser.DisplayName}}</strong>
+                <span>{{ item.ModifiedUser.Id}}</span>
             </div>
 
             <div ng-show="item.OperationType == 3">
@@ -52,29 +52,30 @@
             </div>
             <div ng-show="item.OperationType == 3">
                 <label>AUTOR</label>
-                <strong>Nazwa autora</strong>
+                <strong>{{ item.Training.UserName}}</strong>
                 <span>{{ item.Training.CreateUserID}}</span>
             </div>
 
-
+            
             <div ng-show="item.OperationType == 4">
                 <label>UŻYTKOWNIK</label>
-                <strong>{{ item.Person.Name}}</strong>
-                <span>ID</span>
+                <strong>{{ item.Person.DisplayName}}</strong>
+                <span>{{ item.Person.Id}}</span>
             </div>
             <div ng-show="item.OperationType == 4">
                 <label>E-MAIL</label>
+                @* czy powinno pokazywac 2 x email *@
                 <strong>{{ item.Person.Mail}}</strong>
             </div>
 
             <div ng-show="item.OperationType == 5">
                 <label>UŻYTKOWNIK</label>
-                <strong>{{ item.Person.Name}}</strong>
+                <strong>{{ item.Person.DisplayName}}</strong>
                 <span>{{ item.Person.ID}}</span>
             </div>
             <div ng-show="item.OperationType == 5">
                 <label>EDYTUJĄCY</label>
-                <strong>Nazwa edytującego</strong>
+                <strong>{{ item.ModifiedUser.DisplayName}}</strong>
                 <span>{{ item.ModifiedUserID}}</span>
             </div>
 
@@ -85,12 +86,12 @@
             </div>
             <div ng-show="item.OperationType == 6">
                 <label>AUTOR</label>
-                <strong>{{ item.Training.CreateUserID.Name}}</strong>
+                <strong>{{ item.Training.UserName}}</strong>
                 <span>{{ item.Training.CreateUserID}}</span>
             </div>
             <div ng-show="item.OperationType == 6">
                 <label>EDYTUJĄCY</label>
-                <strong>{{ item.ModifiedUserID.Name}}</strong>
+                <strong>{{ item.ModifiedUser.DisplayName}}</strong>
                 <span>{{ item.ModifiedUserID}}</span>
             </div>
 

@@ -245,12 +245,12 @@ namespace OrganizationModule.Controllers
 
                 var result = await UserManager.UpdateSecurityStampAsync(user.Id);
 
+                LogService.InsertUserLogs(OperationLog.UserInvitation, _db, user.Id, user.ModifiedUserID, currentPerson.OrganizationID.HasValue ? currentPerson.OrganizationID.Value : 0);
+
                 if (!result.Succeeded)
                 {
                     return Json(new Result() { Succeeded = result.Succeeded, Errors = new List<string>(result.Errors) });
                 }
-
-                LogService.InsertUserLogs(OperationLog.InvitationRemove, _db, user.Id, user.ModifiedUserID, currentPerson.OrganizationID.HasValue ? currentPerson.OrganizationID.Value : 0);
 
                 result = await UserManager.UpdateAsync(user);
 

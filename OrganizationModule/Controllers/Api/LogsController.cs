@@ -48,6 +48,10 @@ namespace OrganizationModule.Controllers.Api
                 if (item.TrainingID != 0)
                 {
                     item.Training = db.Trainings.FirstOrDefault(x => x.TrainingID == item.TrainingID);
+                    if(item.Training != null)
+                    {
+                        item.Training.UserName = db.Users.FirstOrDefault(x => x.Id == item.Training.CreateUserID).DisplayName;
+                    }
                 }
             }
 

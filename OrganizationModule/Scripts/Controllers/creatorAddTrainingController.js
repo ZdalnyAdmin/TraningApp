@@ -21,13 +21,11 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
             UtilitiesFactory.hideSpinner();
-
-            var errorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+            
             $rootScope.$broadcast('showGlobalMessage', {
                 success: false,
-                messageText: errorMessage
+                messageText: $scope.viewModel.ErrorMessage
             });
 
         });
