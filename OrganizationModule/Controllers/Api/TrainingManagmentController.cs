@@ -129,10 +129,28 @@ namespace OrganizationModule.Controllers.Api
                                       }
                              ).ToList();
 
+
                         obj.Groups = new List<ProfileGroup>();
+
+                        if (!groups.Exists(x => x.Name == "Wszyscy"))
+                        {
+                            var groupAll = (from gr in db.Groups
+                                            where gr.Name == "Wszyscy"
+                                            select new
+                                            {
+                                                ProfileGroupID = gr.ProfileGroupID,
+                                                Name = gr.Name
+                                            }).FirstOrDefault();
+
+                            groups.Insert(0, groupAll);
+                        }
+
 
                         if (groups.Any())
                         {
+
+
+
                             obj.Groups = (from grp in groups
                                           group grp by grp.ProfileGroupID
                                               into gp
@@ -157,7 +175,7 @@ namespace OrganizationModule.Controllers.Api
                                                            }).ToList();
 
                                 training.AssignedGroups = training.AssignedGroups.Where(x => obj.Groups.Exists(p => p.ProfileGroupID == x.Id)).ToList();
-                                
+
                             }
                         }
 
