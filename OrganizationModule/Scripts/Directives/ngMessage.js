@@ -5,7 +5,7 @@
         restrict: 'A',
         replace: 'false',
         controller: ['$scope', '$element', '$compile', '$rootScope', '$timeout', function ($scope, $element, $compile, $rootScope, $timeout) {
-            var messageTemplate = "<div id='%id%' ng-class='{success: %isSuccess%, error: %isError%}'>%message% <div class='close' ng-click=\"close('%id%')\" >X</div></div>";
+            var messageTemplate = "<div id='%id%' ng-class='{success: %isSuccess%, error: %isError%}'><div class='container'><span class='display-table-cell'>%message%</span><img ng-if='%isError%' ng-click=\"close('%id%')\" src='/Content/Images/close-bar.png'/></div></div>"
             var timeouts = [];
 
             function guid() {
@@ -32,10 +32,11 @@
 
                 var template = messageTemplate;
 
-                var re = new RegExp('%id%', 'g');
-                template = template.replace(re, id)
+                var reID = new RegExp('%id%', 'g');
+                var reError = new RegExp('%isError%', 'g');
+                template = template.replace(reID, id)
                                    .replace('%isSuccess%', isSuccess)
-                                   .replace('%isError%', isError)
+                                   .replace(reError, isError)
                                    .replace('%message%', messageText);
 
                 var compiledMessage = $compile(template)($scope);
