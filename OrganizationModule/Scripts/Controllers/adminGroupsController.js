@@ -11,6 +11,12 @@
         $scope.viewModel.ActionType = 0;
         $http.post('/api/Group/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
@@ -27,11 +33,19 @@
 
     $scope.add = function () {
         if (!$scope.viewModel.Current.Name) {
-            $scope.viewModel.ErrorMessage = "Nazwa grupy jest wymagana";
+
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Nazwa grupy jest wymagana"
+            });
         }
 
         if ($scope.viewModel.Current.Name.length < 3) {
-            $scope.viewModel.ErrorMessage = "Nazwa grupy wymagana co najmniej 3 znaków";
+
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Nazwa grupy wymagana co najmniej 3 znaków"
+            });
         }
 
 
@@ -39,6 +53,13 @@
         $scope.viewModel.ActionType = 3;
         $http.post('/api/Group/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
             $scope.isCreated = false;
             $scope.editableGroup = {};
             UtilitiesFactory.hideSpinner();
@@ -67,6 +88,13 @@
         $scope.viewModel.Current = group;
         $http.post('/api/Group/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
             $scope.editableGroup = {};
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
@@ -129,6 +157,13 @@
 
         $http.post('/api/Group/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
             $rootScope.$broadcast('showGlobalMessage', {

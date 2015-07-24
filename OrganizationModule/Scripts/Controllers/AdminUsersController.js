@@ -12,6 +12,13 @@
         $http.post('/api/Person/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
 
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             angular.forEach($scope.viewModel.People, function (item) {
                 if (item.Profile == 1) {
                     item.ProfileName = 'Administrator';
@@ -56,6 +63,13 @@
         $scope.viewModel.ActionType = 2;
         $http.post('/api/Person/', $scope.viewModel).success(function (data) {
             $scope.viewModel.Success = 'Dane zostaly zapisane';
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
             //shoudl get only by id
             person.isEditable = false;
             $scope.editablePerson = {};
@@ -195,6 +209,13 @@
         $http.post('/api/Person/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
 
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             angular.forEach($scope.viewModel.People, function (item) {
                 if (item.Profile == 1) {
                     item.ProfileName = 'Administrator';
@@ -269,6 +290,13 @@
         $scope.viewModel.ActionType = 7;
         $http.post('/api/Person/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
 
             angular.forEach($scope.viewModel.People, function (item) {
                 if (item.Profile == 1) {

@@ -10,6 +10,13 @@
 
         $http.post('/api/TrainingManagment/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
             $scope.index = 1;
             UtilitiesFactory.hideSpinner();
         })
@@ -80,6 +87,13 @@
 
                 $http.post('/api/TrainingManagment/', $scope.viewModel).success(function (data) {
                     $scope.viewModel = data;
+
+                    if ($scope.viewModel && $scope.viewModel.Success) {
+                        $rootScope.$broadcast('showGlobalMessage', {
+                            success: true,
+                            messageText: $scope.viewModel.Success
+                        });
+                    }
                     UtilitiesFactory.hideSpinner();
                 })
                 .error(function () {
@@ -110,6 +124,13 @@
 
             $http.post('/api/TrainingManagment', $scope.viewModel).success(function (data) {
                 $scope.viewModel = data;
+
+                if ($scope.viewModel && $scope.viewModel.Success) {
+                    $rootScope.$broadcast('showGlobalMessage', {
+                        success: true,
+                        messageText: $scope.viewModel.Success
+                    });
+                }
                 UtilitiesFactory.hideSpinner();
             })
             .error(function () {

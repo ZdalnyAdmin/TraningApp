@@ -13,6 +13,14 @@
         $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
             $scope.loadTraining();
         })
@@ -36,6 +44,13 @@
         $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
 
             angular.forEach($scope.viewModel.Groups, function (val) {
                 angular.forEach($scope.viewModel.Current.Groups, function (act) {
@@ -307,36 +322,41 @@
         $scope.viewModel.ErrorMessage = '';
 
         if (!$scope.viewModel.Current.Name || $scope.viewModel.Current.Name.length < 5) {
-            $scope.viewModel.ErrorMessage += "Nazwa szkolenia musi zawierać miniumum 5 znaków! <br> ";
+            $scope.viewModel.ErrorMessage += "Nazwa szkolenia musi zawierać miniumum 5 znaków! <br/> ";
             isValid = false;
         }
 
         if (!$scope.viewModel.Current.Description || $scope.viewModel.Current.Description.length < 5) {
-            $scope.viewModel.ErrorMessage += "Opis szkolenia musi zawierać miniumum 5 znaków! <br> ";
+            $scope.viewModel.ErrorMessage += "Opis szkolenia musi zawierać miniumum 5 znaków! <br/> ";
             isValid = false;
         }
 
         if (!$scope.viewModel.Current.PassInfo || $scope.viewModel.Current.PassInfo.length < 5) {
-            $scope.viewModel.ErrorMessage += "Komunikat po zaliczeniu szkolenia musi zawierać miniumum 5 znaków! <br> ";
+            $scope.viewModel.ErrorMessage += "Komunikat po zaliczeniu szkolenia musi zawierać miniumum 5 znaków! <br/> ";
             isValid = false;
         }
 
         if (!$scope.viewModel.Current.PassResources) {
-            $scope.viewModel.ErrorMessage += "Brakuje odznaki za zaliczenie szkolenia! Wczytaj własna lub wybierz jedną z listy domyślnych w sekcjii informacji o szkoleniu <br> ";
+            $scope.viewModel.ErrorMessage += "Brakuje odznaki za zaliczenie szkolenia! Wczytaj własna lub wybierz jedną z listy domyślnych w sekcjii informacji o szkoleniu <br/> ";
             isValid = false;
         }
 
         if (!$scope.viewModel.Current.Details || $scope.viewModel.Current.Details.length === 0) {
-            $scope.viewModel.ErrorMessage += "Szkolenie jest puste! Dodaj przynajmniej jeden element w sekcji Zawartość szkolenia <br> ";
+            $scope.viewModel.ErrorMessage += "Szkolenie jest puste! Dodaj przynajmniej jeden element w sekcji Zawartość szkolenia <br/> ";
             isValid = false;
         }
 
         if ($scope.viewModel.Current.Details.length > 20) {
-            $scope.viewModel.ErrorMessage += "Szkolenie zawiera zbyt wiele elementów! Usuń nadmiar, by zostało ich 20. <br> ";
+            $scope.viewModel.ErrorMessage += "Szkolenie zawiera zbyt wiele elementów! Usuń nadmiar, by zostało ich 20. <br/> ";
             isValid = false;
         }
 
         if (!isValid) {
+
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: $scope.viewModel.ErrorMessage
+            });
             return;
         }
 
@@ -354,6 +374,13 @@
         $http.post('/api/Training', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
 
             angular.forEach($scope.viewModel.Groups, function (val) {
                 angular.forEach($scope.viewModel.Current.Groups, function (act) {

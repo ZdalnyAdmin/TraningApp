@@ -12,6 +12,13 @@
         .success(function (data) {
             $scope.viewModel = data;
 
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             angular.forEach($scope.viewModel.Groups, function (val) {
                 if (val.Name == "Wszyscy") {
                     val.selected = true;

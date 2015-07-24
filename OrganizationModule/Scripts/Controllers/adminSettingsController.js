@@ -11,6 +11,14 @@
         $http.post('/api/Settings/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             if ($scope.viewModel.CurrentOrganization) {
                 $scope.currentItem.ChangeMail = $scope.viewModel.CurrentOrganization.CanUserChangeMail ? "1" : "0";
                 $scope.currentItem.ChangeName = $scope.viewModel.CurrentOrganization.CanUserChangeName ? "1" : "0";
@@ -45,6 +53,14 @@
         $http.post('/api/Settings/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
