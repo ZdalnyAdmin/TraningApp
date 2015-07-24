@@ -1,4 +1,4 @@
-﻿function adminStatisticsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function adminStatisticsController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
 
     $scope.loadData = function () {
         UtilitiesFactory.showSpinner();
@@ -9,7 +9,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "An Error has occured while loading posts!"
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -23,7 +26,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "An Error has occured while loading posts!"
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -38,7 +44,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "An Error has occured while loading posts!"
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -47,5 +56,5 @@
     $scope.loadTrainings();
 }
 
-adminStatisticsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+adminStatisticsController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
 

@@ -1,4 +1,4 @@
-﻿var usersListModalController = function ($scope, $http, $modalInstance, UtilitiesFactory, selectedUsers) {
+﻿var usersListModalController = function ($scope, $rootScope, $http, $modalInstance, UtilitiesFactory, selectedUsers) {
     $scope.viewModel = {};
     //temp solution
     $scope.selectedUsers = selectedUsers;
@@ -21,7 +21,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow'
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -44,4 +47,4 @@
     };
 };
 
-usersListModalController.$inject = ['$scope', '$http', '$modalInstance', 'UtilitiesFactory', 'selectedUsers'];
+usersListModalController.$inject = ['$scope', '$rootScope', '$http', '$modalInstance', 'UtilitiesFactory', 'selectedUsers'];

@@ -1,4 +1,4 @@
-﻿function createrTrainingsListController($scope, $http, $modal, $element, $location, UserFactory, UtilitiesFactory) {
+﻿function createrTrainingsListController($scope, $rootScope, $http, $modal, $element, $location, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
     $scope.imageMessage = '';
 
@@ -11,7 +11,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -162,7 +165,10 @@
                         UtilitiesFactory.hideSpinner();
                     })
                     .error(function () {
-                        $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+                        $rootScope.$broadcast('showGlobalMessage', {
+                            success: false,
+                            messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+                        });
                         UtilitiesFactory.hideSpinner();
                     });
 
@@ -229,4 +235,4 @@
     }
 }
 
-createrTrainingsListController.$inject = ['$scope', '$http', '$modal', '$element', '$location', 'UserFactory', 'UtilitiesFactory'];
+createrTrainingsListController.$inject = ['$scope', '$rootScope', '$http', '$modal', '$element', '$location', 'UserFactory', 'UtilitiesFactory'];

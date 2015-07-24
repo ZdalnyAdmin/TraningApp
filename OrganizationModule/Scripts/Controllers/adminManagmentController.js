@@ -1,4 +1,4 @@
-﻿function adminManagmentController($scope, $http, $modal, UtilitiesFactory) {
+﻿function adminManagmentController($scope, $rootScope, $http, $modal, UtilitiesFactory) {
     $scope.addMode = false;
     $scope.viewModel = {};
     $scope.index = 1;
@@ -14,7 +14,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = "Wystapil problem z pobraniem danych!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Wystapil problem z pobraniem danych!"
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -37,7 +40,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = "Wystapil problem z pobraniem danych!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Wystapil problem z pobraniem danych!"
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -77,7 +83,10 @@
                     UtilitiesFactory.hideSpinner();
                 })
                 .error(function () {
-                    $scope.viewModel.ErrorMessage = "Wystapil problem z zapisem danych!";
+                    $rootScope.$broadcast('showGlobalMessage', {
+                        success: false,
+                        messageText: "Wystapil problem z zapisem danych!"
+                    });
                     UtilitiesFactory.hideSpinner();
                 });
             }
@@ -104,7 +113,10 @@
                 UtilitiesFactory.hideSpinner();
             })
             .error(function () {
-                $scope.viewModel.ErrorMessage = "Wystapil problem z pobraniem danych!";
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: false,
+                    messageText: "Wystapil problem z pobraniem danych!"
+                });
                 UtilitiesFactory.hideSpinner();
             });
 
@@ -113,4 +125,4 @@
     
 }
 
-adminManagmentController.$inject = ['$scope', '$http', '$modal', 'UtilitiesFactory'];
+adminManagmentController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UtilitiesFactory'];

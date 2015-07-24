@@ -1,4 +1,4 @@
-﻿function managerTrainingsController($scope, $http, $modal, $location, UserFactory, UtilitiesFactory) {
+﻿function managerTrainingsController($scope, $rootScope, $http, $modal, $location, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
 
     $scope.loadTrainings = function () {
@@ -10,7 +10,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -27,4 +30,4 @@
     }
 }
 
-managerTrainingsController.$inject = ['$scope', '$http', '$modal', '$location', 'UserFactory', 'UtilitiesFactory'];
+managerTrainingsController.$inject = ['$scope', '$rootScope', '$http', '$modal', '$location', 'UserFactory', 'UtilitiesFactory'];

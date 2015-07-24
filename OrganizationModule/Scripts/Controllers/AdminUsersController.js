@@ -1,4 +1,4 @@
-﻿function adminUsersController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function adminUsersController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
     $scope.editablePerson = {};
     $scope.availableStatus = ['Aktywny', 'Zablokowany'];
@@ -35,7 +35,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function (data) {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow'
+            });
             $scope.loading = false;
             UtilitiesFactory.hideSpinner();
         });
@@ -58,7 +61,10 @@
             $scope.editablePerson = {};
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisywania uzytkownika' + data;
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas zapisywania uzytkownika' + data
+            });
             UtilitiesFactory.hideSpinner();
         });
     };
@@ -211,7 +217,10 @@
 
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas usuniecia uzytkownika' + data;
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas usuniecia uzytkownika' + data
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -246,7 +255,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function (data) {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow'
+            });
             $scope.loading = false;
             UtilitiesFactory.hideSpinner();
         });
@@ -281,11 +293,14 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function (data) {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownika'
+            });
             $scope.loading = false;
             UtilitiesFactory.hideSpinner();
         });
     }
 }
 
-adminUsersController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+adminUsersController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

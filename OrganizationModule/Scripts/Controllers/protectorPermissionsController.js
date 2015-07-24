@@ -1,4 +1,4 @@
-﻿function protectorPermissionsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function protectorPermissionsController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
     //Used to display the data 
     $scope.loadData = function () {
@@ -10,12 +10,18 @@
         .success(function (data) {
             $scope.viewModel = data;
             if (!$scope.viewModel.Setting) {
-                $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania ustawień, Brak definicji ustawien globalnych dla organizacji.';
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: false,
+                    messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania ustawień, Brak definicji ustawien globalnych dla organizacji.'
+                });
             }
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania ustawień';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania ustawień'
+            });
             UtilitiesFactory.hideSpinner();
         });
         //Used to display the data 
@@ -39,11 +45,14 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisu ustawień';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas zapisu ustawień'
+            });
             UtilitiesFactory.hideSpinner();
         });
 
     }
 }
 
-protectorPermissionsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+protectorPermissionsController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

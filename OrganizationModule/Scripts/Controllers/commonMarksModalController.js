@@ -1,4 +1,4 @@
-﻿var commonMarksModalController = function ($scope, $http, $modalInstance) {
+﻿var commonMarksModalController = function ($scope, $rootScope, $http, $modalInstance) {
     $scope.selectedImage = '';
 
 
@@ -17,7 +17,10 @@
             $scope.loading = false;
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "An Error has occured while loading posts!"
+            });
             $scope.loading = false;
         });
     }
@@ -42,4 +45,4 @@
     };
 };
 
-commonMarksModalController.$inject = ['$scope', '$http', '$modalInstance'];
+commonMarksModalController.$inject = ['$scope', '$rootScope', '$http', '$modalInstance'];

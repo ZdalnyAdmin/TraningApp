@@ -1,4 +1,4 @@
-﻿function adminSettingsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function adminSettingsController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.currentItem = {};
     $scope.viewModel = {};
 
@@ -18,7 +18,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania ustawień';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania ustawień'
+            });
             UtilitiesFactory.hideSpinner();
         });
 
@@ -45,11 +48,14 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisu ustawień';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas zapisu ustawień'
+            });
             UtilitiesFactory.hideSpinner();
         });
 
     }
 }
 
-adminSettingsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+adminSettingsController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

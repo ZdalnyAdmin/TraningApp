@@ -291,36 +291,42 @@
         $scope.viewModel.ErrorMessage = '';
 
         if (!$scope.viewModel.Current.Name || $scope.viewModel.Current.Name.length < 5) {
-            $scope.viewModel.ErrorMessage += "Nazwa szkolenia musi zawierać miniumum 5 znaków! <br> ";
+            $scope.viewModel.ErrorMessage += "Nazwa szkolenia musi zawierać miniumum 5 znaków! <br/> ";
             isValid = false;
         }
 
         if (!$scope.viewModel.Current.Description || $scope.viewModel.Current.Description.length < 5) {
-            $scope.viewModel.ErrorMessage += "Opis szkolenia musi zawierać miniumum 5 znaków! <br> ";
+            $scope.viewModel.ErrorMessage += "Opis szkolenia musi zawierać miniumum 5 znaków! <br/> ";
             isValid = false;
         }
 
         if (!$scope.viewModel.Current.PassInfo || $scope.viewModel.Current.PassInfo.length < 5) {
-            $scope.viewModel.ErrorMessage += "Komunikat po zaliczeniu szkolenia musi zawierać miniumum 5 znaków! <br> ";
+            $scope.viewModel.ErrorMessage += "Komunikat po zaliczeniu szkolenia musi zawierać miniumum 5 znaków! <br/> ";
             isValid = false;
         }
 
         if (!$scope.viewModel.Current.PassResources) {
-            $scope.viewModel.ErrorMessage += "Brakuje odznaki za zaliczenie szkolenia! Wczytaj własna lub wybierz jedną z listy domyślnych w sekcjii informacji o szkoleniu <br> ";
+            $scope.viewModel.ErrorMessage += "Brakuje odznaki za zaliczenie szkolenia! Wczytaj własna lub wybierz jedną z listy domyślnych w sekcjii informacji o szkoleniu <br/> ";
             isValid = false;
         }
 
         if (!$scope.viewModel.Details || $scope.viewModel.Details.length === 0) {
-            $scope.viewModel.ErrorMessage += "Szkolenie jest puste! Dodaj przynajmniej jeden element w sekcji Zawartość szkolenia <br> ";
+            $scope.viewModel.ErrorMessage += "Szkolenie jest puste! Dodaj przynajmniej jeden element w sekcji Zawartość szkolenia <br/> ";
             isValid = false;
         }
 
         if ($scope.viewModel.Details.length > 20) {
-            $scope.viewModel.ErrorMessage += "Szkolenie zawiera zbyt wiele elementów! Usuń nadmiar, by zostało ich 20. <br> ";
+            $scope.viewModel.ErrorMessage += "Szkolenie zawiera zbyt wiele elementów! Usuń nadmiar, by zostało ich 20. <br/> ";
             isValid = false;
         }
 
         if (!isValid) {
+
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: $scope.viewModel.ErrorMessage
+            });
+
             return;
         }
 
@@ -347,7 +353,7 @@
             });
             UtilitiesFactory.hideSpinner();
 
-            var errorMessage = $scope.viewModel.SSuccess;
+            var errorMessage = $scope.viewModel.Success;
             $rootScope.$broadcast('showGlobalMessage', {
                 success: true,
                 messageText: errorMessage

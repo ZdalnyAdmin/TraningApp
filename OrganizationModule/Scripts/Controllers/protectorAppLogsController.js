@@ -1,4 +1,4 @@
-﻿function protectorAppLogsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function protectorAppLogsController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     //Used to display the data 
     $scope.loadOperationType = function () {
         UtilitiesFactory.showSpinner();
@@ -11,7 +11,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
             UtilitiesFactory.hideSpinner();
         });
 
@@ -28,7 +31,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
             UtilitiesFactory.hideSpinner();
         });
 
@@ -59,4 +65,4 @@
     }
 }
 
-protectorAppLogsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+protectorAppLogsController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

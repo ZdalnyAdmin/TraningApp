@@ -1,4 +1,4 @@
-﻿var editGroupModalController = function ($scope, $http, $modalInstance, UtilitiesFactory, group) {
+﻿var editGroupModalController = function ($scope, $rootScope, $http, $modalInstance, UtilitiesFactory, group) {
     $scope.viewModel = {};
     //temp solution
     $scope.Current = group;
@@ -20,7 +20,11 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow'
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -45,4 +49,4 @@
     };
 };
 
-editGroupModalController.$inject = ['$scope', '$http', '$modalInstance', 'UtilitiesFactory', 'group'];
+editGroupModalController.$inject = ['$scope', '$rootScope', '$http', '$modalInstance', 'UtilitiesFactory', 'group'];

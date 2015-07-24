@@ -1,4 +1,4 @@
-﻿function creatorEditTrainingController($scope, $http, $element, $modal, $location, UserFactory, UtilitiesFactory) {
+﻿function creatorEditTrainingController($scope, $rootScope, $http, $element, $modal, $location, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
     $scope.imageMessage = '';
     $scope.markMessage = '';
@@ -17,7 +17,10 @@
             $scope.loadTraining();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -45,7 +48,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -361,12 +367,20 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function (data) {
+            var errorMessage = '';
+
             if (!data) {
-                $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisu szkolenia';
+                errorMessage = 'Wystąpił nieoczekiwany błąd podczas zapisu szkolenia';
             }
             else {
-                $scope.viewModel.ErrorMessage = data.Message;
+                errorMessage = data.Message;
             }
+
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: errorMessage
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -423,4 +437,4 @@
     }
 }
 
-creatorEditTrainingController.$inject = ['$scope', '$http', '$element', '$modal', '$location', 'UserFactory', 'UtilitiesFactory'];
+creatorEditTrainingController.$inject = ['$scope', '$rootScope', '$http', '$element', '$modal', '$location', 'UserFactory', 'UtilitiesFactory'];

@@ -1,4 +1,4 @@
-﻿function managerResultController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function managerResultController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
 
     $scope.loadTrainings = function () {
         UtilitiesFactory.showSpinner();
@@ -11,7 +11,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = 'Wystąpił nieoczekiwany błąd podczas pobierania szkolen';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania szkolen'
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -27,7 +30,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania uzytkownikow'
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -41,7 +47,10 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania danych'
+            });
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -88,4 +97,4 @@
     }
 }
 
-managerResultController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+managerResultController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

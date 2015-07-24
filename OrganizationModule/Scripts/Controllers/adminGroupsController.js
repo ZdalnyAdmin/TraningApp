@@ -1,4 +1,4 @@
-﻿function adminGroupsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function adminGroupsController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.isCreated = false;
     $scope.viewModel = {};
     $scope.editableGroup = {};
@@ -14,7 +14,11 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas pobierania grup';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas pobierania grup'
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -40,7 +44,11 @@
             UtilitiesFactory.hideSpinner();
 
         }).error(function (data) {
-            $scope.viewModel.ErrorMessage = " Wystąpił nieoczekiwany błąd podczas zapisu grupy " + data;
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: " Wystąpił nieoczekiwany błąd podczas zapisu grupy " + data
+            });
+
             $scope.loadData();
             UtilitiesFactory.hideSpinner();
         });
@@ -62,7 +70,11 @@
             $scope.editableGroup = {};
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
-            $scope.viewModel.ErrorMessage = "Wystąpił nieoczekiwany błąd podczas edycji grupy " + data;
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Wystąpił nieoczekiwany błąd podczas edycji grupy " + data
+            });
+
             UtilitiesFactory.hideSpinner();
         });
 
@@ -119,7 +131,10 @@
             $scope.viewModel = data;
             UtilitiesFactory.hideSpinner();
         }).error(function (data) {
-            $scope.viewModel.ErrorMessage = "Wystąpił nieoczekiwany błąd podczas usuwanie grupy ";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Wystąpił nieoczekiwany błąd podczas usuwanie grupy "
+            });
             UtilitiesFactory.hideSpinner();
         });
     };
@@ -151,4 +166,4 @@
     };
 }
 
-adminGroupsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+adminGroupsController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
