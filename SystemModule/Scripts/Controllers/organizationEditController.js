@@ -1,4 +1,4 @@
-﻿function organizationEditController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function organizationEditController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
     $scope.availableStatus = ['Aktywny', 'Ukryty'];
 
@@ -20,10 +20,21 @@
                 }
             });
 
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "An Error has occured while loading posts!"
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -61,11 +72,22 @@
                 }
             });
 
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
 
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = "Wystąpił nieoczekiwany błąd podczas zmiany statusu organizacji";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Wystąpił nieoczekiwany błąd podczas zmiany statusu organizacji"
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     };
@@ -89,10 +111,22 @@
         $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
             $scope.viewModel.Detail = data.Detail;
             $scope.viewModel.Success = data.Success;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "An Error has occured while loading posts!"
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -137,11 +171,21 @@
                         }
                     });
 
+                    if ($scope.viewModel && $scope.viewModel.Success) {
+                        $rootScope.$broadcast('showGlobalMessage', {
+                            success: true,
+                            messageText: $scope.viewModel.Success
+                        });
+                    }
+
                     var result = UserFactory.organizationDeleteMail($scope.viewModel.Current);
 
                     result.then(function (data) {
                         if (data !== 'True') {
-                            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas usuniecia organizacji';
+                            $rootScope.$broadcast('showGlobalMessage', {
+                                success: false,
+                                messageText: 'Wystąpił nieoczekiwany błąd podczas usuniecia organizacji'
+                            });
                         }
                     });
 
@@ -149,7 +193,11 @@
 
                 })
                 .error(function () {
-                    $scope.viewModel.ErrorMessage = "Wystąpił nieoczekiwany błąd podczas usuniecia organizacji";
+                    $rootScope.$broadcast('showGlobalMessage', {
+                        success: false,
+                        messageText: "Wystąpił nieoczekiwany błąd podczas usuniecia organizacji"
+                    });
+
                     UtilitiesFactory.hideSpinner();
                 });
             }
@@ -176,12 +224,23 @@
                 $scope.viewModel.ActionType = 6;
                 $scope.viewModel.OrganizationID = item.OrganizationID;
 
+                if ($scope.viewModel && $scope.viewModel.Success) {
+                    $rootScope.$broadcast('showGlobalMessage', {
+                        success: true,
+                        messageText: $scope.viewModel.Success
+                    });
+                }
+
                 $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
                     $scope.viewModel.Detail = data.Detail;
                     UtilitiesFactory.hideSpinner();
                 })
                 .error(function () {
-                    $scope.viewModel.ErrorMessage = "Wystąpił błąd podczas odświeżania danych!";
+                    $rootScope.$broadcast('showGlobalMessage', {
+                        success: false,
+                        messageText: "Wystąpił błąd podczas odświeżania danych!"
+                    });
+
                     UtilitiesFactory.hideSpinner();
                 });
             }
@@ -202,13 +261,23 @@
         $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
             $scope.viewModel.Detail = data.Detail;
             $scope.viewModel.Success = data.Success;
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas edycji organizacji';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas edycji organizacji'
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
 }
 
-organizationEditController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+organizationEditController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

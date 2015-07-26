@@ -1,4 +1,4 @@
-﻿function adminController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function adminController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
 
     $scope.loadDate = function () {
@@ -7,10 +7,23 @@
 
         $http.post('/api/User/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -18,4 +31,4 @@
     $scope.loadDate();
 }
 
-adminController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+adminController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

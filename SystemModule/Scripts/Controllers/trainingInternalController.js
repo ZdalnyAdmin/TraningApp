@@ -1,4 +1,4 @@
-﻿function trainingInternalController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function trainingInternalController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
 
     $scope.loadDate = function () {
@@ -9,10 +9,22 @@
         $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -24,4 +36,4 @@
     }
 }
 
-trainingInternalController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+trainingInternalController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

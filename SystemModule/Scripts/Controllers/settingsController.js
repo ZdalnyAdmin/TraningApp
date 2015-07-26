@@ -1,4 +1,4 @@
-﻿function settingsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function settingsController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.current = {};
 
     $scope.loadDate = function () {
@@ -9,7 +9,11 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "An Error has occured while loading posts!"
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -22,15 +26,24 @@
         }
         UtilitiesFactory.showSpinner();
         $http.put('/api/Settings', obj).success(function (data) {
-            $scope.success = "Dane zapisane!";
+           
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: true,
+                messageText: "Dane zapisane!"
+            });
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "An Error has occured while loading posts!"
+            });
+
             UtilitiesFactory.hideSpinner();
         });
 
     }
 }
 
-settingsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+settingsController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

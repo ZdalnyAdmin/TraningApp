@@ -1,4 +1,4 @@
-﻿function historyController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function historyController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
 
 
@@ -6,10 +6,22 @@
         UtilitiesFactory.showSpinner();
         $http.get('/api/Logs/').success(function (data) {
             $scope.viewModel = data[0];
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -35,4 +47,4 @@
     }
 }
 
-historyController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+historyController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

@@ -1,4 +1,4 @@
-﻿var organizationModalController = function ($scope, $http, $modalInstance, UtilitiesFactory, selectedOrganization) {
+﻿var organizationModalController = function ($scope, $rootScope, $http, $modalInstance, UtilitiesFactory, selectedOrganization) {
     $scope.viewModel = {};
     //temp solution
 
@@ -12,6 +12,12 @@
         $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
 
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
 
             angular.forEach($scope.viewModel.Organizations, function (x) {
                 angular.forEach($scope.selectedOrganization, function (y) {
@@ -24,7 +30,12 @@
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = "An Error has occured while loading posts!";
+
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "An Error has occured while loading posts!"
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -47,4 +58,4 @@
     };
 };
 
-organizationModalController.$inject = ['$scope', '$http', '$modalInstance', 'UtilitiesFactory', 'selectedOrganization'];
+organizationModalController.$inject = ['$scope', '$rootScope', '$http', '$modalInstance', 'UtilitiesFactory', 'selectedOrganization'];

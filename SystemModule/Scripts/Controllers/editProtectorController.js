@@ -1,4 +1,4 @@
-﻿function editProtectorController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function editProtectorController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
 
 
@@ -11,10 +11,21 @@
                 val.showDetails = true;
             });
             $scope.viewModel = data;
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -25,19 +36,26 @@
         item.showDetails = showDetails;
     }
 
-
     $scope.save = function (item) {
 
         $scope.viewModel.ErrorMessage = "";
 
         if (!item.UserName || item.UserName.length < 3 || item.UserName.length > 30) {
-            $scope.viewModel.ErrorMessage = "Nazwa opiekuna musi zawierac miedzy 3 a 30 znakow";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Nazwa opiekuna musi zawierac miedzy 3 a 30 znakow"
+            });
+
             return;
         }
 
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         if (!item.Email || !re.test(item.Email)) {
-            $scope.viewModel.ErrorMessage = "Bledny format adresu email";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Bledny format adresu email"
+            });
+
             return;
         }
 
@@ -50,10 +68,22 @@
                 val.showDetails = true;
             });
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas edycji opiekuna';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas edycji opiekuna'
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -68,13 +98,24 @@
                 val.showDetails = true;
             });
             $scope.viewModel = data;
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas usuwania opiekuna';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas usuwania opiekuna'
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
 }
 
-editProtectorController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+editProtectorController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

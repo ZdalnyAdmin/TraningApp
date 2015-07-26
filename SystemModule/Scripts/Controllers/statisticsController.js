@@ -1,4 +1,4 @@
-﻿function statisticsController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function statisticsController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.list = [];
     $scope.current = {};
     $scope.index = 0;
@@ -22,14 +22,25 @@
             }
             $scope.index = type;
             $scope.success = "";
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.error = "An Error has occured while loading posts!";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "An Error has occured while loading posts!"
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
 
 }
 
-statisticsController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+statisticsController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];

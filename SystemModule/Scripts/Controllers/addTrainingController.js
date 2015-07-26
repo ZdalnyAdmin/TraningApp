@@ -1,4 +1,4 @@
-﻿function addTrainingController($scope, $http, $element, $modal, UserFactory, UtilitiesFactory) {
+﻿function addTrainingController($scope, $rootScope, $http, $element, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
     $scope.imageMessage = '';
     $scope.markMessage = '';
@@ -11,10 +11,22 @@
         $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -307,6 +319,10 @@
         }
 
         if (!isValid) {
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: $scope.viewModel.ErrorMessage
+            });
             return;
         }
 
@@ -317,6 +333,14 @@
         $http.post('/api/Training/', $scope.viewModel)
         .success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function (data) {
@@ -326,6 +350,12 @@
             else {
                 $scope.viewModel.ErrorMessage = data.Message;
             }
+
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: true,
+                messageText: $scope.viewModel.ErrorMessage
+            });
+
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -403,4 +433,4 @@
     }
 }
 
-addTrainingController.$inject = ['$scope', '$http', '$element', '$modal', 'UserFactory', 'UtilitiesFactory'];
+addTrainingController.$inject = ['$scope', '$rootScope', '$http', '$element', '$modal', 'UserFactory', 'UtilitiesFactory'];

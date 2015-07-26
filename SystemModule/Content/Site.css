@@ -92,3 +92,33 @@
     background-image: url('../Assets/Image/ajax-loader.gif');
     margin: auto;
 }
+.error{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1;
+    background:#ff5a5a;
+    min-height:50px;
+    width:100%;
+}
+.error > div{
+    display:table;
+    height:100%;
+}
+.error img{
+    float:right;
+    cursor:pointer;
+}
+.success{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1;
+    background:#55ee99;
+    min-height:50px;
+    width:100%;
+}
+.success > div{
+    display:table;
+    height:100%;
+}

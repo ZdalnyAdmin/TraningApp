@@ -1,4 +1,4 @@
-﻿function createProtectorController($scope, $http, $modal, UserFactory, UtilitiesFactory) {
+﻿function createProtectorController($scope, $rootScope, $http, $modal, UserFactory, UtilitiesFactory) {
     $scope.viewModel = {};
 
     $scope.loadOrganization = function () {
@@ -10,10 +10,23 @@
 
         $http.post('/api/Organizations/', $scope.viewModel).success(function (data) {
             $scope.viewModel = data;
+
+            if ($scope.viewModel && $scope.viewModel.Success) {
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: $scope.viewModel.Success
+                });
+            }
+
             UtilitiesFactory.hideSpinner();
         })
         .error(function () {
-            $scope.viewModel.ErrorMessage = 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych';
+
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: 'Wystąpił nieoczekiwany błąd podczas inicjalizacji danych'
+            });
+            
             UtilitiesFactory.hideSpinner();
         });
     }
@@ -27,20 +40,33 @@
 
         if ($scope.viewModel.Protector.UserName.length < 3 || $scope.viewModel.Protector.UserName.length > 30)
         {
-            $scope.viewModel.ErrorMessage = "Nazwa opiekuna musi zawierac miedzy 3 a 30 znakow";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Nazwa opiekuna musi zawierac miedzy 3 a 30 znakow"
+            });
+
             return;
         }
 
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         if (!re.test($scope.viewModel.Protector.Email))
         {
-            $scope.viewModel.ErrorMessage = "Bledny format adresu email";
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Bledny format adresu email"
+            });
+
             return;
         }
 
         if (!$scope.viewModel.Protector.OrganizationID || $scope.viewModel.Protector.OrganizationID == 0)
         {
-            $scope.viewModel.ErrorMessage = "Nalezy wybrac organizacje";
+
+            $rootScope.$broadcast('showGlobalMessage', {
+                success: false,
+                messageText: "Nalezy wybrac organizacje"
+            });
+
             return;
         }
 
@@ -56,7 +82,10 @@
             if (data.Succeeded) {
                 $scope.viewModel.Protector = {};
                 $scope.viewModel.Protector.Profile = 4;
-                $scope.viewModel.Success = 'Użytkownik został zaproszony';
+                $rootScope.$broadcast('showGlobalMessage', {
+                    success: true,
+                    messageText: 'Użytkownik został zaproszony'
+                });
                 
                 var index = 0;
                 for (var i = 0; i < $scope.viewModel.NotAssigned.length; i++) {
@@ -71,12 +100,21 @@
             }
             else {
                 if (data.Errors) {
-                    $scope.viewModel.errorMessage = '';
+                    var errorMessage = '';
                     angular.forEach(data.Errors, function (val) {
-                        $scope.viewModel.errorMessage += ' ' + val;
+                        errorMessage += ' ' + val;
                     });
+
+                    $rootScope.$broadcast('showGlobalMessage', {
+                        success: false,
+                        messageText: errorMessage
+                    });
+
                 } else {
-                    $scope.viewModel.errorMessage = 'Wystąpił nieoczekiwany błąd podczas rejestracji operatora';
+                    $rootScope.$broadcast('showGlobalMessage', {
+                        success: false,
+                        messageText: 'Wystąpił nieoczekiwany błąd podczas rejestracji operatora'
+                    });
                 }
             }
 
@@ -94,4 +132,4 @@
     }
 }
 
-createProtectorController.$inject = ['$scope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
+createProtectorController.$inject = ['$scope', '$rootScope', '$http', '$modal', 'UserFactory', 'UtilitiesFactory'];
